@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* نفس الألوان الأساسية اللي اخترتها */
         :root {
             --bg-gradient-1: #050505;
             --bg-gradient-2: #17181a;
@@ -47,7 +46,6 @@
             font-family: 'Poppins', system-ui, sans-serif;
         }
 
-        /* الحل الجذري لمنع اللون الأبيض مع السكرول */
         body::before {
             content: '';
             position: fixed;
@@ -67,7 +65,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* منع الوميض عند الضغط في الموبايل */
             -webkit-tap-highlight-color: transparent; 
         }
 
@@ -97,7 +94,7 @@
 
         .main-container {
             width: 100%;
-            max-width: 900px; /* عرض أقل شوية عشان القائمة تكون ملمومة */
+            max-width: 900px; 
             padding: 20px;
             z-index: 1;
             display: flex;
@@ -124,7 +121,7 @@
             padding: 10px 18px;
             border-radius: 30px;
             border: 1px solid var(--card-border);
-            touch-action: manipulation; /* تسريع الضغط */
+            touch-action: manipulation;
         }
 
         .back-btn:hover {
@@ -143,7 +140,7 @@
             cursor: pointer;
             font-size: 1.2rem;
             transition: all 0.3s ease;
-            touch-action: manipulation; /* تسريع الضغط */
+            touch-action: manipulation;
             color: white;
         }
 
@@ -173,7 +170,7 @@
             margin-bottom: 10px;
         }
 
-        /* تنسيق قائمة الكويزات */
+        /* تنسيق قائمة الكويزات والملفات */
         .quiz-list {
             display: flex;
             flex-direction: column;
@@ -181,9 +178,8 @@
             margin-bottom: 60px;
         }
 
-        .quiz-item {
+        .item-card {
             background: var(--card-bg);
-            /* تخفيف البلور لتحسين الأداء على الموبايل */
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid var(--card-border);
@@ -192,31 +188,27 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: pointer;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            touch-action: manipulation; /* تسريع الضغط */
+            touch-action: manipulation;
         }
 
-        /* أنميشن سريع للضغطة على الموبايل */
-        .quiz-item:active {
-            transform: scale(0.98);
-        }
-
-        .quiz-item:hover {
+        .quiz-item { cursor: pointer; }
+        .quiz-item:active { transform: scale(0.98); }
+        .item-card:hover {
             transform: translateZ(10px); 
             background: var(--hover-bg);
             border-color: var(--hover-border);
             box-shadow: 0 8px 20px var(--hover-shadow);
         }
 
-        .quiz-info h3 {
+        .item-info h3 {
             font-size: 1.2rem;
             font-weight: 500;
             margin-bottom: 6px;
             color: var(--text-main);
         }
 
-        .quiz-info p {
+        .item-info p {
             font-size: 0.9rem;
             color: var(--text-muted);
         }
@@ -247,7 +239,44 @@
             transform: scale(1.2);
         }
 
-        /* رسالة لو المادة لسه مفيهاش كويزات */
+        /* تنسيقات أزرار الـ PDF (View / Download) */
+        .pdf-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-view, .btn-download {
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-view {
+            background: transparent;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+        }
+
+        .btn-view:hover {
+            background: rgba(10, 218, 241, 0.1);
+        }
+
+        .btn-download {
+            background: var(--accent-color);
+            color: #000;
+            border: 1px solid var(--accent-color);
+        }
+
+        .btn-download:hover {
+            box-shadow: 0 0 12px var(--accent-color);
+        }
+
         .empty-state {
             text-align: center;
             padding: 40px;
@@ -257,15 +286,22 @@
         @media (max-width: 600px) {
             h1 { font-size: 2rem; }
             .subject-icon { font-size: 2.5rem; }
-            .quiz-item { 
+            .item-card { 
                 flex-direction: column; 
                 align-items: flex-start; 
                 gap: 15px; 
-                backdrop-filter: none; /* إيقاف البلور تماما على الشاشات الصغيرة لسرعة خيالية */
+                backdrop-filter: none; 
                 -webkit-backdrop-filter: none;
                 background: var(--bg-gradient-2);
             }
-            .quiz-meta { width: 100%; justify-content: space-between; }
+            .quiz-meta, .pdf-actions { 
+                width: 100%; 
+                justify-content: space-between; 
+            }
+            .btn-view, .btn-download {
+                flex: 1;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -280,7 +316,6 @@
         <header>
             <i class="subject-icon fas fa-book" id="subject-icon"></i>
             <h1 id="subject-title">Loading...</h1>
-            <!-- <p style="color: var(--text-muted);">Select a quiz to start practicing</p> -->
         </header>
 
         <main class="quiz-list" id="quiz-container">
@@ -312,8 +347,27 @@
         // 3. المحرك الذكي للصفحة (The Logic)
         // ==========================================
 
-        // دي "قاعدة البيانات" المؤقتة اللي فيها تفاصيل كل مادة والكويزات بتاعتها
         const subjectsData = {
+            // === قسم التلخيصات والملفات (ميزة الـ PDF) ===
+            sums: {
+                title: "Sums & Notes",
+                icon: "fa-regular fa-note-sticky",
+                isPdfMode: true, // هذه الخاصية تحدد أن هذا القسم للملفات وليس الكويزات
+                files: [
+                    { 
+                        title: "Analytical II - PH", 
+                        desc: "Summary And Collection Of PH Laws", 
+                        url: "ph-laws.pdf" // ضع مسار الملف الحقيقي هنا
+                    },
+                    // { 
+                    //     title: "Analytical II - Titration Laws", 
+                    //     desc: "All formulas and buffer capacity notes.", 
+                    //     url: "assets/pdfs/analytical_rules.pdf" 
+                    // }
+                ]
+            },
+
+            // === باقي أقسام المواد (الكويزات العادية) ===
             organic: {
                 title: "Organic II",
                 icon: "fas fa-flask",
@@ -331,11 +385,8 @@
                     { id: "ana1", title: "Analytical Online Quiz 1", desc: "Quiz 1 Online", q: 10 },
                     { id: "ana2", title: "Analytical Online Quiz 2", desc: "Quiz 2 Online", q: 10 },
                     { id: "ana3", title: "Quiz I", desc: "Level : Normal", q: 10 }
-                    // { id: "ana3", title: "Complexometric Titrations", desc: "EDTA and masking agents.", q: 18 }
                 ]
             },
-
-
             pharmacognosy: {
                 title: "Pharmacognosy",
                 icon: "fas fa-leaf",
@@ -345,7 +396,6 @@
                     { id: "pha3", title: "Quiz III", desc: "Level: Easy", q: 15 },
                 ]
             },
-        
             it:{
                 title:"IT",
                 icon:"fas fa-desktop",
@@ -355,10 +405,6 @@
                     { id: "it3", title: "IT Question Bank 2", desc: "Level: Normal", q: 18},
                 ]
             },
-
-            
-
-
             physical: {
                 title:"Physical Pharmacy",
                 icon:"fas fa-atom",
@@ -370,7 +416,6 @@
                     {id: "phy5", title:"Quiz V", desc:" Hard", q:10}
                 ]
             },
-
             anatomy:{
                 title:"Anatomy & Histology",
                 icon:"fas fa-dna",
@@ -381,59 +426,72 @@
                     {id:"his4", title:"Quiz IV", desc:"Level: Normal", q:10},
                     {id:"his5", title:"Quiz V", desc:"Level: Hard", q:10},
                 ]
-            },
+            }
+        };
 
-
-
-};
-
-
-
-        // استخراج الـ ID بتاع المادة من الرابط (مثلاً: subject.html?id=organic)
+        // استخراج الـ ID
         const urlParams = new URLSearchParams(window.location.search);
         const currentSubjectId = urlParams.get('id');
 
-        // تجهيز عناصر الصفحة
         const titleElement = document.getElementById('subject-title');
         const iconElement = document.getElementById('subject-icon');
         const containerElement = document.getElementById('quiz-container');
 
-        // التأكد إن المادة موجودة في الداتا بتاعتنا
         if (currentSubjectId && subjectsData[currentSubjectId]) {
             const subject = subjectsData[currentSubjectId];
             
-            // تغيير اسم وأيقونة الصفحة
             titleElement.textContent = subject.title;
             iconElement.className = `subject-icon ${subject.icon}`;
-            document.title = `${subject.title} - Quizzes`;
+            document.title = `${subject.title} - Space`;
 
-            // رسم قائمة الكويزات
-            if (subject.quizzes.length > 0) {
-                subject.quizzes.forEach(quiz => {
-                    // هنا بنعمل رابط الكويز اللي هيروح لصفحة المحرك (quiz-player.html)
-                    const quizHTML = `
-                        <div class="quiz-item" onclick="location.href='quiz-player.html?quiz=${quiz.id}'">
-                            <div class="quiz-info">
-                                <h3>${quiz.title}</h3>
-                                <p>${quiz.desc}</p>
+            // نحدد الداتا اللي هنعرضها (سواء مصفوفة files أو quizzes)
+            const itemsList = subject.isPdfMode ? subject.files : subject.quizzes;
+
+            if (itemsList && itemsList.length > 0) {
+                itemsList.forEach(item => {
+                    
+                    // لو القسم عبارة عن ملفات (PDFs)
+                    if (subject.isPdfMode) {
+                        const pdfHTML = `
+                            <div class="item-card">
+                                <div class="item-info">
+                                    <h3>${item.title}</h3>
+                                    <p>${item.desc}</p>
+                                </div>
+                                <div class="pdf-actions">
+                                    <a href="${item.url}" target="_blank" class="btn-view"><i class="fas fa-eye"></i> View</a>
+                                    <a href="${item.url}" download class="btn-download"><i class="fas fa-download"></i> Download</a>
+                                </div>
                             </div>
-                            <div class="quiz-meta">
-                                <span class="question-count">${quiz.q} Qs</span>
-                                <i class="fas fa-play-circle play-icon"></i>
+                        `;
+                        containerElement.innerHTML += pdfHTML;
+                    } 
+                    // لو القسم عبارة عن كويزات (Quizzes)
+                    else {
+                        const quizHTML = `
+                            <div class="item-card quiz-item" onclick="location.href='quiz-player.html?quiz=${item.id}'">
+                                <div class="item-info">
+                                    <h3>${item.title}</h3>
+                                    <p>${item.desc}</p>
+                                </div>
+                                <div class="quiz-meta">
+                                    <span class="question-count">${item.q} Qs</span>
+                                    <i class="fas fa-play-circle play-icon"></i>
+                                </div>
                             </div>
-                        </div>
-                    `;
-                    containerElement.innerHTML += quizHTML;
+                        `;
+                        containerElement.innerHTML += quizHTML;
+                    }
                 });
             } else {
-                containerElement.innerHTML = `<div class="empty-state"><h3>Coming Soon!</h3><p>Quizzes for this subject are being prepared.</p></div>`;
+                containerElement.innerHTML = `<div class="empty-state"><h3>Coming Soon!</h3><p>Content for this section is being prepared.</p></div>`;
             }
 
         } else {
-            // لو الرابط غلط أو المادة مش موجودة
-            titleElement.textContent = "Not In Midterm";
+            // لو الرابط غلط
+            titleElement.textContent = "Not Found";
             iconElement.className = "subject-icon fas fa-exclamation-triangle";
-            containerElement.innerHTML = `<div class="empty-state"><p>==========</p></div>`;
+            containerElement.innerHTML = `<div class="empty-state"><p>Please select a valid subject from the home page.</p></div>`;
         }
     </script>
 </body>
