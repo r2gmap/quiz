@@ -53,7 +53,14 @@
             font-family: 'Poppins', system-ui, -apple-system, sans-serif;
         }
 
+        html {
+            background-color: #0f101b !important; /* لون أسود صريح للمتصفح نفسه */
+            scroll-behavior: smooth; 
+        }
+
+
         body {
+            scroll-behavior: smooth; 
             background: linear-gradient(180deg, var(--bg-gradient-1), var(--bg-gradient-2), var(--bg-gradient-3));
             background-size: 200% 200%;
             /* الحل هنا: تثبيت الخلفية لمنع ظهور التقطيع الأبيض أثناء السكرول */
@@ -262,6 +269,11 @@
         }
 
         @media (max-width: 650px) {
+
+        html {
+            background-color: #0f101b !important; 
+            scroll-behavior: smooth; 
+        }
             .card-container {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr); /* عمودين متساويين */
@@ -524,7 +536,7 @@
 // مثال للتجربة: سيظهر هذا الإشعار بمجرد تحميل الكود
 
 
-showNotification("New Sammaries Section Was Added 📌", 7);
+showNotification("Errors Were Fixed | Have A Blast 😎", 7);
 
 
 
