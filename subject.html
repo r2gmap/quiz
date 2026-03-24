@@ -56,8 +56,13 @@
             z-index: -2;
             transition: background 0.5s ease;
         }
+           html {
+            background-color: #0f101b !important; /* لون أسود صريح للمتصفح نفسه */
+            scroll-behavior: smooth; 
+        }
 
         body {
+            scroll-behavior: smooth; 
             color: var(--text-main);
             transition: color 0.5s ease;
             min-height: 100vh;
@@ -284,6 +289,10 @@
         }
 
         @media (max-width: 600px) {
+        html {
+            background-color: #0f101b !important; 
+            scroll-behavior: smooth; 
+        }
             h1 { font-size: 2rem; }
             .subject-icon { font-size: 2.5rem; }
             .item-card { 
