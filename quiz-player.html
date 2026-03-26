@@ -322,7 +322,139 @@
         
          const quizDatabase = {
 
-                "org1" :{
+            "org0":{
+                title: "comprehensive Quiz",
+                questions: [
+        { 
+            q: "Who was the scientist that first isolated benzene in 1825?", 
+            options: ["Kekulé", "Faraday", "Huckel", "Sandmeyer"], 
+            correct: 1,
+            explanation: "Benzene was first isolated by Faraday in 1825 as a volatile liquid hydrocarbon.",
+            source: "Lecture 1 (PDF [1], Audio [2])"
+        },
+        { 
+            q: "What is the actual C-C bond length in a benzene ring (⬢)?", 
+            options: ["1.54 Å", "1.33 Å", "1.40 Å", "1.20 Å"], 
+            correct: 2,
+            explanation: "In benzene, all C-C bonds are equal at 1.40 Å, which is intermediate between a single bond (1.54 Å) and a double bond (1.33 Å).",
+            source: "Lecture 1 (PDF [3], Audio [4])"
+        },
+        { 
+            q: "Which of the following is NOT a requirement for a compound to be aromatic?", 
+            options: ["It must be cyclic", "It must be planar", "It must have 4n electrons", "It must be fully conjugated (sp2)"], 
+            correct: 2,
+            explanation: "According to Huckel's rule, a compound must have (4n+2) pi electrons to be aromatic. Compounds with 4n electrons are anti-aromatic.",
+            source: "Lecture 1 (PDF [3], Audio [5, 6])"
+        },
+        { 
+            q: "Based on Huckel’s rule, if a cyclic planar system has 10 π electrons, what is the value of 'n'?", 
+            options: ["n = 1", "n = 2", "n = 3", "n = 0"], 
+            correct: 1,
+            explanation: "4n + 2 = 10; 4n = 8; n = 2. Since 2 is an integer, the compound is aromatic.",
+            source: "Lecture 1 (Audio [7])"
+        },
+        { 
+            q: "Why is Cyclopentadiene considered uniquely acidic for a hydrocarbon?", 
+            options: ["It contains an oxygen atom", "Losing a proton forms a stable aromatic anion", "It is a non-cyclic molecule", "It has a very short C-H bond"], 
+            correct: 1,
+            explanation: "Cyclopentadiene loses a proton to form the cyclopentadienyl anion, which has 6 π electrons and is aromatic and exceptionally stable.",
+            source: "Lecture 1 (PDF [8], Audio [9])"
+        },
+        { 
+            q: "What is the active electrophile in the nitration reaction of benzene?", 
+            options: ["NO3-", "NO2", "NO2+", "HNO2"], 
+            correct: 2,
+            explanation: "Concentrated H2SO4 acts as a catalyst to generate the nitronium ion (NO2+), which attacks the benzene ring.",
+            source: "Lecture 2 (PDF [10, 11], Audio [12])"
+        },
+        { 
+            q: "Which of these Electrophilic Substitution reactions is known to be reversible?", 
+            options: ["Nitration", "Sulfonation", "Halogenation", "Friedel-Crafts Alkylation"], 
+            correct: 1,
+            explanation: "Sulfonation is reversible. Adding fuming H2SO4 introduces the group, while dilute acid and steam remove it (Desulfonation).",
+            source: "Lecture 2 (PDF [11, 13], Audio [12])"
+        },
+        { 
+            q: "Friedel-Crafts Alkylation is often avoided in synthesis because it leads to:", 
+            options: ["Only meta products", "Carbocation rearrangement and polyalkylation", "Ring opening", "Slow reaction speeds"], 
+            correct: 1,
+            explanation: "Alkylation can cause the carbocation to rearrange to a more stable form and often results in polyalkylation because the alkyl group activates the ring.",
+            source: "Lecture 2 (PDF [13, 14], Audio [15, 16])"
+        },
+        { 
+            q: "Which group is a 'Strong Deactivator' and directs new groups to the meta position?", 
+            options: ["-OH", "-CH3", "-NO2", "-NH2"], 
+            correct: 2,
+            explanation: "The nitro group (-NO2) is a powerful electron-withdrawer that deactivates the ring and directs substitution to the meta position.",
+            source: "Lecture 2 (PDF [17, 18], Audio [19])"
+        },
+        { 
+            q: "Halogens (F, Cl, Br, I) are unique substituents because they are:", 
+            options: ["Activators and o,p-directors", "Deactivators and m-directors", "Deactivators but o,p-directors", "Activators but m-directors"], 
+            correct: 2,
+            explanation: "Halogens are deactivating due to their inductive effect (-I) but are ortho/para directing due to their resonance effect (+M).",
+            source: "Lecture 2 (PDF [20], Audio [21, 22])"
+        },
+        { 
+            q: "Why is Phenol (pKa ~10) more acidic than Ethanol (pKa ~16)?", 
+            options: ["Ethanol is a liquid", "The phenoxide ion is resonance-stabilized", "Phenol has a higher molecular weight", "Ethanol has more hydrogens"], 
+            correct: 1,
+            explanation: "Phenol is more acidic because the resulting phenoxide ion is stabilized by delocalizing the negative charge into the benzene ring via resonance.",
+            source: "Lecture 3 (PDF [23], Audio [24])"
+        },
+        { 
+            q: "The reaction of Sodium Phenoxide with CO2 to produce Salicylic acid is called:", 
+            options: ["Sandmeyer Reaction", "Kolbe Reaction", "Dow Process", "Clemmensen Reduction"], 
+            correct: 1,
+            explanation: "The Kolbe reaction involves the carbonation of sodium phenoxide with CO2 under pressure to form salicylic acid.",
+            source: "Lecture 3 (PDF [25])"
+        },
+        { 
+            q: "Aniline is a weaker base than Cyclohexylamine because:", 
+            options: ["The nitrogen in aniline is sp3 hybridized", "The lone pair on nitrogen is delocalized into the ring", "Aniline is more soluble in water", "Cyclohexylamine has a resonance effect"], 
+            correct: 1,
+            explanation: "In aromatic amines like aniline, the nitrogen lone pair is involved in resonance with the benzene ring, making it less available for protonation.",
+            source: "Lecture 4 (PDF [26, 27], Audio [28])"
+        },
+        { 
+            q: "Which reagent is used in the Sandmeyer reaction to convert a Diazonium salt into Iodobenzene?", 
+            options: ["CuCl", "CuBr", "KI", "HBF4"], 
+            correct: 2,
+            explanation: "While CuCl and CuBr are used for chloro- and bromobenzene, Potassium Iodide (KI) is specifically used to introduce iodine.",
+            source: "Lecture 5 (PDF [29, 30], Audio [31])"
+        },
+        { 
+            q: "Aryl halides are generally unreactive toward SN2 reactions because of:", 
+            options: ["Large size of the halogen", "Steric hindrance by the benzene ring", "The halogen being a poor leaving group", "The ring being too electron-poor"], 
+            correct: 1,
+            explanation: "Steric hindrance from the benzene ring prevents the back-side attack required for SN2 mechanisms.",
+            source: "Lecture 5 (PDF [32], Audio [33])"
+        },
+        { 
+            q: "Nucleophilic Aromatic Substitution (Addition-Elimination) is fastest when the ring has:", 
+            options: ["Electron-donating groups at meta positions", "Electron-withdrawing groups at ortho/para positions", "No substituents", "Methyl groups at all positions"], 
+            correct: 1,
+            explanation: "EWGs (like -NO2) at ortho or para positions stabilize the Meisenheimer complex intermediate, speeding up the reaction.",
+            source: "Lecture 5 (PDF [34, 35], Audio [36, 37])"
+        },
+        { 
+            q: "The 'Benzyne' intermediate is formed during which mechanism?", 
+            options: ["Electrophilic substitution", "Addition-Elimination (SNAr)", "Elimination-Addition (SNAr)", "Friedel-Crafts Acylation"], 
+            correct: 2,
+            explanation: "In the absence of strong activating groups, aryl halides react with strong bases via the Elimination-Addition mechanism, creating a benzyne intermediate.",
+            source: "Lecture 5 (PDF [38], Audio [39])"
+        },
+        { 
+            q: "Which reagent is used in the Clemmensen Reduction to convert a carbonyl (C=O) into a methylene (CH2)?", 
+            options: ["LiAlH4", "NaBH4", "Zn(Hg) in conc. HCl", "PCC"], 
+            correct: 2,
+            explanation: "Amalgamated zinc [Zn(Hg)] in concentrated HCl is used to reduce aromatic ketones or aldehydes into alkyl chains.",
+            source: "Lecture 3 (PDF [40], Audio [41, 42])"
+        }
+    ]
+},
+
+           "org1" :{
                 title: "Quiz I",
                 questions: [
         { 
@@ -479,11 +611,8 @@
             ]
         },
 
-
-
-
             "org3": {
-                title: "Quiz I | Midterm Content",
+                title: "Quiz III ",
                 questions: [
                     { 
                         q: "Why does nitration of Aniline in concentrated H2SO4/HNO3 yield a significant amount of m-nitroaniline despite -NH2 being o,p-directing?", 
@@ -563,7 +692,7 @@
 
 
        "org4": {
-           title: "Quiz II",
+           title: "Quiz IV",
            questions: [
        { 
             q: "Why is Friedel-Crafts Alkylation unsuccessful when attempted on a Nitrobenzene ring?", 
@@ -638,7 +767,7 @@
     ]
 },
 
-
+    
 
 
 
