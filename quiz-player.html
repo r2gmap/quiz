@@ -322,7 +322,164 @@
         
          const quizDatabase = {
 
- 
+                "org1" :{
+                title: "Quiz I",
+                questions: [
+        { 
+            q: "What is the actual C-C bond length in the benzene ring (⬢)?", 
+            options: ["1.54 Å (Single bond)", "1.33 Å (Double bond)", "1.40 Å (Intermediate)", "1.20 Å (Triple bond)"], 
+            correct: 2,
+            explanation: "In benzene, all C-C bonds are equal in length (1.40 Å), which is intermediate between a typical single bond (1.54 Å) and a double bond (1.33 Å) due to resonance and electron delocalization.",
+            source: "Organic_1.m4a [1], lectures_1,2.pdf [2]"
+        },
+        { 
+            q: "According to Huckel's rule, a cyclic planar system with 10 π electrons is:", 
+            options: ["Aromatic (n=2)", "Anti-aromatic (n=2)", "Non-aromatic", "Aromatic (n=1)"], 
+            correct: 0,
+            explanation: "Huckel's rule follows the formula 4n+2. If 4n+2 = 10, then 4n = 8, which means n = 2. Since n is an integer, the compound is aromatic.",
+            source: "Organic_1.m4a [3], lectures_1,2.pdf [4]"
+        },
+        { 
+            q: "Which of the following is a major disadvantage of Friedel-Crafts Alkylation?", 
+            options: ["It only works with aromatic aldehydes", "Polyalkylation and carbocation rearrangement", "It requires very high temperatures (350°C)", "It produces only meta-substituted products"], 
+            correct: 1,
+            explanation: "Friedel-Crafts Alkylation often leads to polyalkylation (because the alkyl group activates the ring) and rearrangement of the carbocation to a more stable form (e.g., n-propyl to isopropyl).",
+            source: "organic lec 3.m4a [5, 6], lectures_1,2.pdf [7]"
+        },
+        { 
+            q: "Why is Phenol (pKa ~10) significantly more acidic than Ethanol (pKa ~16)?", 
+            options: ["Because it has more hydrogen atoms", "The phenoxide ion is stabilized by resonance", "Ethanol is a cyclic compound", "The hydroxyl group in phenol is sp3 hybridized"], 
+            correct: 1,
+            explanation: "Phenol is more acidic because losing a proton forms the phenoxide ion, which is highly stabilized by resonance with the benzene ring. Ethanol's anion has no such stabilization.",
+            source: "lectures_3,4.pdf [8]"
+        },
+        { 
+            q: "Which of these groups is considered a 'Strong Deactivator' and 'Meta Director'?", 
+            options: ["-OH", "-CH3", "-NO2", "-NH2"], 
+            correct: 2,
+            explanation: "The nitro group (-NO2) is a powerful electron-withdrawing group via both inductive and mesomeric effects (-I, -M), which deactivates the ring and directs substituents to the meta position.",
+            source: "organic lec 2.m4a [9, 10], lectures_1,2.pdf [11]"
+        },
+        { 
+            q: "The Sandmeyer reaction is used to convert ________ into Aryl Halides.", 
+            options: ["Benzene directly", "Aromatic Amines (via Diazonium salts)", "Phenols", "Aromatic Carboxylic acids"], 
+            correct: 1,
+            explanation: "The Sandmeyer reaction involves treating an aryl diazonium salt (prepared from aniline) with copper (I) salts (CuCl, CuBr) or KI to yield aryl halides.",
+            source: "organic_5 (1).m4a [12, 13], lectures_3,4.pdf [14]"
+        },
+        { 
+            q: "In the nitration of benzene, what is the active electrophile formed by H2SO4 and HNO3?", 
+            options: ["Nitrate ion (NO3-)", "Nitronium ion (NO2+)", "Nitrous acid (HNO2)", "Nitrosonium ion (NO+)"], 
+            correct: 1,
+            explanation: "Concentrated sulfuric acid acts as a catalyst to protonate and dehydrate nitric acid, generating the nitronium ion (NO2+), which is the active electrophile.",
+            source: "Organic_1.m4a [15], lectures_1,2.pdf [16, 17]"
+        },
+        { 
+            q: "The 'Benzyne' intermediate is characteristic of which mechanism?", 
+            options: ["Electrophilic Aromatic Substitution", "Addition-Elimination (SNAr)", "Elimination-Addition (Nucleophilic Substitution)", "Friedel-Crafts Acylation"], 
+            correct: 2,
+            explanation: "The benzyne intermediate is formed during nucleophilic aromatic substitution on aryl halides without strong activating groups, requiring a strong base (like NaNH2) to eliminate HX first.",
+            source: "organic_5 (1).m4a [18, 19], lectures_3,4.pdf [20]"
+        },
+        { 
+            q: "Which method is preferred to synthesize a straight-chain alkylbenzene without rearrangement?", 
+            options: ["Direct Friedel-Crafts Alkylation", "Friedel-Crafts Acylation followed by Clemmensen Reduction", "Kolbe Reaction", "Sandmeyer Reaction"], 
+            correct: 1,
+            explanation: "Friedel-Crafts Acylation avoids carbocation rearrangement. The resulting ketone can then be reduced to an alkane using Clemmensen reduction (Zn/Hg in HCl).",
+            source: "organic lec 3.m4a [21, 22], lectures_1,2.pdf [23]"
+        },
+        { 
+            q: "According to the sources, why is Cyclopentadiene uniquely acidic for a hydrocarbon?", 
+            options: ["It contains an oxygen atom", "Losing a proton forms a stable 6π aromatic anion", "It has a triple bond", "It is a non-cyclic molecule"], 
+            correct: 1,
+            explanation: "Cyclopentadiene loses a proton to form the cyclopentadienyl anion, which has 6 π electrons and is aromatic, making it exceptionally stable and the starting hydrocarbon acidic.",
+            source: "Organic_1.m4a [24, 25], lectures_1,2.pdf [26]"
+        }
+    ]
+},
+
+        "org2":{
+            title:"Quiz II",
+            questions:[
+                 { 
+        q: "Who was the scientist that first isolated benzene in 1825?", 
+        options: ["Kekulé", "Faraday", "Huckel", "Sandmeyer"], 
+        correct: 1 
+    },
+    { 
+        q: "The bond length of all C-C bonds in the benzene ring is ________ Å.", 
+        options: ["1.54", "1.33", "1.40", "1.20"], 
+        correct: 2 
+    },
+    { 
+        q: "According to the sources, benzene reacts primarily by which type of reaction?", 
+        options: ["Electrophilic Addition", "Nucleophilic Addition", "Electrophilic Substitution", "Free Radical Substitution"], 
+        correct: 2 
+    },
+    { 
+        q: "Based on Huckel's rule, a compound is aromatic if it contains ________ π electrons.", 
+        options: ["4n", "4n + 1", "4n + 2", "2n"], 
+        correct: 2 
+    },
+    { 
+        q: "Which of the following compounds is considered 'Anti-aromatic'?", 
+        options: ["Benzene", "Cyclobutadiene", "Pyrrole", "Pyridine"], 
+        correct: 1 
+    },
+    { 
+        q: "The intermediate formed in the electrophilic aromatic substitution mechanism is called:", 
+        options: ["Benzyne", "Sigma complex (carbocation)", "Meisenheimer complex", "Free radical"], 
+        correct: 1 
+    },
+     { 
+        q: "Which reagent mixture is used for the Nitration of benzene?", 
+        options: ["HNO3 + HCl", "HNO3 + H2SO4", "H2SO4 + HCl", "HNO3 + H3PO4"], 
+        correct: 1 
+    },
+    { 
+        q: "Why is Phenol (pKa ~10) more acidic than Ethanol (pKa ~16)?", 
+        options: ["Resonance stabilization of the phenoxide ion", "Presence of a methyl group", "Inductive effect of the alkyl group", "It is a liquid at room temperature"], 
+        correct: 0 
+    },
+    { 
+        q: "Which of these groups is a 'Strong Deactivator' and directs to the Meta position?", 
+        options: ["-OH", "-CH3", "-NH2", "-NO2"], 
+        correct: 3 
+    },
+    { 
+        q: "The Tollen's test (silver mirror) is used to distinguish ________ from ketones.", 
+        options: ["Alcohols", "Aldehydes", "Phenols", "Ethers"], 
+        correct: 1 
+    },
+    { 
+        q: "Friedel-Crafts reactions require which Lewis acid as a catalyst?", 
+        options: ["NaOH", "AlCl3", "KMnO4", "H2O"], 
+        correct: 1 
+    },
+    { 
+        q: "The -CH3 (methyl) group on a benzene ring acts as an:", 
+        options: ["Ortho/Para director and Activator", "Meta director and Deactivator", "Ortho/Para director and Deactivator", "Only Meta director"], 
+        correct: 0 
+    },
+    { 
+        q: "What is the name of the intermediate in the elimination-addition mechanism of aryl halides?", 
+        options: ["Carbocation", "Carbanion", "Benzyne", "Nitronium ion"], 
+        correct: 2 
+    },
+    { 
+        q: "Which reaction is used to prepare Salicylic acid from Phenol and CO2?", 
+        options: ["Sandmeyer Reaction", "Kolbe Reaction", "Clemmensen Reduction", "Reimer-Tiemann Reaction"], 
+        correct: 1 
+    },
+    { 
+        q: "In the IUPAC nomenclature of Ketones, the suffix added to the parent alkane name is:", 
+        options: ["-al", "-ol", "-one", "-oic acid"], 
+        correct: 2 
+    }
+            ]
+        },
+
+
 
 
             "org3": {
