@@ -770,6 +770,117 @@
     ]
 },
 
+    "ana0":{
+        title:"Examples Collection",
+        questions:[
+    { 
+        q: "A series of measurements for chloride analysis are: 24.39, 24.19, 24.36, and 24.48%. What is the 'Mean' value for this set?", 
+        options: ["24.30%", "24.355%", "24.40%", "24.38%"], 
+        correct: 1,
+        explanation: "Mean = (Sum of values) / n = (24.39 + 24.19 + 24.36 + 24.48) / 4 = 24.355%.",
+        source: "Analytical-Merged.pdf, Lecture 2 (Example on Mean)"
+    },
+    { 
+        q: "Based on the previous data set (24.19, 24.36, 24.39, 24.48), what is the 'Median' value?", 
+        options: ["24.375%", "24.36%", "24.39%", "24.355%"], 
+        correct: 0,
+        explanation: "Median is the average of the two middle values (24.36 and 24.39) when arranged in order: (24.36 + 24.39) / 2 = 24.375%.",
+        source: "Analytical-Merged.pdf, Lecture 2 (Example on Median)"
+    },
+    { 
+        q: "In a data set: 0.1011, 0.1015, 0.1012, 0.1013. Which of the following is used to measure the precision of these results?", 
+        options: ["Absolute Error", "Relative Error", "Standard Deviation (s)", "Percentage Error"], 
+        correct: 2,
+        explanation: "Standard deviation is the most common measure of precision or reproducibility in analytical chemistry.",
+        source: "Analytical-Merged.pdf, Lecture 2 (Precision section)"
+    },
+    { 
+        q: "How many significant figures are in the value 0.005080?", 
+        options: ["3", "4", "5", "6"], 
+        correct: 1,
+        explanation: "Leading zeros are not significant; captive zeros (between 5 and 8) and trailing zeros after the decimal are significant. (5, 0, 8, 0)",
+        source: "Analytical-Merged.pdf, Lecture 2 (Rules of Sig Figs)"
+    },
+    { 
+        q: "Calculate the molarity of a solution containing 4.0 grams of NaOH (MW = 40.0) in 500 mL of solution.", 
+        options: ["0.1 M", "0.2 M", "0.5 M", "1.0 M"], 
+        correct: 1,
+        explanation: "Moles = 4.0 / 40.0 = 0.1 mol. Molarity = Moles / Volume(L) = 0.1 / 0.5 = 0.2 M.",
+        source: "Analytical-Merged.pdf, Lecture 3 (Molarity Example)"
+    },
+    { 
+        q: "Calculate the parts per million (ppm) of a 250 mL solution containing 5 mg of Ca2+.", 
+        options: ["20 ppm", "50 ppm", "10 ppm", "5 ppm"], 
+        correct: 0,
+        explanation: "ppm = mg solute / Liters solution = 5 mg / 0.250 L = 20 ppm.",
+        source: "Analytical-Merged.pdf, Lecture 3 (Concentration Units)"
+    },
+    { 
+        q: "A 10 mL sample of 2.0 M HCl is diluted to a final volume of 100 mL. What is the new molarity?", 
+        options: ["0.02 M", "0.1 M", "0.2 M", "0.5 M"], 
+        correct: 2,
+        explanation: "Using M1V1 = M2V2: (2.0 M * 10 mL) = (M2 * 100 mL) => M2 = 0.2 M.",
+        source: "Analytical-Merged.pdf, Lecture 3 (Dilution Exercise)"
+    },
+    { 
+        q: "What is the pH of a 0.001 M solution of NaOH?", 
+        options: ["3.0", "11.0", "7.0", "1.0"], 
+        correct: 1,
+        explanation: "pOH = -log[0.001] = 3.0. pH = 14 - pOH = 11.0.",
+        source: "Analytical-Merged.pdf, Lecture 4 (pH calculations)"
+    },
+    { 
+        q: "According to the file, which of these is the correct Equilibrium Constant expression for: aA + bB ⇌ cC + dD?", 
+        options: ["K = [A][B] / [C][D]", "K = [C]^c [D]^d / [A]^a [B]^b", "K = [A]^a [B]^b / [C]^c [D]^d", "K = [C][D] - [A][B]"], 
+        correct: 1,
+        explanation: "The equilibrium constant (K) is the ratio of product concentrations to reactant concentrations, each raised to its stoichiometric power.",
+        source: "Analytical-Merged.pdf, Lecture 4 (Chemical Equilibrium)"
+    },
+    { 
+        q: "Calculate the pH of a 0.05 M solution of HCl.", 
+        options: ["1.3", "2.0", "0.05", "7.0"], 
+        correct: 0,
+        explanation: "pH = -log[H+] = -log[0.05] = 1.3.",
+        source: "Analytical-Merged.pdf, Lecture 4 (Strong Acid Exercise)"
+    },
+    { 
+        q: "Calculate the pH of a buffer solution prepared from 0.1 M Acetic acid (pKa = 4.76) and 0.1 M Sodium Acetate.", 
+        options: ["3.76", "5.76", "4.76", "7.00"], 
+        correct: 2,
+        explanation: "Using Henderson-Hasselbalch: pH = pKa + log([Salt]/[Acid]) = 4.76 + log(0.1/0.1) = 4.76.",
+        source: "Analytical-Merged.pdf, Lecture 5 (Buffer Example)"
+    },
+    { 
+        q: "In a titration of 25.0 mL of unknown HCl, 30.0 mL of 0.1 M NaOH was required to reach the end point. What is the molarity of HCl?", 
+        options: ["0.12 M", "0.083 M", "0.15 M", "0.1 M"], 
+        correct: 0,
+        explanation: "MaVa = MbVb => Ma * 25.0 = 0.1 * 30.0 => Ma = 0.12 M.",
+        source: "Analytical-Merged.pdf, Lecture 5 (Titration Calculation)"
+    },
+    { 
+        q: "Which of the following serves as a common 'Primary Standard' for the standardization of NaOH?", 
+        options: ["HCl", "KHP (Potassium Hydrogen Phthalate)", "H2SO4", "NaCl"], 
+        correct: 1,
+        explanation: "KHP is a high-purity, stable solid commonly used as a primary standard to standardize bases.",
+        source: "Analytical-Merged.pdf, Lecture 5 (Standardization)"
+    },
+    { 
+        q: "What happens to the pH of a buffer solution when a small amount of base is added?", 
+        options: ["pH increases significantly", "pH decreases significantly", "pH remains almost constant", "pH drops to zero"], 
+        correct: 2,
+        explanation: "The primary function of a buffer solution is to resist changes in pH upon the addition of small amounts of acid or base.",
+        source: "Analytical-Merged.pdf, Lecture 5 (Buffer Action)"
+    },
+    { 
+        q: "In the context of the file, what is 'Volumetric Analysis' also known as?", 
+        options: ["Gravimetry", "Titrimetry", "Spectroscopy", "Chromatography"], 
+        correct: 1,
+        explanation: "Volumetric analysis is often called titrimetry as it involves measuring the volume of a titrant.",
+        source: "Analytical-Merged.pdf, Lecture 5 (Introduction to Titration)"
+    }
+]
+
+    },
     
 
 
