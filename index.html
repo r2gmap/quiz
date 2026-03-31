@@ -546,19 +546,6 @@
 // showNotification("New Analytical summaries & Quizzes Added", 7);
 
 
-// --- Feedback System ---
-
-document.addEventListener("DOMContentLoaded", () => {
-    // 1. فحص ذاكرة المتصفح (هل ظهرت قبل كدة؟)
-    const hasSeenFeedback = localStorage.getItem('feedbackShown');
-
-    if (!hasSeenFeedback) {
-        // لو مش موجودة، اظهرها بعد 5 ثواني عشان مانزعجش الطالب أول ما يفتح
-        setTimeout(() => {
-            document.getElementById('feedback-popup').classList.add('show');
-        }, 5000); 
-    }
-});
 
     </script>
 
