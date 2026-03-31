@@ -246,10 +246,11 @@
             width: 150px; height: 150px;
             border-radius: 50%;
             border: none;
+            background: linear-gradient(135deg, #4796E3, #9177C7, #CA6673);
             display: flex; justify-content: center; align-items: center;
             font-size: 2.5rem; font-weight: 700;
             margin: 0 auto 30px auto;
-            color: var(--accent-color);
+            color: white;
         }
 
         /* تحسينات الموبايل هنا */
@@ -322,7 +323,7 @@
         </div>
 
         <div class="result-screen" id="result-screen">
-            <h2>Quiz Completed 🎉</h2>
+            <h2>Your Score:</h2>
             <div class="score-circle" id="score-circle"><span id="final-score">0</span>%</div>
             <button class="icon-btn" onclick="location.reload()" style="margin: 0 auto;"><i class="fas fa-redo"></i> Restart</button>
         </div>
