@@ -354,89 +354,6 @@
 
 
 
-/* --- Feedback Popup Styles --- */
-.feedback-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    display: none; /* مخفي افتراضياً */
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-
-.feedback-overlay.show {
-    display: flex;
-    opacity: 1;
-}
-
-.feedback-card {
-    background: var(--bg-gradient-2);
-    border: 1px solid var(--accent-color);
-    box-shadow: 0 0 20px rgba(10, 218, 241, 0.2);
-    border-radius: 15px;
-    padding: 30px;
-    width: 90%;
-    max-width: 400px;
-    position: relative;
-    text-align: center;
-    transform: translateY(20px);
-    animation: slideUpPopup 0.5s forwards;
-}
-
-@keyframes slideUpPopup {
-    to { transform: translateY(0); }
-}
-
-.close-popup {
-    position: absolute;
-    top: 15px; right: 15px;
-    background: none; border: none;
-    color: var(--text-muted);
-    font-size: 1.2rem; cursor: pointer;
-    transition: 0.3s;
-}
-.close-popup:hover { color: var(--wrong-color); }
-
-.feedback-header h3 { margin-bottom: 5px; font-size: 1.3rem; }
-.feedback-header p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
-
-.rating-btns { display: flex; gap: 10px; margin-bottom: 20px; }
-.rate-btn {
-    flex: 1; padding: 12px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--card-border);
-    border-radius: 8px; color: var(--text-main);
-    cursor: pointer; transition: 0.3s;
-    font-size: 1rem; display: flex; justify-content: center; align-items: center; gap: 8px;
-}
-.rate-btn:hover { background: rgba(255,255,255,0.1); }
-.rate-btn.active-like { background: rgba(16, 185, 129, 0.2); border-color: var(--correct-color); color: var(--correct-color); }
-.rate-btn.active-dislike { background: rgba(239, 68, 68, 0.2); border-color: var(--wrong-color); color: var(--wrong-color); }
-
-.feedback-input {
-    width: 100%; padding: 12px;
-    background: rgba(0,0,0,0.3);
-    border: 1px solid var(--card-border);
-    border-radius: 8px; color: var(--text-main);
-    margin-bottom: 15px; resize: none; outline: none;
-    font-family: inherit;
-}
-.feedback-input:focus { border-color: var(--accent-color); }
-
-.submit-feedback-btn {
-    width: 100%; padding: 12px;
-    background: var(--accent-color);
-    color: #000; border: none; border-radius: 8px;
-    font-weight: bold; cursor: pointer; transition: 0.3s;
-}
-.submit-feedback-btn:hover { box-shadow: 0 0 15px rgba(10, 218, 241, 0.4); }
-
-
     </style>
 </head>
 <body>
@@ -643,89 +560,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// --- نظام التقييم (Feedback System) المعدل ---
-
-document.addEventListener("DOMContentLoaded", () => {
-    // 1. هنا بنسأل المتصفح: هل الطالب ده "بعت تقييم" قبل كدة؟
-    const hasRated = localStorage.getItem('userRated');
-
-    if (!hasRated) {
-        // لو مبعتش تقييم، أظهر الرسالة بعد 5 ثواني
-        setTimeout(() => {
-            document.getElementById('feedback-popup').classList.add('show');
-        }, 1500); 
-    }
-});
-
-// دالة اختيار اللايك أو الديسلايك (زي ما هي)
-function selectRating(type) {
-    const likeBtn = document.getElementById('btn-like');
-    const dislikeBtn = document.getElementById('btn-dislike');
-    const ratingInput = document.getElementById('user-rating');
-
-    likeBtn.classList.remove('active-like');
-    dislikeBtn.classList.remove('active-dislike');
-
-    if (type === 'Like') {
-        likeBtn.classList.add('active-like');
-        ratingInput.value = '👍 User Liked the website';
-    } else {
-        dislikeBtn.classList.add('active-dislike');
-        ratingInput.value = '👎 User Disliked the website';
-    }
-}
-
-// دالة إغلاق النافذة (التعديل حصل هنا)
-function closeFeedback() {
-    // بنخفي الرسالة بس من الشاشة، بدون ما نسجل أي حاجة في المتصفح
-    // وبالتالي لو عمل ريفريش، هتظهرله تاني بعد 5 ثواني
-    document.getElementById('feedback-popup').classList.remove('show');
-}
-
-// تسجيل الحدث لما الطالب يدوس إرسال (التعديل الأهم)
-document.getElementById('feedback-form').addEventListener('submit', () => {
-    // هنا بنقول للمتصفح: "الطالب ده خلاص قيمنا، متظهرلوش الرسالة دي تاني أبداً"
-    localStorage.setItem('userRated', 'true');
-});
-
     </script>
 
 
 
 
-
-<!-- Form -->
-
-<div id="feedback-popup" class="feedback-overlay">
-    <div class="feedback-card">
-        <button class="close-popup" onclick="closeFeedback()"><i class="fas fa-times"></i></button>
-        
-        <div class="feedback-header">
-            <i class="fas fa-star" style="color: #fbbf24; font-size: 2rem; margin-bottom: 10px;"></i>
-            <h3>Rate The Website?</h3>
-            <p>Your feedback helps To improve the platform</p>
-        </div>
-
-        <form id="feedback-form" action="https://formspree.io/f/maqljdkg" method="POST">
-            
-            <input type="hidden" name="Rating" id="user-rating" value="No Rating Selected">
-            
-            <div class="rating-btns">
-                <button type="button" class="rate-btn" id="btn-like" onclick="selectRating('Like')">
-                    <i class="fas fa-thumbs-up"></i> Like
-                </button>
-                <button type="button" class="rate-btn" id="btn-dislike" onclick="selectRating('Dislike')">
-                    <i class="fas fa-thumbs-down"></i> Dislike
-                </button>
-            </div>
-
-            <textarea name="Suggestion" class="feedback-input" placeholder="Any suggestions to improve the website?" rows="3" required></textarea>
-            
-            <button type="submit" class="submit-feedback-btn">Send Feedback <i class="fas fa-paper-plane"></i></button>
-        </form>
-    </div>
-</div>
-
+    
 
 </body>
 </html>
