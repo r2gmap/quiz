@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J25KFB0WDE"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-J25KFB0WDE');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J25KFB0WDE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-J25KFB0WDE');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Player</title>
@@ -18,12 +16,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-
         html {
-            background-color: #0f101b !important; /* لون أسود صريح للمتصفح نفسه */
+            background-color: #0f101b !important; 
             scroll-behavior: smooth; 
         }
-
 
         :root {
             --bg-gradient-1: #050505;
@@ -71,7 +67,7 @@
 
         .top-nav {
             width: 100%;
-            max-width: 800px;
+            max-width: 1200px;
             display: flex;
             justify-content: space-between;
             padding: 20px;
@@ -101,7 +97,7 @@
 
         .quiz-container {
             width: 100%;
-            max-width: 700px;
+            max-width: 800px;
             background: var(--card-bg);
             backdrop-filter: blur(12px);
             border: 1px solid var(--card-border);
@@ -115,14 +111,17 @@
             flex-direction: column;
         }
 
-        /* Loading Screen */
-        .loader-overlay {
+        /* Loading & Explanation Overlays */
+        .loader-overlay, .explanation-overlay {
             display: none;
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
             border-radius: 20px;
             z-index: 100;
+        }
+
+        .loader-overlay {
+            background: rgba(0,0,0,0.85);
             justify-content: center;
             align-items: center;
             flex-direction: column;
@@ -140,14 +139,9 @@
 
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Explanation Box */
         .explanation-overlay {
-            display: none;
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg-gradient-2);
             border: 2px solid var(--accent-color);
-            border-radius: 20px;
             z-index: 90;
             padding: 40px 25px;
             overflow-y: auto;
@@ -161,13 +155,8 @@
             color: var(--wrong-color);
         }
 
-        #quiz-screen {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            overflow: hidden;
-        }
-
+        /* Quiz UI Elements */
+        #quiz-screen { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
         .quiz-header {
             display: flex;
             justify-content: space-between;
@@ -176,16 +165,9 @@
             padding-bottom: 15px;
             border-bottom: 1px solid var(--card-border);
         }
-
         .quiz-title { font-size: 1.1rem; font-weight: 600; color: var(--accent-color); }
         .question-tracker { font-size: 0.95rem; color: var(--text-muted); }
-
-        .question-text {
-            font-size: 1.3rem;
-            font-weight: 500;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
+        .question-text { font-size: 1.3rem; font-weight: 500; margin-bottom: 20px; line-height: 1.5; }
 
         .options-list {
             display: flex;
@@ -211,78 +193,107 @@
             justify-content: space-between;
             align-items: center;
         }
-
-        .option-btn:hover:not(:disabled) {
-            background: var(--hover-bg);
-            border-color: #4e64a3;
-            /* transform: translateX(1px); */
-        }
-
+        .option-btn:hover:not(:disabled) { background: var(--hover-bg); border-color: #4e64a3; }
         .option-btn.correct { background: rgba(16, 185, 129, 0.1); border-color: var(--correct-color); color: var(--correct-color); }
         .option-btn.wrong { background: rgba(239, 68, 68, 0.1); border-color: var(--wrong-color); color: var(--wrong-color); }
 
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: auto;
-        }
-
+        .btn-group { display: flex; gap: 10px; margin-top: auto; }
         .next-btn, .explain-trigger-btn {
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            display: none;
-            border: none;
+            padding: 15px; border-radius: 10px; font-size: 14px; font-weight: 600;
+            cursor: pointer; transition: 0.3s; display: none; border: none;
         }
-
         .next-btn { background: var(--accent-color); color: #000; flex: 2; }
         .explain-trigger-btn { background: transparent; border: 1px solid var(--accent-color); color: var(--accent-color); flex: 1; }
 
-        .result-screen { text-align: center; display: none; }
+        /* --- New Result Screen Style (Full Page) --- */
+        .result-screen-wrapper { 
+            display: none; 
+            width: 100%; 
+            max-width: 1200px; /* صفحة أعرض للنتيجة */
+            height: calc(100vh - 100px); 
+            padding: 0 20px;
+        }
+        
+        .result-layout {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            text-align: left;
+            height: 100%;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .score-side {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            border-right: 1px solid var(--card-border);
+            padding-right: 20px;
+        }
+
+        .mistakes-side {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            height: 100%;
+            padding-left: 10px;
+        }
+
         .score-circle {
-            width: 150px; height: 150px;
+            width: 160px; height: 160px;
             border-radius: 50%;
-            border: none;
             background: linear-gradient(135deg, #4796E3, #9177C7, #CA6673);
             display: flex; justify-content: center; align-items: center;
             font-size: 2.5rem; font-weight: 700;
-            margin: 0 auto 30px auto;
+            margin-bottom: 30px;
             color: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
         }
 
-        /* تحسينات الموبايل هنا */
-        @media (max-width: 600px) {
-        html {
-            background-color: #0f101b !important; 
-            scroll-behavior: smooth; 
+        .mistakes-list {
+            overflow-y: auto;
+            flex-grow: 1;
+            padding-right: 15px;
+            margin-top: 15px;
         }
-            .quiz-container { 
-                width: 95%; 
-                padding: 15px; 
-                max-height: calc(100vh - 80px); /* مساحة أوسع قليلاً للشاشات الصغيرة */
-            }
-            .question-text { 
-                font-size: 1.1rem; 
-                margin-bottom: 15px; 
-            }
-            .option-btn { 
-                padding: 12px 15px; 
-                font-size: 0.95rem; 
-            }
-            .btn-group { 
-                flex-direction: column; 
-                gap: 8px; 
-                overflow: auto;
-            }
-            .explanation-overlay { 
-                padding: 20px 15px; 
-            }
-            .next-btn, .explain-trigger-btn {
-                padding: 12px;
-            }
+
+        .mistake-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--wrong-color);
+        }
+
+        .mistake-item p { font-size: 0.95rem; margin-bottom: 8px; }
+        .mistake-item .m-q { color: var(--text-main); font-weight: 600; font-size: 1.05rem; margin-bottom: 12px; }
+        .mistake-item .m-u { color: var(--wrong-color); font-size: 0.9rem; } /* إجابة المستخدم */
+        .mistake-item .m-a { color: var(--correct-color); font-size: 0.9rem; font-weight: 500; margin-bottom: 0; } /* الإجابة الصحيحة */
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .quiz-container { width: 95%; padding: 20px; max-height: calc(100vh - 80px); }
+            .result-screen-wrapper { padding: 0 10px; }
+            .result-layout { flex-direction: column; align-items: center; overflow-y: auto; padding: 20px; }
+            .score-side { width: 100%; border-right: none; border-bottom: 1px solid var(--card-border); padding-right: 0; padding-bottom: 25px; height: auto; }
+            .mistakes-side { width: 100%; padding-left: 0; padding-top: 20px; flex: none; height: auto; overflow: visible; }
+            .mistakes-list { overflow-y: visible; padding-right: 0; }
+            .question-text { font-size: 1.15rem; }
         }
     </style>
 </head>
@@ -293,7 +304,7 @@
         <button id="theme-toggle" class="icon-btn"><i class="fas fa-sun"></i></button>
     </nav>
 
-    <div class="quiz-container">
+    <div class="quiz-container" id="main-quiz-container">
         <div class="loader-overlay" id="loading-screen">
             <div class="spinner"></div>
             <p>Generating Explanation...</p>
@@ -311,27 +322,33 @@
                 <span class="quiz-title" id="quiz-title">Loading...</span>
                 <span class="question-tracker"><span id="current-q-num">1</span> / <span id="total-q-num">?</span></span>
             </div>
-            
             <h2 class="question-text" id="question-text">Please wait...</h2>
-            
             <div class="options-list" id="options-list"></div>
-            
             <div class="btn-group">
-            <button class="explain-trigger-btn" id="explain-btn" onclick="handleExplain()">Explain <i class="fas fa-robot"></i></button>
-            <button class="next-btn" id="next-btn" onclick="nextQuestion()">Next Question <i class="fas fa-arrow-right"></i></button>
+                <button class="explain-trigger-btn" id="explain-btn" onclick="handleExplain()">Explain <i class="fas fa-robot"></i></button>
+                <button class="next-btn" id="next-btn" onclick="nextQuestion()">Next Question <i class="fas fa-arrow-right"></i></button>
             </div>
         </div>
+    </div>
 
-        <div class="result-screen" id="result-screen">
-            <h2>Your Score:</h2>
-            <div class="score-circle" id="score-circle"><span id="final-score">0</span>%</div>
-            <button class="icon-btn" onclick="location.reload()" style="margin: 0 auto;"><i class="fas fa-redo"></i> Restart</button>
+    <div class="result-screen-wrapper" id="result-screen-wrapper">
+        <div class="result-layout">
+            <div class="score-side">
+                <h2 style="margin-bottom: 20px; font-size: 1.5rem;">Your Score</h2>
+                <div class="score-circle" id="score-circle"><span id="final-score">0</span>%</div>
+                <button class="icon-btn" style="padding: 12px 25px; font-size: 1.1rem;" onclick="location.reload()"><i class="fas fa-redo"></i> Restart Quiz</button>
+            </div>
+            <div class="mistakes-side" id="mistakes-side">
+                <h3 style="color: var(--wrong-color); font-size: 1.2rem; margin-bottom: 10px;"><i class="fas fa-times-circle"></i> Your Wrong Answers:</h3>
+                <div class="mistakes-list" id="mistakes-list">
+                    </div>
+            </div>
         </div>
     </div>
 
     <script>
-        
-         const quizDatabase = {
+
+             const quizDatabase = {
 
             "org0":{
                 title: "comprehensive Quiz",
@@ -3869,18 +3886,18 @@
 
 
 
+
+        // مصفوفة لتخزين الأسئلة التي أخطأ فيها المستخدم (مع إجابته الخاطئة)
+        let missedQuestions = [];
         const urlParams = new URLSearchParams(window.location.search);
         const currentQuizId = urlParams.get('quiz');
         let questions = [], currentIdx = 0, score = 0, answered = false;
 
         function init() {
-            if (currentQuizId && quizDatabase[currentQuizId]) {
+            if (currentQuizId && typeof quizDatabase !== 'undefined' && quizDatabase[currentQuizId]) {
                 const data = quizDatabase[currentQuizId];
                 document.getElementById('quiz-title').textContent = data.title;
-                
-                // تم إضافة هذا السطر لترتيب الأسئلة عشوائياً في كل مرة
                 questions = [...data.questions].sort(() => Math.random() - 0.5);
-                
                 document.getElementById('total-q-num').textContent = questions.length;
                 loadQ();
             }
@@ -3920,6 +3937,12 @@
             } else {
                 btn.classList.add('wrong');
                 btns[q.correct].classList.add('correct');
+                // حفظ السؤال الخاطئ مع إجابة المستخدم والإجابة الصحيحة
+                missedQuestions.push({
+                    question: q.q,
+                    userAnswer: q.options[idx],        // ما اختاره المستخدم
+                    correctAnswer: q.options[q.correct]  // الإجابة الصحيحة
+                });
             }
             document.getElementById('next-btn').style.display = 'block';
             document.getElementById('explain-btn').style.display = 'block';
@@ -3928,14 +3951,13 @@
         function handleExplain() {
             const loader = document.getElementById('loading-screen');
             loader.style.display = 'flex';
-            
             setTimeout(() => {
                 loader.style.display = 'none';
                 const q = questions[currentIdx];
                 document.getElementById('exp-content').textContent = q.explanation;
                 document.getElementById('exp-source').textContent = "Reference: " + q.source;
                 toggleExplanation(true);
-            }, 3000);
+            }, 1000); 
         }
 
         function toggleExplanation(show) {
@@ -3949,13 +3971,39 @@
         }
 
         function finish() {
-            document.getElementById('quiz-screen').style.display = 'none';
-            document.getElementById('result-screen').style.display = 'block';
-            document.getElementById('final-score').textContent = Math.round((score/questions.length)*100);
+            // إخفاء حاوية الأسئلة وإظهار صفحة النتيجة الكاملة
+            document.getElementById('main-quiz-container').style.display = 'none';
+            document.getElementById('result-screen-wrapper').style.display = 'flex';
+            
+            const finalPercentage = Math.round((score/questions.length)*100);
+            document.getElementById('final-score').textContent = finalPercentage;
+
+            const mistakesList = document.getElementById('mistakes-list');
+            if (missedQuestions.length === 0) {
+                document.getElementById('mistakes-side').style.display = 'none';
+                document.querySelector('.score-side').style.borderRight = 'none';
+                document.querySelector('.score-side').style.width = '100%';
+                mistakesList.innerHTML = `<p style="color:var(--correct-color); font-size:1.2rem; text-align:center;">Perfect Work! You have no mistakes.</p>`;
+            } else {
+                // عرض الأسئلة مع إجابة المستخدم والإجابة الصحيحة
+                mistakesList.innerHTML = missedQuestions.map((m, idx) => `
+                    <div class="mistake-item">
+                        <p class="m-q">${idx + 1}. ${m.question}</p>
+                        <p class="m-u"><i class="fas fa-times"></i> You chose: ${m.userAnswer}</p>
+                        <p class="m-a"><i class="fas fa-check-circle"></i> Correct Answer: ${m.correctAnswer}</p>
+                    </div>
+                `).join('');
+            }
         }
 
         window.onload = init;
-        document.getElementById('theme-toggle').onclick = () => document.body.classList.toggle('light-mode');
+        
+        document.getElementById('theme-toggle').onclick = () => {
+            const body = document.body;
+            body.classList.toggle('light-mode');
+            const icon = document.querySelector('#theme-toggle i');
+            icon.className = body.classList.contains('light-mode') ? 'fas fa-moon' : 'fas fa-sun';
+        };
     </script>
 </body>
 </html>
