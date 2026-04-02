@@ -66,6 +66,12 @@
             background-color: #0f101b !important; /* لون أسود صريح للمتصفح نفسه */
             scroll-behavior: smooth; 
         }
+        
+        body::-webkit-scrollbar {
+            display: none;
+            -ms-overflow-style: none;  /* IE و Edge القديم */
+            scrollbar-width: none;  /* Firefox */
+        }
 
 
         body {
@@ -543,7 +549,7 @@
 // مثال للتجربة: سيظهر هذا الإشعار بمجرد تحميل الكود
 
 
-showNotification("New Update Is Coming...", 5);
+showNotification("Version 2.0 launched successfully", 5);
 
 
 
