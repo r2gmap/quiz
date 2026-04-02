@@ -21,6 +21,12 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
+        body::-webkit-scrollbar {
+            display: none;
+            -ms-overflow-style: none;  /* IE و Edge القديم */
+            scrollbar-width: none;  /* Firefox */
+        }
+
         body {
             background: linear-gradient(180deg, var(--bg-gradient-1), var(--bg-gradient-2), var(--bg-gradient-3));
             background-attachment: fixed;
@@ -338,7 +344,7 @@
                 min-height reserves the button row's height at all times so the
                 page height never changes when Next / Explain appear → no scrollbar pop
             -->
-            <div style="margin-top:18px; display:flex; gap:10px; min-height:46px;">
+            <div style="margin-top:18px; display:flex; gap:10px; min-height:5px;">
                 <button id="explain-btn" onclick="handleExplain()" style="display:none; flex:1; padding:13px; border-radius:12px; background:none; border:1px solid var(--accent-color); color:var(--accent-color); cursor:pointer; font-family:'Poppins',sans-serif; font-size:0.88rem;">
                     <i class="fas fa-lightbulb" style="margin-right:6px;"></i>Explain
                 </button>
