@@ -2,22 +2,21 @@
 <html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J25KFB0WDE"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-J25KFB0WDE');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J25KFB0WDE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-J25KFB0WDE');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title> Quizzes </title>
-    
+    <title>Quizzes</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        /* ── Variables ── */
         :root {
             --bg-gradient-1: #050505;
             --bg-gradient-2: #17181a;
@@ -27,10 +26,11 @@
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --accent-color: #0adaf1c7;
+            --accent-solid: #0adaf1;
             --hover-bg: rgba(255, 255, 255, 0.04);
-            --hover-border: rgba(0, 229, 255, 0.4);
-            --hover-shadow: rgba(0, 229, 255, 0.15);
-            --paper-color: rgba(255, 255, 255, 0.192);
+            --hover-border: rgba(0, 229, 255, 0.35);
+            --hover-shadow: rgba(0, 229, 255, 0.12);
+            --paper-color: rgba(255, 255, 255, 0.18);
         }
 
         .light-mode {
@@ -42,292 +42,480 @@
             --text-main: #2d3748;
             --text-muted: #718096;
             --accent-color: #4299e1;
+            --accent-solid: #4299e1;
             --hover-bg: rgba(255, 255, 255, 1);
             --hover-border: rgba(66, 153, 225, 0.4);
             --hover-shadow: rgba(66, 153, 225, 0.1);
-            --paper-color: rgba(54, 52, 52, 0.452);
+            --paper-color: rgba(54, 52, 52, 0.35);
         }
 
+        /* ── Reset ── */
         * {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', system-ui, sans-serif;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        body::-webkit-scrollbar {
-            display: none;
-            -ms-overflow-style: none;  /* IE و Edge القديم */
-            scrollbar-width: none;  /* Firefox */
+        html {
+            background-color: #0f101b !important;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
         }
+        ::-webkit-scrollbar { display: none; }
 
-
-
+        /* ── Background ── */
         body::before {
             content: '';
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            inset: 0;
             background: linear-gradient(180deg, var(--bg-gradient-1), var(--bg-gradient-2), var(--bg-gradient-3));
             background-size: 200% 200%;
             animation: gradientMove 20s ease infinite;
             z-index: -2;
             transition: background 0.5s ease;
         }
-           html {
-            background-color: #0f101b !important; /* لون أسود صريح للمتصفح نفسه */
-            scroll-behavior: smooth; 
-        }
 
         body {
-            scroll-behavior: smooth; 
             color: var(--text-main);
-            transition: color 0.5s ease;
+            transition: color 0.4s ease;
             min-height: 100vh;
             overflow-x: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
-            -webkit-tap-highlight-color: transparent; 
+            padding-bottom: 60px;
         }
 
         @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
+        /* ── Falling paper ── */
         .falling-paper {
             position: fixed;
-            width: 10px;
-            height: 14px;
+            width: 10px; height: 14px;
             background: var(--paper-color);
             z-index: 0;
             pointer-events: none;
             border-radius: 2px;
             animation: fall linear infinite;
+            will-change: transform;
         }
 
         @keyframes fall {
-            0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; }
-            15% { opacity: 1; }
-            85% { opacity: 1; }
+            0%   { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; }
+            15%  { opacity: 1; }
+            85%  { opacity: 1; }
             100% { transform: translateY(105vh) rotate(360deg) translateX(50px); opacity: 0; }
         }
 
+        /* ── Layout ── */
         .main-container {
             width: 100%;
-            max-width: 900px; 
-            padding: 20px;
+            max-width: 860px;
+            padding: 0 20px;
             z-index: 1;
             display: flex;
             flex-direction: column;
             flex: 1;
         }
 
+        /* ── Top Nav ── */
         .top-nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            padding: 20px 0 16px;
         }
 
         .back-btn {
             text-decoration: none;
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 0.88rem;
+            font-weight: 500;
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.3s ease;
             background: var(--card-bg);
-            padding: 10px 18px;
-            border-radius: 30px;
+            padding: 9px 18px;
+            border-radius: 50px;
             border: 1px solid var(--card-border);
-            touch-action: manipulation;
+            transition: color 0.25s ease, border-color 0.25s ease,
+                        background 0.25s ease, box-shadow 0.25s ease;
+            letter-spacing: 0.2px;
         }
 
+        .back-btn i { font-size: 0.82rem; }
+
         .back-btn:hover {
-            color: var(--accent-color);
-            border-color: var(--accent-color);
-            box-shadow: 0 0 10px var(--hover-shadow);
+            color: var(--accent-solid);
+            border-color: var(--hover-border);
+            background: rgba(10, 218, 241, 0.04);
+            box-shadow: 0 0 14px var(--hover-shadow);
         }
 
         #theme-toggle {
             background: transparent;
-            color: var(--text-muted);
+            color: white;
             border: 1px solid var(--card-border);
-            width: 45px;
-            height: 45px;
+            width: 42px; height: 42px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            touch-action: manipulation;
-            color: white;
+            font-size: 1.1rem;
+            transition: color 0.25s ease, border-color 0.25s ease,
+                        background 0.25s ease, box-shadow 0.25s ease;
         }
 
         #theme-toggle:hover {
-            color: var(--accent-color);
-            border-color: var(--accent-color);
+            color: var(--accent-solid);
+            border-color: var(--hover-border);
             background: var(--card-bg);
-            box-shadow: 0 0 10px var(--hover-shadow);
+            box-shadow: 0 0 12px var(--hover-shadow);
         }
 
+        /* ── Header ── */
         header {
             text-align: center;
-            margin: 20px 0 40px 0;
+            margin: 28px 0 44px;
+        }
+
+        /* Icon ring glow */
+        .icon-wrapper {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 90px; height: 90px;
+            margin-bottom: 20px;
+        }
+
+        .icon-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(10, 218, 241, 0.14) 0%, transparent 70%);
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        .icon-wrapper::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 50%;
+            border: 1px solid rgba(10, 218, 241, 0.2);
+            animation: rotateBorder 8s linear infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1);   opacity: 0.8; }
+            50%       { transform: scale(1.12); opacity: 1;   }
+        }
+
+        @keyframes rotateBorder {
+            to { transform: rotate(360deg); }
         }
 
         .subject-icon {
-            font-size: 3.5rem;
-            color: var(--accent-color);
-            margin-bottom: 15px;
-            text-shadow: 0 0 20px var(--hover-shadow);
+            font-size: 2.8rem;
+            color: var(--accent-solid);
+            filter: drop-shadow(0 0 12px rgba(10, 218, 241, 0.4));
+            z-index: 1;
+            position: relative;
+        }
+
+        .light-mode .subject-icon {
+            filter: drop-shadow(0 0 8px rgba(66, 153, 225, 0.3));
         }
 
         h1 {
-            font-size: 2.8rem;
+            font-size: 2.4rem;
             font-weight: 700;
             color: var(--text-main);
-            margin-bottom: 10px;
+            letter-spacing: 0.3px;
+            margin-bottom: 8px;
         }
 
-        /* تنسيق قائمة الكويزات والملفات */
+        .subject-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+
+        /* ── Section label ── */
+        .section-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+            padding-left: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--card-border);
+            border-radius: 2px;
+        }
+
+        /* ── Quiz / Item list ── */
         .quiz-list {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             margin-bottom: 60px;
         }
 
+        /* ── Base card ── */
         .item-card {
+            position: relative;
             background: var(--card-bg);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--card-border);
-            padding: 20px 25px;
-            border-radius: 16px;
+            padding: 18px 22px;
+            border-radius: 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            touch-action: manipulation;
+            gap: 16px;
+            transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        border-color 0.25s ease,
+                        background 0.25s ease,
+                        box-shadow 0.25s ease;
+            overflow: hidden;
+            will-change: transform;
+        }
+
+        /* Left accent stripe */
+        .item-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 50%;
+            transform: translateY(-50%) scaleY(0);
+            width: 3px;
+            height: 60%;
+            border-radius: 0 3px 3px 0;
+            background: linear-gradient(180deg, var(--accent-solid), transparent);
+            transition: transform 0.28s ease;
+        }
+
+        .item-card:hover::before,
+        .item-card:focus-within::before {
+            transform: translateY(-50%) scaleY(1);
         }
 
         .quiz-item { cursor: pointer; }
-        .quiz-item:active { transform: scale(0.98); }
+
         .item-card:hover {
-            transform: translateZ(10px); 
+            transform: translateX(4px);
             background: var(--hover-bg);
             border-color: var(--hover-border);
-            box-shadow: 0 8px 20px var(--hover-shadow);
+            box-shadow: 0 8px 28px var(--hover-shadow),
+                        inset 0 0 0 1px rgba(10, 218, 241, 0.04);
         }
+
+        .quiz-item:active { transform: translateX(2px) scale(0.99); transition-duration: 0.1s; }
+
+        /* ── Item info (left side) ── */
+        .item-info { flex: 1; min-width: 0; }
 
         .item-info h3 {
-            font-size: 1.2rem;
-            font-weight: 500;
-            margin-bottom: 6px;
+            font-size: 1rem;
+            font-weight: 600;
             color: var(--text-main);
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: color 0.25s ease;
         }
+
+        .item-card:hover .item-info h3 { color: var(--accent-solid); }
 
         .item-info p {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
+            font-weight: 300;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
+        /* ── Quiz right side ── */
         .quiz-meta {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 14px;
+            flex-shrink: 0;
         }
 
         .question-count {
-            background: rgba(10, 218, 241, 0.1);
-            color: var(--accent-color);
-            font-size: 0.8rem;
-            padding: 4px 10px;
-            border-radius: 8px;
+            background: rgba(10, 218, 241, 0.08);
+            color: var(--accent-solid);
+            font-size: 0.75rem;
             font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 50px;
+            border: 1px solid rgba(10, 218, 241, 0.18);
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+            transition: background 0.25s ease, box-shadow 0.25s ease;
         }
 
-        .play-icon {
-            font-size: 1.5rem;
-            color: var(--text-muted);
-            transition: all 0.3s ease;
+        .item-card:hover .question-count {
+            background: rgba(10, 218, 241, 0.14);
+            box-shadow: 0 0 10px rgba(10, 218, 241, 0.12);
         }
 
-        .quiz-item:hover .play-icon {
-            color: var(--accent-color);
-            transform: scale(1.2);
+        .light-mode .question-count {
+            background: rgba(66, 153, 225, 0.08);
+            color: var(--accent-solid);
+            border-color: rgba(66, 153, 225, 0.2);
         }
 
-        /* تنسيقات أزرار الـ PDF (View / Download) */
+        /* Play button */
+        .play-btn {
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            background: rgba(10, 218, 241, 0.08);
+            border: 1px solid rgba(10, 218, 241, 0.18);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--accent-solid);
+            font-size: 0.85rem;
+            transition: background 0.25s ease, box-shadow 0.25s ease,
+                        transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        border-color 0.25s ease;
+            flex-shrink: 0;
+        }
+
+        .item-card:hover .play-btn {
+            background: var(--accent-solid);
+            color: #000;
+            border-color: transparent;
+            box-shadow: 0 0 18px rgba(10, 218, 241, 0.35);
+            transform: scale(1.12);
+        }
+
+        .light-mode .play-btn {
+            background: rgba(66, 153, 225, 0.08);
+            border-color: rgba(66, 153, 225, 0.2);
+            color: var(--accent-solid);
+        }
+
+        .light-mode .item-card:hover .play-btn {
+            background: var(--accent-solid);
+            color: #fff;
+        }
+
+        /* ── PDF right side ── */
         .pdf-actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            flex-shrink: 0;
         }
 
         .btn-view, .btn-download {
-            padding: 8px 16px;
-            border-radius: 8px;
+            padding: 7px 14px;
+            border-radius: 50px;
             text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
+            font-size: 0.78rem;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 6px;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+            letter-spacing: 0.2px;
         }
 
         .btn-view {
             background: transparent;
-            color: var(--accent-color);
-            border: 1px solid var(--accent-color);
+            color: var(--accent-solid);
+            border: 1px solid rgba(10, 218, 241, 0.3);
         }
 
         .btn-view:hover {
             background: rgba(10, 218, 241, 0.1);
+            border-color: var(--accent-solid);
+            box-shadow: 0 0 10px var(--hover-shadow);
         }
 
         .btn-download {
-            background: var(--accent-color);
+            background: linear-gradient(135deg, rgba(10,218,241,0.85), rgba(58,123,213,0.85));
             color: #000;
-            border: 1px solid var(--accent-color);
+            border: none;
+            font-weight: 700;
         }
 
         .btn-download:hover {
-            box-shadow: 0 0 12px var(--accent-color);
+            box-shadow: 0 4px 16px rgba(10, 218, 241, 0.35);
+            transform: translateY(-1px);
         }
 
+        /* ── Empty state ── */
         .empty-state {
             text-align: center;
-            padding: 40px;
+            padding: 60px 20px;
             color: var(--text-muted);
         }
 
+        .empty-state h3 { font-size: 1.3rem; margin-bottom: 8px; color: var(--text-main); }
+        .empty-state p  { font-size: 0.9rem; }
+
+        /* ── Mobile ── */
         @media (max-width: 600px) {
-        html {
-            background-color: #0f101b !important; 
-            scroll-behavior: smooth; 
-        }
-            h1 { font-size: 2rem; }
-            .subject-icon { font-size: 2.5rem; }
-            .item-card { 
-                flex-direction: column; 
-                align-items: flex-start; 
-                gap: 15px; 
-                backdrop-filter: none; 
+            html { background-color: #0f101b !important; }
+
+            h1 { font-size: 1.9rem; }
+
+            .icon-wrapper { width: 76px; height: 76px; }
+            .subject-icon { font-size: 2.2rem; }
+
+            header { margin: 20px 0 32px; }
+
+            .item-card {
+                padding: 16px 16px;
+                border-radius: 16px;
+                backdrop-filter: none;
                 -webkit-backdrop-filter: none;
-                background: var(--bg-gradient-2);
             }
-            .quiz-meta, .pdf-actions { 
-                width: 100%; 
-                justify-content: space-between; 
+
+            .item-card:hover { transform: none; }
+            .item-card:active {
+                transform: scale(0.98);
+                background: var(--hover-bg);
+                border-color: var(--hover-border);
             }
+
+            /* PDF cards: stack on mobile */
+            .item-card.pdf-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .pdf-actions {
+                width: 100%;
+            }
+
             .btn-view, .btn-download {
                 flex: 1;
                 justify-content: center;
             }
+
+            .question-count { font-size: 0.7rem; padding: 3px 10px; }
+            .play-btn { width: 34px; height: 34px; font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -335,143 +523,74 @@
 
     <div class="main-container">
         <nav class="top-nav">
-            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
             <button id="theme-toggle" title="Switch Theme"><i class="fas fa-sun"></i></button>
         </nav>
 
         <header>
-            <i class="subject-icon fas fa-book" id="subject-icon"></i>
+            <div class="icon-wrapper">
+                <i class="subject-icon fas fa-book" id="subject-icon"></i>
+            </div>
             <h1 id="subject-title">Loading...</h1>
+            <p class="subject-subtitle" id="subject-subtitle"></p>
         </header>
 
-        <main class="quiz-list" id="quiz-container">
-            </main>
+        <main class="quiz-list" id="quiz-container"></main>
     </div>
 
     <script>
-        // 1. نظام تبديل الوضع (ليلي / فاتح)
+        // 1. Theme toggle
         const themeToggle = document.getElementById('theme-toggle');
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('light-mode');
-            const icon = themeToggle.querySelector('i');
-            icon.className = document.body.classList.contains('light-mode') ? 'fas fa-moon' : 'fas fa-sun';
+            themeToggle.querySelector('i').className =
+                document.body.classList.contains('light-mode') ? 'fas fa-moon' : 'fas fa-sun';
         });
 
-        // 2. نظام أنميشن الأوراق
+        // 2. Falling papers (desktop only)
+        let paperCount = 0;
         function createPaper() {
+            if (paperCount >= 15) return;
+            paperCount++;
             const paper = document.createElement('div');
             paper.className = 'falling-paper';
             paper.style.left = Math.random() * 100 + 'vw';
-            const duration = (Math.random() * 8 + 8); 
+            const duration = Math.random() * 8 + 8;
             paper.style.animationDuration = duration + 's';
             document.body.appendChild(paper);
-            setTimeout(() => { paper.remove(); }, duration * 1000);
+            setTimeout(() => { paper.remove(); paperCount--; }, duration * 1000);
         }
-        setInterval(createPaper, 500);
+        if (window.innerWidth > 600) setInterval(createPaper, 600);
 
-        // ==========================================
-        // 3. المحرك الذكي للصفحة (The Logic)
-        // ==========================================
-
+        // 3. Data & render
         const subjectsData = {
-            // === قسم التلخيصات والملفات (ميزة الـ PDF) ===
             sums: {
                 title: "Sums & Notes",
+                subtitle: "Summaries PDFs And Notes",
                 icon: "fa-regular fa-note-sticky",
-                isPdfMode: true, // هذه الخاصية تحدد أن هذا القسم للملفات وليس الكويزات
+                isPdfMode: true,
                 files: [
-                 
-                    { 
-                        title: "Histology", 
-                        desc: "Epithelium And Connective Tissue Summarize", 
-                        url: "Epithelium_and_Connective_Tissue.pdf" 
-                    },
-                    
-
-                    
-                    { 
-                        title: "Histology-Remastered", 
-                        desc: "", 
-                        url: "Tissues.pdf" 
-                    },
-                    
-                    
-                    
-                    { 
-                        title: "Histology", 
-                        desc: "Revision-Midterm Content", 
-                        url: "Pharm_Revision_Skin_GIT_Muscle.pdf" 
-                    },
-                       { 
-                        title: "Organic II - Collection", 
-                        desc: "The Revision Record", 
-                        url: "collection.pdf" 
-                    },
-                    
-                    { 
-                        title: "Organic II - Flash", 
-                        desc: "Important Equations & Fast Notes", 
-                        url: "flashcards.pdf" 
-                    },
-                    { 
-                        title: "Organic II - All", 
-                        desc: "Important & Fast", 
-                        url: "summary.pdf" 
-                    },
-                    
-                    { 
-                        title: "Organic II", 
-                        desc: "Summarize Part 1", 
-                        url: "Aromaticity_Blueprints.pdf" 
-                    },
-                    {
-                        title: "Organic II", 
-                        desc: "Summarize Part 2", 
-                        url: "Aromatic_Substitution_Decoded.pdf" 
-                    },
-                  
-                    { 
-                        title: "IT", 
-                        desc: "Summary Of All Midterm Content", 
-                        url: "it-sum.pdf" 
-                    },
-                    
-                    { 
-                        title: "Analytical II", 
-                        desc: "Summary Of First 5 Lecs", 
-                        url: "A-s-5.pdf" 
-                    },
-                    
-                    
-                    { 
-                        title: "Analytical II - PH", 
-                        desc: "Summary And Collection Of PH Laws", 
-                        url: "ph-laws.pdf" 
-                    },
-                    
-                    { 
-                        title: "Pharmacogonsy - Mind-map", 
-                        desc: "", 
-                        url: "mind-map.pdf" 
-                    },
-                    
-                    { 
-                        title: "pharmacognosy", 
-                        desc: "", 
-                        url: "cogno.pdf" 
-                    },
-                    
-                    { 
-                        title: "Analytical II - Titration Laws", 
-                        desc: "All formulas and buffer capacity notes.", 
-                        url: "assets/pdfs/analytical_rules.pdf" 
-                    },
+                    { title: "Histology", desc: "Epithelium And Connective Tissue Summarize", url: "Epithelium_and_Connective_Tissue.pdf" },
+                    { title: "Histology-Remastered", desc: "", url: "Tissues.pdf" },
+                    { title: "Histology", desc: "Revision-Midterm Content", url: "Pharm_Revision_Skin_GIT_Muscle.pdf" },
+                    { title: "Organic II - Collection", desc: "The Revision Record", url: "collection.pdf" },
+                    { title: "Organic II - Flash", desc: "Important Equations & Fast Notes", url: "flashcards.pdf" },
+                    { title: "Organic II - All", desc: "Important & Fast", url: "summary.pdf" },
+                    { title: "Organic II", desc: "Summarize Part 1", url: "Aromaticity_Blueprints.pdf" },
+                    { title: "Organic II", desc: "Summarize Part 2", url: "Aromatic_Substitution_Decoded.pdf" },
+                    { title: "IT", desc: "Summary Of All Midterm Content", url: "it-sum.pdf" },
+                    { title: "Analytical II", desc: "Summary Of First 5 Lecs", url: "A-s-5.pdf" },
+                    { title: "Analytical II - PH", desc: "Summary And Collection Of PH Laws", url: "ph-laws.pdf" },
+                    { title: "Pharmacogonsy - Mind-map", desc: "", url: "mind-map.pdf" },
+                    { title: "pharmacognosy", desc: "", url: "cogno.pdf" },
+                    { title: "Analytical II - Titration Laws", desc: "All formulas and buffer capacity notes.", url: "assets/pdfs/analytical_rules.pdf" },
                 ]
             },
-
-            // === باقي أقسام المواد (الكويزات العادية) ===
             organic: {
                 title: "Organic II",
+                subtitle: "",
                 icon: "fas fa-flask",
                 quizzes: [
                     { id: "org0", title: "Remastered Quiz", desc: "Collection Of All Ideas In 1st 5 Lecs", q: 17 },
@@ -483,6 +602,7 @@
             },
             analytical: {
                 title: "Analytical II",
+                subtitle: "",
                 icon: "fas fa-microscope",
                 quizzes: [
                     { id: "ana0", title: "Analytical - Important", desc: "Collection Of Examples Of The PDF", q: 15 },
@@ -495,6 +615,7 @@
             },
             pharmacognosy: {
                 title: "Pharmacognosy",
+                subtitle: "",
                 icon: "fas fa-leaf",
                 quizzes: [
                     { id: "pha1", title: "Quiz I", desc: "Active Constituents", q: 10 },
@@ -505,107 +626,137 @@
                     { id: "pha6", title: "Quiz VI", desc: "Good One", q: 16 },
                 ]
             },
-            it:{
-                title:"IT",
-                icon:"fas fa-desktop",
+            it: {
+                title: "IT",
+                subtitle: "",
+                icon: "fas fa-desktop",
                 quizzes: [
                     { id: "it1", title: "IT Assignment", desc: "Level: Easy", q: 30 },
                     { id: "it2", title: "IT Question Bank 1", desc: "Level: Easy", q: 31 },
-                    { id: "it3", title: "IT Question Bank 2", desc: "Level: Normal", q: 18},
-                    { id: "it4", title: "IT - Lecs 1 & 2", desc: "Level: Very Easy", q: 10},
-                    { id: "it5", title: "IT - Lecs 1, 2 & 3", desc: "Level: Normal", q: 20},
+                    { id: "it3", title: "IT Question Bank 2", desc: "Level: Normal", q: 18 },
+                    { id: "it4", title: "IT - Lecs 1 & 2", desc: "Level: Very Easy", q: 10 },
+                    { id: "it5", title: "IT - Lecs 1, 2 & 3", desc: "Level: Normal", q: 20 },
                 ]
             },
             physical: {
-                title:"Physical Pharmacy",
-                icon:"fas fa-atom",
-                quizzes:[
-                    {id: "phy1", title:"Quiz I", desc:"Level: Easy", q:15},
-                    {id: "phy2", title:"Quiz II", desc:"Level: Easy", q:10},
-                    {id: "phy3", title:"Quiz III", desc:"Level: Normal", q:10},
-                    {id: "phy4", title:"Quiz IV", desc:"Level: Medium To Hard", q:15},
-                    {id: "phy5", title:"Quiz V", desc:" Hard", q:10},
+                title: "Physical Pharmacy",
+                subtitle: "",
+                icon: "fas fa-atom",
+                quizzes: [
+                    { id: "phy1", title: "Quiz I", desc: "Level: Easy", q: 15 },
+                    { id: "phy2", title: "Quiz II", desc: "Level: Easy", q: 10 },
+                    { id: "phy3", title: "Quiz III", desc: "Level: Normal", q: 10 },
+                    { id: "phy4", title: "Quiz IV", desc: "Level: Medium To Hard", q: 15 },
+                    { id: "phy5", title: "Quiz V", desc: "Hard", q: 10 },
                 ]
             },
-            anatomy:{
-                title:"Anatomy & Histology",
-                icon:"fas fa-dna",
-                quizzes:[
-                    {id:"his1", title:"Quiz I", desc:"Level: Easy", q:10},
-                    {id:"his2", title:"Quiz II", desc:"Level: Easy", q:10},
-                    {id:"his3", title:"Quiz III", desc:"Level: Normal", q:15},
-                    {id:"his4", title:"Quiz IV", desc:"Level: Normal", q:10},
-                    {id:"his5", title:"Quiz V", desc:"Level: Hard", q:10},
+            anatomy: {
+                title: "Anatomy & Histology",
+                subtitle: "",
+                icon: "fas fa-dna",
+                quizzes: [
+                    { id: "his1", title: "Quiz I", desc: "Level: Easy", q: 10 },
+                    { id: "his2", title: "Quiz II", desc: "Level: Easy", q: 10 },
+                    { id: "his3", title: "Quiz III", desc: "Level: Normal", q: 15 },
+                    { id: "his4", title: "Quiz IV", desc: "Level: Normal", q: 10 },
+                    { id: "his5", title: "Quiz V", desc: "Level: Hard", q: 10 },
+                ]
+            },
+            english: {
+                title: "English II",
+                subtitle: "",
+                icon: "fas fa-spell-check",
+                quizzes: [
+
                 ]
             }
         };
 
-        // استخراج الـ ID
+        // Extract ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const currentSubjectId = urlParams.get('id');
 
-        const titleElement = document.getElementById('subject-title');
-        const iconElement = document.getElementById('subject-icon');
-        const containerElement = document.getElementById('quiz-container');
+        const titleEl    = document.getElementById('subject-title');
+        const subtitleEl = document.getElementById('subject-subtitle');
+        const iconEl     = document.getElementById('subject-icon');
+        const container  = document.getElementById('quiz-container');
 
         if (currentSubjectId && subjectsData[currentSubjectId]) {
             const subject = subjectsData[currentSubjectId];
-            
-            titleElement.textContent = subject.title;
-            iconElement.className = `subject-icon ${subject.icon}`;
-            document.title = `${subject.title} - Space`;
 
-            // نحدد الداتا اللي هنعرضها (سواء مصفوفة files أو quizzes)
-            const itemsList = subject.isPdfMode ? subject.files : subject.quizzes;
+            titleEl.textContent    = subject.title;
+            subtitleEl.textContent = subject.subtitle || '';
+            iconEl.className       = `subject-icon ${subject.icon}`;
+            document.title         = `${subject.title} — Quizzes`;
 
-            if (itemsList && itemsList.length > 0) {
-                itemsList.forEach(item => {
-                    
-                    // لو القسم عبارة عن ملفات (PDFs)
+            const items = subject.isPdfMode ? subject.files : subject.quizzes;
+
+            if (items && items.length > 0) {
+                // Section label
+                const label = document.createElement('div');
+                label.className   = 'section-label';
+                label.textContent = subject.isPdfMode ? 'Midterm Content Sums' : 'Midterm Content Quizzes';
+                container.appendChild(label);
+
+                items.forEach(item => {
                     if (subject.isPdfMode) {
-                        const pdfHTML = `
-                            <div class="item-card">
-                                <div class="item-info">
-                                    <h3>${item.title}</h3>
-                                    <p>${item.desc}</p>
-                                </div>
-                                <div class="pdf-actions">
-                                    <a href="${item.url}" target="_blank" class="btn-view"><i class="fas fa-eye"></i> View</a>
-                                    <a href="${item.url}" download class="btn-download"><i class="fas fa-download"></i> Download</a>
+                        // PDF card
+                        const card = document.createElement('div');
+                        card.className = 'item-card pdf-card';
+                        card.innerHTML = `
+                            <div class="item-info">
+                                <h3>${item.title}</h3>
+                                ${item.desc ? `<p>${item.desc}</p>` : ''}
+                            </div>
+                            <div class="pdf-actions">
+                                <a href="${item.url}" target="_blank" class="btn-view">
+                                    <i class="fas fa-eye"></i> View
+                                </a>
+                                <a href="${item.url}" download class="btn-download">
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    } else {
+                        // Quiz card
+                        const card = document.createElement('div');
+                        card.className = 'item-card quiz-item';
+                        card.innerHTML = `
+                            <div class="item-info">
+                                <h3>${item.title}</h3>
+                                ${item.desc ? `<p>${item.desc}</p>` : ''}
+                            </div>
+                            <div class="quiz-meta">
+                                <span class="question-count">${item.q} Qs</span>
+                                <div class="play-btn">
+                                    <i class="fas fa-play"></i>
                                 </div>
                             </div>
                         `;
-                        containerElement.innerHTML += pdfHTML;
-                    } 
-                    // لو القسم عبارة عن كويزات (Quizzes)
-                    else {
-                        const quizHTML = `
-                            <div class="item-card quiz-item" onclick="location.href='quiz-player.html?quiz=${item.id}'">
-                                <div class="item-info">
-                                    <h3>${item.title}</h3>
-                                    <p>${item.desc}</p>
-                                </div>
-                                <div class="quiz-meta">
-                                    <span class="question-count">${item.q} Qs</span>
-                                    <i class="fas fa-play-circle play-icon"></i>
-                                </div>
-                            </div>
-                        `;
-                        containerElement.innerHTML += quizHTML;
+                        card.addEventListener('click', () => {
+                            location.href = `quiz-player.html?quiz=${item.id}`;
+                        });
+                        container.appendChild(card);
                     }
                 });
             } else {
-                containerElement.innerHTML = `<div class="empty-state"><h3>Removed</h3><p>Go Back And Select A Valid Subject</p></div>`;
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>Coming Soon</h3>
+                        <p>No content available yet — check back later.</p>
+                    </div>`;
             }
 
         } else {
-            // لو الرابط غلط
-            titleElement.textContent = "Not Found";
-            iconElement.className = "subject-icon fas fa-exclamation-triangle";
-            containerElement.innerHTML = `<div class="empty-state"><p>Please select a valid subject from the home page.</p></div>`;
+            titleEl.textContent = "Not Found";
+            iconEl.className    = "subject-icon fas fa-exclamation-triangle";
+            container.innerHTML = `
+                <div class="empty-state">
+                    <p>Please select a valid subject from the home page.</p>
+                </div>`;
         }
     </script>
-
 
 </body>
 </html>
