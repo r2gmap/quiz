@@ -7,10 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        html {
-        background-color: #0f101b !important; /* لون أسود صريح للمتصفح نفسه */
-        scroll-behavior: smooth;
-        }
         :root {
             --bg-gradient-1: #050505; --bg-gradient-2: #17181a; --bg-gradient-3: #070818;
             --card-bg: rgba(255, 255, 255, 0.02); --card-border: rgba(255, 255, 255, 0.05);
@@ -4044,7 +4040,7 @@
                     </div>`;
             } else {
                 mSide.innerHTML = `
-                    <h3 style="color:var(--wrong-color);flex-shrink:0;">Your Wrong Answers:</h3>
+                    <h3 style="color:var(--wrong-color);flex-shrink:0;">Your Wrong Answers</h3>
                     <p style="color:var(--text-muted);font-size:0.78rem;margin-top:4px;flex-shrink:0;">${missed.length} question${missed.length !== 1 ? 's' : ''} to review</p>
                     <div class="mistakes-list">
                         ${missed.map((m, i) => `
