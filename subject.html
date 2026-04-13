@@ -548,13 +548,13 @@
   content: '';
   position: absolute;
   width: 56px; height: 56px; border-radius: 50%;
-  border: 2px solid rgba(10,218,241,0.4);
-  animation: bubblePing 2.5s ease-out infinite;
+  border: 2px solid rgba(10,218,241,0.2);
+  animation: bubblePing 3.5s ease-out infinite;
   pointer-events: none;
 }
 @keyframes bubblePing {
-  0%   { transform: scale(1); opacity: 0.7; }
-  100% { transform: scale(1.65); opacity: 0; }
+  0%   { transform: scale(1); opacity: 0.35; }
+  100% { transform: scale(1.55); opacity: 0; }
 }
 
 #chat-panel {
@@ -763,10 +763,13 @@
                 document.body.classList.contains('light-mode') ? 'fas fa-moon' : 'fas fa-sun';
         });
 
-        // 2. Falling papers (desktop only)
+        // 2. Falling papers (all devices — throttled)
+        const isMobile = window.innerWidth <= 600;
+        const maxPapers = isMobile ? 8 : 15;
+        const paperInterval = isMobile ? 900 : 600;
         let paperCount = 0;
         function createPaper() {
-            if (paperCount >= 15) return;
+            if (paperCount >= maxPapers) return;
             paperCount++;
             const paper = document.createElement('div');
             paper.className = 'falling-paper';
@@ -776,7 +779,7 @@
             document.body.appendChild(paper);
             setTimeout(() => { paper.remove(); paperCount--; }, duration * 1000);
         }
-        if (window.innerWidth > 600) setInterval(createPaper, 600);
+        setInterval(createPaper, paperInterval);
 
         // 3. Data & render
         const subjectsData = {
