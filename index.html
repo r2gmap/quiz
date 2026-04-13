@@ -727,13 +727,13 @@ footer {
   content: '';
   position: absolute;
   width: 56px; height: 56px; border-radius: 50%;
-  border: 2px solid rgba(10,218,241,0.4);
-  animation: bubblePing 2.5s ease-out infinite;
+  border: 2px solid rgba(10,218,241,0.2);
+  animation: bubblePing 3.5s ease-out infinite;
   pointer-events: none;
 }
 @keyframes bubblePing {
-  0%   { transform: scale(1); opacity: 0.7; }
-  100% { transform: scale(1.65); opacity: 0; }
+  0%   { transform: scale(1); opacity: 0.35; }
+  100% { transform: scale(1.55); opacity: 0; }
 }
 
 #chat-panel {
@@ -1034,10 +1034,13 @@ themeToggle.addEventListener('click', () => {
     document.body.classList.contains('light-mode') ? 'fas fa-moon' : 'fas fa-sun';
 });
 
-// ── Falling papers (throttled — one every 600 ms, max 18 alive) ──
+// ── Falling papers (throttled — one every 600 ms, desktop / 900 ms mobile) ──
+const isMobile = window.innerWidth <= 650;
+const maxPapers = isMobile ? 8 : 18;
+const paperInterval = isMobile ? 900 : 600;
 let paperCount = 0;
 function createPaper() {
-  if (paperCount >= 18) return;
+  if (paperCount >= maxPapers) return;
   paperCount++;
   const paper = document.createElement('div');
   paper.className = 'falling-paper';
@@ -1047,8 +1050,7 @@ function createPaper() {
   document.body.appendChild(paper);
   setTimeout(() => { paper.remove(); paperCount--; }, duration * 1000);
 }
-// Pause papers on mobile to save battery/perf
-// if (window.innerWidth > 650) setInterval(createPaper, 600);
+setInterval(createPaper, paperInterval);
 
 // ── Typewriter ──
 const phrases = [
