@@ -391,9 +391,136 @@
         // =============================================
 
         const quizDatabase = {
+
             
-  org0: {
-    title: "Quiz I",
+  org6: {
+    title: "Quiz VI",
+    questions: [
+      {
+        q: "Why is phenol (pKa ~10) significantly more acidic than aliphatic alcohols like cyclohexanol (pKa ~16)?",
+        options: [
+          "Because the hydroxyl group in phenol is highly electronegative.",
+          "Because the oxygen atom in phenol is sp hybridized.",
+          "Because phenol undergoes electrophilic substitution easily.",
+          "Because the resulting phenoxide ion is highly stabilized by resonance delocalization into the ring."
+        ],
+        correct: 3,
+        explanation: "Phenols are acidic because the phenoxide ion formed after losing a proton is stabilized by resonance (delocalization increases electron density on the ring), which is not possible for aliphatic alcohols.",
+        source: "lectures_3,4.pdf - Acidity of phenols (Page 12)"
+      },
+      {
+        q: "In the Kolbe reaction (carbonation), sodium phenoxide is heated with CO2 under pressure followed by acidic work-up. What is the major product formed?",
+        options: [
+          "Salicylic acid (o-hydroxybenzoic acid)",
+          "Benzoic acid",
+          "Acetylsalicylic acid (Aspirin)",
+          "Phenol is recovered unchanged"
+        ],
+        correct: 0,
+        explanation: "The Kolbe reaction is an Electrophilic Aromatic Substitution (EAS) by the weakly electrophilic CO2 on the highly activated phenoxide ring, specifically at the ortho position, producing Salicylic acid.",
+        source: "lectures_3,4.pdf - Kolbe reaction (Page 13)"
+      },
+      {
+        q: "Arrange the following amines in order of DECREASING basicity: [A] Dimethylamine (CH3)2NH, [B] Ammonia NH3, [C] Aniline Ph-NH2.",
+        options: [
+          "C > B > A",
+          "B > A > C",
+          "A > B > C",
+          "A > C > B"
+        ],
+        correct: 2,
+        explanation: "Aliphatic amines (like dimethylamine) are more basic than ammonia due to the electron-donating alkyl groups. Aniline is the least basic because its lone pair is delocalized into the benzene ring via resonance.",
+        source: "lectures_3,4.pdf - Order of Basicity (Page 25)"
+      },
+      {
+        q: "Direct nitration of aniline with conc. HNO3 and H2SO4 often leads to oxidation or m-nitroaniline. How can we smoothly prepare 'p-nitroaniline'?",
+        options: [
+          "By performing the reaction at a very high temperature.",
+          "By using Friedel-Crafts conditions instead.",
+          "By converting aniline to a diazonium salt first.",
+          "By protecting the amino group first via acetylation (forming acetanilide), then nitrating, and finally hydrolyzing."
+        ],
+        correct: 3,
+        explanation: "Acetylation converts the strongly activating -NH2 group into a milder activating acetamido group (-NHCOCH3), which prevents oxidation and directs the nitro group to ortho and para positions smoothly.",
+        source: "lectures_3,4.pdf - Nitration of amines (Page 33-34)"
+      },
+      {
+        q: "In the Sandmeyer Reaction, a benzene diazonium salt [Ph-N2+ Cl-] is converted into an aryl halide or benzonitrile. What specific catalyst/reagent is required for this transformation?",
+        options: [
+          "Iron (III) chloride (FeCl3)",
+          "Cuprous salts (CuCl, CuBr, CuCN)",
+          "Aluminum chloride (AlCl3)",
+          "Zinc amalgam (Zn/Hg)"
+        ],
+        correct: 1,
+        explanation: "The Sandmeyer reaction utilizes Copper(I) (cuprous) salts to replace the diazonium group (N2) with nucleophiles like Cl-, Br-, or CN-.",
+        source: "lectures_3,4.pdf - Sandmeyer Reaction (Page 36)"
+      },
+      {
+        q: "What is the correct IUPAC name for the common aldehyde 'Isobutyraldehyde' [(CH3)2CH-CHO]?",
+        options: [
+          "3-Methylbutanal",
+          "2-Butanone",
+          "2-Methylpropanal",
+          "2-Methylpropanol"
+        ],
+        correct: 2,
+        explanation: "The longest chain containing the aldehyde group has 3 carbons (propanal), and there is a methyl group on carbon 2, making it 2-methylpropanal.",
+        source: "lectures_5,6.pdf - Nomenclature (Page 8)"
+      },
+      {
+        q: "Which specific reagent is used to reduce an acid chloride [R-CO-Cl] into an aldehyde [R-CHO] without over-reducing it to a primary alcohol?",
+        options: [
+          "Lithium tri-tert-butoxyaluminum hydride [LiAlH(O-t-Bu)3]",
+          "Lithium aluminum hydride (LiAlH4)",
+          "Sodium borohydride (NaBH4)",
+          "Potassium dichromate (K2Cr2O7)"
+        ],
+        correct: 0,
+        explanation: "LiAlH(O-t-Bu)3 is a milder, bulky reducing agent that stops the reduction of acid chlorides at the aldehyde stage.",
+        source: "lectures_5,6.pdf - Synthesis of Aldehydes (Page 10)"
+      },
+      {
+        q: "The coupling reaction between an acid chloride [R-CO-Cl] and a Lithium dialkylcuprate (Gilman reagent) [R'2CuLi] is an excellent method to synthesize which class of compounds?",
+        options: [
+          "Aldehydes",
+          "Ketones [R-CO-R']",
+          "Secondary alcohols",
+          "Esters"
+        ],
+        correct: 1,
+        explanation: "Lithium dialkylcuprates transfer one of their alkyl groups (R') to the acyl carbon, replacing the chloride to efficiently form a ketone.",
+        source: "lectures_5,6.pdf - Ketone synthesis (Page 13)"
+      },
+      {
+        q: "The nucleophilic addition of ONE equivalent of an alcohol (ROH) to an aldehyde or ketone in the presence of an acid catalyst forms an intermediate known as a:",
+        options: [
+          "Carboxylic acid",
+          "Acetal",
+          "Aldol",
+          "Hemiacetal"
+        ],
+        correct: 3,
+        explanation: "Addition of one molecule of alcohol to the carbonyl carbon forms a hemiacetal (containing one -OH and one -OR group on the same carbon). Addition of a second molecule forms an acetal.",
+        source: "lectures_5,6.pdf - Aldehyde Hydrates/Acetals (Page 22-23)"
+      },
+      {
+        q: "What is the final product obtained from the reaction of Benzaldehyde [Ph-CHO] with Methylmagnesium bromide [CH3MgBr] (a Grignard reagent) followed by acidic hydrolysis (H2O/H+)?",
+        options: [
+          "A secondary alcohol (1-Phenylethanol) [Ph-CH(OH)-CH3]",
+          "A primary alcohol (Benzyl alcohol)",
+          "A tertiary alcohol",
+          "Acetophenone"
+        ],
+        correct: 0,
+        explanation: "Grignard reagents (RMgX) add an alkyl group (CH3-) to the carbonyl carbon. Because benzaldehyde has one hydrogen attached to the carbonyl, the result after hydrolysis is a secondary alcohol.",
+        source: "lectures_5,6.pdf - Addition of Grignard Reagents (Page 34-35)"
+      }
+    ]
+  },
+            
+  org7: {
+    title: "Quiz VII",
     questions: [
       {
         q: "According to Huckel's Rule, a planar, cyclic, completely conjugated system is aromatic if it has how many pi (π) electrons?",
@@ -520,8 +647,8 @@
   },
 
         
-  org1: {
-    title: "Quiz II",
+  org8: {
+    title: "َQuiz VIII",
     questions: [
       {
         q: "Which of the following groups is strongly activating and directs the incoming electrophile to ortho and para positions?",
