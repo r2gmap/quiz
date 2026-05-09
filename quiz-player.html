@@ -387,12 +387,268 @@
     </div>
 
     <script>
+
         // =============================================
-                const quizDatabase = {
 
+        const quizDatabase = {
+            
+  org0: {
+    title: "Quiz I",
+    questions: [
+      {
+        q: "According to Huckel's Rule, a planar, cyclic, completely conjugated system is aromatic if it has how many pi (π) electrons?",
+        options: [
+          "4n",
+          "4n + 2",
+          "2n",
+          "2n + 2"
+        ],
+        correct: 1,
+        explanation: "Huckel's rule states that aromatic compounds must have (4n + 2) pi electrons, where n is an integer (0, 1, 2, ...).",
+        source: "lectures_1,2.pdf - Aromaticity (Page 2) & Organic_1.m4a"
+      },
+      {
+        q: "What is the common IUPAC accepted name for a benzene ring directly attached to a methyl group [-CH3]?",
+        options: [
+          "Aniline",
+          "Phenol",
+          "Toluene",
+          "Anisole"
+        ],
+        correct: 2,
+        explanation: "Toluene is the common name for methylbenzene. Aniline has an -NH2 group, Phenol has an -OH group, and Anisole has an -OCH3 group.",
+        source: "lectures_1,2.pdf - Monosubstituted benzene (Page 11)"
+      },
+      {
+        q: "Which of the following IUPAC names corresponds to the structure of 'o-Xylene'?",
+        options: [
+          "1,2-dimethylbenzene",
+          "1,3-dimethylbenzene",
+          "1,4-dimethylbenzene",
+          "1-ethyl-2-methylbenzene"
+        ],
+        correct: 0,
+        explanation: "The ortho (o-) position refers to adjacent carbons on the benzene ring (positions 1 and 2). Therefore, o-Xylene is 1,2-dimethylbenzene.",
+        source: "lectures_1,2.pdf - Disubstituted benzene (Page 12)"
+      },
+      {
+        q: "Benzene typically resists addition reactions to preserve its aromaticity. Instead, it characteristically undergoes which type of reaction?",
+        options: [
+          "Nucleophilic Aliphatic Substitution",
+          "Electrophilic Addition",
+          "Free Radical Substitution",
+          "Electrophilic Aromatic Substitution (EAS)"
+        ],
+        correct: 3,
+        explanation: "Due to its electron-rich pi cloud, benzene acts as a nucleophile and undergoes Electrophilic Aromatic Substitution (EAS) with an electrophile (E+).",
+        source: "lectures_1,2.pdf - Benzene reactions (Page 17) & organic lec 2.m4a"
+      },
+      {
+        q: "In the general mechanism of Electrophilic Aromatic Substitution (EAS), what is the intermediate formed immediately after the attack of the electrophile?",
+        options: [
+          "A carbanion intermediate",
+          "A radical intermediate",
+          "A resonance-stabilized carbocation (σ-complex)",
+          "A benzyne intermediate"
+        ],
+        correct: 2,
+        explanation: "The addition of an electrophile (E+) breaks the aromaticity temporarily, forming a resonance-stabilized carbocation known as a sigma-complex (σ-complex).",
+        source: "lectures_1,2.pdf - General mechanism of SE (Page 17)"
+      },
+      {
+        q: "Consider a benzene ring with an -OH group at C1, a -Cl group at C2, and an -NO2 group at C4. What is the correct name?",
+        options: [
+          "2-Chloro-4-nitrophenol",
+          "1-Chloro-3-nitro-4-phenol",
+          "3-Chloro-1-nitrophenol",
+          "4-Nitro-2-chlorophenol"
+        ],
+        correct: 0,
+        explanation: "The -OH group has the highest priority (-OH > -NO2 > -X) and assigns the parent name 'phenol' at position 1. Substituents are numbered to give the lowest locants, yielding 2-Chloro-4-nitrophenol.",
+        source: "lectures_1,2.pdf - Polysubstituted benzene (Page 14)"
+      },
+      {
+        q: "Which of the following is NOT a fundamental requirement for a compound to be considered aromatic?",
+        options: [
+          "It must be cyclic.",
+          "It must be planar.",
+          "It must possess sp3 hybridized carbons in the ring.",
+          "It must have a fully conjugated pi system."
+        ],
+        correct: 2,
+        explanation: "Aromatic rings require sp2 hybridized carbons to allow continuous overlap of p-orbitals. An sp3 carbon disrupts the conjugation and makes it non-aromatic.",
+        source: "lectures_1,2.pdf - Molecular orbital theory (Page 2) & Organic_1.m4a"
+      },
+      {
+        q: "Identify the aromatic compound consisting of a benzene ring directly attached to a methoxy group [-OCH3].",
+        options: [
+          "Anisole",
+          "Benzoic acid",
+          "Styrene",
+          "Benzaldehyde"
+        ],
+        correct: 0,
+        explanation: "Anisole is the common name for methoxybenzene. Benzoic acid has a -COOH group, Styrene has a -CH=CH2 group, and Benzaldehyde has a -CHO group.",
+        source: "lectures_1,2.pdf - Nomenclature (Page 11)"
+      },
+      {
+        q: "In a benzene molecule (C6H6), what is the specific hybridization state of each of the six carbon atoms?",
+        options: [
+          "sp3",
+          "sp2",
+          "sp",
+          "sp3d"
+        ],
+        correct: 1,
+        explanation: "Each carbon in benzene is sp2 hybridized, leaving one unhybridized p-orbital perpendicular to the ring to form the delocalized pi electron cloud.",
+        source: "lectures_1,2.pdf - Molecular orbital theory (Page 2)"
+      },
+      {
+        q: "What is the correct structure and name for a benzene ring substituted with a formyl group [-CHO]?",
+        options: [
+          "Acetophenone",
+          "Benzophenone",
+          "Benzaldehyde",
+          "Benzonitrile"
+        ],
+        correct: 2,
+        explanation: "A benzene ring bonded directly to a formyl group (-CHO) is named Benzaldehyde. Acetophenone has a -COCH3 group.",
+        source: "lectures_1,2.pdf - Nomenclature (Page 11)"
+      }
+    ]
 
+  },
+
+        
+  org1: {
+    title: "Quiz II",
+    questions: [
+      {
+        q: "Which of the following groups is strongly activating and directs the incoming electrophile to ortho and para positions?",
+        options: [
+          "-NO2 (Nitro)",
+          "-OH (Hydroxyl)",
+          "-CN (Cyano)",
+          "-COOH (Carboxylic acid)"
+        ],
+        correct: 1,
+        explanation: "Groups with lone pairs like -OH and -NH2 donate electron density via resonance (+M effect), making the ring highly reactive and directing to ortho/para positions.",
+        source: "organic lec 2.m4a & lectures_1,2.pdf (Activating groups)"
+      },
+      {
+        q: "Halogens (e.g., -Cl, -Br) are unique because they are deactivating groups overall, yet they direct electrophiles to which positions?",
+        options: [
+          "Meta only",
+          "Ortho and Para",
+          "Para only",
+          "They do not direct, no reaction occurs"
+        ],
+        correct: 1,
+        explanation: "Halogens deactivate the ring via a strong inductive effect (-I), but their lone pairs donate electron density via resonance (+M) to stabilize the ortho and para sigma complexes.",
+        source: "organic lec 2.m4a & lectures_1,2.pdf (Halogens)"
+      },
+      {
+        q: "When reacting benzene with n-propyl chloride [CH3-CH2-CH2-Cl] and AlCl3, what is the major product formed due to carbocation rearrangement?",
+        options: [
+          "n-Propylbenzene",
+          "Isopropylbenzene (Cumene)",
+          "Ethylbenzene",
+          "No reaction"
+        ],
+        correct: 1,
+        explanation: "The primary carbocation [CH3-CH2-CH2+] rearranges via a hydride shift to form a more stable secondary carbocation [CH3-CH(+)-CH3], leading to Isopropylbenzene as the major product.",
+        source: "organic lec 3.m4a (Disadvantages of Friedel-Crafts)"
+      },
+      {
+        q: "Will Friedel-Crafts alkylation or acylation occur on a benzene ring that already has a strong deactivating group like -NO2?",
+        options: [
+          "Yes, but it will be slow",
+          "Yes, and it directs to ortho/para",
+          "No, the reaction will not proceed (No reaction)",
+          "Yes, but only with heating"
+        ],
+        correct: 2,
+        explanation: "Friedel-Crafts reactions do not occur on rings with strong electron-withdrawing groups (like -NO2, -SO3H, -COOH) because the ring becomes too electron-deficient to react.",
+        source: "organic lec 3.m4a & organic lec 2.m4a"
+      },
+      {
+        q: "In the sulfonation of benzene using fuming H2SO4, what is the actual electrophile that attacks the benzene ring?",
+        options: [
+          "HSO4-",
+          "SO3 or +SO3H",
+          "H2O",
+          "SO2"
+        ],
+        correct: 1,
+        explanation: "The electrophile in sulfonation is either neutral sulfur trioxide (SO3) or the protonated form (+SO3H) generated in the acidic medium.",
+        source: "lectures_1,2.pdf (Mechanism for sulfonation)"
+      },
+      {
+        q: "Arrange the following compounds in order of DECREASING reactivity towards Electrophilic Aromatic Substitution: [A] Phenol (Ph-OH), [B] Benzene (Ph-H), [C] Nitrobenzene (Ph-NO2).",
+        options: [
+          "A > B > C",
+          "C > B > A",
+          "B > A > C",
+          "A > C > B"
+        ],
+        correct: 0,
+        explanation: "Phenol has a strongly activating -OH group (most reactive), Benzene is neutral, and Nitrobenzene has a strongly deactivating -NO2 group (least reactive).",
+        source: "organic lec 2.m4a (Reactivity Order)"
+      },
+      {
+        q: "If you start with Benzene, perform Nitration (HNO3/H2SO4), and then perform Chlorination (Cl2/AlCl3), what is the final major product?",
+        options: [
+          "o-Chloronitrobenzene",
+          "p-Chloronitrobenzene",
+          "m-Chloronitrobenzene",
+          "2,4-Dichloronitrobenzene"
+        ],
+        correct: 2,
+        explanation: "Nitration adds an -NO2 group first. Since -NO2 is a meta-director, the subsequent chlorination will place the Cl atom at the meta position.",
+        source: "organic lec 2.m4a (Reactions on substituted benzene)"
+      },
+      {
+        q: "What is the product of reacting benzene with acetyl chloride [CH3-C(=O)-Cl] in the presence of AlCl3?",
+        options: [
+          "Toluene",
+          "Acetophenone [Ph-C(=O)-CH3]",
+          "Benzaldehyde",
+          "Chlorobenzene"
+        ],
+        correct: 1,
+        explanation: "This is a Friedel-Crafts acylation. The acylium ion [CH3-C(=O)+] acts as the electrophile, attaching to the ring to form Acetophenone.",
+        source: "organic lec 3.m4a (Acylation)"
+      },
+      {
+        q: "For Nucleophilic Aromatic Substitution (Addition-Elimination) to occur effectively on a halobenzene (like chlorobenzene), what must be present on the ring?",
+        options: [
+          "Strong electron-donating groups in meta positions",
+          "Strong electron-withdrawing groups (like -NO2) in ortho and/or para positions",
+          "An extra methyl group",
+          "A bulky Lewis acid"
+        ],
+        correct: 1,
+        explanation: "Electron-withdrawing groups at ortho/para positions stabilize the negatively charged intermediate (Meisenheimer complex), facilitating the nucleophilic attack.",
+        source: "organic_5 (1).m4a & lectures_3,4.pdf"
+      },
+      {
+        q: "When treating chlorobenzene with a very strong base (NaNH2 in NH3) without any activating groups, the reaction proceeds via an Elimination-Addition mechanism. What is the highly reactive intermediate?",
+        options: [
+          "A carbocation (sigma complex)",
+          "A carbanion",
+          "Benzyne (an intermediate with a triple-bond-like structure)",
+          "A radical species"
+        ],
+        correct: 2,
+        explanation: "The strong base removes an ortho-proton and expels the chloride ion to form a highly unstable Benzyne intermediate, which then undergoes addition.",
+        source: "مراجعه اورجانيك.m4a & organic_5 (1).m4a"
+      }
+    ]
+  },
+        
 
         };
+
         // =============================================
 
 
@@ -470,7 +726,16 @@
         function handleExplain() {
             const q = questions[currentIdx];
             const modal = document.getElementById('explain-modal');
-            document.getElementById('modal-text').textContent = q.explanation || 'No explanation available.';
+            const explanation = q.explanation || 'No explanation available.';
+            const sourceHTML = q.source
+                ? `<div style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.07);">
+                       <span style="font-size:0.78rem; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; color:var(--accent-color);">
+                           <i class="fas fa-book-open" style="margin-right:5px;"></i>Source
+                       </span>
+                       <p style="margin-top:6px; font-size:0.88rem; color:var(--text-muted);">${q.source}</p>
+                   </div>`
+                : '';
+            document.getElementById('modal-text').innerHTML = explanation + sourceHTML;
             modal.style.display = 'flex';
             setTimeout(() => modal.classList.add('active'), 10);
         }
