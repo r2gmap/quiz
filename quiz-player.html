@@ -523,6 +523,126 @@
     title: "Quiz VII",
     questions: [
       {
+        q: "In the nitration of benzene using a mixture of concentrated HNO3 and concentrated H2SO4, what is the actual electrophilic species that attacks the electron-rich benzene ring?",
+        options: [
+          "The nitrate ion [NO3-]",
+          "The nitronium ion [NO2+]",
+          "The bisulfate ion [HSO4-]",
+          "The nitrosonium ion [NO+]"
+        ],
+        correct: 1,
+        explanation: "In the nitration mixture, H2SO4 acts as a stronger acid and protonates HNO3. This leads to the loss of a water molecule, generating the highly reactive nitronium ion [NO2+], which is the actual electrophile that attacks the benzene ring. HSO4- acts merely as a Lewis base to remove the proton at the end of the reaction.",
+        source: "organic lec 2.m4a & lectures_1,2.pdf (Page 25 - Nitration mechanism)"
+      },
+      {
+        q: "When reacting benzene with bromine (Br2), a Lewis acid catalyst such as FeBr3 or AlCl3 is strictly required. What is the primary role of this Lewis acid in the reaction?",
+        options: [
+          "To act as a strong nucleophile and open the benzene ring.",
+          "To extract a proton (H+) directly from the benzene ring to initiate the reaction.",
+          "To dissolve the non-polar benzene in the reaction mixture.",
+          "To accept an electron pair from the halogen, polarizing the bond and generating a strong electrophile."
+        ],
+        correct: 3,
+        explanation: "Benzene is highly stable and does not react with non-polar halogens directly. The Lewis acid (an electron acceptor) coordinates with one of the halogen atoms, polarizing the Br-Br or Cl-Cl bond. This creates a strong positive charge on the other halogen atom (e.g., Br+), turning it into a powerful electrophile capable of attacking the ring.",
+        source: "organic lec 2.m4a (Halogenation)"
+      },
+      {
+        q: "Reacting benzene with n-propyl chloride [CH3-CH2-CH2-Cl] and AlCl3 via Friedel-Crafts alkylation yields Isopropylbenzene as the major product rather than n-propylbenzene. Why does this happen?",
+        options: [
+          "The AlCl3 catalyst strictly dictates the formation of branched chains.",
+          "n-Propyl chloride rapidly decomposes into a gas upon heating.",
+          "The initially formed primary carbocation undergoes a hydride shift to form a more stable secondary carbocation.",
+          "The benzene ring undergoes a structural rearrangement before the attack."
+        ],
+        correct: 2,
+        explanation: "When AlCl3 removes the chloride ion, it leaves behind a primary carbocation [CH3-CH2-CH2+]. Because primary carbocations are relatively unstable, a hydrogen atom from the adjacent carbon shifts over with its electrons (1,2-hydride shift) to form a much more stable secondary carbocation [CH3-C(+)H-CH3]. This secondary carbocation then attacks the ring, yielding Isopropylbenzene (Cumene).",
+        source: "organic lec 3.m4a (Disadvantages of Friedel-Crafts: Rearrangement)"
+      },
+      {
+        q: "One of the major disadvantages of Friedel-Crafts Alkylation is 'Polyalkylation' (the addition of multiple alkyl groups to the ring). Why doesn't Friedel-Crafts Acylation suffer from this same problem?",
+        options: [
+          "The introduced acyl group [-C(=O)R] strongly deactivates the ring, preventing further electrophilic attacks.",
+          "Acylation uses a much weaker Lewis acid catalyst that gets consumed immediately.",
+          "Acyl groups are too physically bulky (steric hindrance) to fit more than one on the benzene ring.",
+          "Acylation requires a completely different mechanism that does not involve a sigma complex."
+        ],
+        correct: 0,
+        explanation: "Alkyl groups are electron-donating (activating), meaning the mono-alkylated product is more reactive than the original benzene, leading to polyalkylation. Conversely, the acyl group introduced during acylation has a carbonyl group directly attached to the ring, which is strongly electron-withdrawing (deactivating). This makes the product less reactive than benzene, stopping the reaction cleanly after one addition.",
+        source: "organic lec 3.m4a (Comparison between Alkylation and Acylation)"
+      },
+      {
+        q: "In the general mechanism of Electrophilic Aromatic Substitution (EAS), what is the name of the resonance-stabilized intermediate formed right after the electrophile attacks the benzene ring?",
+        options: [
+          "Sigma complex (Arenium ion / σ-complex)",
+          "Benzyne intermediate",
+          "Meisenheimer complex",
+          "Free radical intermediate"
+        ],
+        correct: 0,
+        explanation: "The addition of an electrophile (E+) breaks the aromaticity of the ring temporarily, forcing the electrons to localize and forming a positively charged, resonance-stabilized carbocation known as a Sigma complex (or Arenium ion). A base then removes a proton to restore the aromatic pi system.",
+        source: "lectures_1,2.pdf (Page 17 - General mechanism of SE) & organic lec 2.m4a"
+      },
+      {
+        q: "Why does Aniline [Benzene with an -NH2 group], despite having a strongly activating amino group, completely fail to undergo Friedel-Crafts alkylation or acylation?",
+        options: [
+          "The amino group completely blocks the ortho and para positions physically.",
+          "The Lewis acid catalyst (e.g., AlCl3) forms a strong complex with the nitrogen's lone pair, converting it into a powerful deactivating group.",
+          "Aniline immediately evaporates in the presence of AlCl3 due to an exothermic reaction.",
+          "The electrophile attacks the meta position instead, which is too slow to observe."
+        ],
+        correct: 1,
+        explanation: "Friedel-Crafts reactions require a Lewis acid catalyst like AlCl3 (which is an electron acceptor). The nitrogen atom in aniline has a lone pair of electrons that immediately coordinates with the AlCl3. This forms a complex with a positive charge on the nitrogen [-N(+)H2-Al(-)Cl3]. A positive charge on the atom directly attached to the ring turns it into a very strong electron-withdrawing (deactivating) group, halting any Friedel-Crafts reaction.",
+        source: "organic lec 3.m4a (Unreactivity with strong activating groups with lone pair)"
+      },
+      {
+        q: "If you attempt a Friedel-Crafts alkylation or acylation on Nitrobenzene [Benzene with an -NO2 group], what will be the expected result?",
+        options: [
+          "Alkylation occurs readily at the ortho position.",
+          "The nitro group is reduced to an amine instead.",
+          "No reaction occurs.",
+          "Alkylation occurs smoothly at the meta position."
+        ],
+        correct: 2,
+        explanation: "Friedel-Crafts alkylation and acylation reactions do NOT occur on rings containing powerful electron-withdrawing groups (strongly deactivating groups like -NO2, -SO3H, -COOH, -CHO). The ring becomes too electron-deficient to react with the relatively weak carbocation or acylium ion electrophiles.",
+        source: "organic lec 3.m4a & organic lec 2.m4a (Disadvantages of FC)"
+      },
+      {
+        q: "Which of the following statements regarding the Sulfonation of benzene (using fuming H2SO4) is TRUE?",
+        options: [
+          "It is a completely irreversible reaction.",
+          "It only occurs if a strong Lewis acid like AlCl3 is present.",
+          "The attacking electrophile is the negatively charged hydroxide ion (OH-).",
+          "The reaction is entirely reversible and can be pushed backward (desulfonation) using dilute H2SO4 and heat."
+        ],
+        correct: 3,
+        explanation: "Unlike nitration or halogenation, all steps in the sulfonation of benzene are reversible. While concentrated or fuming sulfuric acid pushes the reaction forward to form Benzenesulfonic acid, adding dilute aqueous acid and applying heat (steam) reverses the reaction, removing the -SO3H group (desulfonation).",
+        source: "lectures_1,2.pdf (Page 27 - mechanism for sulfonation)"
+      },
+      {
+        q: "What is the highly stable electrophilic species generated during Friedel-Crafts Acylation (e.g., using CH3COCl and AlCl3) that attacks the benzene ring?",
+        options: [
+          "A methyl carbocation [CH3+]",
+          "An acylium ion [CH3-C(=O)+]",
+          "A chloride anion [Cl-]",
+          "A formyl radical [HCO•]"
+        ],
+        correct: 1,
+        explanation: "In Friedel-Crafts acylation, the Lewis acid removes the chloride from the acid chloride, leaving behind an acylium ion [R-C(=O)+]. This ion is highly stable because the positive charge is delocalized via resonance between the carbon and the oxygen atom. This exceptional stability is the reason acylium ions never undergo the rearrangements typically seen in alkyl carbocations.",
+        source: "organic lec 3.m4a & lectures_1,2.pdf (Page 28 - Friedel-Crafts acylation)"
+      },
+      {
+        q: "Since Friedel-Crafts alkylation of primary halides often leads to unwanted rearranged products, how can a chemist successfully synthesize a straight-chain alkylbenzene (e.g., n-propylbenzene) from benzene without any rearrangement?",
+        options: [
+          "By using a strong base instead of a Lewis acid catalyst.",
+          "By lowering the temperature of the alkylation reaction to exactly 0°C.",
+          "By performing a Friedel-Crafts acylation first, followed by reduction of the carbonyl group (e.g., Clemmensen reduction).",
+          "By using an excessive amount of AlCl3 catalyst to force the straight chain to attach."
+        ],
+        correct: 2,
+        explanation: "To circumvent the carbocation rearrangement problem in alkylation, we use a two-step workaround: First, perform a Friedel-Crafts Acylation (which forms a non-rearranging acylium ion) to attach the straight chain as a ketone. Second, reduce the carbonyl group (C=O) down to a methylene group (CH2) using a reducing agent like Zn(Hg) and HCl (Clemmensen reduction). This successfully yields the desired straight-chain alkylbenzene.",
+        source: "organic lec 3.m4a (Overcoming rearrangement via Acylation & Reduction)"
+      },
+      {
         q: "According to Huckel's Rule, a planar, cyclic, completely conjugated system is aromatic if it has how many pi (π) electrons?",
         options: [
           "4n",
@@ -769,7 +889,127 @@
         correct: 2,
         explanation: "The strong base removes an ortho-proton and expels the chloride ion to form a highly unstable Benzyne intermediate, which then undergoes addition.",
         source: "مراجعه اورجانيك.m4a & organic_5 (1).m4a"
-      }
+      },
+      {
+        q: "Which of the following compounds is considered 'Non-aromatic' because it is non-planar (tub-shaped) despite having 8 pi electrons?",
+        options: [
+          "Cyclobutadiene",
+          "Cyclooctatetraene",
+          "Cyclopropenyl cation",
+          "Benzene"
+        ],
+        correct: 1,
+        explanation: "Cyclooctatetraene has 8 pi electrons (which fits the 4n anti-aromatic rule). To avoid the highly unstable anti-aromatic state, the molecule adopts a non-planar 'tub' shape. Since it is not planar, it fails the second condition of aromaticity and is classified as non-aromatic[cite: 371, 372].",
+        source: "Organic_1.m4a (Discussion on Annulenes)"
+      },
+      {
+        q: "What is the correct IUPAC name for a benzene ring substituted with a methyl group (-CH3) at carbon 1 and a hydroxyl group (-OH) at carbon 2?",
+        options: [
+          "1-Methyl-2-phenol",
+          "2-Hydroxytoluene",
+          "o-Cresol (2-Methylphenol)",
+          "1-Hydroxy-2-methylbenzene"
+        ],
+        correct: 2,
+        explanation: "When a hydroxyl group (-OH) is on a benzene ring, the parent name is 'phenol'[cite: 582]. The -OH group gets priority (position 1). A methyl group at position 2 makes it 2-methylphenol. The common accepted name for this ortho-substituted methylphenol is o-Cresol.",
+        source: "lectures_1,2.pdf - Nomenclature (Page 11) & Priority Rules [cite: 588]"
+      },
+      {
+        q: "According to the molecular orbital theory of benzene, what is the specific hybridization of each of the six carbon atoms in the ring?",
+        options: [
+          "sp3",
+          "sp",
+          "sp2",
+          "sp3d"
+        ],
+        correct: 2,
+        explanation: "Each carbon in benzene is bonded to three other atoms (two carbons and one hydrogen) and has no lone pairs, meaning it is sp2 hybridized. The remaining unhybridized p-orbitals (one on each carbon) are perpendicular to the ring and overlap to form the delocalized pi electron cloud[cite: 307, 574, 575].",
+        source: "lectures_1,2.pdf - Molecular Orbital Theory [cite: 574]"
+      },
+      {
+        q: "Consider a fully conjugated, planar, cyclic ion. If it contains exactly 4 pi electrons, how is it classified according to Huckel's rules?",
+        options: [
+          "Aromatic",
+          "Non-aromatic",
+          "Aliphatic",
+          "Anti-aromatic"
+        ],
+        correct: 3,
+        explanation: "A compound that is cyclic, planar, and fully conjugated (fulfilling the first three rules) but possesses 4n pi electrons (e.g., 4, 8, 12) is classified as Anti-aromatic. Anti-aromatic compounds are highly unstable[cite: 337, 580].",
+        source: "Organic_1.m4a & lectures_1,2.pdf - Aromaticity [cite: 579, 580]"
+      },
+      {
+        q: "When naming a trisubstituted benzene ring with -OH, -Cl, and -NO2 groups, which group determines the parent name of the molecule?",
+        options: [
+          "-OH (Hydroxyl group)",
+          "-NO2 (Nitro group)",
+          "-Cl (Chloro group)",
+          "They are ranked purely alphabetically"
+        ],
+        correct: 0,
+        explanation: "According to IUPAC priority rules for benzene derivatives, the priority order is: -COOH > -SO3H > -CHO > -C=O > -OH > -NH2 > -NO2 > -X (Halogens) > -R (Alkyls)[cite: 588]. Therefore, the -OH group dictates the parent name 'phenol', and it is assigned position 1.",
+        source: "lectures_1,2.pdf - Polysubstituted benzene [cite: 588]"
+      },
+      {
+        q: "Which of the following structures correctly represents 'Anisole'?",
+        options: [
+          "Benzene ring with an -NH2 group",
+          "Benzene ring with an -OCH3 group",
+          "Benzene ring with a -CH=CH2 group",
+          "Benzene ring with an -OH group"
+        ],
+        correct: 1,
+        explanation: "Anisole is the common, accepted IUPAC name for methoxybenzene, which consists of a benzene ring directly attached to a methoxy group (-OCH3)[cite: 582]. Aniline has -NH2, Styrene has -CH=CH2, and Phenol has -OH[cite: 582].",
+        source: "lectures_1,2.pdf - Common names of monosubstituted benzene [cite: 582]"
+      },
+      {
+        q: "In the context of aromaticity, the cyclopropenyl cation [a 3-membered ring with one double bond and a positive charge] is considered:",
+        options: [
+          "Anti-aromatic because it has 4 pi electrons.",
+          "Non-aromatic because it contains an sp3 carbon.",
+          "Aromatic because it is planar, fully conjugated, and has 2 pi electrons (4n+2 where n=0).",
+          "Non-aromatic because it is not cyclic."
+        ],
+        correct: 2,
+        explanation: "The cyclopropenyl cation is cyclic and planar. The positive charge (carbocation) means the sp2 carbon has an empty p-orbital, allowing full conjugation[cite: 345, 581]. It has exactly 2 pi electrons from the double bond, which satisfies Huckel's (4n+2) rule for n=0. Thus, it is aromatic.",
+        source: "Organic_1.m4a & lectures_1,2.pdf - Aromaticity Examples [cite: 581]"
+      },
+      {
+        q: "What is the correct IUPAC name for the structure containing a benzene ring with a Bromine atom at C1 and a Chlorine atom at C3?",
+        options: [
+          "1-Chloro-3-bromobenzene",
+          "m-Chlorobromobenzene",
+          "1-Bromo-3-chlorobenzene",
+          "3-Bromo-1-chlorobenzene"
+        ],
+        correct: 2,
+        explanation: "When there is no 'famous' or priority-dominating group, the substituents are ranked alphabetically[cite: 590]. Bromo comes before Chloro. The numbering must give the lowest possible locants, so Bromo is at position 1 and Chloro is at position 3, yielding 1-Bromo-3-chlorobenzene.",
+        source: "lectures_1,2.pdf - Disubstituted benzene without famous group [cite: 590]"
+      },
+      {
+        q: "What is the fundamental difference in terminology between a 'Phenyl' group and a 'Benzyl' group?",
+        options: [
+          "Phenyl is a 5-membered ring; Benzyl is a 6-membered ring.",
+          "Phenyl is [C6H5-CH2-]; Benzyl is [C6H5-].",
+          "Phenyl is [C6H5-]; Benzyl is a benzene ring attached to a CH2 group [C6H5-CH2-].",
+          "They are two interchangeable names for the exact same structure."
+        ],
+        correct: 2,
+        explanation: "A 'Phenyl' group refers to the benzene ring itself acting as a substituent (C6H5-)[cite: 178]. A 'Benzyl' group refers to a benzene ring attached to a methylene group (C6H5-CH2-) acting as a substituent[cite: 179].",
+        source: "مراجعه اورجانيك.m4a (Discussion on Phenyl vs Benzyl) [cite: 178, 179]"
+      },
+      {
+        q: "Why is the resonance energy of benzene significantly higher (making it more stable) compared to a hypothetical 'cyclohexatriene' with isolated double bonds?",
+        options: [
+          "Because its pi electrons are fully delocalized over all six carbon atoms, distributing the electron density evenly.",
+          "Because it reacts easily via addition reactions, releasing energy.",
+          "Because the carbon atoms alternate between sp2 and sp3 hybridization.",
+          "Because all its carbon-carbon bonds are true, isolated double bonds."
+        ],
+        correct: 0,
+        explanation: "Benzene's stability comes from the complete delocalization (resonance) of its 6 pi electrons across all six p-orbitals[cite: 308, 309, 576, 577]. This continuous electron cloud evenly distributes the charge, lowering the overall energy of the molecule far below that of theoretical isolated double bonds[cite: 297, 311].",
+        source: "Organic_1.m4a & lectures_1,2.pdf - Resonance Theory [cite: 576, 577]"
+      },
     ]
   },
         
