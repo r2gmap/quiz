@@ -1012,7 +1012,495 @@
       },
     ]
   },
-        
+      "ana6": {
+  title: "Quiz VI",
+  questions: [
+    {
+      q: "What is the primary function of a buffer solution in pharmaceutical formulations?",
+      options: [
+        "To completely neutralize any added strong acid or strong base.",
+        "To resist drastic changes in pH upon the addition of small amounts of acid or base.",
+        "To increase the solubility of strong electrolytes in the solution.",
+        "To shift the equivalence point of an acid-base titration."
+      ],
+      correct: 1,
+      explanation: "Buffer solutions are specifically designed to maintain a relatively constant pH. This is vital in pharmacy for controlling the pH of liquid formulations (like syrups, parenterals, and eye drops) to optimize drug stability, solubility, and biological compatibility.",
+      source: "Lectures_1-2.pdf - Page 12"
+    },
+    {
+      q: "An acidic buffer typically consists of which of the following combinations?",
+      options: [
+        "A strong acid and its conjugate base.",
+        "A strong base and a weak acid.",
+        "A weak acid and its salt (conjugate base).",
+        "A weak base and its salt."
+      ],
+      correct: 2,
+      explanation: "An acidic buffer must consist of a weak acid and its salt (which acts as its conjugate base). A classic example is a mixture of Acetic acid (CH3COOH) and Sodium acetate (CH3COONa).",
+      source: "Lectures_1-2.pdf - Page 11"
+    },
+    {
+      q: "Which of the following pairs represents a basic buffer system?",
+      options: [
+        "Ammonium hydroxide and ammonium chloride",
+        "Acetic acid and sodium acetate",
+        "Hydrochloric acid and sodium chloride",
+        "Sodium hydroxide and water"
+      ],
+      correct: 0,
+      explanation: "A basic buffer consists of a weak base and its salt. Ammonium hydroxide (NH4OH, a weak base) and Ammonium chloride (NH4Cl, its salt) form a standard basic buffer system.",
+      source: "Lectures_1-2.pdf - Page 12"
+    },
+    {
+      q: "When a small amount of a strong acid (like HCl) is added to an acetate buffer (Acetic acid/Sodium acetate), which buffer component reacts to prevent a sharp pH drop?",
+      options: [
+        "The weak acid (CH3COOH)",
+        "The hydronium ion",
+        "The salt (CH3COONa)",
+        "Water molecules"
+      ],
+      correct: 2,
+      explanation: "The added strong acid (HCl) reacts with the salt component of the buffer (Sodium acetate, CH3COONa) to produce a weakly dissociated acid (Acetic acid, CH3COOH) and a neutral salt (NaCl). Equation: HCl + CH3COONa -> CH3COOH + NaCl. Thus, the strong acid is essentially 'absorbed' and the pH remains almost constant.",
+      source: "Lectures_1-2.pdf - Page 13"
+    },
+    {
+      q: "How does an acidic buffer neutralize an added strong base like NaOH?",
+      options: [
+        "NaOH dissociates completely without reacting.",
+        "NaOH reacts with the weak acid (CH3COOH) to form water and a neutral salt.",
+        "NaOH reacts with water to form hydronium ions.",
+        "NaOH reacts with the salt (CH3COONa) to form a stronger base."
+      ],
+      correct: 1,
+      explanation: "When a strong base (NaOH) is added, it reacts with the weak acid component of the buffer (CH3COOH). The reaction (NaOH + CH3COOH -> CH3COONa + H2O) converts the strong base into water and a salt, effectively neutralizing it and keeping the pH steady.",
+      source: "Lectures_1-2.pdf - Page 14"
+    },
+    {
+      q: "Which equation (Henderson-Hasselbalch) is correctly used to calculate the pH of an acidic buffer?",
+      options: [
+        "pH = pKa - log [acid] / [salt]",
+        "pH = pKa * log [salt] / [acid]",
+        "pH = pKb + log [salt] / [base]",
+        "pH = pKa + log [salt] / [acid]"
+      ],
+      correct: 3,
+      explanation: "The Henderson-Hasselbalch equation for an acidic buffer calculates the pH by adding the pKa of the weak acid to the base-10 logarithm of the ratio of the salt concentration to the acid concentration: pH = pKa + log([salt] / [acid]).",
+      source: "Lectures_1-2.pdf - Page 17-18"
+    },
+    {
+      q: "For a basic buffer containing a weak base and its salt, how is the pH directly calculated?",
+      options: [
+        "pH = pKw - pKb - log [salt] / [base]",
+        "pH = pKw + pKb + log [salt] / [base]",
+        "pH = pKb - log [salt] / [base]",
+        "pH = 14 + pKb + log [base] / [salt]"
+      ],
+      correct: 0,
+      explanation: "For a basic buffer, we first calculate pOH = pKb + log([salt] / [base]). Since pH = pKw - pOH (where pKw is 14 at 25°C), substituting the pOH expression gives the final formula: pH = pKw - pKb - log([salt] / [base]).",
+      source: "Lectures_1-2.pdf - Page 16"
+    },
+    {
+      q: "What is the pH of a buffer solution containing 0.1 M acetic acid and 0.1 M sodium acetate, given that the pKa of acetic acid is 4.76?",
+      options: [
+        "3.76",
+        "5.76",
+        "4.76",
+        "4.00"
+      ],
+      correct: 2,
+      explanation: "Using the equation pH = pKa + log([salt]/[acid]). Since both concentrations are 0.1 M, the ratio is 1. The log(1) is 0. Therefore, pH = 4.76 + 0 = 4.76.",
+      source: "Lectures_1-2.pdf - Page 17"
+    },
+    {
+      q: "Under what condition is the buffer capacity of a solution considered to be at its Maximum?",
+      options: [
+        "When the concentration of the salt is exactly double the concentration of the acid.",
+        "When the concentration of the salt equals the concentration of the acid.",
+        "When the concentration of the acid is ten times the concentration of the salt.",
+        "When the solution is infinitely diluted with pure water."
+      ],
+      correct: 1,
+      explanation: "Maximum buffer capacity occurs when the concentration of the salt is exactly equal to the concentration of the weak acid ([salt] = [acid]). Under this condition, the ratio is 1, log(1) = 0, and therefore pH = pKa.",
+      source: "Lectures_1-2.pdf - Page 21"
+    },
+    {
+      q: "To maintain an 'Adequate Buffer Capacity', the ratio of [salt] to [acid] should theoretically stay within which limits?",
+      options: [
+        "Between 1/10 and 10/1",
+        "Between 1/100 and 100/1",
+        "Exactly at 1/1",
+        "Between 1/2 and 2/1"
+      ],
+      correct: 0,
+      explanation: "For a buffer to function adequately and resist pH changes effectively, the ratio of [salt]/[acid] should not exceed 10/1 and should not drop below 1/10.",
+      source: "Lectures_1-2.pdf - Page 21"
+    },
+    {
+      q: "Based on the limits of adequate buffer capacity, what is the effective pH range over which a given weak acid can act as a useful buffer?",
+      options: [
+        "pH = pKa ± 2",
+        "pH = pKa ± 0.5",
+        "pH = pKw - pKa",
+        "pH = pKa ± 1"
+      ],
+      correct: 3,
+      explanation: "Since the adequate ratio range is 1/10 to 10/1, the logarithm of this ratio varies from log(0.1) = -1 to log(10) = +1. Applying this to the Henderson-Hasselbalch equation means the useful buffer range is pH = pKa ± 1.",
+      source: "Lectures_1-2.pdf - Page 21"
+    },
+    {
+      q: "A 1-Liter acetate buffer contains 5.0 M acetic acid and 5.0 M sodium acetate. If 0.01 moles of HCl are added to this buffer, what happens to the concentrations of the buffer components?",
+      options: [
+        "[Acetate] decreases to 4.99 M and [Acetic acid] increases to 5.01 M.",
+        "Both [Acetate] and [Acetic acid] decrease to 4.99 M.",
+        "[Acetate] increases to 5.01 M and [Acetic acid] decreases to 4.99 M.",
+        "Neither concentration changes due to the buffer's infinite capacity."
+      ],
+      correct: 0,
+      explanation: "The added strong acid (HCl) reacts with the salt (acetate ion, CH3COO-), converting it into the weak acid (acetic acid, CH3COOH). Therefore, 0.01 moles of the salt are consumed (5.0 - 0.01 = 4.99 M), and 0.01 moles of the weak acid are produced (5.0 + 0.01 = 5.01 M).",
+      source: "Lectures_1-2.pdf - Page 25-26"
+    }
+  ]
+},
+
+    "ana7" :{
+  title: "Quiz VII",
+  questions: [
+    {
+      q: "According to Arrhenius theory, an acid is defined as a substance that yields which of the following ions when dissolved in an aqueous solution?",
+      options: [
+        "Hydroxide ions (OH-)",
+        "Hydrogen ions (H+)",
+        "Ammonium ions (NH4+)",
+        "Chloride ions (Cl-)"
+      ],
+      correct: 1,
+      explanation: "Arrhenius theory specifically defines an acid as a substance that produces Hydrogen ions (H+) in water, and a base as a substance that produces Hydroxide ions (OH-) in water. Its main limitation is that it only applies to aqueous solutions.",
+      source: "Lectures_1-2.pdf - Page 30"
+    },
+    {
+      q: "In the Brönsted-Lowry theory, what is the exact definition of a base?",
+      options: [
+        "A proton (H+) donor",
+        "A substance yielding OH- in water",
+        "An electron pair donor",
+        "A proton (H+) acceptor"
+      ],
+      correct: 3,
+      explanation: "The Brönsted-Lowry theory broadened the definition of acids and bases. It defines an acid as a proton (H+) donor and a base as a proton (H+) acceptor, removing the necessity of an aqueous medium.",
+      source: "Lectures_1-2.pdf - Page 30"
+    },
+    {
+      q: "Which of the following best describes a Lewis acid?",
+      options: [
+        "An electron pair acceptor",
+        "A proton donor",
+        "An electron pair donor",
+        "A hydroxide ion donor"
+      ],
+      correct: 0,
+      explanation: "The Lewis theory is the most comprehensive one. It defines an acid as an electron pair acceptor (meaning it lacks electrons) and a base as an electron pair donor (meaning it has unshared electron pairs).",
+      source: "Lectures_1-2.pdf - Page 31"
+    },
+    {
+      q: "In the complexation reaction between ammonia (NH3) and hydrochloric acid (HCl), ammonia acts as a Lewis base because it:",
+      options: [
+        "Donates a proton",
+        "Accepts an electron pair",
+        "Donates an unshared electron pair",
+        "Accepts a hydroxide ion"
+      ],
+      correct: 2,
+      explanation: "Ammonia (NH3) has a lone (unshared) pair of electrons on the nitrogen atom. According to the Lewis theory, it acts as a base by donating this electron pair to form a coordinate bond, for instance with a proton from HCl.",
+      source: "Lectures_1-2.pdf - Page 31"
+    },
+    {
+      q: "Why does the silver ion (Ag+) act as a Lewis acid in complexation reactions (e.g., forming [Ag(NH3)2]+)?",
+      options: [
+        "Because it yields OH- in water.",
+        "Because it accepts an electron pair from a ligand.",
+        "Because it contains a proton to donate.",
+        "Because it donates an electron pair."
+      ],
+      correct: 1,
+      explanation: "Compounds or ions with no protons (like Ag+) can still be acids under the Lewis theory. The Ag+ ion acts as an electron acceptor (Lewis acid) when it binds with ligands like NH3 or CN- (which act as Lewis bases by donating electrons).",
+      source: "Lectures_1-2.pdf - Page 31"
+    },
+    {
+      q: "According to the Brönsted-Lowry theory, what is the relationship between the strength of an acid and its conjugate base?",
+      options: [
+        "The weaker the acid, the weaker its conjugate base.",
+        "The stronger the acid, the stronger its conjugate base.",
+        "There is no predictable relationship between them.",
+        "The stronger the acid, the weaker its conjugate base."
+      ],
+      correct: 3,
+      explanation: "There is an inverse relationship between an acid and its conjugate base. A strong acid completely donates its proton, meaning its conjugate base has a very weak affinity to take that proton back. Thus, the stronger the acid, the weaker its conjugate base.",
+      source: "Lectures_1-2.pdf - Page 30"
+    },
+    {
+      q: "In dilute aqueous solutions, the ion product constant of water (Kw) is represented by which mathematical expression?",
+      options: [
+        "Kw = [H+] * [OH-]",
+        "Kw = [H+] + [OH-]",
+        "Kw = [H+] / [OH-]",
+        "Kw = [H2O] / [H+]"
+      ],
+      correct: 0,
+      explanation: "The water dissociation constant (Kw) is the product of the molar concentrations of hydrogen ions and hydroxide ions in water. At 25°C, Kw = [H+] * [OH-] = 1.0 * 10^-14.",
+      source: "Lectures_1-2.pdf - Page 33 (Lecture 2)"
+    },
+    {
+      q: "How does the Brönsted-Lowry theory view the role of the solvent (such as water) in an acid-base reaction?",
+      options: [
+        "The solvent acts purely as an inert reaction medium.",
+        "The solvent always acts exclusively as an acid.",
+        "The solvent is actively involved in the reaction as either an acid or a base.",
+        "The solvent acts as an electron pair donor only."
+      ],
+      correct: 2,
+      explanation: "Unlike the Arrhenius theory, the Brönsted-Lowry theory states that the solvent is not inert. Water, for example, is amphiprotic and actively participates by either accepting a proton (acting as a base) or donating a proton (acting as an acid) depending on the solute.",
+      source: "Lectures_1-2.pdf - Page 30"
+    },
+    {
+      q: "If the molar concentration of hydrogen ions [H+] in a strong acid solution is 10^-3 M, what is the pH of the solution?",
+      options: [
+        "1",
+        "14",
+        "3",
+        "11"
+      ],
+      correct: 2,
+      explanation: "The pH is calculated as the negative base-10 logarithm of the hydrogen ion concentration: pH = -log[H+]. Therefore, -log(10^-3) = 3.",
+      source: "Lectures_3-4.pdf - Page 15-20 (General pH calculations principles)"
+    },
+    {
+      q: "What primarily distinguishes a strong electrolyte (like a strong acid) from a weak electrolyte in an aqueous solution?",
+      options: [
+        "Strong electrolytes do not conduct electricity.",
+        "Strong electrolytes completely dissociate into ions, while weak ones only partially dissociate.",
+        "Strong electrolytes partially dissociate into ions.",
+        "Both dissociate equally but react differently with indicators."
+      ],
+      correct: 1,
+      explanation: "According to the dissociation theory, strong electrolytes (like HCl, NaOH) are almost 100% dissociated into ions in water, providing high conductivity and a strong acidic/basic effect. Weak electrolytes (like acetic acid) only partially dissociate, establishing an equilibrium.",
+      source: "Lectures_1-2.pdf - Page 32-33 (Context of dissociation)"
+    },
+    {
+      q: "According to the Brönsted-Lowry theory, when water (H2O) acts as a base and accepts a proton, what is the formula of its resulting conjugate acid?",
+      options: [
+        "OH-",
+        "H3O+",
+        "H+",
+        "O2-"
+      ],
+      correct: 1,
+      explanation: "When a water molecule (H2O) accepts a proton (H+), it forms the hydronium ion (H3O+). In this context, water is the base, and the hydronium ion is its conjugate acid.",
+      source: "Lectures_1-2.pdf - Page 30"
+    },
+    {
+      q: "In terms of standard aqueous acid-base theories, the core chemical reaction (H+ + OH- -> H2O) is the fundamental representation of:",
+      options: [
+        "Complexation",
+        "Precipitation",
+        "Neutralization",
+        "Redox reaction"
+      ],
+      correct: 2,
+      explanation: "In aqueous solutions, an acid (providing H+) reacts with a base (providing OH-) to form water (H2O) and a salt. This specific process of forming very slightly ionized water is the essence of a neutralization titration.",
+      source: "Lectures_1-2.pdf - Page 7"
+    }
+  ]
+},
+
+
+
+    "ana8" :{
+  title: "Quiz VIII",
+  questions: [
+    {
+      q: "Which of the following methods of quantitative analysis depends on measuring physical properties such as optical or electrical properties?",
+      options: [
+        "Gravimetric analysis",
+        "Semi-micro analysis",
+        "Instrumental analysis",
+        "Volumetric analysis"
+      ],
+      correct: 2,
+      explanation: "Instrumental analysis relies on measuring physical properties (like optical and electrical) that are quantitatively related to the concentration of the sample to be analyzed, unlike gravimetric (weight) or volumetric (titration) methods.",
+      source: "Lectures_1-2.pdf - Page 5"
+    },
+    {
+      q: "A sample weighing 50 mg is classified under which category of quantitative analysis?",
+      options: [
+        "Micro-analysis",
+        "Macro-analysis",
+        "Ultra-micro analysis",
+        "Semi-micro analysis"
+      ],
+      correct: 3,
+      explanation: "According to sample concentration, Semi-micro analysis involves sample sizes ranging between 10 and 100 mg. Macro-analysis is >100 mg, and Micro-analysis is <1.0 mg.",
+      source: "Lectures_1-2.pdf - Page 4"
+    },
+    {
+      q: "In volumetric analysis, the solution of an exactly known concentration that is added to the sample is called the:",
+      options: [
+        "Titrant",
+        "Titrand",
+        "Analyte",
+        "Primary standard"
+      ],
+      correct: 0,
+      explanation: "The 'Titrant' is the reagent of exactly known concentration added from a burette, while the 'Titrand' or 'Analyte' is the solution whose concentration is being determined.",
+      source: "Lectures_1-2.pdf - Page 6"
+    },
+    {
+      q: "The reaction (Ag+ + 2CN- -> [Ag(CN)2]-) is an example of which type of titrimetry?",
+      options: [
+        "Precipitation titration",
+        "Complexometric titration",
+        "Redox titration",
+        "Acid-base titration"
+      ],
+      correct: 1,
+      explanation: "This is a Complexometric titration because it is based on metal-ligand complexation. The silver ion (Ag+) reacts with two cyanide ligands (CN-) to form a soluble complex ion [Ag(CN)2]-.",
+      source: "Lectures_1-2.pdf - Page 8"
+    },
+    {
+      q: "Which of the following is NOT a requirement for a successful volumetric titrimetric reaction?",
+      options: [
+        "The reaction must be expressed by a simple chemical equation.",
+        "The reaction must be very rapid.",
+        "The reaction should allow for multiple side reactions.",
+        "There must be an ease of detection of the end point."
+      ],
+      correct: 2,
+      explanation: "A key requirement for a titrimetric reaction is that there should be NO side reactions. The reaction must be simple, rapid, stoichiometric, and have a clear end point.",
+      source: "Lectures_1-2.pdf - Page 9"
+    },
+    {
+      q: "The degree of agreement between replicate measurements of the same quantity is defined as:",
+      options: [
+        "Accuracy",
+        "End point",
+        "Titer",
+        "Precision"
+      ],
+      correct: 3,
+      explanation: "Precision refers to the reproducibility or agreement among replicate measurements. Accuracy, on the other hand, is the agreement between a measured value and the true or accepted value.",
+      source: "Lectures_1-2.pdf - Page 10"
+    },
+    {
+      q: "The theoretical concept representing the completence of a titration reaction is called the:",
+      options: [
+        "Titration error",
+        "Equivalence point",
+        "End point",
+        "Titer point"
+      ],
+      correct: 1,
+      explanation: "The Equivalence point is the exact theoretical point where the reaction is complete. The End point is the practical physical sign (like a color change) that we observe, and the difference between them is the titration error.",
+      source: "Lectures_1-2.pdf - Page 11"
+    },
+    {
+      q: "Which of the following is a vital characteristic of a primary standard substance?",
+      options: [
+        "Highly hygroscopic",
+        "Reacts stoichiometrically with other substances",
+        "Low equivalent weight to save material",
+        "Unstable and volatile in air"
+      ],
+      correct: 1,
+      explanation: "A primary standard must react stoichiometrically. It should also be non-hygroscopic, stable, highly pure, and have a HIGH equivalent weight to decrease weighing errors.",
+      source: "Lectures_1-2.pdf - Page 14"
+    },
+    {
+      q: "Which of the following substances is considered a Primary Standard?",
+      options: [
+        "Hydrated oxalic acid",
+        "Hydrochloric acid (HCl)",
+        "Sodium hydroxide (NaOH)",
+        "Anhydrous sodium carbonate (Na2CO3)"
+      ],
+      correct: 3,
+      explanation: "Anhydrous Na2CO3 is a stable primary standard. NaOH, HCl, and hydrated oxalic acid are secondary standards because they do not fulfill all primary standard requirements (e.g., NaOH is hygroscopic, HCl is volatile).",
+      source: "Lectures_1-2.pdf - Page 14-15"
+    },
+    {
+      q: "The process of determining the exact concentration of a secondary standard using a primary standard is called:",
+      options: [
+        "Standardization",
+        "Direct method formulation",
+        "Titer determination",
+        "Titration error calculation"
+      ],
+      correct: 0,
+      explanation: "Standardization is an indirect method used when a solute is not of primary standard quality. Its approximate concentration is determined exactly by titrating it against a true primary standard.",
+      source: "Lectures_1-2.pdf - Page 15-16"
+    },
+    {
+      q: "What is the equivalent weight (Eq.wt) of sulfuric acid (H2SO4) given its molecular weight (M.wt)?",
+      options: [
+        "M.wt / 1",
+        "M.wt * 2",
+        "M.wt / 2",
+        "M.wt / 3"
+      ],
+      correct: 2,
+      explanation: "The equivalent weight of an acid = Molecular weight / Number of replaceable H+ ions. Since H2SO4 has 2 replaceable protons, its Eq.wt = M.wt / 2.",
+      source: "Lectures_1-2.pdf - Page 18"
+    },
+    {
+      q: "What is the equivalent weight (Eq.wt) of Calcium hydroxide, Ca(OH)2?",
+      options: [
+        "M.wt / 3",
+        "M.wt / 2",
+        "M.wt / 1",
+        "M.wt / 4"
+      ],
+      correct: 1,
+      explanation: "The equivalent weight of a base = Molecular weight / Number of replaceable OH- ions. Calcium hydroxide Ca(OH)2 has 2 replaceable OH- groups, thus Eq.wt = M.wt / 2.",
+      source: "Lectures_1-2.pdf - Page 19"
+    },
+    {
+      q: "How is the equivalent weight (Eq.wt) of a salt like Na2CO3 calculated?",
+      options: [
+        "M.wt / 2",
+        "M.wt / 1",
+        "M.wt / 4",
+        "M.wt / 3"
+      ],
+      correct: 0,
+      explanation: "For salts, Eq.wt = Molecular weight / (Number of ions x valency). For Na2CO3, the number of Na ions is 2, and the valency of Na is 1 (or carbonate valency is 2). Thus, Eq.wt = M.wt / (1 x 2) = M.wt / 2.",
+      source: "Lectures_1-2.pdf - Page 20"
+    },
+    {
+      q: "The weight of a sample (analyte) that is chemically equivalent to 1 ml of the titrant is defined as the:",
+      options: [
+        "Molarity",
+        "ppm",
+        "Titer",
+        "Normality"
+      ],
+      correct: 2,
+      explanation: "The 'Titer' is a specific term defined as the weight of a sample (titrand/analyte) that is chemically equivalent to exactly 1 ml of the titrant, and is usually expressed in milligrams.",
+      source: "Lectures_1-2.pdf - Page 13"
+    },
+    {
+      q: "The concentration expression 'ppm' (parts per million) is equivalent to:",
+      options: [
+        "mg / Kg",
+        "mg / L",
+        "gm / 100 ml",
+        "ml / 100 ml"
+      ],
+      correct: 0,
+      explanation: "ppm stands for parts per million, which means 1 part per 1,000,000 parts. It is mathematically equivalent to mg / Kg (since 1 Kg = 1,000,000 mg).",
+      source: "Lectures_1-2.pdf - Page 22"
+    }
+  ]
+},
+
+
 
         };
 
