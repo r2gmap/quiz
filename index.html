@@ -727,13 +727,13 @@ footer {
   content: '';
   position: absolute;
   width: 56px; height: 56px; border-radius: 50%;
-  border: 2px solid rgba(10,218,241,0.2);
-  animation: bubblePing 3.5s ease-out infinite;
+  border: 2px solid rgba(10,218,241,0.4);
+  animation: bubblePing 2.5s ease-out infinite;
   pointer-events: none;
 }
 @keyframes bubblePing {
-  0%   { transform: scale(1); opacity: 0.35; }
-  100% { transform: scale(1.55); opacity: 0; }
+  0%   { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(1.65); opacity: 0; }
 }
 
 #chat-panel {
@@ -1002,7 +1002,7 @@ footer {
     <div id="chat-messages">
       <div class="chat-msg bot">
         <div class="chat-bubble-msg">
-            Tell Me What Is The Problem Or If You Have Suggestions.
+          اكتب شكوتك أو اقتراحك وهيتم تنفيذه إن  شاء الله | لو حاجة غير كدة وعايز نتواصل , ابعت وسيلة اتواصل بيها معاك
         </div>
       </div>
     </div>
@@ -1034,13 +1034,10 @@ themeToggle.addEventListener('click', () => {
     document.body.classList.contains('light-mode') ? 'fas fa-moon' : 'fas fa-sun';
 });
 
-// ── Falling papers (throttled — one every 600 ms, desktop / 900 ms mobile) ──
-const isMobile = window.innerWidth <= 650;
-const maxPapers = isMobile ? 8 : 18;
-const paperInterval = isMobile ? 900 : 600;
+// ── Falling papers (throttled — one every 600 ms, max 18 alive) ──
 let paperCount = 0;
 function createPaper() {
-  if (paperCount >= maxPapers) return;
+  if (paperCount >= 18) return;
   paperCount++;
   const paper = document.createElement('div');
   paper.className = 'falling-paper';
@@ -1050,7 +1047,8 @@ function createPaper() {
   document.body.appendChild(paper);
   setTimeout(() => { paper.remove(); paperCount--; }, duration * 1000);
 }
-setInterval(createPaper, paperInterval);
+// Pause papers on mobile to save battery/perf
+// if (window.innerWidth > 650) setInterval(createPaper, 600);
 
 // ── Typewriter ──
 const phrases = [
@@ -1115,7 +1113,7 @@ function showNotification(message, durationInSeconds = 5) {
   }, durationInSeconds * 1000);
 }
 
-showNotification("New Quizzes Available Now", 6);
+showNotification("New Update | Faster...Smoother..⚡", 7);
 
 // ── Rating Popup ──
 (function () {
@@ -1141,13 +1139,14 @@ showNotification("New Quizzes Available Now", 6);
     overlay.classList.remove('visible');
   }
 
-  // Check if submit should be enabled (stars required; suggestion optional)
+  // Check if submit should be enabled (stars + suggestion both required)
   function refreshSubmit() {
-    submitBtn.disabled = selectedRating === 0;
+    submitBtn.disabled = selectedRating === 0 || suggestion.value.trim() === '';
   }
 
   closeBtn.addEventListener('click', closePopup);
   overlay.addEventListener('click', e => { if (e.target === overlay) closePopup(); });
+  suggestion.addEventListener('input', refreshSubmit);
 
   // Star interaction — works on both mouse and touch
   stars.forEach(star => {
