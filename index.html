@@ -1143,7 +1143,7 @@ showNotification("New Quizzes Available Now", 6);
 
   // Check if submit should be enabled (stars + suggestion both required)
   function refreshSubmit() {
-    submitBtn.disabled = selectedRating === 0 || suggestion.value.trim() === '';
+    submitBtn.disabled = selectedRating === 0 || suggestion.value.trim().length < 3;
   }
 
   closeBtn.addEventListener('click', closePopup);
