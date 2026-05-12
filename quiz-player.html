@@ -393,7 +393,7 @@
         const quizDatabase = {
 
             
-  org6: {
+  "org6": {
     title: "Quiz VI",
     questions: [
       {
@@ -519,7 +519,7 @@
     ]
   },
             
-  org7: {
+  "org7": {
     title: "Quiz VII",
     questions: [
       {
@@ -767,7 +767,7 @@
   },
 
         
-  org8: {
+  "org8": {
     title: "َQuiz VIII",
     questions: [
       {
@@ -1013,345 +1013,1425 @@
     ]
   },
 
-    "ana5":{
-  title: "Quiz V",
-  questions: [
-    {
-      q: "According to Ostwald's theory of color indicators, what is the main reason for the color change of an indicator?",
-      options: [
-        "The color is due to the ionization process, where the un-dissociated molecule has a different color from its ion.",
-        "The color is due to the presence of unsaturated groups called chromophores.",
-        "The indicator reacts with the solvent to form a colored precipitate.",
-        "The indicator emits fluorescence when exposed to certain pH levels."
-      ],
-      correct: 0,
-      explanation: "Ostwald's theory states that indicators are weak organic acids or bases whose un-dissociated form exhibits one color, while its dissociated ions exhibit a completely different color. The shift in equilibrium (due to pH) causes the color change.",
-      source: "Lectures_1-2.pdf - Page 31"
-    },
-    {
-      q: "Based on the Chromophore theory, the pink color of phenolphthalein in an alkaline medium (pH 8.0 - 10.0) is attributed to the formation of which structure?",
-      options: [
-        "A benzenoid ring",
-        "An azo dye group",
-        "A quinonoid ring",
-        "A tribasic salt devoid of any rings"
-      ],
-      correct: 2,
-      explanation: "The Chromophore theory attributes color to specific unsaturated groups. In phenolphthalein, the alkaline medium causes structural rearrangement forming a quinonoid ring (chromophore), which is responsible for the pink color.",
-      source: "Lectures_1-2.pdf - Page 31-32"
-    },
-    {
-      q: "What is the primary characteristic of a 'Screened Indicator'?",
-      options: [
-        "It is a mixture of several indicators covering a wide pH range.",
-        "It is an organic compound that emits fluorescence.",
-        "It is a mixture of two indicators having similar pH ranges.",
-        "It is a mixture of an indicator and an inert dye to provide a sharper color change."
-      ],
-      correct: 3,
-      explanation: "A screened indicator combines a standard indicator with an inert dye (e.g., Methyl orange + Indigo carmine). The dye's background color modifies the indicator's colors, making the transition at the end point much sharper and easier to detect.",
-      source: "Lectures_1-2.pdf - Page 39"
-    },
-    {
-      q: "Which of the following describes the color transition and pH range of Methyl Orange (M.O.)?",
-      options: [
-        "Yellow in acidic and red in alkaline (pH 8.2-10.0)",
-        "Red in acidic and yellow in alkaline (pH 3.3-4.4)",
-        "Colorless in acidic and pink in alkaline (pH 8.2-10.0)",
-        "Blue in acidic and red in alkaline (pH 4.2-6.3)"
-      ],
-      correct: 1,
-      explanation: "Methyl orange operates in the acidic range (pH 3.3 to 4.4). It appears red in highly acidic solutions (quinonoid form) and turns yellow as the solution becomes less acidic/alkaline (benzenoid form).",
-      source: "Lectures_1-2.pdf - Page 37"
-    },
-    {
-      q: "What is the main purpose of constructing a neutralization titration curve?",
-      options: [
-        "To study the nature of the titration and help choose the most suitable indicator.",
-        "To calculate the exact theoretical weight of the analyte.",
-        "To determine the titration error analytically.",
-        "To measure the precision of the volumetric glassware used."
-      ],
-      correct: 0,
-      explanation: "A titration curve (pH vs. volume of titrant) visually demonstrates the rate of pH change. This helps analysts determine if the titration is feasible (a sharp pH jump exists) and allows them to choose an indicator whose transition range falls exactly within that jump.",
-      source: "Lectures_3-4.pdf - Page 3-4"
-    },
-    {
-      q: "In the titration of a Strong Acid with a Strong Base (e.g., 0.1N HCl vs 0.1N NaOH), what is the pH exactly at the equivalence point?",
-      options: [
-        "pH is slightly acidic (< 7.0)",
-        "pH is exactly equal to the pKa of the acid",
-        "pH is slightly basic (> 7.0)",
-        "pH is exactly neutral (7.0)"
-      ],
-      correct: 3,
-      explanation: "At the equivalence point of a strong acid and strong base titration, the resulting salt (e.g., NaCl) does not undergo hydrolysis. Therefore, the solution is perfectly neutral with a pH of 7.0.",
-      source: "Lectures_3-4.pdf - Page 9"
-    },
-    {
-      q: "Which indicator is most suitable for a Strong Acid - Strong Base titration?",
-      options: [
-        "Only Phenolphthalein",
-        "Only Methyl Orange",
-        "Any indicator with a color transition between pH 3.5 and 10.5",
-        "No visual indicator is suitable"
-      ],
-      correct: 2,
-      explanation: "Because a strong acid-strong base titration produces a very large and sudden pH jump near the equivalence point (roughly from pH 3.5 to 10.5), any indicator whose range falls within this wide interval (e.g., Ph.Ph., M.O., or Methyl Red) can be used accurately.",
-      source: "Lectures_3-4.pdf - Page 11"
-    },
-    {
-      q: "When titrating a Weak Acid with a Strong Base (e.g., Acetic acid vs NaOH), where does the equivalence point lie on the pH scale?",
-      options: [
-        "pH = 7.0",
-        "pH > 7.0 (alkaline)",
-        "pH < 7.0 (acidic)",
-        "pH equals exactly 14.0"
-      ],
-      correct: 1,
-      explanation: "At the equivalence point, the weak acid is completely neutralized into its salt (e.g., Sodium acetate). This salt of a weak acid and strong base hydrolyzes in water, yielding excess OH- ions, which makes the equivalence point alkaline (pH > 7).",
-      source: "Lectures_3-4.pdf - Page 17"
-    },
-    {
-      q: "Which indicator MUST be chosen for a Weak Acid - Strong Base titration?",
-      options: [
-        "Phenolphthalein (or similar basic indicator)",
-        "Methyl Orange",
-        "Methyl Red",
-        "Screened Methyl Orange"
-      ],
-      correct: 0,
-      explanation: "Since the sharp pH jump for this titration occurs entirely in the alkaline region (around pH 7.5 to 10.5), an indicator that changes color in this basic range must be used. Phenolphthalein (pH 8.2-10) is ideal. Methyl orange would change color far too early.",
-      source: "Lectures_3-4.pdf - Page 19-20"
-    },
-    {
-      q: "In the titration of a Weak Base with a Strong Acid (e.g., NH4OH vs HCl), what is the nature of the equivalence point?",
-      options: [
-        "pH = 7.0",
-        "pH equals exactly 0.0",
-        "pH > 7.0 (alkaline)",
-        "pH < 7.0 (acidic)"
-      ],
-      correct: 3,
-      explanation: "At the equivalence point, the salt formed (e.g., NH4Cl) is derived from a weak base and a strong acid. Hydrolysis of this salt produces H+ ions, rendering the solution acidic (pH < 7).",
-      source: "Lectures_3-4.pdf - Page 23-24"
-    },
-    {
-      q: "Which indicator is appropriate for a Weak Base - Strong Acid titration?",
-      options: [
-        "Phenolphthalein",
-        "Thymolphthalein",
-        "Methyl Orange or Methyl Red",
-        "Alizarin yellow"
-      ],
-      correct: 2,
-      explanation: "The sharp pH jump for this titration occurs in the acidic region (typically pH 6.5 down to 3.0). Therefore, an acidic indicator like Methyl Orange (3.3-4.4) or Methyl Red (4.2-6.3) must be used. Phenolphthalein would change color prematurely.",
-      source: "Lectures_3-4.pdf - Page 27-28"
-    },
-    {
-      q: "What is a major characteristic of a Weak Acid - Weak Base titration curve?",
-      options: [
-        "It uses Phenolphthalein perfectly due to a sharp pH jump.",
-        "It cannot be performed using simple visual indicators due to a very gradual pH change.",
-        "It is the most common titration in aqueous volumetric analysis.",
-        "It has a very sharp pH jump exactly at pH 7.0."
-      ],
-      correct: 1,
-      explanation: "The pH changes very slowly and gradually throughout a weak acid-weak base titration, without a sudden vertical jump at the equivalence point. Thus, no single simple color indicator can pinpoint the end point; instrumental methods or specific mixed indicators are needed.",
-      source: "Lectures_3-4.pdf - Page 29"
-    },
-    {
-      q: "Phosphoric acid (H3PO4) is a polyprotic acid. Which indicators are used to detect its first and second equivalence points respectively?",
-      options: [
-        "Methyl Orange for 1st end point, Phenolphthalein for 2nd end point",
-        "Phenolphthalein for 1st end point, Methyl Orange for 2nd end point",
-        "Both end points are detected using Methyl Orange",
-        "Both end points are detected using Phenolphthalein"
-      ],
-      correct: 0,
-      explanation: "H3PO4 ionizes in steps. The 1st proton is neutralized around pH 4.6, which aligns perfectly with the transition range of Methyl Orange. The 2nd proton is neutralized around pH 9.9, which matches the transition range of Phenolphthalein.",
-      source: "Lectures_3-4.pdf - Page 31-32"
-    },
-    {
-      q: "Why is it not feasible to directly titrate the third proton of Phosphoric acid (H3PO4) in an aqueous solution using a standard base?",
-      options: [
-        "Because it completely evaporates as a gas.",
-        "Because it is a strong acid proton.",
-        "Because it precipitates immediately with the base.",
-        "Because its dissociation constant is very small (pK3 is near to pKw)."
-      ],
-      correct: 3,
-      explanation: "The third proton of H3PO4 is extremely weakly dissociated (pK3 = 12.7). Because this value is very close to the dissociation constant of water (pKw = 14), there is no discernible pH break to detect an end point without modifying the solution (e.g., adding CaCl2).",
-      source: "Lectures_3-4.pdf - Page 31-32"
-    },
-    {
-      q: "What is the intended use of a Universal Indicator?",
-      options: [
-        "It is a mixture of an indicator and an inert dye for sharper end points.",
-        "It is the most accurate indicator for calculating exact titration end points.",
-        "It is a mixture of indicators covering a wide pH range used for rough pH determination.",
-        "It emits strong fluorescence at the equivalence point."
-      ],
-      correct: 2,
-      explanation: "A universal indicator blends several indicators to produce a continuous spectrum of colors across a wide pH range (from 1 to 14). It is excellent for estimating the approximate pH of a solution, but its gradual color shifts make it unsuitable for precise titrations.",
-      source: "Lectures_1-2.pdf - Page 41"
-    }
-  ]
-},
 
+  "ana2": {
+    title: "Quiz II",
+    questions: [
+      {
+        q: "What is biphasic titration carried out in?",
+        options: [
+          "Only an aqueous phase",
+          "Only an organic phase",
+          "A solid phase and a liquid phase",
+          "Two phases: aqueous and immiscible organic"
+        ],
+        correct: 3,
+        explanation: "Biphasic titration is performed in two phases: an aqueous phase and an immiscible organic phase (like ether) to extract water-insoluble products.",
+        source: "Lectures_5-6.pdf - Page 1-2"
+      },
+      {
+        q: "What is the ratio of solubility of salicylic acid in ether to that in water?",
+        options: [
+          "250:1",
+          "100:1",
+          "50:1",
+          "25:1"
+        ],
+        correct: 0,
+        explanation: "The file states that salicylic acid is much more soluble in ether than in water, with a solubility ratio of 250:1, which makes extraction into the organic phase highly efficient.",
+        source: "Lectures_5-6.pdf - Page 1"
+      },
+      {
+        q: "Why must salicylic acid be removed from the aqueous layer as soon as it is formed?",
+        options: [
+          "To increase the solubility of ether",
+          "To make the titrant stronger",
+          "To prevent a false and early end point",
+          "To change the indicator from blue to red"
+        ],
+        correct: 2,
+        explanation: "If salicylic acid remains in the aqueous layer, it affects the indicator (bromophenol blue) prematurely, causing a false and early end point.",
+        source: "Lectures_5-6.pdf - Page 2"
+      },
+      {
+        q: "Which indicator is used for the biphasic titration of sodium salicylate with HCl?",
+        options: [
+          "Bromophenol blue",
+          "Methyl red",
+          "Phenolphthalein",
+          "Methyl orange"
+        ],
+        correct: 0,
+        explanation: "Bromophenol blue is the specific indicator used for sodium salicylate biphasic titration. It changes from blue (basic) to pale green (acidic) at the end point.",
+        source: "Lectures_5-6.pdf - Page 2-3"
+      },
+      {
+        q: "A blank determination is mainly done to:",
+        options: [
+          "Avoid using a standard solution",
+          "Determine titration error",
+          "Change the pH of the sample",
+          "Measure the color of the sample"
+        ],
+        correct: 1,
+        explanation: "Blank determination is done to determine the exact 'titration error' under the conditions of the assay, allowing for accurate corrections in the final calculation.",
+        source: "Lectures_5-6.pdf - Page 4-5"
+      },
+      {
+        q: "What is the ideal value of the blank experiment (B) assuming a 25 ml known excess of standard is used with no error?",
+        options: [
+          "10 mL",
+          "25 mL",
+          "20 mL",
+          "15 mL"
+        ],
+        correct: 1,
+        explanation: "The ideal value of the blank experiment would be exactly the volume of the standard added (25 mL) if there is absolutely no titration error.",
+        source: "Lectures_5-6.pdf - Page 5"
+      },
+      {
+        q: "In back titration, the volume of standard equivalent to the sample is calculated as:",
+        options: [
+          "B - V",
+          "V - B",
+          "B + V",
+          "B × V"
+        ],
+        correct: 0,
+        explanation: "The volume equivalent to the sample is calculated by subtracting the volume of standard used in the back titration (V) from the blank determination volume (B).",
+        source: "Lectures_5-6.pdf - Page 5"
+      },
+      {
+        q: "Residual titration is used when direct titration is not suitable for:",
+        options: [
+          "Only colored substances",
+          "Volatile, insoluble, or slowly reacting substances",
+          "Only neutral salts",
+          "Only very pure samples"
+        ],
+        correct: 1,
+        explanation: "Residual (back) titration is necessary for volatile substances (to avoid loss), insoluble substances, or substances that require heating to complete the reaction.",
+        source: "Lectures_5-6.pdf - Page 3"
+      },
+      {
+        q: "In the residual titration of ammonium chloride, the sample is boiled with a known excess of:",
+        options: [
+          "Standard NaOH",
+          "EDTA",
+          "AgNO3",
+          "Standard HCl"
+        ],
+        correct: 0,
+        explanation: "Ammonium chloride is boiled with a known excess of standard NaOH to evolve ammonia gas, then the residual NaOH is back titrated with standard HCl.",
+        source: "Lectures_5-6.pdf - Page 3 & 6"
+      },
+      {
+        q: "Formol titration of ammonium salts is considered:",
+        options: [
+          "A precipitation titration",
+          "A direct titration",
+          "A redox titration",
+          "An indirect titration, not residual"
+        ],
+        correct: 3,
+        explanation: "Formol titration is an indirect titration, not a residual one, because there is no known excess standard added to be back titrated. The sample is modified to release an equivalent amount of an acid/base that can be titrated.",
+        source: "Lectures_5-6.pdf - Page 7 (Lecture 6)"
+      },
+      {
+        q: "The formol reaction principle can also be applied to indirectly determine:",
+        options: [
+          "Glucose",
+          "Sodium chloride",
+          "Formaldehyde",
+          "Aspirin"
+        ],
+        correct: 2,
+        explanation: "The same reaction between ammonium chloride and formaldehyde can be reversed in application to determine the concentration of formaldehyde.",
+        source: "Lectures_5-6.pdf - Page 7 (Lecture 6)"
+      },
+      {
+        q: "In the indirect titration of mercuric oxide, HgO is first treated with KI to liberate:",
+        options: [
+          "KOH",
+          "KCl",
+          "HCl",
+          "NaOH"
+        ],
+        correct: 0,
+        explanation: "HgO reacts with KI and water to form a complex and liberate an equivalent amount of KOH, which is then directly titrated with standard HCl.",
+        source: "Lectures_5-6.pdf - Page 7 (Lecture 6)"
+      },
+      {
+        q: "In the indirect titration of aldehydes and ketones with hydroxylamine HCl, the liberated substance that is titrated is:",
+        options: [
+          "Ag+",
+          "NH3",
+          "HCl",
+          "Na2CO3"
+        ],
+        correct: 2,
+        explanation: "Aldehydes and ketones react with hydroxylamine hydrochloride to form an oxime, liberating an equivalent amount of HCl, which is then titrated with standard NaOH.",
+        source: "Lectures_5-6.pdf - Page 8 (Lecture 6)"
+      },
+      {
+        q: "For ZnO determination by residual titration, the sample is dissolved in a known excess of:",
+        options: [
+          "Standard NaOH",
+          "Standard NH4OH",
+          "Standard AgNO3",
+          "Standard HCl"
+        ],
+        correct: 3,
+        explanation: "Insoluble ZnO is dissolved in a known excess of standard HCl, and the residual unreacted HCl is back titrated with standard NaOH.",
+        source: "Lectures_5-6.pdf - Page 8 (Lecture 5)"
+      },
+      {
+        q: "Why is the mixture boiled during the residual titration of CaCO3?",
+        options: [
+          "To remove CO2",
+          "To produce NH3",
+          "To increase its mass",
+          "To destroy the indicator"
+        ],
+        correct: 0,
+        explanation: "Boiling removes the dissolved CO2 (which acts as carbonic acid) so it does not interfere with the subsequent back titration of the residual HCl with NaOH.",
+        source: "Lectures_5-6.pdf - Page 8 (Lecture 5)"
+      },
+      {
+        q: "In the residual titration of a mixture of CaO and CaCO3, the sample is first treated with:",
+        options: [
+          "Known excess standard NaOH",
+          "Known excess KI",
+          "Known excess standard HCl",
+          "Known excess EDTA"
+        ],
+        correct: 2,
+        explanation: "The mixture is treated with known excess standard HCl to dissolve both CaO and CaCO3, then the residual acid is back titrated.",
+        source: "Lectures_5-6.pdf - Page 9 (Lecture 5)"
+      },
+      {
+        q: "How is a soluble neutral salt like Barium chloride (BaCl2) determined via back titration?",
+        options: [
+          "By direct titration with NaOH",
+          "By precipitation with AgNO3",
+          "By using EDTA only",
+          "By adding excess Na2CO3 and back titrating the residual carbonate"
+        ],
+        correct: 3,
+        explanation: "BaCl2 is treated with a known excess of standard Na2CO3 to precipitate BaCO3. The solution is boiled, cooled, and the residual Na2CO3 is back titrated with standard HCl.",
+        source: "Lectures_5-6.pdf - Page 10 (Lecture 5)"
+      },
+      {
+        q: "Why is Aspirin (Acetylsalicylic acid) determined by residual titration?",
+        options: [
+          "Because it is a neutral gas",
+          "Because it is an ester and is refluxed with excess NaOH",
+          "Because it is too volatile",
+          "Because it is insoluble in ether only"
+        ],
+        correct: 1,
+        explanation: "Aspirin contains an ester group that requires heating (refluxing) with a known excess of standard NaOH for complete saponification/hydrolysis. The residual alkali is then back titrated with HCl.",
+        source: "Lectures_5-6.pdf - Page 11 (Lecture 5)"
+      },
+      {
+        q: "Why is CaO direct titration often carried out in a sucrose solution?",
+        options: [
+          "Because sucrose neutralizes CaO",
+          "Because sucrose acts as the indicator",
+          "Because it makes CaO acidic",
+          "Because CaO becomes more soluble and the solution remains alkaline to phenolphthalein"
+        ],
+        correct: 3,
+        explanation: "CaO is more soluble in a sucrose solution than in plain water, forming calcium saccharate, which retains the equivalent alkalinity needed to be titrated directly with HCl using phenolphthalein.",
+        source: "Lectures_5-6.pdf - Page 9 (Lecture 5)"
+      },
+      {
+        q: "When analyzing a Na2CO3 / NaHCO3 mixture from the same sample using two indicators, the volume of HCl equivalent to bicarbonate is calculated as:",
+        options: [
+          "V1 + V2",
+          "V2 - 2V1",
+          "V1 - 2V2",
+          "2V2 - V1"
+        ],
+        correct: 1,
+        explanation: "V1 (with Ph.Ph.) corresponds to half the carbonate. V2 (with M.O.) corresponds to half the carbonate plus all the bicarbonate. Thus, the total carbonate is 2V1, and bicarbonate = V2 - 2V1.",
+        source: "Lectures_3-4.pdf - Page 21 (Lecture 4)"
+      }
+    ]
+  },
+  ana3: {
+    title: "Quiz III",
+    questions: [
+      {
+        q: "In biphasic titration of sodium salicylate, the ratio of solubility of salicylic acid in ether to that in water is:",
+        options: [
+          "25:1",
+          "100:1",
+          "250:1",
+          "500:1"
+        ],
+        correct: 2,
+        explanation: "The file states that salicylic acid is much more soluble in ether than in water, with a ratio of 250:1.",
+        source: "Lecture 5, Biphasic titrations"
+      },
+      {
+        q: "Why must salicylic acid be removed from the aqueous layer as soon as it is formed during biphasic titration?",
+        options: [
+          "To avoid loss of indicator",
+          "To prevent a false and early end point",
+          "To increase the pH of ether",
+          "To make the solution neutral"
+        ],
+        correct: 1,
+        explanation: "If salicylic acid remains in the aqueous layer, it can change the indicator color too early and give a false end point.",
+        source: "Lecture 5, Biphasic titrations"
+      },
+      {
+        q: "Which indicator is used in the titration of sodium salicylate with HCl in ether?",
+        options: [
+          "Methyl orange",
+          "Phenolphthalein",
+          "Bromophenol blue",
+          "Methyl red"
+        ],
+        correct: 2,
+        explanation: "The file specifically mentions bromophenol blue for sodium salicylate biphasic titration.",
+        source: "Lecture 5, Biphasic titrations"
+      },
+      {
+        q: "A blank determination is mainly done to:",
+        options: [
+          "Measure the purity of the solvent",
+          "Determine any titration error",
+          "Replace the indicator",
+          "Increase the concentration of the sample"
+        ],
+        correct: 1,
+        explanation: "Blank determination is used to determine titration error and to correct the calculation.",
+        source: "Lecture 5, Blank determination"
+      },
+      {
+        q: "In back titration, the volume of standard equivalent to the sample is usually calculated as:",
+        options: [
+          "V + B",
+          "B - V",
+          "V - B",
+          "B × V"
+        ],
+        correct: 1,
+        explanation: "The file states that the sample volume is calculated as B - V.",
+        source: "Lecture 5, Blank determination"
+      },
+      {
+        q: "What is the ideal volume of the blank experiment in the file's example?",
+        options: [
+          "10 mL",
+          "20 mL",
+          "25 mL",
+          "50 mL"
+        ],
+        correct: 2,
+        explanation: "The ideal blank value given in the file is 25 mL.",
+        source: "Lecture 5, Blank determination"
+      },
+      {
+        q: "In the residual titration method for ammonium chloride, the sample is boiled with:",
+        options: [
+          "Excess standard NaOH",
+          "Excess standard HCl",
+          "Excess EDTA",
+          "Excess AgNO3"
+        ],
+        correct: 0,
+        explanation: "Ammonium chloride is boiled with a known excess of standard NaOH, then the excess is back titrated.",
+        source: "Lecture 5, Residual titration of ammonium salts"
+      },
+      {
+        q: "Formol titration of ammonium salts is considered:",
+        options: [
+          "A residual titration",
+          "An indirect titration, not a residual titration",
+          "A precipitation titration",
+          "A redox titration"
+        ],
+        correct: 1,
+        explanation: "The file says formol titration is indirect and not residual because no known excess standard is added and back titrated.",
+        source: "Lecture 5, Formol titration"
+      },
+      {
+        q: "Which substance is also analyzed by the same formol reaction mentioned in the file?",
+        options: [
+          "Formaldehyde",
+          "Glucose",
+          "Benzoic acid",
+          "Sodium chloride"
+        ],
+        correct: 0,
+        explanation: "The file states that the same reaction can be applied for the determination of formaldehyde.",
+        source: "Lecture 6, Formol titration"
+      },
+      {
+        q: "In the indirect titration of mercuric oxide, HgO is first treated with KI to produce:",
+        options: [
+          "KCl",
+          "KOH",
+          "K2SO4",
+          "NH4OH"
+        ],
+        correct: 1,
+        explanation: "HgO reacts with KI and water to form potassium mercuric iodide and an equivalent amount of KOH.",
+        source: "Lecture 6, Mercuric oxide"
+      },
+      {
+        q: "In the indirect titration of aldehydes and ketones, the liberated substance that is titrated is:",
+        options: [
+          "NH3",
+          "HCl",
+          "KOH",
+          "Ag+"
+        ],
+        correct: 1,
+        explanation: "Aldehydes and ketones react with hydroxylamine hydrochloride and liberate HCl, which is titrated with NaOH.",
+        source: "Lecture 6, Aldehydes and ketones"
+      },
+      {
+        q: "Which of the following is a valid residual titration application for insoluble salts?",
+        options: [
+          "Barium chloride",
+          "Ethanol",
+          "Acetone",
+          "Glucose"
+        ],
+        correct: 0,
+        explanation: "Barium chloride is listed as a soluble salt determined by residual titration.",
+        source: "Lecture 5, Residual titrations"
+      },
+      {
+        q: "In the determination of barium chloride, the sample is first treated with excess:",
+        options: [
+          "NaOH",
+          "HCl",
+          "Na2CO3",
+          "NH4SCN"
+        ],
+        correct: 2,
+        explanation: "BaCl2 is treated with excess standard sodium carbonate to precipitate barium carbonate.",
+        source: "Lecture 5, Determination of barium chloride"
+      },
+      {
+        q: "Why is calcium oxide dissolved in sucrose solution for direct titration?",
+        options: [
+          "Because sucrose makes it acidic",
+          "Because it becomes more soluble and remains alkaline to phenolphthalein",
+          "Because it forms a red complex",
+          "Because it prevents back titration"
+        ],
+        correct: 1,
+        explanation: "The file states that CaO is more soluble in sucrose solution and the resulting calcium saccharate is still alkaline to phenolphthalein.",
+        source: "Lecture 5, Calcium oxide direct titration"
+      },
+      {
+        q: "Which pair is listed as an application of neutralization titration?",
+        options: [
+          "Determination of borax and mixture of borax and boric acid",
+          "Determination of glucose and lactose",
+          "Determination of proteins and peptides",
+          "Determination of ethanol and acetone"
+        ],
+        correct: 0,
+        explanation: "The file lists determination of borax and determination of a mixture of borax and boric acid as applications.",
+        source: "Lecture 4, Application of neutralization titration"
+      },
+      {
+        q: "If Ka or Kb is less than 10^-7, the acid or base is considered:",
+        options: [
+          "Strong and directly titratable",
+          "Weak and cannot be determined directly",
+          "Neutral and insoluble",
+          "Buffered and nonreactive"
+        ],
+        correct: 1,
+        explanation: "The file states that if Ka or Kb is less than 10^-7, the substance is weak and cannot be determined directly.",
+        source: "Lecture 4, Direct titration of acids and bases"
+      },
+      {
+        q: "Which acids are titrated against NaOH using phenolphthalein or methyl orange?",
+        options: [
+          "Only weak acids",
+          "Only acids insoluble in water",
+          "Strong acids",
+          "Only aromatic acids"
+        ],
+        correct: 2,
+        explanation: "Strong acids are titrated against NaOH using phenolphthalein or methyl orange.",
+        source: "Lecture 4, Direct titration of acids and bases"
+      },
+      {
+        q: "Weak acids such as acetic acid are titrated against NaOH using:",
+        options: [
+          "Methyl orange only",
+          "Phenolphthalein, not methyl orange",
+          "Universal indicator",
+          "No indicator"
+        ],
+        correct: 1,
+        explanation: "Weak acids are titrated against NaOH using phenolphthalein, not methyl orange.",
+        source: "Lecture 4, Direct titration of acids and bases"
+      },
+      {
+        q: "Benzoic acid, which is insoluble in water, should be dissolved in:",
+        options: [
+          "Strong acid",
+          "Neutral ethanol",
+          "Acetone with HCl",
+          "Pure water"
+        ],
+        correct: 1,
+        explanation: "The file states that benzoic acid should be dissolved in neutral ethanol before titration.",
+        source: "Lecture 4, Direct titration of acids and bases"
+      },
+      {
+        q: "Why is glycerol added in the titration of boric acid?",
+        options: [
+          "To reduce the solubility of NaOH",
+          "To make the solution strongly alkaline",
+          "To enhance the acidity of boric acid",
+          "To destroy the indicator"
+        ],
+        correct: 2,
+        explanation: "Boric acid is very weak, so glycerol is added to enhance its acidity.",
+        source: "Lecture 4, Direct titration of acids and bases"
+      },
+      {
+        q: "Which bases are titrated with standard acids using methyl orange or phenolphthalein?",
+        options: [
+          "Strong bases",
+          "Weak bases",
+          "Only amphoteric bases",
+          "Only salt solutions"
+        ],
+        correct: 0,
+        explanation: "Strong bases such as NaOH, KOH, and Ba(OH)2 are titrated with standard acids using M.O. or ph.ph.",
+        source: "Lecture 4, Direct titration of acids and bases"
+      },
+      {
+        q: "Weak bases are titrated against HCl using:",
+        options: [
+          "Phenolphthalein only",
+          "Methyl orange or methyl red",
+          "Universal indicator",
+          "No indicator at all"
+        ],
+        correct: 1,
+        explanation: "Weak bases are titrated with HCl using methyl orange or methyl red, not phenolphthalein.",
+        source: "Lecture 4, Direct titration of acids and bases"
+      },
+      {
+        q: "Double indicator titration is used for the titration of:",
+        options: [
+          "Only strong monoprotic acids",
+          "Only bases with one endpoint",
+          "Diprotic acids, polyprotic acids, and mixtures of two monobasic acids",
+          "Only neutral salts"
+        ],
+        correct: 2,
+        explanation: "The file lists diprotic acids, polyprotic acids, and mixtures of two monobasic acids as uses of double indicator titration.",
+        source: "Lecture 4, Double indicator titration"
+      },
+      {
+        q: "A required condition for double indicator titration is that the ratio of ionization constants must be at least:",
+        options: [
+          "10^2",
+          "10^3",
+          "10^4",
+          "10^6"
+        ],
+        correct: 2,
+        explanation: "The file states that Ka1/Ka2 must be at least 10^4 for separate inflections to be observed.",
+        source: "Lecture 4, Double indicator titration"
+      },
+      {
+        q: "The pH at the first equivalence point of a diprotic acid titration is:",
+        options: [
+          "1/2(pK1 + pK2)",
+          "pK1 - pK2",
+          "pKw - pK1",
+          "pH = 7"
+        ],
+        correct: 0,
+        explanation: "The first equivalence point is given as pH = 1/2(pK1 + pK2).",
+        source: "Lecture 4, Double indicator titration"
+      },
+      {
+        q: "Why can the third proton of phosphoric acid not be determined directly?",
+        options: [
+          "Because it is completely absent",
+          "Because pK3 is very near to pKw and Ka3 is very small",
+          "Because it is too strong",
+          "Because it reacts only with indicators"
+        ],
+        correct: 1,
+        explanation: "The file says the third proton is very weakly dissociated, so it cannot be determined directly.",
+        source: "Lecture 4, Polyprotic acid titration"
+      },
+      {
+        q: "In the titration of sodium carbonate with a double indicator, the first endpoint corresponds to:",
+        options: [
+          "Complete neutralization to CO2 and water",
+          "Half neutralization to sodium bicarbonate",
+          "Formation of sodium chloride only",
+          "No reaction"
+        ],
+        correct: 1,
+        explanation: "The first inflection corresponds to Na2CO3 changing to NaHCO3.",
+        source: "Lecture 4, Titration of sodium carbonate"
+      },
+      {
+        q: "Which indicator is used for the second endpoint in sodium carbonate titration?",
+        options: [
+          "Phenolphthalein",
+          "Methyl orange",
+          "Universal indicator",
+          "Fluorescein"
+        ],
+        correct: 1,
+        explanation: "The second endpoint for sodium carbonate titration is detected with methyl orange.",
+        source: "Lecture 4, Titration of sodium carbonate"
+      },
+      {
+        q: "In a Na2CO3 / NaHCO3 mixture, the bicarbonate content in the same sample method is calculated as:",
+        options: [
+          "V1 + V2",
+          "V2 - 2V1",
+          "2V1 - V2",
+          "V1 / V2"
+        ],
+        correct: 1,
+        explanation: "The file states that the volume equivalent to bicarbonate is V2 - 2V1.",
+        source: "Lecture 4, Determination of Na2CO3 / NaHCO3 mixture"
+      },
+      {
+        q: "What is the purpose of a blank determination in titration?",
+        options: [
+          "To increase the sample weight",
+          "To determine the color of the sample",
+          "To determine titration error",
+          "To replace the indicator"
+        ],
+        correct: 2,
+        explanation: "The file says blank determination is done to determine titration error.",
+        source: "Lecture 4, Blank determination"
+      },
+      {
+        q: "In the residual titration method for ammonium chloride, the sample is first treated with:",
+        options: [
+          "Excess standard NaOH",
+          "Excess standard HCl",
+          "Only water",
+          "Ether"
+        ],
+        correct: 0,
+        explanation: "Ammonium chloride is boiled with a known excess of standard NaOH, then the excess is back titrated.",
+        source: "Lecture 4, Residual titration application"
+      },
+      {
+        q: "Formol titration is considered an indirect titration because:",
+        options: [
+          "It always uses ether",
+          "No known excess standard is added and back titrated",
+          "It never forms an acid",
+          "It uses only phenolphthalein"
+        ],
+        correct: 1,
+        explanation: "The file explicitly says formol titration is not a residual titration because no known excess standard is added and back titrated.",
+        source: "Lecture 6, Indirect titration"
+      },
+      {
+        q: "How is zinc oxide determined by residual titration?",
+        options: [
+          "By direct titration with NaOH only",
+          "By dissolving it in excess standard HCl and back titrating the residual acid with NaOH",
+          "By extracting it into ether",
+          "By using a universal indicator"
+        ],
+        correct: 1,
+        explanation: "Zinc oxide is dissolved in excess HCl, and the residual HCl is back titrated with NaOH.",
+        source: "Lecture 6, Residual titration applications"
+      },
+      {
+        q: "Why is a CaCO3 sample boiled during residual titration?",
+        options: [
+          "To evaporate the indicator",
+          "To remove CO2",
+          "To make the solution neutral",
+          "To form ether-soluble products"
+        ],
+        correct: 1,
+        explanation: "The file states that the mixture is boiled to remove CO2.",
+        source: "Lecture 6, Residual titration applications"
+      },
+      {
+        q: "In the determination of barium chloride, the sample is first treated with:",
+        options: [
+          "Excess standard Na2CO3",
+          "Excess standard NaOH",
+          "Excess ether",
+          "Excess formaldehyde"
+        ],
+        correct: 0,
+        explanation: "Barium chloride is determined by adding a known excess of standard sodium carbonate to precipitate barium carbonate.",
+        source: "Lecture 6, Residual titration applications"
+      },
+      {
+        q: "In the determination of aspirin by residual titration, the sample is refluxed with:",
+        options: [
+          "Excess standard NaOH",
+          "Excess standard HCl",
+          "Excess standard NH4OH",
+          "Excess iodine"
+        ],
+        correct: 0,
+        explanation: "Aspirin is refluxed with a known excess of standard NaOH, then the residual NaOH is back titrated with HCl.",
+        source: "Lecture 6, Residual titration applications"
+      },
+      {
+        q: "Biphasic titration of sodium salicylate is carried out in a separating funnel containing:",
+        options: [
+          "Chloroform",
+          "Acetone",
+          "Ether",
+          "Water only"
+        ],
+        correct: 2,
+        explanation: "The file states that biphasic titration is carried out in a separating funnel containing ether.",
+        source: "Lecture 5, Biphasic titrations"
+      },
+      {
+        q: "Why must salicylic acid be removed from the aqueous layer during biphasic titration?",
+        options: [
+          "To speed up evaporation",
+          "To avoid a false and early end point",
+          "To stop the indicator from dissolving",
+          "To increase precipitation"
+        ],
+        correct: 1,
+        explanation: "The file explains that salicylic acid must be removed by ether so it does not cause a false early end point.",
+        source: "Lecture 5, Biphasic titrations"
+      },
+      {
+        q: "The titration of sodium carbonate with HCl gives how many endpoints in the double indicator method?",
+        options: [
+          "One endpoint",
+          "Two endpoints",
+          "Three endpoints",
+          "No endpoint"
+        ],
+        correct: 1,
+        explanation: "Sodium carbonate is titrated in two steps, so two endpoints are observed.",
+        source: "Lecture 4, Titration of sodium carbonate"
+      }
+    ]
+  },
+  ana4: {
+    title: "Quiz IV",
+    questions: [
+      {
+        q: "What is the main aim of quantitative analysis?",
+        options: [
+          "To determine the quantity and purity of the sample",
+          "To identify only the color of the sample",
+          "To change the sample into a precipitate",
+          "To measure only the temperature of the sample"
+        ],
+        correct: 0,
+        explanation: "Quantitative analysis is used to determine both the amount and the purity of a sample.",
+        source: "Lecture 1, p. 4"
+      },
+      {
+        q: "Which sample size category corresponds to 10–100 mg?",
+        options: [
+          "Micro-analysis",
+          "Macro-analysis",
+          "Ultra-micro analysis",
+          "Semi-micro analysis"
+        ],
+        correct: 3,
+        explanation: "The file classifies 10–100 mg samples as semi-micro analysis.",
+        source: "Lecture 1, p. 4"
+      },
+      {
+        q: "In volumetric analysis, what is the solution of known concentration called?",
+        options: [
+          "Titrant",
+          "Analyte",
+          "End point",
+          "Indicator"
+        ],
+        correct: 0,
+        explanation: "The titrant is the solution of known concentration that is added during the titration.",
+        source: "Lecture 1, p. 6"
+      },
+      {
+        q: "Which set contains the four reaction types of volumetric analysis listed in the file?",
+        options: [
+          "Acid-base, oxidation, extraction, adsorption",
+          "Acid-base, complexometric, precipitation, redox",
+          "Hydrolysis, precipitation, chromatography, redox",
+          "Neutralization, partition, mixing, oxidation"
+        ],
+        correct: 1,
+        explanation: "The file divides volumetric analysis into acid-base, complexometric, precipitation, and redox titrations.",
+        source: "Lecture 1, p. 7"
+      },
+      {
+        q: "Which is NOT a requirement for a titrimetric reaction?",
+        options: [
+          "A simple reaction expressed by a chemical equation",
+          "No side reaction",
+          "Very rapid reaction",
+          "A slow reaction that takes a long time"
+        ],
+        correct: 3,
+        explanation: "A titrimetric reaction should be rapid, not slow.",
+        source: "Lecture 1, p. 8"
+      },
+      {
+        q: "Which of the following is listed as a source of titration error?",
+        options: [
+          "Use of wrong indicators",
+          "Correct weighing",
+          "Proper mixing",
+          "Accurate calibration"
+        ],
+        correct: 0,
+        explanation: "Using the wrong indicator is one of the sources of error in titrimetry.",
+        source: "Lecture 1, p. 9"
+      },
+      {
+        q: "What is the meaning of accuracy?",
+        options: [
+          "Agreement between repeated measurements",
+          "Agreement between a measured value and the accepted true value",
+          "The speed of an analysis",
+          "The size of the sample"
+        ],
+        correct: 1,
+        explanation: "Accuracy compares the measured value with the true value.",
+        source: "Lecture 1, p. 10"
+      },
+      {
+        q: "What is an analyte?",
+        options: [
+          "A dye used to detect the end point",
+          "A solution of exact known concentration",
+          "The constituent of the sample studied quantitatively",
+          "A glass apparatus used in titration"
+        ],
+        correct: 2,
+        explanation: "The analyte is the substance in the sample being measured or studied.",
+        source: "Lecture 1, p. 10"
+      },
+      {
+        q: "Which statement about a primary standard is correct?",
+        options: [
+          "It is highly pure, stable, and non-hygroscopic",
+          "It must always be colored",
+          "It is never soluble in water",
+          "It is a solution of unknown concentration"
+        ],
+        correct: 0,
+        explanation: "Primary standards are highly pure, stable, and suitable for direct preparation of standard solutions.",
+        source: "Lecture 1, p. 16"
+      },
+      {
+        q: "Which is an example of a secondary standard?",
+        options: [
+          "Anhydrous Na2CO3",
+          "Benzoic acid",
+          "Potassium acid phthalate",
+          "NaOH"
+        ],
+        correct: 3,
+        explanation: "NaOH is listed as a secondary standard and needs standardization against a primary standard.",
+        source: "Lecture 1, p. 17"
+      },
+      {
+        q: "How is a standard solution prepared by the direct method?",
+        options: [
+          "By adding an unknown amount of solute to water",
+          "By accurately weighing the solute and making up to volume in a volumetric flask",
+          "By titrating against any acid or base",
+          "By heating the solute until it dissolves"
+        ],
+        correct: 1,
+        explanation: "The direct method uses an accurately weighed amount of solute made up to the required volume.",
+        source: "Lecture 1, p. 18"
+      },
+      {
+        q: "The equivalent weight of an acid is equal to:",
+        options: [
+          "Molecular weight divided by number of replaceable H+",
+          "Molecular weight multiplied by number of replaceable H+",
+          "Molecular weight divided by number of OH-",
+          "Molecular weight minus number of ions"
+        ],
+        correct: 0,
+        explanation: "For acids, equivalent weight = molecular weight / number of replaceable H+ ions.",
+        source: "Lecture 1, p. 12"
+      },
+      {
+        q: "The equivalent weight of a base is equal to:",
+        options: [
+          "Molecular weight divided by number of ions",
+          "Molecular weight divided by number of acidic protons",
+          "Molecular weight multiplied by valency",
+          "Molecular weight divided by number of replaceable OH-"
+        ],
+        correct: 3,
+        explanation: "For bases, equivalent weight = molecular weight / number of replaceable OH- ions.",
+        source: "Lecture 1, p. 13"
+      },
+      {
+        q: "The equivalent weight of a salt is calculated by:",
+        options: [
+          "Molecular weight divided by number of replaceable H+",
+          "Molecular weight divided by number of ions × valency",
+          "Molecular weight multiplied by number of ions",
+          "Molecular weight minus valency"
+        ],
+        correct: 1,
+        explanation: "The file gives the formula for salts as molecular weight / number of ions × valency.",
+        source: "Lecture 1, p. 13"
+      },
+      {
+        q: "Solutions having the same normality react together in:",
+        options: [
+          "Different volumes",
+          "No volume relation",
+          "Equal volumes",
+          "Only after heating"
+        ],
+        correct: 2,
+        explanation: "The file states that solutions with the same normality react in equal volumes.",
+        source: "Lecture 1, p. 13"
+      },
+      {
+        q: "What is titer?",
+        options: [
+          "The volume of sample used in titration",
+          "The color change of the indicator",
+          "The error between end point and equivalence point",
+          "The weight of sample chemically equivalent to 1 mL of titrant"
+        ],
+        correct: 3,
+        explanation: "Titer is the mass of analyte equivalent to 1 mL of titrant, usually in mg/mL.",
+        source: "Lecture 1, p. 15"
+      },
+      {
+        q: "According to Arrhenius theory, an acid is a substance that:",
+        options: [
+          "Accepts a proton",
+          "Donates electrons",
+          "Gives OH- in water",
+          "Ionizes to give H+"
+        ],
+        correct: 3,
+        explanation: "Arrhenius acids ionize to give H+, while bases give OH-.",
+        source: "Lecture 2, p. 24"
+      },
+      {
+        q: "According to Brønsted-Lowry theory, a base is a substance that:",
+        options: [
+          "Donates H+",
+          "Accepts H+",
+          "Gives OH- only",
+          "Accepts electrons only"
+        ],
+        correct: 1,
+        explanation: "Brønsted-Lowry bases are proton acceptors.",
+        source: "Lecture 2, p. 25"
+      },
+      {
+        q: "According to Lewis theory, a base is a substance that:",
+        options: [
+          "Donates electrons",
+          "Donates protons",
+          "Accepts electrons",
+          "Produces H+ only"
+        ],
+        correct: 0,
+        explanation: "Lewis bases donate an electron pair, while Lewis acids accept it.",
+        source: "Lecture 2, p. 27"
+      },
+      {
+        q: "What is the ion product of water at 25°C?",
+        options: [
+          "1.0 × 10^-14",
+          "1.0 × 10^-7",
+          "7.0",
+          "14.0"
+        ],
+        correct: 0,
+        explanation: "The file gives Kw = [H+][OH-] = 1.0 × 10^-14.",
+        source: "Lecture 2, p. 28"
+      },
+      {
+        q: "What is the pH of 0.1N HCl?",
+        options: [
+          "7",
+          "13",
+          "2",
+          "1"
+        ],
+        correct: 3,
+        explanation: "A 0.1N strong acid is assumed fully dissociated, so pH = 1.",
+        source: "Lecture 2, p. 30"
+      },
+      {
+        q: "For a weak acid, the pH is approximately:",
+        options: [
+          "pH = pKw - pKb",
+          "pH = 1/2 pKa + 1/2 pCa",
+          "pH = pKa - pCa",
+          "pH = 14 - pH"
+        ],
+        correct: 1,
+        explanation: "The file gives the weak acid formula as pH = 1/2 pKa + 1/2 pCa.",
+        source: "Lecture 3, p. 49"
+      },
+      {
+        q: "A salt of a strong acid and a strong base gives:",
+        options: [
+          "Acidic solution",
+          "Basic solution",
+          "Neutral solution",
+          "No reaction in water"
+        ],
+        correct: 2,
+        explanation: "Such salts are neutral, for example NaCl.",
+        source: "Lecture 2, p. 31"
+      },
+      {
+        q: "Which of the following is an acidic buffer?",
+        options: [
+          "Acetic acid and sodium acetate",
+          "Ammonium hydroxide and ammonium chloride",
+          "HCl and NaCl",
+          "NaOH and KCl"
+        ],
+        correct: 0,
+        explanation: "Acidic buffers consist of a weak acid and its salt.",
+        source: "Lecture 2, p. 33"
+      },
+      {
+        q: "Maximum buffer capacity occurs when:",
+        options: [
+          "[acid] = 10 × [salt]",
+          "[salt] = [acid]",
+          "[acid] = 0",
+          "pH = 14"
+        ],
+        correct: 1,
+        explanation: "The file states that maximum buffer capacity occurs when the salt-to-acid ratio is 1:1.",
+        source: "Lecture 2, p. 38"
+      },
+      {
+        q: "The Henderson equation for an acidic buffer is:",
+        options: [
+          "pH = pKa + log [salt]/[acid]",
+          "pH = pKw - pKb - log [salt]/[base]",
+          "pH = pKw + pKa",
+          "pH = pKa - log [acid]/[salt]"
+        ],
+        correct: 0,
+        explanation: "For acidic buffers, the file gives pH = pKa + log [salt]/[acid].",
+        source: "Lecture 2, p. 35"
+      },
+      {
+        q: "Which pH range is the effective range of a good indicator approximately equal to?",
+        options: [
+          "pKIn ± 5",
+          "pKIn ± 3",
+          "pKIn ± 2",
+          "pKIn ± 1"
+        ],
+        correct: 3,
+        explanation: "The file states that the indicator range is about pKIn ± 1.",
+        source: "Lecture 2, p. 45"
+      },
+      {
+        q: "Which of the following is used for rough pH determination but not suitable for titration?",
+        options: [
+          "Phenolphthalein",
+          "Methyl orange",
+          "Universal indicator",
+          "Methyl red"
+        ],
+        correct: 2,
+        explanation: "Universal indicators cover a wide pH range and are not suitable for titration.",
+        source: "Lecture 2, p. 48"
+      },
+      {
+        q: "Which set includes the three indicator types mentioned in the file?",
+        options: [
+          "Color, fluorescent, turbidity",
+          "Acidic, basic, neutral",
+          "Strong, weak, intermediate",
+          "Red, blue, green"
+        ],
+        correct: 0,
+        explanation: "The file lists color indicators, fluorescent indicators, and turbidity indicators.",
+        source: "Lecture 2, p. 41"
+      },
+      {
+        q: "Which theory says that indicators are weak organic acids or bases whose undissociated molecules differ in color from their ions?",
+        options: [
+          "Ostwald theory",
+          "Lewis theory",
+          "Arrhenius theory",
+          "Complexation theory"
+        ],
+        correct: 0,
+        explanation: "That description matches the Ostwald theory of color indicators.",
+        source: "Lecture 2, p. 43"
+      }
+    ]
+  },
+  ana5: {
+    title: "Quiz V",
+    questions: [
+      {
+        q: "According to Ostwald's theory of color indicators, what is the main reason for the color change of an indicator?",
+        options: [
+          "The color is due to the ionization process, where the un-dissociated molecule has a different color from its ion.",
+          "The color is due to the presence of unsaturated groups called chromophores.",
+          "The indicator reacts with the solvent to form a colored precipitate.",
+          "The indicator emits fluorescence when exposed to certain pH levels."
+        ],
+        correct: 0,
+        explanation: "Ostwald's theory states that indicators are weak organic acids or bases whose un-dissociated form exhibits one color, while its dissociated ions exhibit a completely different color. The shift in equilibrium (due to pH) causes the color change.",
+        source: "Lectures_1-2.pdf - Page 31"
+      },
+      {
+        q: "Based on the Chromophore theory, the pink color of phenolphthalein in an alkaline medium (pH 8.0 - 10.0) is attributed to the formation of which structure?",
+        options: [
+          "A benzenoid ring",
+          "An azo dye group",
+          "A quinonoid ring",
+          "A tribasic salt devoid of any rings"
+        ],
+        correct: 2,
+        explanation: "The Chromophore theory attributes color to specific unsaturated groups. In phenolphthalein, the alkaline medium causes structural rearrangement forming a quinonoid ring (chromophore), which is responsible for the pink color.",
+        source: "Lectures_1-2.pdf - Page 31-32"
+      },
+      {
+        q: "What is the primary characteristic of a 'Screened Indicator'?",
+        options: [
+          "It is a mixture of several indicators covering a wide pH range.",
+          "It is an organic compound that emits fluorescence.",
+          "It is a mixture of two indicators having similar pH ranges.",
+          "It is a mixture of an indicator and an inert dye to provide a sharper color change."
+        ],
+        correct: 3,
+        explanation: "A screened indicator combines a standard indicator with an inert dye (e.g., Methyl orange + Indigo carmine). The dye's background color modifies the indicator's colors, making the transition at the end point much sharper and easier to detect.",
+        source: "Lectures_1-2.pdf - Page 39"
+      },
+      {
+        q: "Which of the following describes the color transition and pH range of Methyl Orange (M.O.)?",
+        options: [
+          "Yellow in acidic and red in alkaline (pH 8.2-10.0)",
+          "Red in acidic and yellow in alkaline (pH 3.3-4.4)",
+          "Colorless in acidic and pink in alkaline (pH 8.2-10.0)",
+          "Blue in acidic and red in alkaline (pH 4.2-6.3)"
+        ],
+        correct: 1,
+        explanation: "Methyl orange operates in the acidic range (pH 3.3 to 4.4). It appears red in highly acidic solutions (quinonoid form) and turns yellow as the solution becomes less acidic/alkaline (benzenoid form).",
+        source: "Lectures_1-2.pdf - Page 37"
+      },
+      {
+        q: "What is the main purpose of constructing a neutralization titration curve?",
+        options: [
+          "To study the nature of the titration and help choose the most suitable indicator.",
+          "To calculate the exact theoretical weight of the analyte.",
+          "To determine the titration error analytically.",
+          "To measure the precision of the volumetric glassware used."
+        ],
+        correct: 0,
+        explanation: "A titration curve (pH vs. volume of titrant) visually demonstrates the rate of pH change. This helps analysts determine if the titration is feasible (a sharp pH jump exists) and allows them to choose an indicator whose transition range falls exactly within that jump.",
+        source: "Lectures_3-4.pdf - Page 3-4"
+      },
+      {
+        q: "In the titration of a Strong Acid with a Strong Base (e.g., 0.1N HCl vs 0.1N NaOH), what is the pH exactly at the equivalence point?",
+        options: [
+          "pH is slightly acidic (< 7.0)",
+          "pH is exactly equal to the pKa of the acid",
+          "pH is slightly basic (> 7.0)",
+          "pH is exactly neutral (7.0)"
+        ],
+        correct: 3,
+        explanation: "At the equivalence point of a strong acid and strong base titration, the resulting salt (e.g., NaCl) does not undergo hydrolysis. Therefore, the solution is perfectly neutral with a pH of 7.0.",
+        source: "Lectures_3-4.pdf - Page 9"
+      },
+      {
+        q: "Which indicator is most suitable for a Strong Acid - Strong Base titration?",
+        options: [
+          "Only Phenolphthalein",
+          "Only Methyl Orange",
+          "Any indicator with a color transition between pH 3.5 and 10.5",
+          "No visual indicator is suitable"
+        ],
+        correct: 2,
+        explanation: "Because a strong acid-strong base titration produces a very large and sudden pH jump near the equivalence point (roughly from pH 3.5 to 10.5), any indicator whose range falls within this wide interval (e.g., Ph.Ph., M.O., or Methyl Red) can be used accurately.",
+        source: "Lectures_3-4.pdf - Page 11"
+      },
+      {
+        q: "When titrating a Weak Acid with a Strong Base (e.g., Acetic acid vs NaOH), where does the equivalence point lie on the pH scale?",
+        options: [
+          "pH = 7.0",
+          "pH > 7.0 (alkaline)",
+          "pH < 7.0 (acidic)",
+          "pH equals exactly 14.0"
+        ],
+        correct: 1,
+        explanation: "At the equivalence point, the weak acid is completely neutralized into its salt (e.g., Sodium acetate). This salt of a weak acid and strong base hydrolyzes in water, yielding excess OH- ions, which makes the equivalence point alkaline (pH > 7).",
+        source: "Lectures_3-4.pdf - Page 17"
+      },
+      {
+        q: "Which indicator MUST be chosen for a Weak Acid - Strong Base titration?",
+        options: [
+          "Phenolphthalein (or similar basic indicator)",
+          "Methyl Orange",
+          "Methyl Red",
+          "Screened Methyl Orange"
+        ],
+        correct: 0,
+        explanation: "Since the sharp pH jump for this titration occurs entirely in the alkaline region (around pH 7.5 to 10.5), an indicator that changes color in this basic range must be used. Phenolphthalein (pH 8.2-10) is ideal. Methyl orange would change color far too early.",
+        source: "Lectures_3-4.pdf - Page 19-20"
+      },
+      {
+        q: "In the titration of a Weak Base with a Strong Acid (e.g., NH4OH vs HCl), what is the nature of the equivalence point?",
+        options: [
+          "pH = 7.0",
+          "pH equals exactly 0.0",
+          "pH > 7.0 (alkaline)",
+          "pH < 7.0 (acidic)"
+        ],
+        correct: 3,
+        explanation: "At the equivalence point, the salt formed (e.g., NH4Cl) is derived from a weak base and a strong acid. Hydrolysis of this salt produces H+ ions, rendering the solution acidic (pH < 7).",
+        source: "Lectures_3-4.pdf - Page 23-24"
+      },
+      {
+        q: "Which indicator is appropriate for a Weak Base - Strong Acid titration?",
+        options: [
+          "Phenolphthalein",
+          "Thymolphthalein",
+          "Methyl Orange or Methyl Red",
+          "Alizarin yellow"
+        ],
+        correct: 2,
+        explanation: "The sharp pH jump for this titration occurs in the acidic region (typically pH 6.5 down to 3.0). Therefore, an acidic indicator like Methyl Orange (3.3-4.4) or Methyl Red (4.2-6.3) must be used. Phenolphthalein would change color prematurely.",
+        source: "Lectures_3-4.pdf - Page 27-28"
+      },
+      {
+        q: "What is a major characteristic of a Weak Acid - Weak Base titration curve?",
+        options: [
+          "It uses Phenolphthalein perfectly due to a sharp pH jump.",
+          "It cannot be performed using simple visual indicators due to a very gradual pH change.",
+          "It is the most common titration in aqueous volumetric analysis.",
+          "It has a very sharp pH jump exactly at pH 7.0."
+        ],
+        correct: 1,
+        explanation: "The pH changes very slowly and gradually throughout a weak acid-weak base titration, without a sudden vertical jump at the equivalence point. Thus, no single simple color indicator can pinpoint the end point; instrumental methods or specific mixed indicators are needed.",
+        source: "Lectures_3-4.pdf - Page 29"
+      },
+      {
+        q: "Phosphoric acid (H3PO4) is a polyprotic acid. Which indicators are used to detect its first and second equivalence points respectively?",
+        options: [
+          "Methyl Orange for 1st end point, Phenolphthalein for 2nd end point",
+          "Phenolphthalein for 1st end point, Methyl Orange for 2nd end point",
+          "Both end points are detected using Methyl Orange",
+          "Both end points are detected using Phenolphthalein"
+        ],
+        correct: 0,
+        explanation: "H3PO4 ionizes in steps. The 1st proton is neutralized around pH 4.6, which aligns perfectly with the transition range of Methyl Orange. The 2nd proton is neutralized around pH 9.9, which matches the transition range of Phenolphthalein.",
+        source: "Lectures_3-4.pdf - Page 31-32"
+      },
+      {
+        q: "Why is it not feasible to directly titrate the third proton of Phosphoric acid (H3PO4) in an aqueous solution using a standard base?",
+        options: [
+          "Because it completely evaporates as a gas.",
+          "Because it is a strong acid proton.",
+          "Because it precipitates immediately with the base.",
+          "Because its dissociation constant is very small (pK3 is near to pKw)."
+        ],
+        correct: 3,
+        explanation: "The third proton of H3PO4 is extremely weakly dissociated (pK3 = 12.7). Because this value is very close to the dissociation constant of water (pKw = 14), there is no discernible pH break to detect an end point without modifying the solution (e.g., adding CaCl2).",
+        source: "Lectures_3-4.pdf - Page 31-32"
+      },
+      {
+        q: "What is the intended use of a Universal Indicator?",
+        options: [
+          "It is a mixture of an indicator and an inert dye for sharper end points.",
+          "It is the most accurate indicator for calculating exact titration end points.",
+          "It is a mixture of indicators covering a wide pH range used for rough pH determination.",
+          "It emits strong fluorescence at the equivalence point."
+        ],
+        correct: 2,
+        explanation: "A universal indicator blends several indicators to produce a continuous spectrum of colors across a wide pH range (from 1 to 14). It is excellent for estimating the approximate pH of a solution, but its gradual color shifts make it unsuitable for precise titrations.",
+        source: "Lectures_1-2.pdf - Page 41"
+      }
+    ]
+  },
+  ana6: {
+    title: "Quiz VI",
+    questions: [
+      {
+        q: "What is the primary function of a buffer solution in pharmaceutical formulations?",
+        options: [
+          "To completely neutralize any added strong acid or strong base.",
+          "To resist drastic changes in pH upon the addition of small amounts of acid or base.",
+          "To increase the solubility of strong electrolytes in the solution.",
+          "To shift the equivalence point of an acid-base titration."
+        ],
+        correct: 1,
+        explanation: "Buffer solutions are specifically designed to maintain a relatively constant pH. This is vital in pharmacy for controlling the pH of liquid formulations (like syrups, parenterals, and eye drops) to optimize drug stability, solubility, and biological compatibility.",
+        source: "Lectures_1-2.pdf - Page 12"
+      },
+      {
+        q: "An acidic buffer typically consists of which of the following combinations?",
+        options: [
+          "A strong acid and its conjugate base.",
+          "A strong base and a weak acid.",
+          "A weak acid and its salt (conjugate base).",
+          "A weak base and its salt."
+        ],
+        correct: 2,
+        explanation: "An acidic buffer must consist of a weak acid and its salt (which acts as its conjugate base). A classic example is a mixture of Acetic acid (CH3COOH) and Sodium acetate (CH3COONa).",
+        source: "Lectures_1-2.pdf - Page 11"
+      },
+      {
+        q: "Which of the following pairs represents a basic buffer system?",
+        options: [
+          "Ammonium hydroxide and ammonium chloride",
+          "Acetic acid and sodium acetate",
+          "Hydrochloric acid and sodium chloride",
+          "Sodium hydroxide and water"
+        ],
+        correct: 0,
+        explanation: "A basic buffer consists of a weak base and its salt. Ammonium hydroxide (NH4OH, a weak base) and Ammonium chloride (NH4Cl, its salt) form a standard basic buffer system.",
+        source: "Lectures_1-2.pdf - Page 12"
+      },
+      {
+        q: "When a small amount of a strong acid (like HCl) is added to an acetate buffer (Acetic acid/Sodium acetate), which buffer component reacts to prevent a sharp pH drop?",
+        options: [
+          "The weak acid (CH3COOH)",
+          "The hydronium ion",
+          "The salt (CH3COONa)",
+          "Water molecules"
+        ],
+        correct: 2,
+        explanation: "The added strong acid (HCl) reacts with the salt component of the buffer (Sodium acetate, CH3COONa) to produce a weakly dissociated acid (Acetic acid, CH3COOH) and a neutral salt (NaCl). Equation: HCl + CH3COONa -> CH3COOH + NaCl. Thus, the strong acid is essentially 'absorbed' and the pH remains almost constant.",
+        source: "Lectures_1-2.pdf - Page 13"
+      },
+      {
+        q: "How does an acidic buffer neutralize an added strong base like NaOH?",
+        options: [
+          "NaOH dissociates completely without reacting.",
+          "NaOH reacts with the weak acid (CH3COOH) to form water and a neutral salt.",
+          "NaOH reacts with water to form hydronium ions.",
+          "NaOH reacts with the salt (CH3COONa) to form a stronger base."
+        ],
+        correct: 1,
+        explanation: "When a strong base (NaOH) is added, it reacts with the weak acid component of the buffer (CH3COOH). The reaction (NaOH + CH3COOH -> CH3COONa + H2O) converts the strong base into water and a salt, effectively neutralizing it and keeping the pH steady.",
+        source: "Lectures_1-2.pdf - Page 14"
+      },
+      {
+        q: "Which equation (Henderson-Hasselbalch) is correctly used to calculate the pH of an acidic buffer?",
+        options: [
+          "pH = pKa - log [acid] / [salt]",
+          "pH = pKa * log [salt] / [acid]",
+          "pH = pKb + log [salt] / [base]",
+          "pH = pKa + log [salt] / [acid]"
+        ],
+        correct: 3,
+        explanation: "The Henderson-Hasselbalch equation for an acidic buffer calculates the pH by adding the pKa of the weak acid to the base-10 logarithm of the ratio of the salt concentration to the acid concentration: pH = pKa + log([salt] / [acid]).",
+        source: "Lectures_1-2.pdf - Page 17-18"
+      },
+      {
+        q: "For a basic buffer containing a weak base and its salt, how is the pH directly calculated?",
+        options: [
+          "pH = pKw - pKb - log [salt] / [base]",
+          "pH = pKw + pKb + log [salt] / [base]",
+          "pH = pKb - log [salt] / [base]",
+          "pH = 14 + pKb + log [base] / [salt]"
+        ],
+        correct: 0,
+        explanation: "For a basic buffer, we first calculate pOH = pKb + log([salt] / [base]). Since pH = pKw - pOH (where pKw is 14 at 25°C), substituting the pOH expression gives the final formula: pH = pKw - pKb - log([salt] / [base]).",
+        source: "Lectures_1-2.pdf - Page 16"
+      },
+      {
+        q: "What is the pH of a buffer solution containing 0.1 M acetic acid and 0.1 M sodium acetate, given that the pKa of acetic acid is 4.76?",
+        options: [
+          "3.76",
+          "5.76",
+          "4.76",
+          "4.00"
+        ],
+        correct: 2,
+        explanation: "Using the equation pH = pKa + log([salt]/[acid]). Since both concentrations are 0.1 M, the ratio is 1. The log(1) is 0. Therefore, pH = 4.76 + 0 = 4.76.",
+        source: "Lectures_1-2.pdf - Page 17"
+      },
+      {
+        q: "Under what condition is the buffer capacity of a solution considered to be at its Maximum?",
+        options: [
+          "When the concentration of the salt is exactly double the concentration of the acid.",
+          "When the concentration of the salt equals the concentration of the acid.",
+          "When the concentration of the acid is ten times the concentration of the salt.",
+          "When the solution is infinitely diluted with pure water."
+        ],
+        correct: 1,
+        explanation: "Maximum buffer capacity occurs when the concentration of the salt is exactly equal to the concentration of the weak acid ([salt] = [acid]). Under this condition, the ratio is 1, log(1) = 0, and therefore pH = pKa.",
+        source: "Lectures_1-2.pdf - Page 21"
+      },
+      {
+        q: "To maintain an 'Adequate Buffer Capacity', the ratio of [salt] to [acid] should theoretically stay within which limits?",
+        options: [
+          "Between 1/10 and 10/1",
+          "Between 1/100 and 100/1",
+          "Exactly at 1/1",
+          "Between 1/2 and 2/1"
+        ],
+        correct: 0,
+        explanation: "For a buffer to function adequately and resist pH changes effectively, the ratio of [salt]/[acid] should not exceed 10/1 and should not drop below 1/10.",
+        source: "Lectures_1-2.pdf - Page 21"
+      },
+      {
+        q: "Based on the limits of adequate buffer capacity, what is the effective pH range over which a given weak acid can act as a useful buffer?",
+        options: [
+          "pH = pKa ± 2",
+          "pH = pKa ± 0.5",
+          "pH = pKw - pKa",
+          "pH = pKa ± 1"
+        ],
+        correct: 3,
+        explanation: "Since the adequate ratio range is 1/10 to 10/1, the logarithm of this ratio varies from log(0.1) = -1 to log(10) = +1. Applying this to the Henderson-Hasselbalch equation means the useful buffer range is pH = pKa ± 1.",
+        source: "Lectures_1-2.pdf - Page 21"
+      },
+      {
+        q: "A 1-Liter acetate buffer contains 5.0 M acetic acid and 5.0 M sodium acetate. If 0.01 moles of HCl are added to this buffer, what happens to the concentrations of the buffer components?",
+        options: [
+          "[Acetate] decreases to 4.99 M and [Acetic acid] increases to 5.01 M.",
+          "Both [Acetate] and [Acetic acid] decrease to 4.99 M.",
+          "[Acetate] increases to 5.01 M and [Acetic acid] decreases to 4.99 M.",
+          "Neither concentration changes due to the buffer's infinite capacity."
+        ],
+        correct: 0,
+        explanation: "The added strong acid (HCl) reacts with the salt (acetate ion, CH3COO-), converting it into the weak acid (acetic acid, CH3COOH). Therefore, 0.01 moles of the salt are consumed (5.0 - 0.01 = 4.99 M), and 0.01 moles of the weak acid are produced (5.0 + 0.01 = 5.01 M).",
+        source: "Lectures_1-2.pdf - Page 25-26"
+      }
+    ]
+  },
 
-
-
-
-      "ana6": {
-  title: "Quiz VI",
-  questions: [
-    {
-      q: "What is the primary function of a buffer solution in pharmaceutical formulations?",
-      options: [
-        "To completely neutralize any added strong acid or strong base.",
-        "To resist drastic changes in pH upon the addition of small amounts of acid or base.",
-        "To increase the solubility of strong electrolytes in the solution.",
-        "To shift the equivalence point of an acid-base titration."
-      ],
-      correct: 1,
-      explanation: "Buffer solutions are specifically designed to maintain a relatively constant pH. This is vital in pharmacy for controlling the pH of liquid formulations (like syrups, parenterals, and eye drops) to optimize drug stability, solubility, and biological compatibility.",
-      source: "Lectures_1-2.pdf - Page 12"
-    },
-    {
-      q: "An acidic buffer typically consists of which of the following combinations?",
-      options: [
-        "A strong acid and its conjugate base.",
-        "A strong base and a weak acid.",
-        "A weak acid and its salt (conjugate base).",
-        "A weak base and its salt."
-      ],
-      correct: 2,
-      explanation: "An acidic buffer must consist of a weak acid and its salt (which acts as its conjugate base). A classic example is a mixture of Acetic acid (CH3COOH) and Sodium acetate (CH3COONa).",
-      source: "Lectures_1-2.pdf - Page 11"
-    },
-    {
-      q: "Which of the following pairs represents a basic buffer system?",
-      options: [
-        "Ammonium hydroxide and ammonium chloride",
-        "Acetic acid and sodium acetate",
-        "Hydrochloric acid and sodium chloride",
-        "Sodium hydroxide and water"
-      ],
-      correct: 0,
-      explanation: "A basic buffer consists of a weak base and its salt. Ammonium hydroxide (NH4OH, a weak base) and Ammonium chloride (NH4Cl, its salt) form a standard basic buffer system.",
-      source: "Lectures_1-2.pdf - Page 12"
-    },
-    {
-      q: "When a small amount of a strong acid (like HCl) is added to an acetate buffer (Acetic acid/Sodium acetate), which buffer component reacts to prevent a sharp pH drop?",
-      options: [
-        "The weak acid (CH3COOH)",
-        "The hydronium ion",
-        "The salt (CH3COONa)",
-        "Water molecules"
-      ],
-      correct: 2,
-      explanation: "The added strong acid (HCl) reacts with the salt component of the buffer (Sodium acetate, CH3COONa) to produce a weakly dissociated acid (Acetic acid, CH3COOH) and a neutral salt (NaCl). Equation: HCl + CH3COONa -> CH3COOH + NaCl. Thus, the strong acid is essentially 'absorbed' and the pH remains almost constant.",
-      source: "Lectures_1-2.pdf - Page 13"
-    },
-    {
-      q: "How does an acidic buffer neutralize an added strong base like NaOH?",
-      options: [
-        "NaOH dissociates completely without reacting.",
-        "NaOH reacts with the weak acid (CH3COOH) to form water and a neutral salt.",
-        "NaOH reacts with water to form hydronium ions.",
-        "NaOH reacts with the salt (CH3COONa) to form a stronger base."
-      ],
-      correct: 1,
-      explanation: "When a strong base (NaOH) is added, it reacts with the weak acid component of the buffer (CH3COOH). The reaction (NaOH + CH3COOH -> CH3COONa + H2O) converts the strong base into water and a salt, effectively neutralizing it and keeping the pH steady.",
-      source: "Lectures_1-2.pdf - Page 14"
-    },
-    {
-      q: "Which equation (Henderson-Hasselbalch) is correctly used to calculate the pH of an acidic buffer?",
-      options: [
-        "pH = pKa - log [acid] / [salt]",
-        "pH = pKa * log [salt] / [acid]",
-        "pH = pKb + log [salt] / [base]",
-        "pH = pKa + log [salt] / [acid]"
-      ],
-      correct: 3,
-      explanation: "The Henderson-Hasselbalch equation for an acidic buffer calculates the pH by adding the pKa of the weak acid to the base-10 logarithm of the ratio of the salt concentration to the acid concentration: pH = pKa + log([salt] / [acid]).",
-      source: "Lectures_1-2.pdf - Page 17-18"
-    },
-    {
-      q: "For a basic buffer containing a weak base and its salt, how is the pH directly calculated?",
-      options: [
-        "pH = pKw - pKb - log [salt] / [base]",
-        "pH = pKw + pKb + log [salt] / [base]",
-        "pH = pKb - log [salt] / [base]",
-        "pH = 14 + pKb + log [base] / [salt]"
-      ],
-      correct: 0,
-      explanation: "For a basic buffer, we first calculate pOH = pKb + log([salt] / [base]). Since pH = pKw - pOH (where pKw is 14 at 25°C), substituting the pOH expression gives the final formula: pH = pKw - pKb - log([salt] / [base]).",
-      source: "Lectures_1-2.pdf - Page 16"
-    },
-    {
-      q: "What is the pH of a buffer solution containing 0.1 M acetic acid and 0.1 M sodium acetate, given that the pKa of acetic acid is 4.76?",
-      options: [
-        "3.76",
-        "5.76",
-        "4.76",
-        "4.00"
-      ],
-      correct: 2,
-      explanation: "Using the equation pH = pKa + log([salt]/[acid]). Since both concentrations are 0.1 M, the ratio is 1. The log(1) is 0. Therefore, pH = 4.76 + 0 = 4.76.",
-      source: "Lectures_1-2.pdf - Page 17"
-    },
-    {
-      q: "Under what condition is the buffer capacity of a solution considered to be at its Maximum?",
-      options: [
-        "When the concentration of the salt is exactly double the concentration of the acid.",
-        "When the concentration of the salt equals the concentration of the acid.",
-        "When the concentration of the acid is ten times the concentration of the salt.",
-        "When the solution is infinitely diluted with pure water."
-      ],
-      correct: 1,
-      explanation: "Maximum buffer capacity occurs when the concentration of the salt is exactly equal to the concentration of the weak acid ([salt] = [acid]). Under this condition, the ratio is 1, log(1) = 0, and therefore pH = pKa.",
-      source: "Lectures_1-2.pdf - Page 21"
-    },
-    {
-      q: "To maintain an 'Adequate Buffer Capacity', the ratio of [salt] to [acid] should theoretically stay within which limits?",
-      options: [
-        "Between 1/10 and 10/1",
-        "Between 1/100 and 100/1",
-        "Exactly at 1/1",
-        "Between 1/2 and 2/1"
-      ],
-      correct: 0,
-      explanation: "For a buffer to function adequately and resist pH changes effectively, the ratio of [salt]/[acid] should not exceed 10/1 and should not drop below 1/10.",
-      source: "Lectures_1-2.pdf - Page 21"
-    },
-    {
-      q: "Based on the limits of adequate buffer capacity, what is the effective pH range over which a given weak acid can act as a useful buffer?",
-      options: [
-        "pH = pKa ± 2",
-        "pH = pKa ± 0.5",
-        "pH = pKw - pKa",
-        "pH = pKa ± 1"
-      ],
-      correct: 3,
-      explanation: "Since the adequate ratio range is 1/10 to 10/1, the logarithm of this ratio varies from log(0.1) = -1 to log(10) = +1. Applying this to the Henderson-Hasselbalch equation means the useful buffer range is pH = pKa ± 1.",
-      source: "Lectures_1-2.pdf - Page 21"
-    },
-    {
-      q: "A 1-Liter acetate buffer contains 5.0 M acetic acid and 5.0 M sodium acetate. If 0.01 moles of HCl are added to this buffer, what happens to the concentrations of the buffer components?",
-      options: [
-        "[Acetate] decreases to 4.99 M and [Acetic acid] increases to 5.01 M.",
-        "Both [Acetate] and [Acetic acid] decrease to 4.99 M.",
-        "[Acetate] increases to 5.01 M and [Acetic acid] decreases to 4.99 M.",
-        "Neither concentration changes due to the buffer's infinite capacity."
-      ],
-      correct: 0,
-      explanation: "The added strong acid (HCl) reacts with the salt (acetate ion, CH3COO-), converting it into the weak acid (acetic acid, CH3COOH). Therefore, 0.01 moles of the salt are consumed (5.0 - 0.01 = 4.99 M), and 0.01 moles of the weak acid are produced (5.0 + 0.01 = 5.01 M).",
-      source: "Lectures_1-2.pdf - Page 25-26"
-    }
-  ]
-},
 
     "ana7" :{
   title: "Quiz VII",
