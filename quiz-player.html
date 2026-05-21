@@ -390,7 +390,7 @@
 
         // =============================================
 
-        const quizDatabase = {
+      const quizDatabase = {
 
             
   "org6": {
@@ -1009,6 +1009,126 @@
         correct: 0,
         explanation: "Benzene's stability comes from the complete delocalization (resonance) of its 6 pi electrons across all six p-orbitals[cite: 308, 309, 576, 577]. This continuous electron cloud evenly distributes the charge, lowering the overall energy of the molecule far below that of theoretical isolated double bonds[cite: 297, 311].",
         source: "Organic_1.m4a & lectures_1,2.pdf - Resonance Theory [cite: 576, 577]"
+      },
+      {
+        q: "Based on our discussion of resonance and inductive effects, which of the following accurately ranks the compounds from 'most reactive' to 'least reactive' toward Electrophilic Aromatic Substitution (EAS)?",
+        options: [
+          "Nitrobenzene [Ph-NO2] > Chlorobenzene [Ph-Cl] > Benzene [C6H6] > Phenol [Ph-OH]",
+          "Chlorobenzene [Ph-Cl] > Phenol [Ph-OH] > Nitrobenzene [Ph-NO2] > Benzene [C6H6]",
+          "Phenol [Ph-OH] > Benzene [C6H6] > Chlorobenzene [Ph-Cl] > Nitrobenzene [Ph-NO2]",
+          "Benzene [C6H6] > Phenol [Ph-OH] > Chlorobenzene [Ph-Cl] > Nitrobenzene [Ph-NO2]"
+        ],
+        correct: 2,
+        explanation: "The reactivity depends on the electron density of the ring[cite: 631]. The hydroxyl group (-OH) in Phenol is strongly activating via +M (resonance), making it the most reactive[cite: 636]. Benzene is naturally neutral. Chlorine is weakly deactivating due to its -I (inductive) effect overcoming its +M effect[cite: 637]. Finally, the Nitro group (-NO2) is strongly deactivating via both -I and -M effects, making Nitrobenzene the least reactive[cite: 640].",
+        source: "organic lec 2.m4a & lectures_1,2.pdf (Activating/Deactivating Groups)"
+      },
+      {
+        q: "Halogens (such as -Cl and -Br) present a fascinating anomaly in aromatic chemistry. How do we classify their directing effect and overall reactivity toward incoming electrophiles?",
+        options: [
+          "They are activating and meta-directing.",
+          "They are overall deactivating (due to strong -I effect), but direct incoming electrophiles to ortho and para positions (due to lone pair +M effect).",
+          "They are activating and ortho/para-directing.",
+          "They are overall deactivating and direct incoming electrophiles strictly to the meta position."
+        ],
+        correct: 1,
+        explanation: "Halogens are unique; their strong electronegativity withdraws electrons inductively (-I), making the ring deactivated overall[cite: 637]. However, their lone pairs can donate electron density via resonance (+M) specifically to stabilize the ortho and para sigma complexes, making them o/p directors[cite: 142].",
+        source: "organic lec 2.m4a (Halogens reactivity)"
+      },
+      {
+        q: "During the Addition-Elimination mechanism of Nucleophilic Aromatic Substitution (NAS), the initial nucleophilic attack breaks the ring's aromaticity to form a distinct intermediate. What do we call this negatively charged, resonance-stabilized species?",
+        options: [
+          "Benzyne intermediate",
+          "Arenium ion",
+          "Meisenheimer complex",
+          "Sigma complex"
+        ],
+        correct: 2,
+        explanation: "The attack of a nucleophile (like OH-) on an activated aryl halide creates a resonance-stabilized carbanion intermediate known as the Meisenheimer complex[cite: 477]. This is distinct from the positively charged Sigma complex formed during electrophilic attacks[cite: 658].",
+        source: "organic_5 (1).m4a & lectures_3,4.pdf (NAS mechanism)"
+      },
+      {
+        q: "Standard aliphatic nucleophilic substitution pathways (SN1 and SN2) fail miserably for simple aryl halides like chlorobenzene. What is the fundamental chemical reason preventing the SN1 pathway specifically?",
+        options: [
+          "The leaving group's departure would generate a phenyl cation, which is exceptionally unstable because the electron-deficient sp2 carbon is adjacent to an electron-withdrawing system.",
+          "The pi electron cloud completely shields the leaving group from detaching.",
+          "The sp3 hybridization of the ring carbons prevents the formation of a carbocation.",
+          "Aryl halides are completely insoluble in all known SN1 solvents."
+        ],
+        correct: 0,
+        explanation: "For an SN1 reaction to occur, the leaving group must leave to form a carbocation[cite: 444]. In aryl halides, this would form a phenyl cation. This cation is exceptionally unstable because it is highly electron-deficient and the adjacent sp2 carbons withdraw even more electron density via inductive effects, preventing its formation[cite: 448].",
+        source: "organic_5 (1).m4a (Failure of SN1/SN2)"
+      },
+      {
+        q: "Consider the hydrocarbon Cyclopentadiene [C5H6]. Despite being a simple hydrocarbon, its methylene protons are unusually acidic (pKa ~16). According to Huckel's rules and resonance theory, what drives this acidity?",
+        options: [
+          "The resulting cation has 6 pi electrons and is perfectly stable.",
+          "The molecule inherently wants to become anti-aromatic to release energy.",
+          "Deprotonation yields the cyclopentadienyl anion, which possesses 6 pi electrons in a continuous cyclic array, making it exceptionally stable due to aromaticity.",
+          "The loss of a proton forms a stable sp3 hybridized carbon that relieves ring strain."
+        ],
+        correct: 2,
+        explanation: "Acidity is driven by conjugate base stability[cite: 320]. When cyclopentadiene loses a proton (H+), the remaining lone pair enters the pi system, giving the cyclopentadienyl anion a total of 6 pi electrons (4n+2). This makes the anion fully aromatic and highly stabilized by resonance[cite: 596].",
+        source: "Organic_1.m4a & lectures_1,2.pdf (Aromaticity examples)"
+      },
+      {
+        q: "To successfully perform Nucleophilic Aromatic Substitution (NAS) via the Addition-Elimination pathway at mild conditions, the aryl halide must possess a specific structural feature. What is it?",
+        options: [
+          "Strong electron-donating groups at the meta position.",
+          "A bulky tertiary alkyl group to induce steric strain.",
+          "No substituents on the ring other than the halogen.",
+          "One or more strong electron-withdrawing groups (e.g., -NO2) located specifically at the ortho and/or para positions relative to the leaving group."
+        ],
+        correct: 3,
+        explanation: "Addition-Elimination requires a strong electron-withdrawing group (like -NO2) at the ortho or para position[cite: 657]. This group stabilizes the negative charge of the intermediate Meisenheimer complex by resonance, significantly lowering the activation energy needed for the nucleophile to attack[cite: 468].",
+        source: "organic_5 (1).m4a & lectures_3,4.pdf (NAS Activation)"
+      },
+      {
+        q: "In the industrial synthesis of phenols from chlorobenzene via NaOH treatment, how does the sequential addition of nitro groups (-NO2) to the ortho and para positions affect the required reaction conditions?",
+        options: [
+          "The reaction conditions become drastically milder (requiring significantly lower temperatures) because each -NO2 group increasingly stabilizes the intermediate carbanion.",
+          "The reaction conditions become much harsher, requiring temperatures well above 350°C.",
+          "The reaction becomes completely impossible due to severe steric hindrance.",
+          "The nitro groups physically block the nucleophile, changing the mechanism to a free-radical pathway."
+        ],
+        correct: 0,
+        explanation: "Increasing the number of powerful electron-withdrawing groups like -NO2 makes the ring more electron-deficient. This makes the nucleophilic attack much easier, progressively dropping the required temperature from 350°C (for unactivated chlorobenzene) down to near room temperature for 2,4,6-trinitrochlorobenzene[cite: 228, 468].",
+        source: "organic_5 (1).m4a (Effect of withdrawing groups on NAS)"
+      },
+      {
+        q: "If we force an unactivated aryl halide (like chlorobenzene) to react with a remarkably strong base such as NaNH2 in liquid ammonia, the reaction proceeds via an Elimination-Addition sequence. What highly reactive, transient intermediate is formed during the elimination step?",
+        options: [
+          "A resonance-stabilized carbanion.",
+          "A Benzyne intermediate, characterized by a highly strained formal triple bond.",
+          "A Meisenheimer complex.",
+          "A stable phenyl radical."
+        ],
+        correct: 1,
+        explanation: "In the absence of activating groups, a strong base removes an ortho-proton, prompting the elimination of the halide ion[cite: 487]. This concerted or step-wise elimination creates a highly unstable Benzyne intermediate, containing a highly strained formal triple bond, which is immediately attacked by the nucleophile[cite: 659].",
+        source: "organic_5 (1).m4a (Elimination-Addition & Benzyne)"
+      },
+      {
+        q: "We categorize strong electron-withdrawing groups like the Nitro group (-NO2) as 'meta-directors'. What is the mechanistic justification for this directing behavior during EAS?",
+        options: [
+          "Ortho or para attack places a formal positive charge directly adjacent to the electron-withdrawing -NO2 group in the sigma complex, making it highly unstable; thus, meta attack is the 'least destabilized' pathway.",
+          "Meta addition is structurally the only position that allows the formation of a Meisenheimer complex.",
+          "The meta position naturally possesses the highest electron density in all aromatic rings.",
+          "The -NO2 group physically covers the ortho and para positions, repelling the electrophile."
+        ],
+        correct: 0,
+        explanation: "Electron-withdrawing groups destabilize the carbocation intermediate. If an electrophile attacks the ortho or para position, one resonance structure places the positive charge directly on the carbon bearing the electron-withdrawing group, causing severe instability[cite: 168]. Meta attack avoids this specific highly unstable contributor, making it the least unfavorable (best available) option[cite: 642].",
+        source: "organic lec 2.m4a & lectures_1,2.pdf (Directing effects)"
+      },
+      {
+        q: "The hydroxyl group (-OH) contains a highly electronegative oxygen atom that withdraws electrons inductively (-I). Why, then, does phenol act as a strongly activated ring in EAS?",
+        options: [
+          "It forms an ionic bond with the incoming electrophile instantly.",
+          "The +I (inductive) effect of the hydrogen atom cancels out the oxygen's -I effect.",
+          "The sp3 hybridization of the oxygen atom forces the ring to become completely aliphatic.",
+          "The strong +M (mesomeric/resonance) effect of the oxygen's lone pairs donating into the ring completely overwhelms the -I effect."
+        ],
+        correct: 3,
+        explanation: "While oxygen is electronegative (-I effect), it has lone pairs that can be donated into the pi system of the ring via resonance (+M effect)[cite: 122]. Because the complete transfer of pi electrons (+M) is vastly more powerful than partial inductive withdrawal (-I), the net result is strong ring activation[cite: 636].",
+        source: "organic lec 2.m4a (Inductive vs Mesomeric effect)"
       },
     ]
   },
