@@ -390,12 +390,139 @@
 
         // =============================================
 
+      
+  
+
+
+
+
+
       const quizDatabase = {
 
             
   "org6": {
     title: "Quiz VI",
     questions: [
+      {
+        q: "When comparing the acidity of various substituted phenols, which of the following statements accurately describes the effect of substituents on the pKa value?",
+        options: [
+          "Electron-withdrawing groups (like -NO2) stabilize the phenoxide ion, decreasing the pKa and making it more acidic than phenol.",
+          "Electron-donating groups (like -OCH3) stabilize the phenoxide ion, making it highly acidic.",
+          "Phenol is generally less acidic than standard aliphatic alcohols like cyclohexanol.",
+          "Substituents have no additive effect; mono- and dinitrophenols have the exact same acidity."
+        ],
+        correct: 0,
+        explanation: "Acidity is determined by the stability of the conjugate base (phenoxide ion). Electron-withdrawing groups (-NO2, -Cl) pull electron density away from the negatively charged oxygen, stabilizing the ion and increasing acidity (lowering pKa). Conversely, electron-donating groups destabilize it.",
+        source: "lectures_3,4.pdf - Phenols (Page 5)"
+      },
+      {
+        q: "In the industrial synthesis of phenol from chlorobenzene (Dow Process) using NaOH at 350°C and high pressure, the reaction proceeds via an Elimination-Addition mechanism. What is the highly reactive intermediate formed?",
+        options: [
+          "A resonance-stabilized carbocation (sigma complex).",
+          "A benzyne intermediate containing a strained formal triple bond.",
+          "A Meisenheimer complex.",
+          "A stable phenyl free radical."
+        ],
+        correct: 1,
+        explanation: "Because typical nucleophilic substitution fails on unactivated aryl halides, harsh conditions force the elimination of HCl first. This creates a highly unstable Benzyne intermediate, which is then quickly attacked by the hydroxide ion (addition) to form phenol.",
+        source: "lectures_3,4.pdf - Synthesis of Phenols (Page 3) & organic_5 (1).m4a"
+      },
+      {
+        q: "The Kolbe reaction (Carbonation) involves heating sodium phenoxide with carbon dioxide (CO2) under pressure, followed by acidic work-up. What is the major product of this specific Electrophilic Aromatic Substitution?",
+        options: [
+          "Benzoic acid",
+          "Acetylsalicylic acid",
+          "Salicylic acid (o-hydroxybenzoic acid)",
+          "p-Benzoquinone"
+        ],
+        correct: 2,
+        explanation: "The phenoxide ion is highly activated, allowing even a weak electrophile like CO2 to attack the ring. The reaction is highly regioselective for the ortho position, producing Salicylic acid after the addition of acid.",
+        source: "lectures_3,4.pdf - Reactions of phenols (Page 8)"
+      },
+      {
+        q: "If we compare the basicity of Ammonia [NH3], Aliphatic amines [e.g., (CH3)2NH], and Aniline [Ph-NH2] in aqueous solution, what is the correct order from MOST basic to LEAST basic?",
+        options: [
+          "Aniline > Ammonia > Aliphatic amines",
+          "Ammonia > Aniline > Aliphatic amines",
+          "Aliphatic amines > Aniline > Ammonia",
+          "Aliphatic amines > Ammonia > Aniline"
+        ],
+        correct: 3,
+        explanation: "Aliphatic amines are the most basic because alkyl groups donate electrons (+I effect), increasing electron density on nitrogen. Ammonia is neutral. Aniline is the least basic because its nitrogen lone pair is delocalized into the benzene ring via resonance, making it less available to accept a proton.",
+        source: "lectures_3,4.pdf - Basicity of Amines (Page 15)"
+      },
+      {
+        q: "How can a chemist effectively convert Nitrobenzene [Ph-NO2] into Aniline [Ph-NH2] in the laboratory?",
+        options: [
+          "By performing a reduction reaction using a metal (like Zn, Fe, or Sn) in the presence of an acid (like HCl).",
+          "By using concentrated HNO3 and H2SO4 with heat.",
+          "By treating it with Sodium hydroxide at elevated temperatures.",
+          "By performing an oxidation using Potassium dichromate (K2Cr2O7)."
+        ],
+        correct: 0,
+        explanation: "To convert a nitro group (-NO2) to an amino group (-NH2), a reduction reaction is required. The standard method is using a metal catalyst (such as Zinc, Iron, or Tin) in an acidic medium (HCl) followed by base neutralization.",
+        source: "organic_5 (1).m4a - Preparation of Aniline"
+      },
+      {
+        q: "During the preparation of a diazonium salt, aniline is reacted with Sodium nitrite (NaNO2) and HCl at cold temperatures (0-5°C). What is the actual electrophilic species generated in the mixture that attacks the amine?",
+        options: [
+          "The nitronium ion [NO2+]",
+          "The nitrosonium ion [NO+]",
+          "The nitrate anion [NO3-]",
+          "The chloride anion [Cl-]"
+        ],
+        correct: 1,
+        explanation: "NaNO2 reacts with HCl to form Nitrous acid (HNO2). In the acidic medium, Nitrous acid loses water to generate the Nitrosonium cation [NO+]. This cation acts as the electrophile that attacks the amine group, eventually leading to the diazonium salt.",
+        source: "organic_5 (1).m4a - Diazotization mechanism"
+      },
+      {
+        q: "The Sandmeyer reaction is a remarkably useful synthetic tool to replace the diazonium group [-N2+] with halides or nitriles. Which specific class of catalysts is strictly required for the Sandmeyer reaction?",
+        options: [
+          "Aluminum halides (e.g., AlCl3)",
+          "Iron(III) salts (e.g., FeCl3)",
+          "Cuprous salts (e.g., CuCl, CuBr, CuCN)",
+          "Zinc amalgam (Zn/Hg)"
+        ],
+        correct: 2,
+        explanation: "The Sandmeyer reaction specifically utilizes Copper(I) (Cuprous) salts. The Cu(I) acts as a catalyst in a radical-based mechanism that facilitates the release of nitrogen gas and the attachment of the Cl, Br, or CN nucleophile.",
+        source: "lectures_3,4.pdf - Sandmeyer Reaction (Page 18) & organic_5 (1).m4a"
+      },
+      {
+        q: "Imagine you have a diazonium salt [Ph-N2+ Cl-], and your goal is to completely remove the diazonium group and replace it with a simple Hydrogen atom (Deamination). Which reagent will achieve this?",
+        options: [
+          "H2O / Cu2O",
+          "KI",
+          "HBF4 followed by heat",
+          "Hypophosphorous acid (H3PO2)"
+        ],
+        correct: 3,
+        explanation: "Hypophosphorous acid (H3PO2) is a reducing agent specifically used to replace the diazonium group with a hydrogen atom. H2O/Cu2O yields phenol, KI yields iodobenzene, and HBF4 yields fluorobenzene.",
+        source: "lectures_3,4.pdf - Reactions of Diazonium salts (Page 18)"
+      },
+      {
+        q: "Phenols with multiple hydroxyl groups have specific common names. What is the accepted common name for '1,4-benzenediol' (a benzene ring with two -OH groups exactly opposite to each other)?",
+        options: [
+          "Hydroquinone",
+          "Catechol",
+          "Resorcinol",
+          "o-Cresol"
+        ],
+        correct: 0,
+        explanation: "1,4-benzenediol is known as Hydroquinone. For context, 1,2-benzenediol is Catechol, 1,3-benzenediol is Resorcinol, and a benzene with one -OH and one -CH3 at the ortho position is o-Cresol.",
+        source: "lectures_3,4.pdf - Nomenclature of Phenols (Page 2)"
+      },
+      {
+        q: "While phenol is slightly less reactive towards nucleophilic addition compared to aliphatic alcohols, it can still be converted into an ester (e.g., Phenylacetate). Which reagents are effectively used for the esterification of phenol?",
+        options: [
+          "Acetic acid directly with a strong base.",
+          "Acetyl chloride [CH3COCl] or Acetic anhydride [(CH3CO)2O].",
+          "Sodium metal followed by ethyl bromide.",
+          "Formaldehyde and HCl."
+        ],
+        correct: 1,
+        explanation: "Direct esterification with carboxylic acids is difficult for phenols. Instead, more reactive acylating agents like Acid Chlorides or Acid Anhydrides are used to successfully convert phenols into esters.",
+        source: "lectures_3,4.pdf - Esterification of phenol (Page 6)"
+      },
       {
         q: "Why is phenol (pKa ~10) significantly more acidic than aliphatic alcohols like cyclohexanol (pKa ~16)?",
         options: [
