@@ -393,11 +393,524 @@
       
   
 
+const quizDatabase = {
 
+  
+  "org4": {
+    title: "Quiz IV",
+    questions: [
+      {
+        q: "Aromatic carboxylic acids are classified based on their substituents. Which of the following is specifically classified as a 'Phenolic acid'?",
+        options: [
+          "Anthranilic acid",
+          "Salicylic acid (o-hydroxybenzoic acid)",
+          "m-Sulphobenzoic acid",
+          "Phenylacetic acid"
+        ],
+        correct: 1,
+        explanation: "Salicylic acid contains both a carboxyl group and a hydroxyl (-OH) group directly attached to the benzene ring, making it a phenolic acid. Anthranilic acid is an aminobenzoic acid.",
+        source: "lectures_3,4.pdf - Aromatic Carboxylic Acids (Page 7)"
+      },
+      {
+        q: "Benzoic acid can be synthesized using a Grignard reagent (Phenylmagnesium bromide). What specific compound must the Grignard reagent react with, followed by acidic hydrolysis, to yield benzoic acid?",
+        options: [
+          "Carbon monoxide (CO)",
+          "Formaldehyde (HCHO)",
+          "Carbon dioxide (CO2)",
+          "Phosgene (COCl2)"
+        ],
+        correct: 2,
+        explanation: "The nucleophilic phenyl group of the Grignard reagent (C6H5MgBr) attacks the electrophilic carbon of Carbon dioxide (CO2). Subsequent hydrolysis with HCl yields benzoic acid (C6H5COOH) in high yield (90%).",
+        source: "lectures_3,4.pdf - Preparation of Aromatic acids (Page 15)"
+      },
+      {
+        q: "When synthesizing benzoic acid via the Friedel-Crafts reaction of benzene with carbonyl chloride (COCl2) and AlCl3, why MUST an excess of carbonyl chloride be used?",
+        options: [
+          "To completely dissolve the solid AlCl3 catalyst.",
+          "To ensure the benzene ring becomes fully deactivated.",
+          "To rapidly oxidize the intermediate to a carboxylic acid.",
+          "To prevent the intermediate benzoyl chloride from reacting with another benzene molecule to form benzophenone."
+        ],
+        correct: 3,
+        explanation: "If COCl2 is not in excess, the initially formed benzoyl chloride (C6H5COCl) will act as an acylating agent itself, undergoing a second Friedel-Crafts reaction with another benzene ring to undesirably produce benzophenone (diphenyl ketone).",
+        source: "lectures_3,4.pdf - Preparation of Aromatic acids (Page 17)"
+      },
+      {
+        q: "What is the final product obtained from the acidic hydrolysis (H2O/H2SO4) of o-Tolyl cyanide?",
+        options: [
+          "o-Toluic acid",
+          "o-Toluidine",
+          "Benzoic acid",
+          "Phthalic acid"
+        ],
+        correct: 0,
+        explanation: "Hydrolysis of a nitrile/cyanide group (-CN) systematically yields a carboxylic acid (-COOH). Therefore, o-tolyl cyanide is hydrolyzed directly to o-toluic acid, releasing ammonia (NH3) as a byproduct.",
+        source: "lectures_3,4.pdf - Preparation of Aromatic acids (Page 15)"
+      },
+      {
+        q: "Based on the principle of 'Steric Inhibition of Resonance' by ortho substituents, which of the following substituted benzoic acids is the STRONGEST acid?",
+        options: [
+          "2-methylbenzoic acid (pKa 3.91)",
+          "2-tert-butylbenzoic acid (pKa 3.46)",
+          "Benzoic acid (pKa 4.17)",
+          "2,6-dimethylbenzoic acid (pKa 3.21)"
+        ],
+        correct: 3,
+        explanation: "Bulky groups at the ortho position twist the carboxyl group out of the plane of the benzene ring. This breaks the resonance with the ring (which normally destabilizes the carboxylate anion). The greater the steric hindrance, the stronger the acid. 2,6-dimethylbenzoic acid has the most steric hindrance and the lowest pKa (strongest acid).",
+        source: "lectures_3,4.pdf - Acidity and Steric inhibition (Page 28)"
+      },
+      {
+        q: "Phenylacetic acid [C6H5-CH2-COOH] has an active alpha-carbon. If it is chlorinated at its BOILING point in the ABSENCE of a halogen carrier (Lewis acid), what is the primary reaction?",
+        options: [
+          "Electrophilic aromatic substitution at the para position of the ring.",
+          "Electrophilic aromatic substitution at the ortho position of the ring.",
+          "Replacement of the alpha-hydrogen in the side-chain.",
+          "Complete cleavage of the side-chain to yield chlorobenzene."
+        ],
+        correct: 2,
+        explanation: "Chlorination in the cold with a carrier directs the halogen to the aromatic ring (ortho/para). However, chlorination at the boiling point without a carrier proceeds via a free-radical mechanism, targeting the reactive alpha-hydrogens on the side-chain.",
+        source: "lectures_3,4.pdf - Side-chain reactions (Page 32)"
+      },
+      {
+        q: "Mandelic acid, also known as phenylglycollic acid [C6H5-CH(OH)-COOH], possesses a specific physical property due to its chiral alpha-carbon. What is this property?",
+        options: [
+          "It behaves exactly like an aldehyde.",
+          "It is optically active.",
+          "It strongly resists esterification.",
+          "It is completely insoluble in water."
+        ],
+        correct: 1,
+        explanation: "Mandelic acid contains a chiral center (the alpha-carbon is bonded to a phenyl group, a hydroxyl group, a carboxyl group, and a hydrogen atom). Because of this asymmetry, it is optically active.",
+        source: "lectures_3,4.pdf - Mandelic acid (Page 33)"
+      },
+      {
+        q: "Sulfa drugs are a vital class of antimicrobial agents. They all share a general structural formula where a hydrogen atom is replaced in which specific functional group?",
+        options: [
+          "A carboxyl group (-COOH)",
+          "A primary amine (-NH2)",
+          "A sulfonamide group (-SO2NH2)",
+          "An ester group (-COOR)"
+        ],
+        correct: 2,
+        explanation: "Sulfa drugs (like sulfapyridine, sulfadiazine, etc.) are based on the sulfonamide structure. They have a general formula where one hydrogen of the -SO2NH2 group is replaced by another organic group (often a heterocyclic ring).",
+        source: "lectures_3,4.pdf - Sulfa Drugs (Page 35)"
+      },
+      {
+        q: "In the multi-step synthesis of sulfanilamides from acetanilide, what is the chemical purpose of the final step involving dilute HCl and heat?",
+        options: [
+          "To hydrolyze the protective acetyl group (-NHCOCH3) back to a free primary amine (-NH2).",
+          "To reduce a nitro group into an amine.",
+          "To oxidize the methyl group into a carboxylic acid.",
+          "To attach the sulfonamide group to the ring."
+        ],
+        correct: 0,
+        explanation: "The amino group is initially protected as an amide (acetanilide) so it doesn't interfere during the chlorosulfonation step. The very last step uses dilute acid and heat to hydrolyze this amide bond, restoring the active primary amine (-NH2) of the sulfa drug.",
+        source: "lectures_3,4.pdf - Synthesis of Sulfanilamides (Page 38)"
+      },
+      {
+        q: "Saccharin (an artificial sweetener) is chemically known as o-sulphobenzoic imide. During its synthesis from the intermediate o-toluenesulphonamide, which reagent is used to oxidize the methyl group to a carboxylate?",
+        options: [
+          "Lithium aluminum hydride (LiAlH4)",
+          "Chromium trioxide (CrO3) in acetic anhydride",
+          "Sodium amalgam (Na/Hg)",
+          "Potassium permanganate (KMnO4) followed by acidification"
+        ],
+        correct: 3,
+        explanation: "To form saccharin, the methyl group of o-toluenesulphonamide must be oxidized. Alkaline Potassium permanganate (KMnO4) is used to oxidize the -CH3 group to a carboxylate salt, which upon acidification and heating cyclizes to form Saccharin.",
+        source: "lectures_3,4.pdf - Saccharin synthesis (Page 21 & 25)"
+      },
+      {
+        q: "Perbenzoic acid [C6H5-CO-O-OH] is an active and highly useful oxidizing agent in organic chemistry. What specific transformation does it quantitatively perform on an ethylenic (C=C) bond?",
+        options: [
+          "It cleaves the double bond to form two separate carboxylic acids.",
+          "It converts the double bond quantitatively into an epoxide ring.",
+          "It reduces the double bond to a saturated alkane.",
+          "It hydroxylates the double bond to form a gem-diol."
+        ],
+        correct: 1,
+        explanation: "Peroxyacids, such as perbenzoic acid, transfer an oxygen atom to carbon-carbon double bonds (alkenes) in a concerted mechanism, yielding epoxides quantitatively.",
+        source: "lectures_3,4.pdf - Perbenzoic acid (Page 20)"
+      },
+      {
+        q: "Identify the correct starting material typically used in the industrial synthesis of Saccharin.",
+        options: [
+          "o-toluenesulphonyl chloride",
+          "p-toluenesulphonic acid",
+          "2,4-dinitrochlorobenzene",
+          "Anthranilic acid"
+        ],
+        correct: 0,
+        explanation: "The synthesis of saccharin begins with o-toluenesulphonyl chloride, which is reacted with ammonia to form o-toluenesulphonamide, and then subsequently oxidized and cyclized.",
+        source: "lectures_3,4.pdf - Saccharin (Page 21)"
+      }
+    ]
+  },
 
-
-
-      const quizDatabase = {
+  "org5": {
+    title: "Quiz V",
+    questions: [
+      {
+        q: "Which of the following compounds is a sweet and pungent ketone naturally extracted from the Civet Cat and used as a fixative in perfumery?",
+        options: [
+          "Cinnamaldehyde",
+          "Vanillin",
+          "Civetone",
+          "Jasmone"
+        ],
+        correct: 2,
+        explanation: "Civetone is a large cyclic ketone derived from the Civet cat, widely used in the perfume industry as a fixative.",
+        source: "lectures_5,6.pdf - Aldehydes and Ketones in Nature (Page 4)"
+      },
+      {
+        q: "What is the correct IUPAC name for 'Isobutyraldehyde' [(CH3)2CH-CHO]?",
+        options: [
+          "3-methylbutanal",
+          "2-methylpropanal",
+          "butanal",
+          "2-butanone"
+        ],
+        correct: 1,
+        explanation: "The longest continuous carbon chain containing the aldehyde group has 3 carbons (propanal). A methyl group is attached to carbon 2, giving 2-methylpropanal.",
+        source: "lectures_5,6.pdf - Nomenclature (Page 8)"
+      },
+      {
+        q: "Which common name corresponds to the structure 'methyl vinyl ketone' [CH3-CO-CH=CH2]?",
+        options: [
+          "Acetophenone",
+          "Benzophenone",
+          "3-buten-2-one",
+          "2-methylcyclopentanone"
+        ],
+        correct: 2,
+        explanation: "By IUPAC rules, the longest chain containing both the alkene and ketone is 4 carbons (butene). The ketone gets priority for numbering (carbon 2), and the alkene starts at carbon 3. Thus, it is 3-buten-2-one.",
+        source: "lectures_5,6.pdf - Ketones IUPAC (Page 11)"
+      },
+      {
+        q: "What is the specific hybridization and bond angle of the carbonyl carbon in aldehydes and ketones?",
+        options: [
+          "sp3 hybridized, 109.5°",
+          "sp hybridized, 180°",
+          "sp2 hybridized, 120°",
+          "sp3d hybridized, 90°"
+        ],
+        correct: 2,
+        explanation: "The carbonyl carbon is double-bonded to oxygen (one sigma, one pi bond) and single-bonded to two other groups, making it sp2 hybridized with a trigonal planar geometry and 120° bond angles.",
+        source: "lectures_5,6.pdf - Physical Properties (Page 13)"
+      },
+      {
+        q: "Compare the C=O double bond distance to a typical C-O single bond. Which statement is correct?",
+        options: [
+          "The C=O bond is shorter (1.24 Å) than a C-O single bond.",
+          "The C=O bond is longer than a C-O single bond.",
+          "Both bonds have the exact same length.",
+          "The C=O bond length continuously fluctuates between single and triple bond lengths."
+        ],
+        correct: 0,
+        explanation: "Double bonds are stronger and shorter than single bonds. The C=O bond distance is approximately 1.24 Å, which is shorter than a standard C-O single bond.",
+        source: "lectures_5,6.pdf - The Carbonyl Group (Page 19)"
+      },
+      {
+        q: "What is the calculated oxidation state (number) of the carbon atom in Formaldehyde [H2C=O]?",
+        options: [
+          "-2",
+          "0",
+          "+2",
+          "+4"
+        ],
+        correct: 1,
+        explanation: "In formaldehyde (H2C=O), the carbon is bonded to two hydrogens (-1 each = -2) and double-bonded to one oxygen (+2). The net oxidation state of the carbon atom is 0.",
+        source: "lectures_5,6.pdf - Oxidation/Reduction (Page 14)"
+      },
+      {
+        q: "To synthesize Pentanal (valeraldehyde) from 1-Pentanol without over-oxidizing it to pentanoic acid, which specific reagent must be used?",
+        options: [
+          "K2Cr2O7 with strong heat",
+          "KMnO4",
+          "Pyridinium chlorochromate (PCC) or C5H5NHCrO3Cl",
+          "LiAlH4"
+        ],
+        correct: 2,
+        explanation: "Strong oxidizing agents like K2Cr2O7 or KMnO4 will completely oxidize primary alcohols to carboxylic acids. Mild oxidizing agents like PCC stop the oxidation at the aldehyde stage.",
+        source: "lectures_5,6.pdf - Aldehydes syntheses (Page 15 & 23)"
+      },
+      {
+        q: "The conversion of an acid chloride [R-CO-Cl] to an aldehyde [R-CHO] requires a specialized, bulky reducing agent. Which of the following is commonly used?",
+        options: [
+          "NaBH4",
+          "LiAlH(O-t-Bu)3",
+          "LiAlH4",
+          "H2 / Pt"
+        ],
+        correct: 1,
+        explanation: "LiAlH(O-t-Bu)3 (Lithium tri-tert-butoxyaluminum hydride) is a milder, sterically hindered reducing agent that efficiently stops the reduction of acid chlorides at the aldehyde stage without further reducing it to a primary alcohol.",
+        source: "lectures_5,6.pdf - Reduction of acid chlorides (Page 15)"
+      },
+      {
+        q: "When synthesizing p-anisaldehyde from p-methylanisole (a methyl aromatic compound), what is the appropriate oxidizing reagent combination?",
+        options: [
+          "CrO3 / (CH3CO)2O followed by hydrolysis (H2O)",
+          "LiAlH4",
+          "NaOCl",
+          "Br2 / FeBr3"
+        ],
+        correct: 0,
+        explanation: "Methyl aromatics (Ar-CH3) can be oxidized to aldehydes (Ar-CHO) using Chromium trioxide (CrO3) in acetic anhydride [(CH3CO)2O], which protects the aldehyde as an intermediate before hydrolysis releases the final product.",
+        source: "lectures_5,6.pdf - Oxidation of methyl aromatics (Page 15 & 24)"
+      },
+      {
+        q: "Which reagent is exceptionally useful for coupling with an acid chloride [R-CO-Cl] to specifically synthesize a ketone [R-CO-R']?",
+        options: [
+          "A Grignard reagent [RMgX]",
+          "A Lithium dialkylcuprate (Gilman reagent) [R'2CuLi]",
+          "An Alkyllithium [RLi]",
+          "An alkoxide [RO-]"
+        ],
+        correct: 1,
+        explanation: "Lithium dialkylcuprates (R'2CuLi) selectively react with acid chlorides to yield ketones. Grignard reagents are too reactive and would attack the resulting ketone to form a tertiary alcohol.",
+        source: "lectures_5,6.pdf - Ketone synthesis: Coupling (Page 16)"
+      },
+      {
+        q: "Friedel-Crafts acylation is a powerful method to synthesize aromatic ketones. However, it completely fails if the aromatic ring possesses which of the following?",
+        options: [
+          "An alkyl group",
+          "A halogen atom",
+          "A strong electron-withdrawing group (deactivated ring) like -NO2",
+          "A methoxy group"
+        ],
+        correct: 2,
+        explanation: "Friedel-Crafts acylation requires an electron-rich ring to attack the relatively weak acylium ion. Rings with strong deactivating groups (e.g., -NO2) are too electron-deficient to react.",
+        source: "lectures_5,6.pdf - Friedel-Crafts acylation (Page 16)"
+      },
+      {
+        q: "What is the common name for the aromatic ketone 'Methyl phenyl ketone' [Ph-CO-CH3]?",
+        options: [
+          "Benzophenone",
+          "Acetophenone",
+          "Propiophenone",
+          "Toluene"
+        ],
+        correct: 1,
+        explanation: "A ketone containing one methyl group and one phenyl group attached to the carbonyl carbon is commonly named Acetophenone.",
+        source: "lectures_5,6.pdf - Ketones common names (Page 10)"
+      },
+      {
+        q: "In the mechanism of Nucleophilic Addition to a carbonyl group, what happens to the pi-electrons when the nucleophile attacks the carbonyl carbon?",
+        options: [
+          "They are expelled as a leaving group.",
+          "They move onto the nucleophile to stabilize it.",
+          "They shift onto the oxygen atom, forming an alkoxide intermediate.",
+          "They form a new sigma bond with the adjacent alpha-carbon."
+        ],
+        correct: 2,
+        explanation: "The nucleophile attacks the electrophilic carbonyl carbon. To maintain carbon's octet, the pi-electrons of the C=O bond break and shift entirely onto the more electronegative oxygen atom, creating a tetrahedral intermediate with an O- charge.",
+        source: "lectures_5,6.pdf - Nucleophilic Addition (Page 21)"
+      },
+      {
+        q: "If you add exactly ONE equivalent of an alcohol (ROH) to an aldehyde in the presence of an acid catalyst, what is the initial product formed?",
+        options: [
+          "An Acetal",
+          "A Hemiacetal",
+          "An Aldol",
+          "A Carboxylic acid"
+        ],
+        correct: 1,
+        explanation: "Addition of one molecule of alcohol forms a Hemiacetal (a carbon bonded to one -OH group and one -OR group). A second equivalent is required to form a full Acetal.",
+        source: "lectures_5,6.pdf - Hemiacetals (Page 22 & 24)"
+      },
+      {
+        q: "Which specific reagent is reacted with acetone [CH3-CO-CH3] under acidic conditions to form a 'cyclic acetal'?",
+        options: [
+          "Methanol (CH3OH)",
+          "Ethanol (CH3CH2OH)",
+          "Ethylene glycol (HO-CH2-CH2-OH)",
+          "Acetic acid"
+        ],
+        correct: 2,
+        explanation: "Ethylene glycol is a diol (contains two -OH groups). Both hydroxyl groups can react with the same carbonyl carbon, effectively creating a stable 5-membered cyclic acetal ring.",
+        source: "lectures_5,6.pdf - Cyclic Acetals (Page 24)"
+      },
+      {
+        q: "Which of the following molecules can spontaneously undergo intramolecular nucleophilic addition to form a stable cyclic hemiacetal?",
+        options: [
+          "Acetone",
+          "Benzaldehyde",
+          "5-hydroxypentanal",
+          "Cyclohexanone"
+        ],
+        correct: 2,
+        explanation: "5-hydroxypentanal has both the nucleophile (the -OH group at carbon 5) and the electrophile (the aldehyde group at carbon 1) in the same molecule. It readily cyclizes to form a stable 6-membered hemiacetal ring.",
+        source: "lectures_5,6.pdf - Intramolecular Hemiacetals (Page 23)"
+      },
+      {
+        q: "The addition of water to formaldehyde [H2C=O] yields a 1,1-diol. What is another name for this hydration product?",
+        options: [
+          "Formaldehyde hydrate (a gem-diol)",
+          "A hemiacetal",
+          "An epoxide",
+          "An aldol"
+        ],
+        correct: 0,
+        explanation: "When water adds to an aldehyde or ketone, it forms a 1,1-diol. Because both hydroxyls are on the same geminal carbon, it is referred to as a gem-diol or a hydrate.",
+        source: "lectures_5,6.pdf - Addition of Water (Page 25)"
+      },
+      {
+        q: "Reacting a Grignard reagent [RMgX] with Formaldehyde [H2C=O] followed by acidic hydrolysis always yields which class of alcohol?",
+        options: [
+          "A Secondary alcohol",
+          "A Tertiary alcohol",
+          "A Primary alcohol",
+          "A Phenol"
+        ],
+        correct: 2,
+        explanation: "Formaldehyde has two hydrogens on the carbonyl carbon. Adding one R group from the Grignard reagent results in an alcohol with one R group and two hydrogens, which is by definition a Primary alcohol.",
+        source: "lectures_5,6.pdf - Grignard Addition (Page 26)"
+      },
+      {
+        q: "Reacting a Grignard reagent [RMgX] with any Aldehyde OTHER THAN formaldehyde (e.g., R'-CHO) yields which class of alcohol?",
+        options: [
+          "A Tertiary alcohol",
+          "A Secondary alcohol",
+          "A Primary alcohol",
+          "A Diol"
+        ],
+        correct: 1,
+        explanation: "Higher aldehydes already have one R' group attached. Adding a second R group from the Grignard reagent results in a carbon bonded to an -OH, an R group, an R' group, and one hydrogen. This is a Secondary alcohol.",
+        source: "lectures_5,6.pdf - Grignard Addition (Page 26)"
+      },
+      {
+        q: "What is the final product of the reaction between Acetone [CH3-CO-CH3] and Ethylmagnesium bromide [CH3CH2MgBr] followed by hydrolysis?",
+        options: [
+          "1-pentanol",
+          "2-pentanol",
+          "2-methyl-2-butanol (a tertiary alcohol)",
+          "3-methyl-2-butanone"
+        ],
+        correct: 2,
+        explanation: "Acetone is a ketone (two methyl groups). Adding an ethyl group via the Grignard reagent creates a carbon bonded to two methyls, one ethyl, and an -OH group. This is 2-methyl-2-butanol, a Tertiary alcohol.",
+        source: "lectures_5,6.pdf - Grignard Addition Practice (Page 27)"
+      },
+      {
+        q: "Predict the product of reacting Phenylmagnesium bromide [Ph-MgBr] with Acetaldehyde [CH3-CHO] after acidic workup.",
+        options: [
+          "Acetophenone",
+          "1-phenylethanol",
+          "Benzyl alcohol",
+          "Phenol"
+        ],
+        correct: 1,
+        explanation: "Acetaldehyde has one methyl group. Phenylmagnesium bromide adds a phenyl group. The resulting alcohol has a methyl and a phenyl on the alpha carbon, making it 1-phenylethanol (a secondary alcohol).",
+        source: "lectures_5,6.pdf - Grignard Addition Example (Page 28)"
+      },
+      {
+        q: "Organometallic reagents like Sodium Acetylide [Na+ -C≡CH] can act as nucleophiles. What product is formed when it reacts with Cyclopentanone followed by hydrolysis?",
+        options: [
+          "A tertiary acetylenic alcohol (1-ethynylcyclopentanol)",
+          "An enamine",
+          "A completely saturated cyclic alcohol",
+          "A cyclic ether"
+        ],
+        correct: 0,
+        explanation: "The acetylide anion attacks the carbonyl carbon of cyclopentanone, pushing pi electrons to the oxygen. Hydrolysis protonates the oxygen, yielding a tertiary alcohol with a terminal alkyne group (1-ethynylcyclopentanol).",
+        source: "lectures_5,6.pdf - Addition of Acetylides (Page 29)"
+      },
+      {
+        q: "In the first step of an Aldol Condensation, what role does the base (e.g., OH-) play?",
+        options: [
+          "It directly attacks the carbonyl carbon to form a hydrate.",
+          "It oxidizes the aldehyde to a carboxylic acid.",
+          "It removes a relatively acidic alpha-hydrogen to generate a resonance-stabilized enolate anion.",
+          "It removes the carbonyl oxygen as water."
+        ],
+        correct: 2,
+        explanation: "The base targets the alpha-carbon (the carbon adjacent to the carbonyl) because its hydrogens are acidic due to resonance stabilization of the resulting conjugate base. Removing this proton forms a highly nucleophilic enolate anion.",
+        source: "lectures_5,6.pdf - Mechanism of Aldol Condensation (Page 31)"
+      },
+      {
+        q: "When two molecules of acetaldehyde [CH3-CHO] undergo an Aldol Condensation in the presence of base, the initial addition product (before heating) is an 'Aldol'. What is its systematic chemical structure?",
+        options: [
+          "A beta-hydroxy aldehyde (3-hydroxybutanal)",
+          "An alpha-hydroxy ketone",
+          "An unsaturated ester",
+          "A dicarboxylic acid"
+        ],
+        correct: 0,
+        explanation: "The enolate of one acetaldehyde attacks the carbonyl carbon of the second acetaldehyde. After protonation from water, the product contains an aldehyde group at C1 and a hydroxyl group at C3, making it 3-hydroxybutanal (a beta-hydroxy aldehyde).",
+        source: "lectures_5,6.pdf - The Aldol Condensation (Page 30 & 31)"
+      },
+      {
+        q: "A 'Mixed' Aldol Condensation involves two different carbonyl compounds. What is the product formed from heating a mixture of Benzaldehyde [Ph-CHO] and Acetaldehyde [CH3-CHO] with base?",
+        options: [
+          "Benzophenone",
+          "Vanillin",
+          "Cinnamaldehyde [Ph-CH=CH-CHO]",
+          "Acetophenone"
+        ],
+        correct: 2,
+        explanation: "Benzaldehyde has no alpha-hydrogens, so it cannot form an enolate. Acetaldehyde forms the enolate and attacks benzaldehyde. Heating eliminates water (-H2O) to form the alpha,beta-unsaturated aldehyde known as Cinnamaldehyde.",
+        source: "lectures_5,6.pdf - The Mixed Aldol Condensation (Page 32)"
+      },
+      {
+        q: "Which statement accurately describes the solubility of simple aldehydes and ketones in water?",
+        options: [
+          "They are completely insoluble regardless of chain length.",
+          "They are soluble only if they have four carbons or fewer.",
+          "All aldehydes and ketones are completely miscible with water.",
+          "They are soluble only if they contain an aromatic ring."
+        ],
+        correct: 1,
+        explanation: "Small aldehydes and ketones (up to about four carbons) are highly soluble in water because their carbonyl oxygen can accept hydrogen bonds from water. As the non-polar hydrocarbon chain grows larger, solubility rapidly decreases.",
+        source: "lectures_5,6.pdf - Physical properties (Page 13)"
+      },
+      {
+        q: "Which well-known naturally occurring aldehyde is the primary flavor component extracted from the vanilla bean?",
+        options: [
+          "Civetone",
+          "Carvone",
+          "Vanillin",
+          "Cinnamaldehyde"
+        ],
+        correct: 2,
+        explanation: "Vanillin is an aromatic aldehyde containing a hydroxyl and a methoxy group, and it is the principal flavor and aroma compound found in vanilla beans.",
+        source: "lectures_5,6.pdf - Aldehydes and Ketones in Nature (Page 4)"
+      },
+      {
+        q: "If you want to prepare Benzophenone [Ph-CO-Ph], which pair of reagents would successfully undergo a Friedel-Crafts acylation to yield the product?",
+        options: [
+          "Benzene + Benzoyl chloride [Ph-CO-Cl] + AlCl3",
+          "Benzene + Acetyl chloride [CH3-CO-Cl] + AlCl3",
+          "Toluene + Cl2 + FeBr3",
+          "Phenol + Formaldehyde"
+        ],
+        correct: 0,
+        explanation: "Benzophenone is a diphenyl ketone. To make it via Friedel-Crafts acylation, you need one phenyl ring to act as the nucleophile (Benzene) and an acylating agent containing the second phenyl ring (Benzoyl chloride), catalyzed by AlCl3.",
+        source: "lectures_5,6.pdf - Synthesize benzophenone (Page 24)"
+      },
+      {
+        q: "You are given 2-propanol (isopropyl alcohol). Which reagent is appropriate to synthesize Acetone from it?",
+        options: [
+          "LiAlH4",
+          "NaOCl or K2Cr2O7",
+          "H2O / H+",
+          "Ozone (O3)"
+        ],
+        correct: 1,
+        explanation: "2-propanol is a secondary alcohol. Oxidation of secondary alcohols directly yields ketones. Common oxidizing agents like Sodium hypochlorite (NaOCl) or Potassium dichromate (K2Cr2O7) are highly effective.",
+        source: "lectures_5,6.pdf - Ketone synthesis: Oxidation (Page 16)"
+      },
+      {
+        q: "What is the structural difference between an Acetal and a Hemiacetal?",
+        options: [
+          "An acetal has two -OH groups; a hemiacetal has two -OR groups.",
+          "An acetal has two -OR (alkoxy) groups on the same carbon; a hemiacetal has one -OH and one -OR group.",
+          "An acetal is a ketone; a hemiacetal is an aldehyde.",
+          "An acetal contains a carbon-carbon double bond; a hemiacetal does not."
+        ],
+        correct: 1,
+        explanation: "A hemiacetal is the intermediate step (half-way) formed by adding one alcohol molecule, resulting in a carbon with one -OH and one -OR. Adding a second alcohol molecule replaces the -OH with another -OR, yielding a full acetal.",
+        source: "lectures_5,6.pdf - Acetals (Page 22)"
+      }
+    ]
+  },
 
             
   "org6": {
