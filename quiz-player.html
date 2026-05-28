@@ -395,6 +395,136 @@
 
 const quizDatabase = {
 
+
+  
+  "org1": {
+    title: "Quiz I",
+    questions: [
+      {
+        q: "Arrange the following compounds in order of DECREASING reactivity towards Electrophilic Aromatic Substitution (EAS): Benzene, Phenol, Nitrobenzene, Chlorobenzene.",
+        options: [
+          "Phenol > Benzene > Chlorobenzene > Nitrobenzene",
+          "Nitrobenzene > Chlorobenzene > Benzene > Phenol",
+          "Phenol > Chlorobenzene > Benzene > Nitrobenzene",
+          "Benzene > Phenol > Nitrobenzene > Chlorobenzene"
+        ],
+        correct: 0,
+        explanation: "Phenol is the most reactive due to the strongly activating -OH group (+M effect). Benzene is neutral. Chlorobenzene is weakly deactivating because its electron-withdrawing inductive effect (-I) is stronger than its resonance effect. Nitrobenzene is the least reactive due to powerful -I and -M deactivating effects[cite: 188, 189, 190].",
+        source: "organic lec 2.m4a [cite: 188, 189]"
+      },
+      {
+        q: "What is the fundamental reason why 'Cyclooctatetraene' is classified as non-aromatic despite having alternating double and single bonds?",
+        options: [
+          "It has exactly 6 pi electrons.",
+          "It adopts a non-planar 'tub' shape to avoid the highly unstable anti-aromatic state.",
+          "It contains sp3 hybridized carbons.",
+          "It is not a cyclic compound."
+        ],
+        correct: 1,
+        explanation: "Cyclooctatetraene has 8 pi electrons, which fits the anti-aromatic (4n) rule. To escape this severe instability, the molecule distorts itself out of a flat plane into a 'tub' shape. Since it is no longer planar, it fails the basic requirements for aromaticity[cite: 441].",
+        source: "Organic_1.m4a [cite: 441]"
+      },
+      {
+        q: "How does the presence of multiple strongly electron-withdrawing groups (e.g., -NO2) at ortho and para positions affect the Nucleophilic Aromatic Substitution (NAS) of chlorobenzene?",
+        options: [
+          "It makes the reaction completely impossible due to severe steric hindrance.",
+          "It forces the incoming nucleophile to attack the meta position.",
+          "It changes the mechanism exclusively to an Elimination-Addition (Benzyne) pathway.",
+          "It drastically lowers the required reaction temperature by highly stabilizing the intermediate Meisenheimer complex."
+        ],
+        correct: 3,
+        explanation: "Electron-withdrawing groups at ortho and para positions stabilize the negatively charged intermediate (Meisenheimer complex) via resonance. This highly activates the ring for NAS, drastically dropping the required temperature (e.g., from 350°C for unactivated rings to room temperature for 2,4,6-trinitrochlorobenzene)[cite: 506, 507, 593].",
+        source: "organic_5 (1).m4a & lectures_3,4.pdf [cite: 506, 593]"
+      },
+      {
+        q: "Why does Aniline [Ph-NH2] completely fail to undergo Friedel-Crafts alkylation or acylation?",
+        options: [
+          "The amino group directs the electrophile exclusively to the meta position.",
+          "The Lewis acid catalyst (e.g., AlCl3) complexes with the nitrogen's lone pair, converting it into a powerful electron-withdrawing (deactivating) group.",
+          "The strong activating amino group causes the benzene ring to break apart.",
+          "Aniline is completely insoluble in the non-polar reaction solvent."
+        ],
+        correct: 1,
+        explanation: "Friedel-Crafts reactions do not occur on rings with strong activating groups having lone pairs (like -NH2 or -OH) because these lone pairs immediately coordinate with the Lewis acid catalyst. This places a positive charge on the heteroatom, transforming it into a powerful deactivating group that halts the reaction[cite: 228, 557].",
+        source: "organic lec 3.m4a & lectures_1,2.pdf [cite: 228, 557]"
+      },
+      {
+        q: "Which specific catalyst is uniquely utilized in the Sandmeyer Reaction to successfully replace a diazonium group [-N2+] with a halide or cyanide?",
+        options: [
+          "Zinc amalgam (Zn/Hg)",
+          "Iron(III) salts (e.g., FeCl3)",
+          "Cuprous salts (e.g., CuCl, CuBr, CuCN)",
+          "Aluminum chloride (AlCl3)"
+        ],
+        correct: 2,
+        explanation: "The Sandmeyer reaction specifically requires Copper(I) (Cuprous) salts to catalyze the replacement of the diazonium group with nucleophiles like Cl, Br, or CN[cite: 461, 664].",
+        source: "organic_5 (1).m4a & lectures_3,4.pdf [cite: 461, 664]"
+      },
+      {
+        q: "What is the final product class obtained when a Grignard reagent [RMgX] reacts with a Ketone (e.g., Acetone) followed by acidic hydrolysis?",
+        options: [
+          "A secondary alcohol",
+          "A primary alcohol",
+          "A carboxylic acid",
+          "A tertiary alcohol"
+        ],
+        correct: 3,
+        explanation: "Ketones inherently have two alkyl/aryl groups attached to the carbonyl carbon. The nucleophilic addition of a Grignard reagent adds a third alkyl group. After protonation (hydrolysis), this structure yields a tertiary alcohol[cite: 471, 712].",
+        source: "lectures_5,6.pdf & organic_5 (1).m4a [cite: 471, 712]"
+      },
+      {
+        q: "What is the essential structural requirement for an aldehyde or ketone to initiate an Aldol Condensation?",
+        options: [
+          "It must contain a conjugated double bond.",
+          "It must possess at least one acidic alpha-hydrogen.",
+          "It must contain an aromatic ring.",
+          "It must be completely water-soluble."
+        ],
+        correct: 1,
+        explanation: "The very first step of an Aldol Condensation is the removal of an acidic alpha-hydrogen (a hydrogen on the carbon adjacent to the carbonyl) by a base. This generates the necessary nucleophilic enolate anion. Molecules lacking alpha-hydrogens (like Benzaldehyde) cannot form enolates[cite: 719].",
+        source: "lectures_5,6.pdf [cite: 719]"
+      },
+      {
+        q: "Which named reaction specifically reduces aromatic ketones directly into straight-chain alkylbenzenes (converting the C=O group to a CH2 group) using Amalgamated Zinc (Zn/Hg) and aqueous HCl?",
+        options: [
+          "Clemmensen Reduction",
+          "Kolbe Reaction",
+          "Sandmeyer Reaction",
+          "Reimer-Tiemann Reaction"
+        ],
+        correct: 0,
+        explanation: "The Clemmensen Reduction uses Zn/Hg and aqueous HCl to completely reduce the carbonyl group of ketones to a methylene (-CH2-) group. Chemists use this after Friedel-Crafts acylation to obtain straight-chain alkylbenzenes without the rearrangement issues seen in alkylation[cite: 322, 560].",
+        source: "organic lec 3.m4a & lectures_1,2.pdf [cite: 322, 560]"
+      },
+      {
+        q: "Why is 2,6-dimethylbenzoic acid a significantly stronger acid (lower pKa) than unsubstituted benzoic acid?",
+        options: [
+          "The methyl groups strongly withdraw electrons via the -I effect.",
+          "It forms a highly stable Meisenheimer complex.",
+          "The bulky ortho methyl groups cause 'Steric inhibition of resonance', twisting the carboxyl group out of plane and preventing resonance destabilization of the anion.",
+          "The methyl groups undergo strong intramolecular hydrogen bonding with the carboxyl group."
+        ],
+        correct: 2,
+        explanation: "Bulky substituents at the ortho positions physically force the carboxyl group out of the plane of the benzene ring. This 'Steric inhibition of resonance' prevents the electron-donating resonance from the ring, making proton release much easier and consequently the acid stronger[cite: 632, 633].",
+        source: "lectures_3,4.pdf [cite: 632]"
+      },
+      {
+        q: "In the industrial synthesis of phenols (e.g., Kolbe reaction for Salicylic acid), Sodium phenoxide is reacted with a weak electrophile (CO2). Why is phenoxide reactive enough for this?",
+        options: [
+          "Because the resulting phenoxide ion is highly activated; the negative oxygen strongly donates electron density into the ring via resonance (+M).",
+          "Because CO2 is actually a very powerful electrophile.",
+          "Because the reaction occurs at absolute zero.",
+          "Because the oxygen atom exerts a strong -I effect that pulls electrons out of the ring."
+        ],
+        correct: 0,
+        explanation: "The phenoxide anion (-O-) is one of the most powerful activating groups. It strongly donates its negative charge into the aromatic ring via resonance, increasing electron density immensely at the ortho and para positions, allowing even weak electrophiles like CO2 to attack[cite: 604, 608].",
+        source: "lectures_3,4.pdf [cite: 604, 608]"
+      }
+    ]
+  },
+
+
+
   
   "org2": {
     title: "Quiz II",
@@ -13263,6 +13393,270 @@ const quizDatabase = {
       ],
       correct: 3,
       explanation: "The Prefetch Unit fetches or retrieves instructions from memory/cache ahead of time, ensuring they are ready for the processor to minimize idle waiting.",
+      source: "111.pdf"
+    },
+    {
+      q: "The ALU handles logical decisions such as determining if one number is greater than another.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 0,
+      explanation: "The Arithmetic/Logic Unit (ALU) performs logical comparisons such as equal to, less than, or greater than to make logical decisions.",
+      source: "111.pdf"
+    },
+    {
+      q: "The Control Unit directly executes mathematical calculations on data.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 1,
+      explanation: "The ALU executes mathematical calculations, while the Control Unit only directs and coordinates the flow of data and instructions.",
+      source: "111.pdf"
+    },
+    {
+      q: "Level 1 (L1) cache is typically larger in capacity than Level 3 (L3) cache.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 1,
+      explanation: "L1 cache is the smallest and fastest cache level built closest to the CPU core, whereas L3 cache is larger but slightly slower.",
+      source: "111.pdf"
+    },
+    {
+      q: "The internal bus regulates electronic traffic within the CPU core.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 0,
+      explanation: "The internal bus moves data and control signals between the various internal components inside the CPU core itself.",
+      source: "111.pdf"
+    },
+    {
+      q: "The Prefetch Unit orders data based on the current task.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 1,
+      explanation: "The Prefetch Unit does not order data; its primary purpose is to request and fetch instructions from memory before the CPU actually needs them.",
+      source: "111.pdf"
+    },
+    {
+      q: "The Decode Unit stores the final results of processing.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 1,
+      explanation: "The Decode Unit translates instructions into a form the CPU can understand. Final results are stored during the 'Store' stage into registers or memory.",
+      source: "111.pdf"
+    },
+    {
+      q: "CPU registers can be used to hold memory addresses.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 0,
+      explanation: "Registers are multi-purpose storage locations inside the CPU that can hold data, instructions, or specific memory addresses.",
+      source: "111.pdf"
+    },
+    {
+      q: "A machine cycle consists of 6 general operations.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 1,
+      explanation: "A standard machine cycle consists of exactly 4 basic operations: Fetch, Decode, Execute, and Store.",
+      source: "111.pdf"
+    },
+    {
+      q: "The 'Fetch' step involves retrieving the program instruction.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 0,
+      explanation: "Fetching is the explicit operation of obtaining a program instruction or data item from the system memory.",
+      source: "111.pdf"
+    },
+    {
+      q: "The 'Store' step is when the control unit understands the instruction.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 1,
+      explanation: "The control unit interprets and understands the instruction during the 'Decode' step. The 'Store' step writes the output to memory.",
+      source: "111.pdf"
+    },
+    {
+      q: "A system clock is a small quartz crystal located on the motherboard.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 0,
+      explanation: "The system clock utilizes a quartz crystal oscillator on the motherboard to emit synchronized continuous electronic timing pulses.",
+      source: "111.pdf"
+    },
+    {
+      q: "The term 'MHz' stands for Megahertz.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 0,
+      explanation: "MHz stands for Megahertz, which translates to millions of clock cycles per second.",
+      source: "111.pdf"
+    },
+    {
+      q: "The Frontside Bus (FSB) connects the CPU to the chipset.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 0,
+      explanation: "The Frontside Bus (FSB) serves as the primary data highway connecting the CPU to system RAM and core logic chipsets.",
+      source: "111.pdf"
+    },
+    {
+      q: "PCI Express (PCIe) is slower than the older PCI bus.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 1,
+      explanation: "PCI Express (PCIe) utilizes a fast serial point-to-point architecture, making it significantly faster than the legacy parallel PCI bus.",
+      source: "111.pdf"
+    },
+    {
+      q: "Microcode instructions are the basic instructions used by the CPU.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 0,
+      explanation: "Microcode consists of internal, hardwired primitive operations embedded within the CPU architecture to perform machine instructions.",
+      source: "111.pdf"
+    },
+    {
+      q: "Arithmetic operations include mathematical calculations.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 0,
+      explanation: "Arithmetic operations are standard mathematical calculations like addition, subtraction, multiplication, and division.",
+      source: "111.pdf"
+    },
+    {
+      q: "A 2 GHz CPU uses a multiplier of 10 if the system clock is 200 MHz.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 0,
+      explanation: "Yes, 200 MHz system clock multiplied by a bus frequency ratio factor of 10 equals 2000 MHz, which equals 2 GHz.",
+      source: "111.pdf"
+    },
+    {
+      q: "Internal cache memory stores data and instructions during processing.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 0,
+      explanation: "Internal cache acts as high-speed temporary storage directly inside the processor chip to speed up active processing data retrieval.",
+      source: "111.pdf"
+    },
+    {
+      q: "The Bus Interface Unit is where data enters or leaves the CPU core.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 0,
+      explanation: "The Bus Interface Unit handles system bus handshakes, allowing incoming and outgoing data blocks to interface properly with the CPU core.",
+      source: "111.pdf"
+    },
+    {
+      q: "USB ports can be used to connect keyboards and mice.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 0,
+      explanation: "Universal Serial Bus (USB) is standard for connecting cross-compatible human interface input devices like keyboards and mice.",
+      source: "111.pdf"
+    },
+    {
+      q: "HDMI ports are only used for audio signals.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 1,
+      explanation: "HDMI (High-Definition Multimedia Interface) transmits uncompressed digital multimedia, carrying both high-definition video and audio together.",
+      source: "111.pdf"
+    },
+    {
+      q: "Plug and Play allows the operating system to automatically detect and configure new hardware devices.",
+      options: [
+        "True",
+        "False",
+        ".",
+        "."
+      ],
+      correct: 0,
+      explanation: "Plug and Play (PnP) is an industry feature allowing automatic resource allocation and driver tracking for newly attached system peripherals.",
       source: "111.pdf"
     },
     {
