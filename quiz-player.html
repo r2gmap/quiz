@@ -395,10 +395,184 @@
 
 const quizDatabase = {
 
+  
+  "org2": {
+    title: "Quiz II",
+    questions: [
+      {
+        q: "The industrial conversion of chlorobenzene to phenol requires extraordinarily harsh conditions. What are the specific reagents and conditions for the 'Dow Process'?",
+        options: [
+          "Dilute NaOH at room temperature.",
+          "Concentrated NaOH at 350°C and high pressure.",
+          "Water and a strong Lewis acid at 100°C.",
+          "NaNH2 in liquid ammonia at -40°C."
+        ],
+        correct: 1,
+        explanation: "Unactivated aryl halides like chlorobenzene do not undergo normal nucleophilic substitution. The Dow Process forces the reaction via a benzyne intermediate using harsh conditions: NaOH, 350°C, and high pressure.",
+        source: "lectures_3,4.pdf - Base Hydrolysis of Chlorobenzene (Page 3) & organic_5 (1).m4a"
+      },
+      {
+        q: "The Kolbe reaction (carbonation) is specifically used to synthesize salicylic acid. What precise conditions and reagents are applied to sodium phenoxide in this named reaction?",
+        options: [
+          "CHCl3 and NaOH.",
+          "CH3COCl and AlCl3.",
+          "CO2 gas heated at 125°C under 4-7 atm pressure.",
+          "COCl2 and AlCl3."
+        ],
+        correct: 2,
+        explanation: "In the Kolbe reaction, the highly activated sodium phenoxide reacts with the weak electrophile Carbon dioxide (CO2) under specific heat (125°C) and pressure (4-7 atm), directing primarily to the ortho position to yield salicylic acid.",
+        source: "lectures_3,4.pdf - Kolbe reaction (Page 8)"
+      },
+      {
+        q: "In the 'Reimer-Tiemann reaction', phenol is reacted with chloroform (CHCl3) and aqueous NaOH. What is the major product of this specific named reaction?",
+        options: [
+          "Salicylic acid [o-hydroxybenzoic acid]",
+          "Benzoquinone",
+          "Phenyl acetate",
+          "Salicylaldehyde [o-hydroxybenzaldehyde]"
+        ],
+        correct: 3,
+        explanation: "The Reimer-Tiemann reaction introduces a formyl group (-CHO) onto the phenol ring. Using Chloroform (CHCl3) with NaOH yields Salicylaldehyde. (Note: Using Carbon tetrachloride CCl4 instead yields Salicylic acid).",
+        source: "lectures_3,4.pdf - Reimer-Tiemann reaction (Page 12)"
+      },
+      {
+        q: "The 'Schotten-Baumann reaction' involves the benzoylation of compounds containing active hydrogens (like amines or phenols) using benzoyl chloride. What specific condition characterizes this reaction?",
+        options: [
+          "It is carried out in the presence of dilute aqueous sodium hydroxide.",
+          "It is performed under high pressure and 350°C.",
+          "It requires anhydrous dry ether as a strictly aprotic solvent.",
+          "It uses concentrated sulfuric acid as a catalyst."
+        ],
+        correct: 0,
+        explanation: "The Schotten-Baumann reaction uses dilute NaOH to neutralize the HCl byproduct formed during the benzoylation of amines or phenols, driving the reaction to completion smoothly.",
+        source: "lectures_3,4.pdf - Schotten-Baumann reaction (Page 13)"
+      },
+      {
+        q: "Which named reaction involves the condensation of Benzaldehyde [Ph-CHO] with acetic anhydride [(CH3CO)2O] in the presence of sodium acetate to yield Cinnamic acid [Ph-CH=CH-COOH]?",
+        options: [
+          "Aldol Condensation",
+          "Clemmensen Reduction",
+          "Perkin's Reaction",
+          "Hofmann Degradation"
+        ],
+        correct: 2,
+        explanation: "Perkin's reaction is the classic synthesis of alpha,beta-unsaturated aromatic acids (like cinnamic acid) by condensing an aromatic aldehyde with an acid anhydride in the presence of the alkali salt of the acid.",
+        source: "lectures_3,4.pdf - Perkin's reaction (Page 10)"
+      },
+      {
+        q: "The 'Sandmeyer Reaction' replaces a diazonium group [-N2+] with a halide or cyanide. Which specific type of catalyst is uniquely required for this transformation?",
+        options: [
+          "Iron(III) salts (e.g., FeCl3)",
+          "Cuprous salts (e.g., CuCl, CuBr, CuCN)",
+          "Aluminum chloride (AlCl3)",
+          "Zinc amalgam (Zn/Hg)"
+        ],
+        correct: 1,
+        explanation: "The Sandmeyer reaction specifically utilizes Copper(I) (Cuprous) salts as catalysts. The Cu(I) facilitates a radical mechanism that expels nitrogen gas and attaches the nucleophile to the ring.",
+        source: "lectures_3,4.pdf - Sandmeyer Reaction (Page 18) & organic_5 (1).m4a"
+      },
+      {
+        q: "The 'Hofmann Rearrangement' (or Hofmann Degradation) effectively converts a primary amide [Ar-CONH2] into a primary amine [Ar-NH2] with one less carbon atom. What specific reagents are used?",
+        options: [
+          "LiAlH4 in dry ether",
+          "NaNO2 and HCl at 0-5°C",
+          "Sn (Tin) and aqueous HCl",
+          "Bromine (Br2) in the presence of a strong base like NaOH or KOH"
+        ],
+        correct: 3,
+        explanation: "The Hofmann degradation utilizes Br2 and NaOH/KOH. The reaction removes the carbonyl carbon of the amide as CO2, directly attaching the alkyl/aryl group to the nitrogen to form an amine.",
+        source: "lectures_3,4.pdf - Hofmann Amide Degradation (Page 11)"
+      },
+      {
+        q: "To overcome polyalkylation, a ketone formed via Friedel-Crafts acylation can be reduced to a straight-chain alkylbenzene. What are the specific reagents used in the 'Clemmensen Reduction'?",
+        options: [
+          "Amalgamated zinc (Zn/Hg) and aqueous HCl",
+          "H2 gas with a Palladium (Pd) catalyst",
+          "Sodium borohydride (NaBH4)",
+          "Lithium aluminum hydride (LiAlH4)"
+        ],
+        correct: 0,
+        explanation: "The Clemmensen reduction uniquely reduces aromatic ketones directly to alkanes (converting C=O to CH2) using Zinc amalgam (Zn/Hg) in a strongly acidic medium (HCl).",
+        source: "organic lec 3.m4a & lectures_1,2.pdf - Clemmensen Reduction"
+      },
+      {
+        q: "Which named reaction involves the nucleophilic substitution of an alkyl halide by an alkali phenoxide [Ar-O- Na+] to cleanly synthesize a phenolic ether?",
+        options: [
+          "Fries Rearrangement",
+          "Williamson Synthesis",
+          "Schotten-Baumann reaction",
+          "Reimer-Tiemann reaction"
+        ],
+        correct: 1,
+        explanation: "The Williamson Ether Synthesis reacts an alkoxide or phenoxide (strong nucleophile) with a primary alkyl halide (via SN2) to form an ether.",
+        source: "lectures_3,4.pdf - Williamson Synthesis (Page 5)"
+      },
+      {
+        q: "The 'Fries Rearrangement' converts a phenolic ester (e.g., Phenylacetate) into a hydroxyacetophenone. What specific condition and catalyst are required for this migration?",
+        options: [
+          "Cooling to 0°C with NaNO2.",
+          "Refluxing with dilute NaOH.",
+          "Heating in the presence of a strong Lewis acid like AlCl3.",
+          "Photochemical irradiation with UV light."
+        ],
+        correct: 2,
+        explanation: "The Fries rearrangement relies on a Lewis acid (AlCl3) and heat to break the ester bond and migrate the acyl group to the ortho or para position of the activated phenol ring.",
+        source: "lectures_3,4.pdf - Fries rearrangement (Page 7)"
+      },
+      {
+        q: "The sulfonation of phenol with concentrated H2SO4 is thermodynamically controlled. Which specific condition favors the exclusive formation of the para-product (p-hydroxybenzenesulfonic acid)?",
+        options: [
+          "Performing the reaction at 100°C.",
+          "Performing the reaction at exactly 25°C.",
+          "Using fuming sulfuric acid at 0°C.",
+          "Adding a Lewis acid catalyst."
+        ],
+        correct: 0,
+        explanation: "At lower temperatures (25°C), the reaction is kinetically controlled, yielding the ortho-product. At higher temperatures (100°C), thermodynamic control takes over, and the more stable para-product is formed exclusively.",
+        source: "lectures_3,4.pdf - Sulfonation (Page 7)"
+      },
+      {
+        q: "In Nucleophilic Aromatic Substitution (NAS) of chlorobenzene, the presence of multiple nitro groups [-NO2] dramatically alters the reaction conditions. At what condition does 2,4,6-trinitrochlorobenzene react with water?",
+        options: [
+          "350°C and high pressure.",
+          "130°C in an autoclave.",
+          "-65°C in liquid ammonia.",
+          "Merely warming to room temperature (~40°C)."
+        ],
+        correct: 3,
+        explanation: "Three powerful electron-withdrawing nitro groups at the ortho and para positions stabilize the Meisenheimer complex so effectively that the ring becomes incredibly reactive, requiring only mild warming with water.",
+        source: "organic_5 (1).m4a - Effect of NO2 on NAS"
+      },
+      {
+        q: "The 'Tollen's silver mirror test' is uniquely used to differentiate between aldehydes and ketones. Which functional group gives a positive result, and what is the visible outcome?",
+        options: [
+          "Ketones; formation of a brick-red precipitate.",
+          "Aldehydes; reduction of a silver-ammonia complex to form a metallic silver mirror.",
+          "Ketones; evolution of carbon dioxide gas.",
+          "Aldehydes; the solution turns from orange to green."
+        ],
+        correct: 1,
+        explanation: "Aldehydes are easily oxidized, so they reduce the Ag+ in the Tollen's reagent (silver-ammonia complex) into solid metallic silver (Ag0), which coats the glass test tube like a mirror. Ketones do not react.",
+        source: "lectures_5,6.pdf - Oxidation/Reduction (Page 24)"
+      },
+      {
+        q: "Friedel-Crafts reactions (both alkylation and acylation) possess a severe limitation and completely fail under a specific condition. Which of the following rings will NOT undergo a Friedel-Crafts reaction?",
+        options: [
+          "A benzene ring with a methyl group (Toluene).",
+          "A benzene ring with a methoxy group (Anisole).",
+          "A benzene ring containing a powerful electron-withdrawing group like -NO2.",
+          "A benzene ring containing a halogen like -Cl."
+        ],
+        correct: 2,
+        explanation: "Friedel-Crafts reactions require an electron-rich ring to attack the relatively weak carbocation or acylium ion. Rings with strong deactivating groups (like -NO2, -SO3H, -COOH) are too electron-deficient and will not react.",
+        source: "lectures_1,2.pdf - Friedel-Crafts limitations (Page 31) & organic lec 3.m4a"
+      }
+    ]
+  },
 
   
   "org3": {
-    title: "Topic 7: In-Depth Reactions, Reagents, and Specific Conditions",
+    title: "Quiz III",
     questions: [
       {
         q: "In the industrial Dow Process for synthesizing Phenol [Ph-OH] from Chlorobenzene [Ph-Cl], what specific reaction conditions are strictly required?",
