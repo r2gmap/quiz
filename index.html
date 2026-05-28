@@ -63,7 +63,6 @@ html { scrollbar-width: none; }
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', system-ui, -apple-system, sans-serif;
-  /* Eliminate tap delay on all clickable things */
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
@@ -219,7 +218,6 @@ h1 span { color: var(--accent-color); }
   flex-direction: column;
   align-items: center;
   overflow: hidden;
-  /* GPU layer for smooth animation */
   will-change: transform;
 }
 
@@ -269,7 +267,6 @@ h1 span { color: var(--accent-color); }
   bottom: -20px;
 }
 
-/* Active tap feedback */
 .card:active {
   transform: translateY(-2px) scale(0.98);
   transition-duration: 0.1s;
@@ -298,6 +295,64 @@ h1 span { color: var(--accent-color); }
 
 .card:hover h3 {
   color: var(--text-main);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   DONE CARD — يجعل الكارت باهتاً ليدل على انتهاء المادة
+   لكن لا يزال قابلاً للنقر بشكل طبيعي
+───────────────────────────────────────────────────────────── */
+.card-done {
+  opacity: 0.62;
+  filter: saturate(0.4) brightness(0.88);
+  /* نضيف opacity و filter للـ transition الموجودة أصلاً */
+  transition: opacity 0.35s ease,
+              filter  0.35s ease,
+              transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.3s ease,
+              border-color 0.3s ease,
+              background 0.3s ease;
+}
+
+/* عند hover تعود الألوان جزئياً لتوضح أنها ما زالت قابلة للضغط */
+.card-done:hover {
+  opacity: 0.85;
+  filter: saturate(0.65) brightness(0.95);
+}
+
+.card-done:active {
+  opacity: 0.95;
+  filter: saturate(0.8) brightness(1);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   DONE TEXT — كلمة "DONE" كبيرة تعلو فوق الأيقونة والعنوان
+   قطرية من أعلى اليمين لأسفل اليسار، بدون خلفية أو حدود
+───────────────────────────────────────────────────────────── */
+.done-ribbon {
+  /* تموضع مطلق في مركز الكارت، تعلو فوق كل المحتوى */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* rotate(-38deg) يوجّه النص من أعلى اليمين لأسفل اليسار (↙) */
+  transform: translate(-50%, -50%) rotate(-38deg);
+
+  /* النص كبير وقوي وبدون أي خلفية أو إطار */
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: 10px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgba(10, 218, 241, 0.28);
+
+  /* لا يمنع النقر على الكارت */
+  pointer-events: none;
+  user-select: none;
+  z-index: 3;
+}
+
+/* نسخة light-mode */
+.light-mode .done-ribbon {
+  color: rgba(66, 153, 225, 0.32);
 }
 
 /* ── Footer ── */
@@ -399,7 +454,6 @@ footer {
   transform: translateY(0) scale(1);
 }
 
-/* Progress bar */
 .toast-progress {
   position: absolute;
   bottom: 0; left: 0;
@@ -414,7 +468,10 @@ footer {
   to   { width: 0%; }
 }
 
-/* ── Rating Popup ── */
+/* ═══════════════════════════════════════════════════════════
+   RATING POPUP — تحسينات الـ popup مع الانيميشن
+═══════════════════════════════════════════════════════════ */
+
 #rating-overlay {
   position: fixed;
   inset: 0;
@@ -439,7 +496,6 @@ footer {
   pointer-events: all;
 }
 
-/* Ambient cinema spotlight glow behind popup */
 #rating-overlay::before {
   content: '';
   position: absolute;
@@ -501,7 +557,6 @@ footer {
   }
 }
 
-/* One-time shimmer sweep on open */
 #rating-popup::after {
   content: '';
   position: absolute;
@@ -557,7 +612,6 @@ footer {
   font-weight: 300;
 }
 
-/* Section labels */
 .rating-section-label {
   font-size: 0.71rem;
   font-weight: 600;
@@ -569,12 +623,12 @@ footer {
   opacity: 0.9;
 }
 
-/* Stars */
+/* ── Stars ── */
 .star-row {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .star-row i {
@@ -608,7 +662,26 @@ footer {
   100% { transform: scale(1.28);  }
 }
 
-/* Divider */
+/* ── تسمية النجوم — تظهر تحت النجوم فور الاختيار ── */
+#rating-star-label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #f6c90e;
+  letter-spacing: 0.8px;
+  min-height: 20px;
+  margin-bottom: 8px;
+  opacity: 0;
+  /* يدخل من الأسفل بشكل ناعم */
+  transform: translateY(6px) scale(0.94);
+  transition: opacity 0.28s ease,
+              transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 0 6px rgba(246, 201, 14, 0.35));
+}
+#rating-star-label.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
 .rating-divider {
   width: 100%;
   height: 1px;
@@ -621,7 +694,7 @@ footer {
   margin: 20px 0 18px;
 }
 
-/* Suggestion textarea */
+/* ── Suggestion textarea ── */
 #rating-suggestion {
   width: 100%;
   background: rgba(255, 255, 255, 0.03);
@@ -650,7 +723,7 @@ footer {
   background: rgba(255, 255, 255, 0.05);
 }
 
-/* Submit button */
+/* ── Submit button ── */
 #rating-submit-btn {
   background: linear-gradient(135deg, #0adaf1, #3a7bd5, #0adaf1);
   background-size: 220% 220%;
@@ -677,6 +750,19 @@ footer {
   0%   { background-position: 0%   50%; }
   50%  { background-position: 100% 50%; }
   100% { background-position: 0%   50%; }
+}
+
+/* ── نبض خفيف على الزر لما يبقى enabled ── */
+@keyframes readyGlow {
+  0%, 100% { box-shadow: 0 4px 18px rgba(10, 218, 241, 0.22); }
+  50%       { box-shadow: 0 6px 30px rgba(10, 218, 241, 0.48),
+                          0 0 0 3px rgba(10, 218, 241, 0.1); }
+}
+
+/* لما الزر يبقى ready (stars + text كلاهما filled) */
+#rating-submit-btn:not(:disabled) {
+  animation: btnGradientShift 3s ease infinite,
+             readyGlow 2.4s ease-in-out infinite;
 }
 
 /* Repeating shimmer on enabled button */
@@ -799,6 +885,7 @@ footer {
 .light-mode .rating-section-label { color: #4299e1; }
 .light-mode .rating-divider { background: linear-gradient(90deg, transparent, rgba(66,153,225,0.22), transparent); }
 .light-mode .star-row i { color: rgba(0, 0, 0, 0.1); }
+.light-mode #rating-star-label { color: #e6a800; filter: drop-shadow(0 0 4px rgba(230,168,0,0.3)); }
 .light-mode #rating-suggestion {
   background: rgba(0, 0, 0, 0.03);
   border-color: rgba(0, 0, 0, 0.09);
@@ -833,18 +920,15 @@ footer {
     width: 100%;
     padding: 24px 14px 20px;
     border-radius: 18px;
-    /* Disable blur on mobile — biggest perf win */
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
 
-  /* Disable heavy ::before / ::after on mobile */
   .card::before, .card::after { display: none; }
 
   .card i  { font-size: 2rem; margin-bottom: 10px; }
   .card h3 { font-size: 0.9rem; }
 
-  /* Simpler hover on touch (becomes active state) */
   .card:hover {
     transform: none;
     box-shadow: none;
@@ -863,22 +947,15 @@ footer {
   footer { padding: 22px 16px 18px; }
 }
 
-/* Respect reduced-motion preference */
 @media (prefers-reduced-motion: reduce) {
-  .falling-paper{
-  @keyframes gradientMove,
-  @keyframes fall { animation: none; }
-  * { transition-duration: 0.01ms !important; }}
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
-
-
 
 /* ── Chat Widget ── */
 #chat-widget {
   position: fixed; bottom: 24px; right: 24px;
   z-index: 11000; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; 
 }
-
 
 #chat-bubble {
   width: 50px; height: 50px; border-radius: 50%;
@@ -893,7 +970,6 @@ footer {
 #chat-bubble:hover { transform: scale(1.08); box-shadow: 0 8px 32px rgba(10,218,241,0.55), 0 2px 8px rgba(0,0,0,0.3); }
 #chat-bubble:active { transform: scale(0.94); transition-duration: 0.1s; }
 
-/* Pulse ring on bubble */
 #chat-bubble::after {
   content: '';
   position: absolute;
@@ -1008,7 +1084,6 @@ footer {
 #chat-send-btn:active { transform: scale(0.92); }
 #chat-send-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
 
-/* light-mode chat */
 .light-mode #chat-panel { background: #fff; border-color: rgba(66,153,225,0.2); box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
 .light-mode #chat-header { background: linear-gradient(135deg,rgba(66,153,225,0.08),rgba(58,123,213,0.06)); border-bottom-color: rgba(0,0,0,0.06); }
 .light-mode #chat-name { color: #2d3748; }
@@ -1021,37 +1096,11 @@ footer {
 .light-mode #chat-input::placeholder { color: #a0aec0; }
 .light-mode #chat-input-row { border-top-color: rgba(0,0,0,0.06); }
 
-/* ── Mobile ── */
 @media (max-width: 650px) {
-  h1 { font-size: 2.8rem; }
-  header { margin: 20px 0 30px 0; }
-
-  .card-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; padding: 4px; }
-  .card { width: 100%; padding: 24px 14px 20px; border-radius: 18px; backdrop-filter: none; -webkit-backdrop-filter: none; }
-  .card::before, .card::after { display: none; }
-  .card i  { font-size: 2rem; margin-bottom: 10px; }
-  .card h3 { font-size: 0.9rem; }
-  .card:hover { transform: none; box-shadow: none; }
-  .card:active { transform: scale(0.97); background: var(--hover-bg); border-color: var(--hover-border); }
-
-  #rating-popup { padding: 28px 20px 22px; }
-  footer { padding: 22px 16px 18px; }
-
   #chat-widget { bottom: 16px; right: 16px; }
   #chat-panel  { width: calc(100vw - 32px); }
   #chat-bubble::after { display: none; }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-}
-
-
-
-
-
-
-
 </style>
 </head>
 <body>
@@ -1067,49 +1116,72 @@ footer {
   </header>
 
   <main class="card-container">
+
     <div class="card" onclick="location.href='subject.html?id=sums'">
       <i class="fa-regular fa-note-sticky"></i>
       <h3>Sums & Notes</h3>
     </div>
+
     <div class="card" onclick="location.href='subject.html?id=organic'">
       <i class="fas fa-flask"></i>
       <h3>Organic II</h3>
     </div>
-    <div class="card" onclick="location.href='subject.html?id=analytical'">
+
+    <!--
+      ██████████████████████████████████████████████████████
+      DONE CARD — Analytical II
+      .card-done  → يبهت الكارت (opacity + desaturate)
+      .done-ribbon → شريط "DONE" قطري من أعلى اليمين لأسفل اليسار
+      الكارت ما زال قابلاً للنقر بشكل طبيعي
+      ██████████████████████████████████████████████████████
+    -->
+    <div class="card card-done" onclick="location.href='subject.html?id=analytical'">
+      <span class="done-ribbon">DONE</span>
       <i class="fas fa-microscope"></i>
       <h3>Analytical II</h3>
     </div>
+
     <div class="card" onclick="location.href='subject.html?id=pharmacognosy'">
       <i class="fas fa-leaf"></i>
       <h3>Pharmacognosy</h3>
     </div>
+
     <div class="card" onclick="location.href='subject.html?id=physical'">
       <i class="fas fa-atom"></i>
       <h3>Physical Pharmacy</h3>
     </div>
+
     <div class="card" onclick="location.href='subject.html?id=anatomy'">
       <i class="fas fa-dna"></i>
       <h3>Anatomy & Histology</h3>
     </div>
-    <div class="card" onclick="location.href='subject.html?id=english'">
+
+    <!--
+      ██████████████████████████████████████████████████████
+      DONE CARD — English II
+      نفس الأسلوب: .card-done + .done-ribbon
+      ██████████████████████████████████████████████████████
+    -->
+    <div class="card card-done" onclick="location.href='subject.html?id=english'">
+      <span class="done-ribbon">DONE</span>
       <i class="fas fa-spell-check"></i>
       <h3>English II</h3>
     </div>
+
     <div class="card" onclick="location.href='subject.html?id=it'">
       <i class="fas fa-desktop"></i>
       <h3>IT</h3>
     </div>
+
   </main>
 
   <footer>
     <div class="footer-inner">
       <div class="footer-row">
-
         <span class="footer-version">
-        <i class="fas fa-circle"></i> POWERED BY R2
-      </span>
+          <i class="fas fa-circle"></i> POWERED BY R2
+        </span>
       </div>
-      
     </div>
   </footer>
 </div>
@@ -1138,6 +1210,9 @@ footer {
         <i class="fas fa-star" data-value="5"></i>
       </div>
 
+      <!-- تسمية النجوم — تظهر بعد الاختيار مباشرةً -->
+      <p id="rating-star-label"></p>
+
       <div class="rating-divider"></div>
 
       <!-- Part 2: Suggestion -->
@@ -1157,7 +1232,7 @@ footer {
 </div>
 <!-- ===== END RATING POPUP ===== -->
 
- <!-- ===== CHAT WIDGET ===== -->
+<!-- ===== CHAT WIDGET ===== -->
 <div id="chat-widget">
   <div id="chat-panel">
     <div id="chat-header">
@@ -1189,12 +1264,9 @@ footer {
 <!-- ===== END CHAT WIDGET ===== -->
 
 
-
 <script>
 // =====================================================
-// ▼▼▼  PASTE YOUR GOOGLE FORM LINK HERE  ▼▼▼
 const RATING_FORM_LINK = 'https://formspree.io/f/maqljdkg';
-// ▲▲▲  PASTE YOUR GOOGLE FORM LINK HERE  ▲▲▲
 // =====================================================
 
 // ── Theme toggle ──
@@ -1205,7 +1277,7 @@ themeToggle.addEventListener('click', () => {
     document.body.classList.contains('light-mode') ? 'fas fa-moon' : 'fas fa-sun';
 });
 
-// ── Falling papers (throttled — one every 600 ms, desktop / 900 ms mobile) ──
+// ── Falling papers ──
 const isMobile = window.innerWidth <= 650;
 const maxPapers = isMobile ? 8 : 18;
 const paperInterval = isMobile ? 900 : 600;
@@ -1255,7 +1327,6 @@ window.addEventListener('load', () => setTimeout(typeEffect, 200));
 // ── Toast Notification ──
 function showNotification(message, durationInSeconds = 5) {
   const container = document.getElementById('toast-container');
-
   const toast = document.createElement('div');
   toast.className = 'toast-message';
 
@@ -1286,13 +1357,10 @@ function showNotification(message, durationInSeconds = 5) {
   }, durationInSeconds * 1000);
 }
 
-// showNotification("New Quizzes Available 👇", 6);
-
 // ── Rating Popup ──
 (function () {
+  // Storage key بدون تغيير
   const STORAGE_KEY = 'quizzes_user_rated_v2';
-
-  // Don't show if already rated
   if (localStorage.getItem(STORAGE_KEY)) return;
 
   const overlay     = document.getElementById('rating-overlay');
@@ -1303,25 +1371,30 @@ function showNotification(message, durationInSeconds = 5) {
   const formContent = document.getElementById('rating-form-content');
   const thankYou    = document.getElementById('rating-thankyou');
 
+  // عنصر التسمية تحت النجوم
+  const starLabel   = document.getElementById('rating-star-label');
+
+  // نصوص التسمية لكل نجمة (1→5)
+  const starLabels  = ['Poor 😕', 'Fair 🙂', 'Good 👍', 'Great 😊', 'Excellent! 🎉'];
+
   let selectedRating = 0;
 
-  // Show after 1 seconds
   setTimeout(() => overlay.classList.add('visible'), 1000);
 
   function closePopup() {
     overlay.classList.remove('visible');
   }
 
-  // Check if submit should be enabled (stars + suggestion both required)
+  // يفعّل زر Submit فقط لما النجوم والنص كلاهما مكتملان
   function refreshSubmit() {
-    submitBtn.disabled = selectedRating === 0 || suggestion.value.trim().length < 3;
+    const ready = selectedRating > 0 && suggestion.value.trim().length >= 3;
+    submitBtn.disabled = !ready;
   }
 
   closeBtn.addEventListener('click', closePopup);
   overlay.addEventListener('click', e => { if (e.target === overlay) closePopup(); });
   suggestion.addEventListener('input', refreshSubmit);
 
-  // Star interaction — works on both mouse and touch
   stars.forEach(star => {
     const val = parseInt(star.dataset.value);
 
@@ -1340,15 +1413,17 @@ function showNotification(message, durationInSeconds = 5) {
         s.classList.remove('hovered');
         s.classList.toggle('selected', parseInt(s.dataset.value) <= selectedRating);
       });
+
+      // تحديث تسمية النجوم بشكل ناعم
+      starLabel.textContent = starLabels[val - 1];
+      starLabel.classList.add('visible');
+
       refreshSubmit();
     });
   });
 
-  // Submit: POST to Formspree, save to localStorage, show thank-you
   submitBtn.addEventListener('click', () => {
     if (selectedRating === 0) return;
-
-    // Disable button while sending
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending…';
 
@@ -1364,16 +1439,12 @@ function showNotification(message, durationInSeconds = 5) {
     })
     .then(res => res.json())
     .then(() => {
-      // Mark as rated so it never shows again
       localStorage.setItem(STORAGE_KEY, selectedRating);
-      // Show thank-you
       formContent.style.display = 'none';
       thankYou.style.display    = 'flex';
-      // Auto-close after 15 s
       setTimeout(closePopup, 15000);
     })
     .catch(() => {
-      // On network error still save locally and show thank-you
       localStorage.setItem(STORAGE_KEY, selectedRating);
       formContent.style.display = 'none';
       thankYou.style.display    = 'flex';
@@ -1396,8 +1467,6 @@ function showNotification(message, durationInSeconds = 5) {
   const messages = document.getElementById('chat-messages');
   let isOpen = false;
 
-  
-
   function togglePanel() {
     isOpen = !isOpen;
     panel.classList.toggle('open', isOpen);
@@ -1407,13 +1476,11 @@ function showNotification(message, durationInSeconds = 5) {
   bubble.addEventListener('click', togglePanel);
   closeX.addEventListener('click', () => { isOpen = false; panel.classList.remove('open'); });
 
-  // Auto-grow textarea
   input.addEventListener('input', () => {
     input.style.height = 'auto';
     input.style.height = Math.min(input.scrollHeight, 90) + 'px';
   });
 
-  // Enter to send, Shift+Enter for new line
   input.addEventListener('keydown', e => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
   });
@@ -1464,11 +1531,6 @@ function showNotification(message, durationInSeconds = 5) {
     .finally(() => { sendBtn.disabled = false; });
   }
 })();
-
-
-
-
-
 </script>
 </body>
 </html>
