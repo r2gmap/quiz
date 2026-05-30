@@ -12677,6 +12677,1449 @@ const quizDatabase = {
 },
 
 
+  "phy1": {
+  title: "Quiz I",
+  questions: [
+    {
+      q: "What is a buffered solution?",
+      options: [
+        "A solution that always stays neutral",
+        "A solution that resists changes in pH",
+        "A solution that contains only water",
+        "A solution that has no dissolved ions"
+      ],
+      correct: 1,
+      explanation: "A buffered solution is designed to minimize pH change when small amounts of acid or base are added. That is the key property that distinguishes it from ordinary solutions.",
+      source: "buffer.pdf-1.pdf - p.9"
+    },
+      {
+      q: "What is the pH of a buffer prepared with 0.20 M acetic acid and 0.20 M sodium acetate, given pKa = 4.76?",
+      options: [
+        "5.76",
+        "4.76",
+        "3.76",
+        "6.76"
+      ],
+      correct: 1,
+      explanation: "When salt and acid concentrations are equal, the log term is zero. Therefore, pH equals pKa.",
+      source: "buffer.pdf-1.pdf - p.26"
+    },
+    {
+      q: "Which factor is directly used in the Henderson-Hasselbalch equation for an acidic buffer?",
+      options: [
+        "Salt/acid ratio",
+        "Acid/base ratio",
+        "Hydrogen/oxygen ratio",
+        "Temperature/pressure ratio"
+      ],
+      correct: 0,
+      explanation: "For an acidic buffer, the pH depends on pKa and the ratio of salt to acid. That ratio is the key variable in the equation.",
+      source: "buffer.pdf-1.pdf - p.16"
+    },
+    {
+      q: "If Ka decreases, what happens to pKa?",
+      options: [
+        "It decreases",
+        "It becomes zero",
+        "It increases",
+        "It stays unchanged"
+      ],
+      correct: 2,
+      explanation: "pKa is the negative logarithm of Ka. So when Ka becomes smaller, pKa becomes larger.",
+      source: "buffer.pdf-1.pdf - p.24"
+    },
+    {
+      q: "What is the pKa of a substance with Ka = 7.4 × 10^-4?",
+      options: [
+        "3.13",
+        "4.76",
+        "5.26",
+        "2.74"
+      ],
+      correct: 0,
+      explanation: "Taking the negative log of 7.4 × 10^-4 gives approximately 3.13.",
+      source: "buffer.pdf-1.pdf - p.23"
+    },
+    {
+      q: "A buffer has pH 5.26 and pKa 4.76. What is the log term in the Henderson-Hasselbalch equation?",
+      options: [
+        "0",
+        "1",
+        "0.5",
+        "2"
+      ],
+      correct: 2,
+      explanation: "The difference between pH and pKa is 0.5, so the logarithmic term must also be 0.5.",
+      source: "buffer.pdf-1.pdf - p.29"
+    },
+    {
+      q: "What is the approximate salt-to-acid ratio for a buffer with pH 5.26 and pKa 4.76?",
+      options: [
+        "1 : 3.16",
+        "3.16 : 1",
+        "10 : 1",
+        "1 : 10"
+      ],
+      correct: 1,
+      explanation: "An antilog of 0.5 gives 3.16, so the ratio of salt to acid is 3.16 to 1.",
+      source: "buffer.pdf-1.pdf - p.29"
+    },
+    {
+      q: "Which buffer pair would be most suitable for preparing an acidic buffer?",
+      options: [
+        "Ammonium hydroxide and ammonium chloride",
+        "Sodium hydroxide and sodium chloride",
+        "Acetic acid and sodium acetate",
+        "Hydrochloric acid and sodium chloride"
+      ],
+      correct: 2,
+      explanation: "Acetic acid with sodium acetate is a classic acidic buffer pair because it contains a weak acid and its salt.",
+      source: "buffer.pdf-1.pdf - p.11"
+    },
+    {
+      q: "What happens to the pH of an acetate buffer when NaOH is added?",
+      options: [
+        "It decreases sharply",
+        "It remains exactly 7",
+        "It drops to zero",
+        "It increases only slightly"
+      ],
+      correct: 3,
+      explanation: "The buffer neutralizes the added base, so the pH changes only a little instead of rising sharply.",
+      source: "buffer.pdf-1.pdf - p.35"
+    },
+    {
+      q: "What is the pH after adding 0.04 mol NaOH to 1 L of acetate buffer containing 0.2 M acetic acid and 0.2 M sodium acetate?",
+      options: [
+        "4.76",
+        "5.26",
+        "4.94",
+        "4.56"
+      ],
+      correct: 2,
+      explanation: "After base addition, the ratio changes to 0.24/0.16. Substitution into the buffer equation gives pH 4.94.",
+      source: "buffer.pdf-1.pdf - p.36"
+    },
+    {
+      q: "What is the pH before NaOH is added to the acetate buffer in the previous example?",
+      options: [
+        "4.94",
+        "4.76",
+        "5.26",
+        "5.76"
+      ],
+      correct: 1,
+      explanation: "Before NaOH is added, the buffer has equal acid and salt concentrations, so pH equals pKa.",
+      source: "buffer.pdf-1.pdf - p.36"
+    },
+    {
+      q: "What is the pH change after adding 0.04 mol NaOH to the acetate buffer in the example?",
+      options: [
+        "0.04",
+        "0.18",
+        "0.76",
+        "1.00"
+      ],
+      correct: 1,
+      explanation: "The pH rises from 4.76 to 4.94, so the total change is 0.18.",
+      source: "buffer.pdf-1.pdf - p.36"
+    },
+    {
+      q: "What happens when 0.04 mol NaOH is added to 1 L of water instead of buffer?",
+      options: [
+        "pH changes only slightly",
+        "pH remains 7.0",
+        "pH decreases",
+        "pH increases greatly"
+      ],
+      correct: 3,
+      explanation: "Water has no buffering system, so the added base causes a large rise in pH.",
+      source: "buffer.pdf-1.pdf - p.37"
+    },
+    {
+      q: "What is the pH after adding 0.04 mol NaOH to 1 L of water in the example?",
+      options: [
+        "12.6",
+        "7.4",
+        "8.0",
+        "5.6"
+      ],
+      correct: 0,
+      explanation: "The example shows that the pH rises from 7.0 to 12.6 after base addition.",
+      source: "buffer.pdf-1.pdf - p.37"
+    },
+    {
+      q: "What is the change in pH for water after adding 0.04 mol NaOH?",
+      options: [
+        "0.18",
+        "5.6",
+        "1.2",
+        "0.56"
+      ],
+      correct: 1,
+      explanation: "The pH goes from 7.0 to 12.6, so the increase is 5.6 units.",
+      source: "buffer.pdf-1.pdf - p.37"
+    },
+    {
+      q: "What does a higher buffer capacity mean?",
+      options: [
+        "A smaller pH change for a given addition",
+        "A faster evaporation rate",
+        "A lower salt content",
+        "A stronger color change"
+      ],
+      correct: 0,
+      explanation: "Buffer capacity measures resistance to pH change. A higher capacity means the buffer can absorb more acid or base with less pH shift.",
+      source: "buffer.pdf-1.pdf - p.34"
+    },
+    {
+      q: "According to the notes, buffer capacity is related to which ratio?",
+      options: [
+        "ΔpH/ΔB",
+        "ΔB/ΔpH",
+        "pH/pKa",
+        "Ka/Kb"
+      ],
+      correct: 1,
+      explanation: "The notes define buffer capacity using the amount of strong acid or base added divided by the change in pH.",
+      source: "buffer.pdf-1.pdf - p.42"
+    },
+    {
+      q: "Which buffer has greater capacity according to the note comparing pH 3 and pH 7?",
+      options: [
+        "They are equal",
+        "pH 7 buffer",
+        "pH 3 buffer",
+        "Neither has capacity"
+      ],
+      correct: 2,
+      explanation: "The notes state that buffer capacity is higher at lower pH in the comparison shown.",
+      source: "buffer.pdf-1.pdf - p.42"
+    },
+    {
+      q: "What is the exact buffer capacity equation shown in the notes based on hydrogen ion concentration?",
+      options: [
+        "β = pH + pKa",
+        "β = 2.303 C Ka[H3O+] / (Ka + [H3O+])^2",
+        "β = [Salt]/[Acid]",
+        "β = Ka + [H3O+]"
+      ],
+      correct: 1,
+      explanation: "The exact expression includes total buffer concentration, Ka, and hydrogen ion concentration. It is used for quantitative buffer-capacity calculations.",
+      source: "buffer.pdf-1.pdf - p.43"
+    },
+    {
+      q: "For a buffer containing 0.10 mole acetic acid and 0.20 mole sodium acetate per liter, what is the total concentration C used in the capacity equation?",
+      options: [
+        "0.10",
+        "0.20",
+        "0.30",
+        "0.15"
+      ],
+      correct: 2,
+      explanation: "Total buffer concentration is the sum of acid and salt concentrations. Here, 0.10 + 0.20 = 0.30.",
+      source: "buffer.pdf-1.pdf - p.44"
+    },
+    {
+      q: "What is the calculated buffer capacity in the example with pH 5.06 and acetic acid-sodium acetate concentrations of 0.10 M and 0.20 M?",
+      options: [
+        "0.053",
+        "0.153",
+        "0.253",
+        "1.530"
+      ],
+      correct: 1,
+      explanation: "Using the exact equation in the notes gives a buffer capacity of 0.153.",
+      source: "buffer.pdf-1.pdf - p.44"
+    },
+     {
+      q: "What is matter?",
+      options: [
+        "Anything that has mass and takes up space",
+        "Anything that gives off light",
+        "Anything that can be seen only under a microscope",
+        "Anything that moves with high speed"
+      ],
+      correct: 0,
+      explanation: "Matter is defined by two basic features: it has mass and it occupies space. This is the broad starting point for the whole topic.",
+      source: "physical pharmacy merged.pdf - p.4"
+    },
+    {
+      q: "Matter is made up of tiny particles called what?",
+      options: [
+        "Molecules only",
+        "Ions only",
+        "Atoms",
+        "Cells"
+      ],
+      correct: 2,
+      explanation: "The notes state that matter is made up of tiny particles called atoms. Other units such as molecules and ions may also exist, but atoms are the basic building blocks mentioned here.",
+      source: "physical pharmacy merged.pdf - p.4"
+    },
+    {
+      q: "What are substances that contain only one type of atom called?",
+      options: [
+        "Mixtures",
+        "Compounds",
+        "Elements",
+        "Solutions"
+      ],
+      correct: 2,
+      explanation: "An element contains only one kind of atom. That is the simplest chemical classification used in the notes.",
+      source: "physical pharmacy merged.pdf - p.4"
+    },
+    {
+      q: "Which of the following is NOT matter?",
+      options: [
+        "Heat",
+        "Stone",
+        "Water",
+        "Air"
+      ],
+      correct: 0,
+      explanation: "Heat does not have mass and does not occupy space, so it is not matter. The notes list heat, light, emotions, thoughts, and ideas as examples of things that are not matter.",
+      source: "physical pharmacy merged.pdf - p.5"
+    },
+    {
+      q: "What is the law of conservation of matter?",
+      options: [
+        "Matter can be created only in a reaction",
+        "Matter is destroyed when it changes form",
+        "Matter disappears during heating",
+        "Matter is neither created nor destroyed, only changes form"
+      ],
+      correct: 3,
+      explanation: "The law says matter is conserved; it is not created or destroyed in ordinary chemical change. It only changes form.",
+      source: "physical pharmacy merged.pdf - p.6"
+    },
+    {
+      q: "According to the kinetic theory of matter, matter is made up of particles that are in:",
+      options: [
+        "Fixed crystalline rows only",
+        "Continuous random motion",
+        "Total rest",
+        "Parallel circular motion"
+      ],
+      correct: 1,
+      explanation: "Kinetic theory explains matter as particles in constant random motion. This motion helps explain behavior in solids, liquids, and gases.",
+      source: "physical pharmacy merged.pdf - p.8"
+    },
+    {
+      q: "Which factor is used to classify the four states of matter?",
+      options: [
+        "Color and odor",
+        "Mass and volume only",
+        "Particle arrangement, particle energy, and distance between particles",
+        "Shape and taste"
+      ],
+      correct: 2,
+      explanation: "The notes classify the states of matter based on how particles are arranged, how much energy they have, and how far apart they are.",
+      source: "physical pharmacy merged.pdf - p.9"
+    },
+    {
+      q: "Which statement best describes solids?",
+      options: [
+        "They have no definite shape",
+        "They have definite shape and definite volume",
+        "They fill the container completely",
+        "They have no mass"
+      ],
+      correct: 1,
+      explanation: "Solids keep both their shape and volume. Their particles are tightly packed and only vibrate in place.",
+      source: "physical pharmacy merged.pdf - p.10"
+    },
+    {
+      q: "How are particles arranged in solids?",
+      options: [
+        "Far apart with free motion",
+        "Loosely packed with random movement",
+        "Tightly packed together",
+        "Completely separated"
+      ],
+      correct: 2,
+      explanation: "Solid particles are tightly packed, which gives solids their rigidity and fixed shape.",
+      source: "physical pharmacy merged.pdf - p.11"
+    },
+    {
+      q: "What is the main behavior of particles in liquids?",
+      options: [
+        "They are fixed in place",
+        "They move freely with lots of energy",
+        "They are loosely packed and flow around each other",
+        "They have no motion at all"
+      ],
+      correct: 2,
+      explanation: "Liquid particles are close together but not fixed. They can move and slide past one another, which is why liquids flow.",
+      source: "physical pharmacy merged.pdf - p.13"
+    },
+    {
+      q: "Which statement best describes gases?",
+      options: [
+        "They have definite shape and volume",
+        "They are tightly packed",
+        "They cannot take up space",
+        "They spread out to fill the entire space given"
+      ],
+      correct: 3,
+      explanation: "Gases expand to occupy the whole container. They do not have a definite volume in the same way solids and liquids do.",
+      source: "physical pharmacy merged.pdf - p.14"
+    },
+    {
+      q: "How do particles behave in gases?",
+      options: [
+        "They vibrate in place",
+        "They move freely and have lots of energy",
+        "They remain locked in a lattice",
+        "They do not move"
+      ],
+      correct: 1,
+      explanation: "Gas particles are far apart and move rapidly and freely. This high energy explains the compressibility and expansion of gases.",
+      source: "physical pharmacy merged.pdf - p.15"
+    },
+    {
+      q: "Which state of matter is composed of electrically charged particles and has no definite volume or shape?",
+      options: [
+        "Solid",
+        "Liquid",
+        "Plasma",
+        "Gas"
+      ],
+      correct: 2,
+      explanation: "Plasma is the charged state of matter. It is different from ordinary gases because it contains electrically charged particles.",
+      source: "physical pharmacy merged.pdf - p.16"
+    },
+    {
+      q: "What happens during melting?",
+      options: [
+        "Heat leaves the liquid",
+        "Gas changes directly into solid",
+        "Liquid changes to gas",
+        "Solid changes to liquid"
+      ],
+      correct: 3,
+      explanation: "Melting is the phase change from solid to liquid, and heat is absorbed during this process.",
+      source: "physical pharmacy merged.pdf - p.17"
+    },
+    {
+      q: "What is the correct term for liquid to gas change?",
+      options: [
+        "Condensation",
+        "Freezing",
+        "Vaporization",
+        "Sublimation"
+      ],
+      correct: 2,
+      explanation: "Liquid to gas is called vaporization. It includes both boiling and evaporation.",
+      source: "physical pharmacy merged.pdf - p.18"
+    },
+    {
+      q: "What happens during condensation?",
+      options: [
+        "Solid becomes liquid",
+        "Gas becomes liquid",
+        "Liquid becomes gas",
+        "Gas becomes solid"
+      ],
+      correct: 1,
+      explanation: "Condensation is the change from gas to liquid. In this process, heat leaves the gas.",
+      source: "physical pharmacy merged.pdf - p.18"
+    },
+    {
+      q: "What is sublimation?",
+      options: [
+        "Liquid to solid",
+        "Gas to liquid",
+        "Solid to gas",
+        "Solid to liquid"
+      ],
+      correct: 2,
+      explanation: "Sublimation is the direct change from solid to gas, with heat going into the solid.",
+      source: "physical pharmacy merged.pdf - p.18"
+    },
+    {
+      q: "During freezing, what happens to heat?",
+      options: [
+        "Heat goes into the solid",
+        "Heat leaves the liquid",
+        "Heat stays constant",
+        "Heat is not involved"
+      ],
+      correct: 1,
+      explanation: "Freezing is the conversion of liquid to solid, and heat leaves the liquid during the process.",
+      source: "physical pharmacy merged.pdf - p.17"
+    },
+    {
+      q: "Which of the following is the best description of solids, liquids, and gases in terms of particle arrangement?",
+      options: [
+        "Solid particles are far apart, gas particles are packed tightly, liquid particles are fixed",
+        "All three have the same arrangement",
+        "Solid particles are tightly packed, liquid particles are close but mobile, gas particles are well separated",
+        "Liquids are more packed than solids"
+      ],
+      correct: 2,
+      explanation: "The differences in particle arrangement explain the major physical properties of the three common states of matter.",
+      source: "physical pharmacy merged.pdf - p.9"
+    },
+    {
+      q: "What does the change from liquid to solid produce?",
+      options: [
+        "Melting",
+        "Evaporation",
+        "Condensation",
+        "Freezing"
+      ],
+      correct: 3,
+      explanation: "Liquid to solid is freezing. It is the opposite of melting.",
+      source: "physical pharmacy merged.pdf - p.17"
+    },
+    {
+      q: "Which composition best describes an acidic buffer?",
+      options: [
+        "Strong acid and its salt",
+        "Weak acid and its salt",
+        "Weak base and its salt",
+        "Strong base and its salt"
+      ],
+      correct: 0,
+      explanation: "An acidic buffer is made from a weak acid and a salt of that acid, such as acetic acid and sodium acetate. The weak acid handles added base, while the salt handles added acid.",
+      source: "buffer.pdf-1.pdf - p.11"
+    },
+    {
+      q: "Which composition best describes a basic buffer?",
+      options: [
+        "Weak acid and its salt",
+        "Strong acid and its salt",
+        "Weak base and its salt",
+        "Strong base and its salt"
+      ],
+      correct: 1,
+      explanation: "A basic buffer contains a weak base and a salt of that base, such as ammonium hydroxide and ammonium chloride. This pair helps maintain a basic pH range.",
+      source: "buffer.pdf-1.pdf - p.12"
+    },
+    {
+      q: "Which statement best describes an unbuffered solution?",
+      options: [
+        "It strongly resists pH change",
+        "It contains a weak acid and salt",
+        "It contains a weak base and salt",
+        "It cannot resist pH change"
+      ],
+      correct: 3,
+      explanation: "An unbuffered solution does not have the components needed to neutralize added acid or base effectively, so its pH changes easily.",
+      source: "buffer.pdf-1.pdf - p.6"
+    },
+    {
+      q: "Why are buffers important in pharmaceutical preparations such as injections and ophthalmic solutions?",
+      options: [
+        "To increase particle size",
+        "To control pH-sensitive stability",
+        "To make the solution cloudy",
+        "To eliminate all dissolved salts"
+      ],
+      correct: 1,
+      explanation: "Many pharmaceutical products are pH sensitive, so buffers are used to maintain a suitable pH for stability, safety, and performance.",
+      source: "buffer.pdf-1.pdf - p.3"
+    },
+    {
+      q: "For a weak acid buffer, which equation is the Henderson–Hasselbalch form?",
+      options: [
+        "pH = pKa + log [Salt]/[Acid]",
+        "pH = pKw - pKb + log [Base]/[Salt]",
+        "pH = pKa - log [Salt]/[Acid]",
+        "pH = pKb + log [Acid]/[Salt]"
+      ],
+      correct: 2,
+      explanation: "For an acidic buffer, the pH depends on pKa and the ratio of salt to acid. This relation is the classic Henderson–Hasselbalch equation.",
+      source: "buffer.pdf-1.pdf - p.16"
+    },
+    {
+      q: "For a weak base buffer, which expression is used?",
+      options: [
+        "pH = pKa + log [Salt]/[Acid]",
+        "pOH = pKw - pKa + log [Salt]/[Acid]",
+        "pH = pKw - pKb + log [Base]/[Salt]",
+        "pH = pKb + log [Salt]/[Base]"
+      ],
+      correct: 3,
+      explanation: "For a basic buffer, the equation is written in terms of pKw and pKb. The ratio used is base over salt, which reflects the weak base buffer composition.",
+      source: "buffer.pdf-1.pdf - p.20"
+    },
+    {
+      q: "If the concentration of salt and acid in a buffer are equal, what does the Henderson–Hasselbalch equation give?",
+      options: [
+        "pH = pKw",
+        "pH = pKb",
+        "pH = pKa",
+        "pH = 7 always"
+      ],
+      correct: 0,
+      explanation: "When salt and acid are equal, the logarithmic term becomes zero. That leaves pH equal to pKa for an acidic buffer.",
+      source: "buffer.pdf-1.pdf - p.16"
+    },
+    {
+      q: "What is the pKa value of acetic acid if Ka = 1.75 × 10^-5?",
+      options: [
+        "5.76",
+        "3.13",
+        "4.76",
+        "1.75"
+      ],
+      correct: 2,
+      explanation: "pKa is the negative logarithm of Ka. For 1.75 × 10^-5, the result is approximately 4.76.",
+      source: "buffer.pdf-1.pdf - p.22"
+    },
+    {
+      q: "What is the pH of a buffer made from 0.05 M sodium acetate and 0.005 M acetic acid, given pKa = 4.76?",
+      options: [
+        "4.76",
+        "5.76",
+        "6.26",
+        "3.76"
+      ],
+      correct: 1,
+      explanation: "Using pH = pKa + log([salt]/[acid]), the ratio is 10, so the logarithmic term is 1. The pH becomes 5.76.",
+      source: "buffer.pdf-1.pdf - p.26"
+    },
+    {
+      q: "A sodium acetate-acetic acid buffer has pH 5.26 and pKa 4.76. What is the salt-to-acid ratio?",
+      options: [
+        "1 : 3.16",
+        "10 : 1",
+        "3.16 : 1",
+        "1 : 1"
+      ],
+      correct: 3,
+      explanation: "The difference between pH and pKa is 0.5, so the antilog gives 3.16. Therefore the salt-to-acid ratio is 3.16 to 1.",
+      source: "buffer.pdf-1.pdf - p.29"
+    },
+    {
+      q: "Which equation is used for a basic buffer in terms of pKw and pKb?",
+      options: [
+        "pH = pKw - pKb + log [Base]/[Salt]",
+        "pH = pKa + log [Salt]/[Acid]",
+        "pH = pKb + log [Salt]/[Base]",
+        "pH = pKw + pKb - log [Base]/[Salt]"
+      ],
+      correct: 0,
+      explanation: "For basic buffers, the useful form is pH = pKw - pKb + log([base]/[salt]). This is the basic buffer version of the Henderson–Hasselbalch equation.",
+      source: "buffer.pdf-1.pdf - p.20"
+    },
+    {
+      q: "What is the pH of a buffer containing 0.05 M ammonia and 0.05 M ammonium chloride, if Kb = 1.80 × 10^-5?",
+      options: [
+        "7.00",
+        "9.26",
+        "8.74",
+        "10.00"
+      ],
+      correct: 1,
+      explanation: "When the base and its salt are equal, the log term becomes zero. The pH is therefore pKw - pKb, which gives 9.26.",
+      source: "buffer.pdf-1.pdf - p.27"
+    },
+    {
+      q: "What is the main action of a buffer?",
+      options: [
+        "It increases the ionization of water",
+        "It makes all solutions acidic",
+        "It removes all salts from solution",
+        "It resists changes in pH"
+      ],
+      correct: 2,
+      explanation: "The defining action of a buffer is resistance to pH change. Small additions of acid or base produce only a limited change in pH.",
+      source: "buffer.pdf-1.pdf - p.32"
+    },
+    {
+      q: "Which statement is correct about buffer capacity?",
+      options: [
+        "It decreases when pH change becomes smaller",
+        "It is highest in pure water",
+        "It increases when pH change becomes smaller",
+        "It is independent of composition"
+      ],
+      correct: 3,
+      explanation: "Buffer capacity rises when a larger amount of acid or base is needed to produce a given change in pH. A smaller ΔpH for the same added amount means a higher capacity.",
+      source: "buffer.pdf-1.pdf - p.34"
+    },
+    {
+      q: "What happens when 0.04 mol of NaOH is added to 1 L of acetate buffer containing 0.2 M acetic acid and 0.2 M sodium acetate?",
+      options: [
+        "Acid increases and salt decreases",
+        "Both acid and salt decrease",
+        "Acid decreases and salt increases",
+        "Both acid and salt increase"
+      ],
+      correct: 0,
+      explanation: "The added base neutralizes part of the acetic acid and converts it into sodium acetate. So the acid concentration falls and the salt concentration rises.",
+      source: "buffer.pdf-1.pdf - p.35"
+    },
+    {
+      q: "What is the change in pH after adding 0.04 mol NaOH to 1 L of the acetate buffer described above?",
+      options: [
+        "0.56",
+        "0.18",
+        "1.00",
+        "0.04"
+      ],
+      correct: 1,
+      explanation: "The pH changes from 4.76 to 4.94, so the increase is 0.18. This shows the buffering action clearly.",
+      source: "buffer.pdf-1.pdf - p.36"
+    },
+    {
+      q: "What is the change in pH after adding 0.04 mol NaOH to 1 L of pure water?",
+      options: [
+        "0.18",
+        "1.00",
+        "5.60",
+        "0.56"
+      ],
+      correct: 3,
+      explanation: "Water has no buffering system, so the pH changes dramatically. In the example, it rises from 7.0 to 12.6, a change of 5.6 units.",
+      source: "buffer.pdf-1.pdf - p.37"
+    },
+    {
+      q: "Which expression is the approximate buffer capacity equation shown in the notes?",
+      options: [
+        "β = 2.303 C Ka[H3O+] / (Ka + [H3O+])^2",
+        "β = pH + pKa",
+        "β = [Salt]/[Acid]",
+        "β = 1 / pH"
+      ],
+      correct: 2,
+      explanation: "The notes give an exact buffer-capacity equation that depends on total concentration, Ka, and hydrogen ion concentration. It is used to estimate how strongly a buffer resists pH change.",
+      source: "buffer.pdf-1.pdf - p.43"
+    }
+  ]
+},
+
+"phy2": {
+  title: "Quiz II",
+  questions: [
+    {
+      q: "What are crystal structures constructed from?",
+      options: [
+        "Random particles",
+        "Repeating units called unit cells",
+        "Only liquid layers",
+        "Irregular clusters of atoms"
+      ],
+      correct: 1,
+      explanation: "A crystal is built from repeating structural units called unit cells. These units form the basic repeating pattern of the crystal lattice.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.14"
+    },
+     {
+      q: "Which characteristic is true for gases?",
+      options: [
+        "They have definite shape and volume",
+        "They do not exert pressure",
+        "They exert pressure and their volume is usually expressed in liters or cubic centimeters",
+        "They are always incompressible"
+      ],
+      correct: 2,
+      explanation: "Gases exert pressure because of particle collisions, and their volume is commonly measured in liters or cubic centimeters.",
+      source: "physical pharmacy merged.pdf - p.33"
+    },
+    {
+      q: "In gas equations, temperature must be expressed in:",
+      options: [
+        "Degrees Celsius",
+        "Degrees Fahrenheit",
+        "Absolute or Kelvin degrees",
+        "Any temperature scale"
+      ],
+      correct: 3,
+      explanation: "Gas laws require absolute temperature, so Kelvin is used. The notes also state that 0°C equals 273.16 K.",
+      source: "physical pharmacy merged.pdf - p.33"
+    },
+    {
+      q: "The ideal gas law assumes that gas molecules:",
+      options: [
+        "Have strong attractions",
+        "Have finite volume",
+        "Do not interact and collide perfectly elastically",
+        "Always condense at room temperature"
+      ],
+      correct: 1,
+      explanation: "The ideal gas model assumes no intermolecular interactions, perfectly elastic collisions, and no energy exchange during collisions.",
+      source: "physical pharmacy merged.pdf - p.34"
+    },
+    {
+      q: "What does Boyle’s law relate at constant temperature?",
+      options: [
+        "Pressure and volume",
+        "Volume and temperature",
+        "Pressure and temperature",
+        "Mass and volume"
+      ],
+      correct: 0,
+      explanation: "Boyle’s law states that pressure and volume are inversely proportional for a fixed mass of gas at constant temperature.",
+      source: "physical pharmacy merged.pdf - p.35"
+    },
+    {
+      q: "According to Boyle’s law, the mathematical form is:",
+      options: [
+        "V = kT",
+        "PV = k",
+        "P/T = k",
+        "PV = nRT"
+      ],
+      correct: 2,
+      explanation: "Boyle’s law is written as PV = k when temperature and mass are constant.",
+      source: "physical pharmacy merged.pdf - p.35"
+    },
+    {
+      q: "Charles’ law states that for a given mass of gas at constant pressure, volume is directly proportional to:",
+      options: [
+        "Density",
+        "Pressure",
+        "Absolute temperature",
+        "Molecular weight"
+      ],
+      correct: 2,
+      explanation: "Charles’ law shows that gas volume increases as absolute temperature increases, provided pressure is constant.",
+      source: "physical pharmacy merged.pdf - p.36"
+    },
+    {
+      q: "Which combined gas law relation is correct?",
+      options: [
+        "P1V1/T1 = P2V2/T2",
+        "P1T1/V1 = P2T2/V2",
+        "P1V2 = P2V1",
+        "PV = nT"
+      ],
+      correct: 0,
+      explanation: "The combined gas law keeps the ratio PV/T constant for a fixed amount of gas.",
+      source: "physical pharmacy merged.pdf - p.37"
+    },
+    {
+      q: "For n moles of an ideal gas, the general equation of state is:",
+      options: [
+        "PV = k",
+        "V = kT",
+        "PV = nRT",
+        "P = VRT"
+      ],
+      correct: 3,
+      explanation: "The ideal gas equation for n moles is PV = nRT, where R is the gas constant.",
+      source: "physical pharmacy merged.pdf - p.38"
+    },
+    {
+      q: "Which statement best describes a real gas compared with an ideal gas?",
+      options: [
+        "Real gases always obey PV = nRT exactly",
+        "Real gases have no molecular interactions",
+        "Real gases have finite volume and attractive forces",
+        "Real gases cannot be compressed"
+      ],
+      correct: 1,
+      explanation: "Real gases differ from ideal gases because their molecules occupy space and attract one another.",
+      source: "physical pharmacy merged.pdf - p.39"
+    },
+    {
+      q: "In the van der Waals equation, the term a/V² accounts for:",
+      options: [
+        "Molecular weight",
+        "Excluded volume",
+        "Internal pressure due to intermolecular attractions",
+        "Temperature correction only"
+      ],
+      correct: 2,
+      explanation: "The a term corrects for attraction between gas molecules, which reduces the observed pressure.",
+      source: "physical pharmacy merged.pdf - p.40"
+    },
+    {
+      q: "In the van der Waals equation, the term b represents:",
+      options: [
+        "The energy released during collision",
+        "The excluded volume or incompressibility of molecules",
+        "The pressure of the gas",
+        "The constant for temperature only"
+      ],
+      correct: 0,
+      explanation: "The b term corrects for the finite size of molecules, meaning some volume is unavailable for molecular motion.",
+      source: "physical pharmacy merged.pdf - p.40"
+    },
+    {
+      q: "Under what conditions do real gases behave more like ideal gases?",
+      options: [
+        "At high pressure and low volume",
+        "At low pressure and large volume",
+        "At very low temperature only",
+        "When intermolecular forces increase"
+      ],
+      correct: 1,
+      explanation: "At low pressure and large volume, the correction terms become insignificant and real gases approach ideal behavior.",
+      source: "physical pharmacy merged.pdf - p.42"
+    },
+    {
+      q: "How can the approximate molecular weight of a gas be calculated from the ideal gas law?",
+      options: [
+        "M = PV/gRT",
+        "M = gRT/PV",
+        "M = RT/PV",
+        "M = gPV/RT"
+      ],
+      correct: 3,
+      explanation: "By substituting n = g/M into PV = nRT, the relation becomes M = gRT/PV.",
+      source: "physical pharmacy merged.pdf - p.43"
+    },
+    {
+      q: "What happens when a gas is cooled and pressure is applied during liquefaction?",
+      options: [
+        "It becomes more rigid",
+        "Its molecules lose energy and pass into the liquid state",
+        "It immediately becomes a solid",
+        "Its volume becomes zero"
+      ],
+      correct: 1,
+      explanation: "Cooling lowers molecular kinetic energy, and pressure brings molecules close enough for van der Waals forces to produce a liquid.",
+      source: "physical pharmacy merged.pdf - p.45"
+    },
+    {
+      q: "Critical temperature is the temperature above which:",
+      options: [
+        "A liquid can no longer exist",
+        "A gas becomes a plasma",
+        "A solid becomes a gas",
+        "Pressure becomes zero"
+      ],
+      correct: 0,
+      explanation: "Above the critical temperature, a gas cannot be liquefied no matter how much pressure is applied.",
+      source: "physical pharmacy merged.pdf - p.46"
+    },
+    {
+      q: "What is the critical pressure?",
+      options: [
+        "The lowest pressure at which a gas boils",
+        "The pressure needed to liquefy a gas at its critical temperature",
+        "The pressure at which a solid melts",
+        "The pressure inside a vacuum"
+      ],
+      correct: 3,
+      explanation: "Critical pressure is the pressure required to liquefy a gas at the critical temperature. It is also the highest vapor pressure the liquid can have.",
+      source: "physical pharmacy merged.pdf - p.46"
+    },
+    {
+      q: "What happens to vapor pressure when temperature rises?",
+      options: [
+        "It decreases",
+        "It remains fixed",
+        "It becomes zero",
+        "It increases"
+      ],
+      correct: 2,
+      explanation: "As temperature rises, more molecules gain enough energy to escape, so vapor pressure increases.",
+      source: "physical pharmacy merged.pdf - p.48"
+    },
+    {
+      q: "What is the boiling point of a liquid?",
+      options: [
+        "The temperature at which the vapor pressure equals the external pressure",
+        "The temperature at which the liquid becomes solid",
+        "The temperature at which the liquid disappears",
+        "The temperature at which vapor pressure becomes zero"
+      ],
+      correct: 0,
+      explanation: "Boiling occurs when the vapor pressure of the liquid matches atmospheric pressure.",
+      source: "physical pharmacy merged.pdf - p.51"
+    },
+    {
+      q: "The Clausius–Clapeyron equation relates vapor pressure to:",
+      options: [
+        "Molecular weight",
+        "Absolute temperature",
+        "Viscosity",
+        "Surface tension only"
+      ],
+      correct: 2,
+      explanation: "The equation describes how vapor pressure changes with temperature and includes the heat of vaporization.",
+      source: "physical pharmacy merged.pdf - p.49"
+    },
+    {
+      q: "What does ΔHv in the Clausius–Clapeyron equation represent?",
+      options: [
+        "Heat absorbed by 1 mole of liquid when it passes into vapor",
+        "Heat released by a solid during melting",
+        "Pressure needed for liquefaction",
+        "Temperature change per mole of gas"
+      ],
+      correct: 1,
+      explanation: "ΔHv is the molar heat of vaporization, meaning the heat absorbed by one mole of liquid during vaporization.",
+      source: "physical pharmacy merged.pdf - p.50"
+    },
+    {
+      q: "In quantitative terms, solubility is defined as:",
+      options: [
+        "The mass of solute added to any solution",
+        "The amount of solvent present in a mixture",
+        "The concentration of solute in a saturated solution at a certain temperature",
+        "The pressure needed to dissolve a gas"
+      ],
+      correct: 1,
+      explanation: "Solubility in quantitative terms means the concentration of solute present in a saturated solution at a specified temperature. That is the standard physical pharmacy definition.",
+      source: "physical pharmacy merged.pdf - p.54"
+    },
+    {
+      q: "Which of the following is included among the factors affecting solubility?",
+      options: [
+        "Only color and odor",
+        "pH of the solution",
+        "Only boiling point",
+        "Only particle charge"
+      ],
+      correct: 1,
+      explanation: "The notes list pH as one of the factors affecting solubility, along with temperature, pressure, and the physical and chemical properties of solute and solvent.",
+      source: "physical pharmacy merged.pdf - p.54"
+    },
+    {
+      q: "The phrase 'like dissolves like' means that:",
+      options: [
+        "Polar solvents dissolve polar or ionic substances best",
+        "Only gases dissolve in liquids",
+        "All compounds dissolve in water equally",
+        "Nonpolar solvents dissolve only salts"
+      ],
+      correct: 0,
+      explanation: "This rule expresses the general idea that substances with similar polarity dissolve in each other more readily. Water is a good solvent for salts and sugars, while nonpolar solvents dissolve nonpolar substances.",
+      source: "physical pharmacy merged.pdf - p.57"
+    },
+    {
+      q: "Which property allows water to reduce attraction between oppositely charged ions in crystals such as sodium chloride?",
+      options: [
+        "Low viscosity",
+        "High dielectric constant",
+        "Low surface tension",
+        "High refractive index"
+      ],
+      correct: 3,
+      explanation: "Water has a high dielectric constant, which weakens ionic attraction and helps ionic crystals dissolve.",
+      source: "physical pharmacy merged.pdf - p.60"
+    },
+    {
+      q: "Which type of solvent is unable to reduce attraction between ions because of low dielectric constant?",
+      options: [
+        "Polar solvents",
+        "Semipolar solvents",
+        "Nonpolar solvents",
+        "Aqueous solvents"
+      ],
+      correct: 2,
+      explanation: "Nonpolar solvents have low dielectric constants, so they do not separate ions effectively and are poor solvents for ionic substances.",
+      source: "physical pharmacy merged.pdf - p.61"
+    },
+    {
+      q: "Which of the following is an example of a semipolar solvent effect?",
+      options: [
+        "Water dissolving sodium chloride",
+        "Benzene dissolving sodium sulfate",
+        "Acetone increasing the solubility of ether in water",
+        "Oil dissolving sugar"
+      ],
+      correct: 1,
+      explanation: "Semipolar solvents can act as intermediate solvents. The notes specifically mention acetone increasing the solubility of ether in water.",
+      source: "physical pharmacy merged.pdf - p.62"
+    },
+    {
+      q: "What happens to water solubility of straight-chain aliphatic alcohols as the nonpolar chain length increases?",
+      options: [
+        "It increases",
+        "It stays the same",
+        "It decreases",
+        "It becomes infinite"
+      ],
+      correct: 2,
+      explanation: "As the nonpolar chain becomes longer, the molecule behaves less like a polar compound, so its solubility in water decreases.",
+      source: "physical pharmacy merged.pdf - p.59"
+    },
+    {
+      q: "Which compounds are dissolved by water because they can form hydrogen bonds with it?",
+      options: [
+        "Only hydrocarbons",
+        "Phenols, alcohols, aldehydes, ketones, amines",
+        "Only fats and oils",
+        "Only salts and metals"
+      ],
+      correct: 0,
+      explanation: "Water dissolves compounds containing oxygen or nitrogen atoms that can hydrogen bond, including phenols, alcohols, aldehydes, ketones, and amines.",
+      source: "physical pharmacy merged.pdf - p.58"
+    },
+    {
+      q: "Which statement about nonpolar solvents is correct?",
+      options: [
+        "They dissolve ionic solutes very well",
+        "They form strong hydrogen bonds with water",
+        "They dissolve nonpolar solutes by weak van der Waals-London forces",
+        "They are the best solvents for salts"
+      ],
+      correct: 2,
+      explanation: "Nonpolar solvents do not dissolve ionic or polar solutes well, but they can dissolve nonpolar substances through weak dispersion forces.",
+      source: "physical pharmacy merged.pdf - p.61"
+    },
+    {
+      q: "Which of the following is a pharmaceutical solution of gases?",
+      options: [
+        "Hydrochloric acid",
+        "Glycerin",
+        "Sodium chloride solution",
+        "Castor oil"
+      ],
+      correct: 3,
+      explanation: "The notes list hydrochloric acid, ammonia water, effervescent carbon dioxide preparations, and some aerosol products as gas-in-liquid systems.",
+      source: "physical pharmacy merged.pdf - p.67"
+    },
+    {
+      q: "According to Henry's law, the solubility of a gas in a liquid:",
+      options: [
+        "Decreases as pressure increases",
+        "Is unrelated to pressure",
+        "Increases directly as pressure increases",
+        "Depends only on pH"
+      ],
+      correct: 2,
+      explanation: "Henry's law states that at constant temperature, gas solubility increases directly with the pressure of the gas above the solution.",
+      source: "physical pharmacy merged.pdf - p.68"
+    },
+    {
+      q: "What usually happens to the solubility of most gases when temperature increases?",
+      options: [
+        "It increases sharply",
+        "It decreases",
+        "It remains constant",
+        "It becomes independent of pressure"
+      ],
+      correct: 1,
+      explanation: "Most gases become less soluble at higher temperature because the gas molecules have a greater tendency to escape from the liquid.",
+      source: "physical pharmacy merged.pdf - p.69"
+    },
+    {
+      q: "What is salting out?",
+      options: [
+        "Dissolving a salt in a gas",
+        "The liberation of a gas from solution by adding an electrolyte or nonelectrolyte",
+        "A type of crystallization of solids",
+        "The dissolution of water in oil"
+      ],
+      correct: 0,
+      explanation: "Salting out is the release of a dissolved gas from solution after addition of substances like sodium chloride or sucrose.",
+      source: "physical pharmacy merged.pdf - p.70"
+    },
+    {
+      q: "Which of the following is a liquid-in-liquid pharmaceutical system?",
+      options: [
+        "Aerosol products",
+        "Hydroalcoholic solutions",
+        "Tablet coatings",
+        "Dry powders"
+      ],
+      correct: 1,
+      explanation: "Hydroalcoholic solutions are liquid-liquid systems because alcohol is added to water in various concentrations.",
+      source: "physical pharmacy merged.pdf - p.71"
+    },
+    {
+      q: "What is complete miscibility?",
+      options: [
+        "Two liquids form two layers in all proportions",
+        "Two liquids cannot mix at all",
+        "Two liquids mix in all proportions",
+        "Two liquids react chemically on contact"
+      ],
+      correct: 3,
+      explanation: "Completely miscible liquids can mix in all proportions without phase separation. Examples include water and alcohol.",
+      source: "physical pharmacy merged.pdf - p.73"
+    },
+    {
+      q: "What is partial miscibility?",
+      options: [
+        "Two liquids mix only after heating above 100°C",
+        "Two liquid layers are formed, each containing some of the other liquid",
+        "A solid dissolves in a liquid",
+        "A gas dissolves in a liquid"
+      ],
+      correct: 1,
+      explanation: "Partially miscible liquids form two layers, but each layer still contains some dissolved amount of the other liquid.",
+      source: "physical pharmacy merged.pdf - p.74"
+    },
+    {
+      q: "Which system is an example of an upper consolute temperature?",
+      options: [
+        "Phenol and water",
+        "Nicotine and water",
+        "Ethyl ether and water",
+        "Benzene and carbon tetrachloride"
+      ],
+      correct: 2,
+      explanation: "Phenol and water is the example given for a system whose mutual solubilities increase with temperature until a critical solution temperature is reached.",
+      source: "physical pharmacy merged.pdf - p.74"
+    },
+    {
+      q: "What is the effect of adding a substance that is soluble in only one component of a partially miscible liquid pair?",
+      options: [
+        "Mutual solubility increases",
+        "Mutual solubility decreases",
+        "The liquids become completely immiscible always",
+        "The system becomes a gas"
+      ],
+      correct: 1,
+      explanation: "If the added substance dissolves mainly in one component, it tends to reduce the mutual solubility of the two liquids.",
+      source: "physical pharmacy merged.pdf - p.75"
+    },
+    {
+      q: "Which factor primarily affects the solubility of solids in liquids according to the notes?",
+      options: [
+        "Effect of temperature",
+        "Effect of sound",
+        "Effect of light",
+        "Effect of magnetic field only"
+      ],
+      correct: 0,
+      explanation: "For solids in liquids, temperature is a major factor, along with complex formation and solvent effects.",
+      source: "physical pharmacy merged.pdf - p.77"
+    },
+    {
+      q: "What is cosolvency?",
+      options: [
+        "The complete removal of a solute",
+        "The use of one solvent only",
+        "The increase in solubility of a solute in a mixture of solvents compared with one solvent alone",
+        "The precipitation of a salt"
+      ],
+      correct: 2,
+      explanation: "Cosolvency is the phenomenon where a solute becomes more soluble in a solvent mixture than in any single solvent by itself.",
+      source: "physical pharmacy merged.pdf - p.79"
+    },
+    {
+      q: "In a specific crystal, all unit cells are:",
+      options: [
+        "Different in size and shape",
+        "Same size and contain the same number of molecules or ions arranged in the same way",
+        "Always spherical",
+        "Randomly packed without order"
+      ],
+      correct: 2,
+      explanation: "The same crystal contains identical unit cells in repeated order. This regular repetition is what gives crystals their ordered structure.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.14"
+    },
+    {
+      q: "How many primitive unit cells are mentioned in the notes?",
+      options: [
+        "Five",
+        "Six",
+        "Seven",
+        "Eight"
+      ],
+      correct: 0,
+      explanation: "The notes state that there are seven primitive unit cells. These represent the common crystal systems taught in physical pharmacy.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.15"
+    },
+    {
+      q: "Which of the following is listed as one of the seven primitive unit cells?",
+      options: [
+        "Hexagonal",
+        "Pentagonal",
+        "Octagonal",
+        "Heptagonal"
+      ],
+      correct: 1,
+      explanation: "Hexagonal is one of the seven primitive unit cells listed in the notes. The others include cubic, tetragonal, monoclinic, trigonal, orthorhombic, and triclinic.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.15"
+    },
+    {
+      q: "What is crystal habit?",
+      options: [
+        "The chemical purity of a crystal",
+        "The external appearance or overall shape of a crystal",
+        "The melting point of a crystal",
+        "The weight of a crystal"
+      ],
+      correct: 1,
+      explanation: "Crystal habit refers to the external form of the crystal, such as needle-like, prismatic, or tabular shapes.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.16"
+    },
+    {
+      q: "Which of the following is an example of crystal habit?",
+      options: [
+        "Acicular",
+        "Aqueous",
+        "Amorphous",
+        "Acidic"
+      ],
+      correct: 2,
+      explanation: "Acicular means needle-like and is a classic example of crystal habit. The notes also mention prismatic and tabular forms.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.16"
+    },
+    {
+      q: "Crystal habit depends mainly on:",
+      options: [
+        "The patient age",
+        "The solvent, temperature, concentration, and impurities",
+        "The color of the container",
+        "The drug dose only"
+      ],
+      correct: 0,
+      explanation: "The notes state that habit depends on conditions of crystallization such as solvent used, temperature, concentration, and presence of impurities or surfactants.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.17"
+    },
+    {
+      q: "What is polymorphism?",
+      options: [
+        "The ability of a drug to dissolve in water only",
+        "The existence of a crystal in one fixed shape",
+        "The arrangement of molecules in two or more different ways in the crystal",
+        "The conversion of a liquid into a gas"
+      ],
+      correct: 3,
+      explanation: "Polymorphism occurs when molecules pack in more than one way in the solid state. The different crystal forms are chemically identical but structurally different.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.19"
+    },
+    {
+      q: "Polymorphs of the same drug may differ in their:",
+      options: [
+        "X-ray diffraction patterns, melting points, and solubilities",
+        "Chemical formula only",
+        "Color only",
+        "Molecular weight only"
+      ],
+      correct: 1,
+      explanation: "Different polymorphs can show different X-ray diffraction patterns, melting points, solubilities, and habits even though they are chemically identical.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.20"
+    },
+    {
+      q: "Which group is given as an example of substances showing polymorphism?",
+      options: [
+        "Alcohols and sugars",
+        "Amines and ketones",
+        "Sulphonamides and barbiturates",
+        "Acids and salts"
+      ],
+      correct: 2,
+      explanation: "Sulphonamides and barbiturates are specifically listed as examples of compounds that may exist in polymorphic forms.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.20"
+    },
+    {
+      q: "Which polymorphic form is the most stable under a given set of conditions?",
+      options: [
+        "The form with the highest free energy",
+        "The form with the lowest free energy",
+        "The form with the largest particle size",
+        "The form with the highest melting point always"
+      ],
+      correct: 1,
+      explanation: "The notes state that the polymorphic form with the lowest free energy is the most stable. Other forms tend to transform into it.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.20"
+    },
+    {
+      q: "Why may plate-like crystals be preferred over needle-like crystals for injection in suspension form?",
+      options: [
+        "They are easier to inject through a fine needle",
+        "They have no solubility",
+        "They always dissolve faster in the syringe",
+        "They are chemically different"
+      ],
+      correct: 0,
+      explanation: "Plate-like crystals pass more easily through a fine needle than needle-like crystals. That makes them more suitable for injectable suspensions.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.21"
+    },
+    {
+      q: "Which crystal form generally has better flow and compaction characteristics for tableting?",
+      options: [
+        "Needle-like crystals",
+        "Equidimensional crystals",
+        "Irregular crystals only",
+        "Amorphous powders only"
+      ],
+      correct: 3,
+      explanation: "Equidimensional crystals flow and compact better than needle-like crystals, so they are more suitable for tableting.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.22"
+    },
+    {
+      q: "What may happen during storage when polymorphic forms transform?",
+      options: [
+        "The drug becomes chemically unstable by default",
+        "Suspensions may cake because crystal size changes",
+        "Water always evaporates",
+        "The pH always becomes neutral"
+      ],
+      correct: 2,
+      explanation: "Transformation between polymorphic forms can change crystal size in suspensions and lead to eventual caking.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.23"
+    },
+    {
+      q: "What can crystal growth in creams cause after phase transformation?",
+      options: [
+        "A gritty texture",
+        "A lower boiling point",
+        "A higher pKa",
+        "A stronger odor only"
+      ],
+      correct: 0,
+      explanation: "The notes say that crystal growth in creams due to phase transformation can make the cream gritty.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.23"
+    },
+    {
+      q: "Why are changes in the polymorphic forms of theobroma oil important?",
+      options: [
+        "They change the drug color only",
+        "They affect tablet hardness only",
+        "They can produce unacceptable melting characteristics in suppositories",
+        "They increase ionization of the drug"
+      ],
+      correct: 1,
+      explanation: "Theobroma oil is used in suppositories, and polymorphic change can alter its melting behavior, producing unacceptable products.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.23"
+    },
+    {
+      q: "Which drug is mentioned as a case where polymorphism affects bioavailability?",
+      options: [
+        "Aspirin",
+        "Paracetamol",
+        "Chloramphenicol palmitate",
+        "Ibuprofen"
+      ],
+      correct: 2,
+      explanation: "One polymorphic form of chloramphenicol palmitate is poorly absorbed, so its bioavailability problem is specifically mentioned.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.24"
+    },
+    {
+      q: "What are crystals that contain solvent of crystallization called?",
+      options: [
+        "Anhydrates",
+        "Hydrates only",
+        "Solvates",
+        "Polymorphs"
+      ],
+      correct: 0,
+      explanation: "Crystals containing solvent of crystallization are called solvates. If the solvent is water, they are called hydrates.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.25"
+    },
+    {
+      q: "What is the name given to crystals that contain no water of crystallization?",
+      options: [
+        "Hydrates",
+        "Anhydrates",
+        "Solvates",
+        "Isomorphs"
+      ],
+      correct: 1,
+      explanation: "Anhydrates are crystals that do not contain water of crystallization. They are compared with hydrated forms in the notes.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.25"
+    },
+    {
+      q: "Which statement best describes pseudopolymorphic solvates?",
+      options: [
+        "They are always unstable and immediately collapse",
+        "They lose solvent very readily and desolvation does not destroy the lattice",
+        "They contain no solvent at all",
+        "They are identical to anhydrates in all properties"
+      ],
+      correct: 3,
+      explanation: "Pseudopolymorphic solvates lose solvent more easily, and the crystal lattice remains intact because the solvent is not part of the bonding network.",
+      source: "Physical Pharmacy 2_260523_171847.pdf - p.26"
+    }
+  ]
+},
+
+
+
+
 "his1": {
   title: "Q Bank Final",
   questions: [
