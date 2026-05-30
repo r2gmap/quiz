@@ -480,6 +480,58 @@
         .empty-state h3 { font-size: 1.3rem; margin-bottom: 8px; color: var(--text-main); }
         .empty-state p  { font-size: 0.9rem; }
 
+        /* ════════════════════════════════════════════════════════
+           GAMES GRID — شبكة الألعاب، عمودين دايمًا في كل الشاشات
+        ════════════════════════════════════════════════════════ */
+        .games-grid {
+            /* عمودين ثابتين بغض النظر عن حجم الشاشة */
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 60px;
+        }
+
+        /* كارت اللعبة — بوستر فقط بدون أي نص */
+        .game-card {
+            position: relative;
+            border-radius: 18px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid var(--card-border);
+            background: var(--card-bg);
+            /* لا aspect-ratio — الارتفاع يتحدد تلقائياً من الصورة */
+            transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        border-color 0.25s ease,
+                        box-shadow 0.25s ease;
+            will-change: transform;
+        }
+
+        /* الصورة تملأ العرض كاملاً والارتفاع يتمدد بشكل طبيعي */
+        .game-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.38s ease;
+            pointer-events: none;
+        }
+
+        .game-card:hover {
+            transform: translateY(-4px) scale(1.025);
+            border-color: var(--hover-border);
+            box-shadow: 0 16px 36px var(--hover-shadow),
+                        0 0 0 1px var(--hover-border);
+        }
+
+        /* زووم خفيف على الصورة عند hover */
+        .game-card:hover img {
+            transform: scale(1.06);
+        }
+
+        .game-card:active {
+            transform: scale(0.97);
+            transition-duration: 0.1s;
+        }
+
         /* ── Mobile ── */
         @media (max-width: 600px) {
             html { background-color: #0f101b !important; }
@@ -522,6 +574,10 @@
 
             .question-count { font-size: 0.7rem; padding: 3px 10px; }
             .play-btn { width: 34px; height: 34px; font-size: 0.8rem; }
+
+            /* games-grid يبقى عمودين على الموبايل أيضًا لكن gap أصغر */
+            .games-grid { gap: 12px; }
+            .game-card  { border-radius: 14px; }
         }
 
 
@@ -697,11 +753,6 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
-
-
-
-
-
     </style>
 </head>
 <body>
@@ -724,6 +775,7 @@
 
         <main class="quiz-list" id="quiz-container"></main>
     </div>
+
      <!-- ===== CHAT WIDGET ===== -->
 <div id="chat-widget">
   <div id="chat-panel">
@@ -785,21 +837,23 @@
 
         // 3. Data & render
         const subjectsData = {
+
+            // ══════════════════════════════════════════════════════════════
+            // GAMES — كل لعبة بتاخد: title (للـ alt), poster (مسار الصورة),
+            //         url (ملف HTML الخاص باللعبة)
+            // لإضافة لعبة جديدة: زيد object جديد في مصفوفة games
+            // ══════════════════════════════════════════════════════════════
             sums: {
-                title: "Sums & Notes",
-                subtitle: "Summaries PDFs And Notes",
-                icon: "fa-regular fa-note-sticky",
-                isPdfMode: true,
-                files: [
-                    { title: "Physical", desc: "Short Summary Of Solubility & Distribution", url: "Solubility&Distribution.pdf" },
-                    { title: "English II Lecs", desc: "All English Lectures In One Small PDF", url: "English_Summary.pdf" },
-                    { title: "Anatomy Important", desc: "Anatomy Important Notes In Final Exam", url: "importantanatomy.pdf" },
-                    { title: "Analytical II - Names", desc: "All Scientists Names Mentioned In The PDF ", url: "Special_Names.pdf" },
-                    { title: "Analytical II - Titration", desc: "All Titrations With Their Info", url: "titration.pdf" },
-                    { title: "Analytical II - PH", desc: "Summary And Collection Of PH Laws", url: "ph-laws.pdf" },
-                   
+                title: "Games",
+                subtitle: "",
+                icon: "fas fa-gamepad",
+                isGamesMode: true,
+                games: [
+                    { title: "Game 1", poster: "decrypt.jpg", url: "decrypt.html" },
+                    { title: "Game 2", poster: "gunner.jpg", url: "gunners.html" },
                 ]
             },
+
             organic: {
                 title: "Organic II",
                 subtitle: "",
@@ -854,11 +908,6 @@
                 icon: "fas fa-desktop",
                 quizzes: [
                     { id: "it1", title: "Q.Bank I", desc: "Question Bank 1", q: 62 },
-                    // { id: "it2", title: "IT Question Bank 1", desc: "Level: Easy", q: 31 },
-                    // { id: "it3", title: "IT Question Bank 2", desc: "Level: Normal", q: 18 },
-                    // { id: "it4", title: "IT - Lecs 1 & 2", desc: "Level: Very Easy", q: 10 },
-                    // { id: "it5", title: "IT - Lecs 1, 2 & 3", desc: "Level: Normal", q: 20 },
-                    // { id: "it6", title: "Q.Bank VI", desc: "Written Question Bank", q: 18 },
                 ]
             },
             physical: {
@@ -866,11 +915,6 @@
                 subtitle: "",
                 icon: "fas fa-atom",
                 quizzes: [
-                    // { id: "phy1", title: "Quiz I - IMPORTANT", desc: "All PDFs Problems", q: 14 },
-                    // { id: "phy2", title: "Quiz II", desc: "Level: Easy", q: 10 },
-                    // { id: "phy3", title: "Quiz III", desc: "Level: Normal", q: 10 },
-                    // { id: "phy4", title: "Quiz IV", desc: "Level: Medium To Hard", q: 15 },
-                    // { id: "phy5", title: "Quiz V", desc: "Hard", q: 10 },
                 ]
             },
             anatomy: {
@@ -879,10 +923,6 @@
                 icon: "fas fa-dna",
                 quizzes: [
                     { id: "his1", title: "Anatomy Q Bank", desc: "Very Important 🚨", q: 43 },
-                    // { id: "his2", title: "Quiz II", desc: "Level: Easy", q: 10 },
-                    // { id: "his3", title: "Quiz III", desc: "Level: Normal", q: 15 },
-                    // { id: "his4", title: "Quiz IV", desc: "Level: Normal", q: 10 },
-                    // { id: "his5", title: "Quiz V", desc: "Level: Hard", q: 10 },
                 ]
             },
             english: {
@@ -918,63 +958,96 @@
             iconEl.className       = `subject-icon ${subject.icon}`;
             document.title         = `${subject.title} — Quizzes`;
 
-            const items = subject.isPdfMode ? subject.files : subject.quizzes;
+            // ── GAMES MODE ──────────────────────────────────────────────
+            // لما يكون isGamesMode: true يرسم شبكة بوسترات بدون أي نص
+            if (subject.isGamesMode) {
 
-            if (items && items.length > 0) {
-                // Section label
+                // غيّر class الـ container لشبكة الألعاب
+                container.className = 'games-grid';
+
                 const label = document.createElement('div');
                 label.className   = 'section-label';
-                label.textContent = subject.isPdfMode ? 'Summaries' : ' Quizzes';
-                container.appendChild(label);
+                label.textContent = 'Games';
+                // نضع الـ label قبل الـ container في DOM
+                container.parentNode.insertBefore(label, container);
 
-                items.forEach(item => {
-                    if (subject.isPdfMode) {
-                        // PDF card
-                        const card = document.createElement('div');
-                        card.className = 'item-card pdf-card';
-                        card.innerHTML = `
-                            <div class="item-info">
-                                <h3>${item.title}</h3>
-                                ${item.desc ? `<p>${item.desc}</p>` : ''}
-                            </div>
-                            <div class="pdf-actions">
-                                <a href="${item.url}" target="_blank" class="btn-view">
-                                    <i class="fas fa-eye"></i> View
-                                </a>
-                                <a href="${item.url}" download class="btn-download">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        `;
-                        container.appendChild(card);
-                    } else {
-                        // Quiz card
-                        const card = document.createElement('div');
-                        card.className = 'item-card quiz-item';
-                        card.innerHTML = `
-                            <div class="item-info">
-                                <h3>${item.title}</h3>
-                                ${item.desc ? `<p>${item.desc}</p>` : ''}
-                            </div>
-                            <div class="quiz-meta">
-                                <span class="question-count">${item.q} Qs</span>
-                                <div class="play-btn">
-                                    <i class="fas fa-play"></i>
-                                </div>
-                            </div>
-                        `;
-                        card.addEventListener('click', () => {
-                            location.href = `quiz-player.html?quiz=${item.id}`;
-                        });
-                        container.appendChild(card);
-                    }
+                subject.games.forEach(game => {
+                    // كارت اللعبة — صورة فقط، الضغط يفتح ملف HTML اللعبة
+                    const card = document.createElement('div');
+                    card.className = 'game-card';
+                    card.setAttribute('role', 'button');
+                    card.setAttribute('aria-label', game.title);
+
+                    const img = document.createElement('img');
+                    img.src   = game.poster;
+                    img.alt   = game.title;
+                    img.loading = 'lazy'; // تحميل كسول لتحسين الأداء
+
+                    card.appendChild(img);
+                    card.addEventListener('click', () => {
+                        location.href = game.url;
+                    });
+
+                    container.appendChild(card);
                 });
+
+            // ── PDF / QUIZ MODE (الكود الأصلي بدون تعديل) ──────────────
             } else {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <h3>Coming Soon</h3>
-                        <p>No content available yet — check back later.</p>
-                    </div>`;
+                const items = subject.isPdfMode ? subject.files : subject.quizzes;
+
+                if (items && items.length > 0) {
+                    const label = document.createElement('div');
+                    label.className   = 'section-label';
+                    label.textContent = subject.isPdfMode ? 'Summaries' : ' Quizzes';
+                    container.appendChild(label);
+
+                    items.forEach(item => {
+                        if (subject.isPdfMode) {
+                            const card = document.createElement('div');
+                            card.className = 'item-card pdf-card';
+                            card.innerHTML = `
+                                <div class="item-info">
+                                    <h3>${item.title}</h3>
+                                    ${item.desc ? `<p>${item.desc}</p>` : ''}
+                                </div>
+                                <div class="pdf-actions">
+                                    <a href="${item.url}" target="_blank" class="btn-view">
+                                        <i class="fas fa-eye"></i> View
+                                    </a>
+                                    <a href="${item.url}" download class="btn-download">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            `;
+                            container.appendChild(card);
+                        } else {
+                            const card = document.createElement('div');
+                            card.className = 'item-card quiz-item';
+                            card.innerHTML = `
+                                <div class="item-info">
+                                    <h3>${item.title}</h3>
+                                    ${item.desc ? `<p>${item.desc}</p>` : ''}
+                                </div>
+                                <div class="quiz-meta">
+                                    <span class="question-count">${item.q} Qs</span>
+                                    <div class="play-btn">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                </div>
+                            `;
+                            card.addEventListener('click', () => {
+                                location.href = `quiz-player.html?quiz=${item.id}`;
+                            });
+                            container.appendChild(card);
+                        }
+                    });
+                } else {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <h3>Coming Soon</h3>
+                            <p>No content available yet — check back later.</p>
+                        </div>`;
+                }
             }
 
         } else {
@@ -1000,8 +1073,6 @@
   const messages = document.getElementById('chat-messages');
   let isOpen = false;
 
-  
-
   function togglePanel() {
     isOpen = !isOpen;
     panel.classList.toggle('open', isOpen);
@@ -1011,13 +1082,11 @@
   bubble.addEventListener('click', togglePanel);
   closeX.addEventListener('click', () => { isOpen = false; panel.classList.remove('open'); });
 
-  // Auto-grow textarea
   input.addEventListener('input', () => {
     input.style.height = 'auto';
     input.style.height = Math.min(input.scrollHeight, 90) + 'px';
   });
 
-  // Enter to send, Shift+Enter for new line
   input.addEventListener('keydown', e => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
   });
@@ -1068,11 +1137,6 @@
     .finally(() => { sendBtn.disabled = false; });
   }
 })();
-
-
-
-
-
 
     </script>
 
