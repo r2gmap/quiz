@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Decrypt</title>
+    <script defer src="/_vercel/insights/script.js"></script>
+    <title>DECRYPT</title>
     <style>
         :root {
             /* خطوط النظام واضحة للعربية */
@@ -424,7 +425,7 @@
             osc.type = type; osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
             if(slideFreq) osc.frequency.exponentialRampToValueAtTime(slideFreq, audioCtx.currentTime + duration);
             osc.connect(gain); gain.connect(audioCtx.destination);
-            gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+            gain.gain.setValueAtTime(vol*3, audioCtx.currentTime);
             osc.start(); gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
             osc.stop(audioCtx.currentTime + duration);
         }
