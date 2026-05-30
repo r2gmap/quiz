@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Decrypt</title>
+    <style>
+        :root {
+            /* خطوط النظام واضحة للعربية */
+            --ar-font-stack: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+            /* خط الكونسول للـ Terminal */
+            --terminal-font-stack: 'Consolas', 'Courier New', Courier, monospace;
+        }
+
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: #0d1117; color: #c9d1d9;
+            font-family: var(--ar-font-stack);
+            font-size: 15px;
+            overflow: hidden; user-select: none; -webkit-user-select: none;
+        }
+
+        /* شاشة البدء السينمائية */
+        #start-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 3000; overflow: hidden;
+        }
+
+        /* حاوية تأثير Matrix */
+        #matrix-canvas {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0; opacity: 0.8;
+        }
+
+        #start-btn {
+            position: relative; z-index: 10;
+            padding: 15px 40px; font-size: 24px; background: rgba(35, 134, 54, 0.9);
+            color: #fff; border: 2px solid #56d364; border-radius: 4px; cursor: pointer;
+            font-family: var(--terminal-font-stack); font-weight: bold; text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(86, 211, 100, 0.6), inset 0 0 10px rgba(0,0,0,0.5);
+            transition: 0.3s; letter-spacing: 2px;
+        }
+        #start-btn:hover { 
+            background: #2ea043; 
+            box-shadow: 0 0 40px rgba(86, 211, 100, 1), inset 0 0 10px rgba(0,0,0,0.5); 
+            transform: scale(1.05);
+        }
+
+        #boot-screen {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 2000; padding: 20px; box-sizing: border-box;
+            color: #56d364; display: none; text-shadow: 0 0 3px rgba(86, 211, 100, 0.4);
+            font-family: var(--terminal-font-stack);
+        }
+
+        /* سطح المكتب وخلفياته */
+        #desktop {
+            display: none; position: absolute; top: 0; left: 0; width: 100%; height: calc(100% - 40px);
+            background: #0d1117; padding: 10px;
+            display: flex; flex-direction: column; align-content: flex-start; flex-wrap: wrap; gap: 15px;
+        }
+
+        #desktop-clock-bg {
+            position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
+            text-align: center; color: rgba(255, 255, 255, 0.18);
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+            font-size: clamp(2.5rem, 8vw, 6rem); font-weight: bold; pointer-events: none; z-index: 0;
+            width: 90%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+            font-family: var(--terminal-font-stack);
+        }
+        #bg-date { font-size: clamp(1rem, 3.5vw, 2.2rem); font-weight: normal; }
+
+        #copyright-bg {
+            position: absolute; bottom: 45px; 
+            left: 50%; transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.15); font-size: 11px; 
+            letter-spacing: 2px; text-transform: uppercase;
+            pointer-events: none; z-index: 0; white-space: nowrap;
+            font-family: var(--terminal-font-stack);
+        }
+
+        /* الأيقونات */
+        .icon {
+            width: 85px; display: flex; flex-direction: column; align-items: center;
+            cursor: pointer; text-align: center; color: #c9d1d9; transition: 0.2s; z-index: 1;
+        }
+        .icon:hover, .icon:active { background: rgba(255,255,255,0.1); border-radius: 5px; }
+        .icon-img { font-size: 35px; margin-bottom: 5px; display: flex; justify-content: center; align-items: center; width: 48px; height: 48px;}
+        .icon-text { font-size: 12px; text-shadow: 1px 1px 2px #000; word-wrap: break-word; width: 100%; }
+
+        .real-cmd-icon {
+            width: 32px; height: 26px;
+            background-color: #000;
+            border: 2px solid #c9d1d9;
+            border-radius: 2px;
+            position: relative;
+            box-shadow: 1px 1px 0px #000;
+        }
+        .real-cmd-icon::before {
+            content: "_ >";
+            position: absolute; top: 2px; left: 4px;
+            color: #56d364; 
+            font-family: var(--terminal-font-stack);
+            font-size: 14px; font-weight: bold;
+        }
+
+        /* النوافذ */
+        .window {
+            position: absolute; width: 90%; max-width: 480px; background: #161b22;
+            border: 1px solid #30363d; border-radius: 6px; box-shadow: 0 15px 40px rgba(0,0,0,0.9);
+            display: none; flex-direction: column; z-index: 10; overflow: hidden;
+        }
+        .window-header {
+            background: #21262d; border-bottom: 1px solid #30363d; padding: 8px 12px; cursor: grab; 
+            display: flex; justify-content: space-between; align-items: center; color: #e6edf3; 
+            font-size: 14px; font-weight: bold; letter-spacing: 1px;
+        }
+        .window-header:active { cursor: grabbing; }
+        
+        .close-btn { 
+            cursor: pointer; color: #f85149; font-weight: 900; font-size: 24px; padding: 0 10px;
+            transition: 0.1s; display: flex; align-items: center; justify-content: center;
+        }
+        .close-btn:hover { color: #ff7b72; transform: scale(1.1); }
+        
+        .window-content { 
+            padding: 15px; font-size: 16px; color: #c9d1d9; min-height: 100px; max-height: 350px; 
+            overflow-y: auto; line-height: 1.8;
+            font-family: var(--ar-font-stack); 
+        }
+        
+        /* نافذة رسالة الاختراق */
+        #hacked-modal {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 95%; max-width: 550px; background: #1a0505; border: 2px solid #f85149;
+            box-shadow: 0 0 50px rgba(248, 81, 73, 0.5); z-index: 1500; display: none;
+            flex-direction: column; border-radius: 6px; overflow: hidden;
+        }
+        .hacked-header { background: #600; color: #ff7b72; padding: 12px; font-weight: bold; text-align: center; border-bottom: 2px solid #f85149; font-size: 18px; letter-spacing: 1px;}
+        .hacked-body { 
+            padding: 20px; max-height: 60vh; overflow-y: auto; color: #ff7b72; 
+            font-size: 16px; line-height: 1.7;
+            font-family: var(--ar-font-stack); 
+        }
+        .device-info { 
+            font-family: var(--terminal-font-stack); 
+            background: #000; border-left: 4px solid #f85149; padding: 15px; margin: 15px 0; color: #56d364; font-size: 14px; line-height: 1.5; text-shadow: 0 0 2px rgba(86,211,100,0.4);
+        }
+        .hacked-btn { 
+            background: #f85149; color: #fff; border: none; padding: 15px; width: 100%; 
+            font-weight: bold; cursor: pointer; font-family: var(--ar-font-stack); 
+            font-size: 16px; letter-spacing: 1px;
+        }
+        .hacked-btn:hover { background: #ff7b72; }
+
+        /* الطرفية */
+        .terminal-font { font-family: var(--terminal-font-stack); color: #56d364; text-shadow: 0 0 3px rgba(86,211,100,0.4); font-size: 15px; }
+        #terminal-input { background: transparent; border: none; color: #56d364; outline: none; width: 75%; font-family: inherit; font-size: inherit; text-shadow: 0 0 3px rgba(86,211,100,0.4);}
+        
+        /* شريط المهام */
+        #taskbar {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 40px;
+            background: #161b22; border-top: 2px solid #30363d; display: flex; align-items: center; 
+            padding: 0 10px; box-sizing: border-box; color: #8b949e; z-index: 1000; justify-content: space-between;
+            font-family: var(--terminal-font-stack);
+        }
+        .start-btn { background: #21262d; color: #c9d1d9; padding: 4px 15px; border-radius: 4px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; border: 1px solid #484f58; font-size: 15px;}
+        .start-btn:hover { background: #30363d; }
+        #clock-display { font-size: 16px; color: #ffffff; font-weight: bold; letter-spacing: 1px;}
+
+        #start-menu {
+            position: absolute; bottom: 42px; left: 5px; width: 230px; background: #21262d;
+            border: 1px solid #484f58; border-radius: 4px; box-shadow: 2px 2px 15px rgba(0,0,0,0.6);
+            display: none; flex-direction: column; z-index: 1001; padding: 5px;
+            font-family: var(--ar-font-stack);
+        }
+        .start-menu-item { padding: 12px 15px; display: flex; align-items: center; gap: 10px; cursor: pointer; color: #c9d1d9; font-size: 15px; transition: background 0.1s; }
+        .start-menu-item:hover { background: #238636; color: #fff; }
+        .start-menu-divider { height: 1px; background: #484f58; margin: 5px 0; }
+        .start-lang-btn { background: #30363d; color: #fff; border: 1px solid #484f58; padding: 8px 12px; border-radius: 4px; cursor: pointer; margin-bottom: 15px; font-weight: bold; font-family: inherit; font-size: 14px;}
+        
+        #readme-content { font-family: var(--terminal-font-stack); color: #c9d1d9; }
+
+        .glitch-text { color: #f85149; font-weight: bold; animation: glitch 1.5s infinite; }
+        @keyframes glitch { 0% { opacity: 1; } 50% { opacity: 0.8; color: #ff7b72; } 100% { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div id="start-screen">
+        <canvas id="matrix-canvas"></canvas>
+        <button id="start-btn" onclick="startSystem()">Fix The System</button>
+    </div>
+    
+    <div id="boot-screen"></div>
+
+    <div id="hacked-modal">
+        <div class="hacked-header">⚠ CRITICAL WARNING ⚠</div>
+        <div class="hacked-body">
+            <button class="start-lang-btn" id="hacked-lang-btn" style="width: 100%; margin-bottom: 15px;" onclick="toggleHackedLanguage()">🌐 التبديل للعربية</button>
+
+            <div class="hacked-en-text" dir="ltr">
+                <p>This system is compromised. By connecting to this interface, your device has been engulfed by the hostile network. We are reading your data:</p>
+            </div>
+            
+            <div class="device-info hacked-en-text" id="device-scan-en" dir="ltr"></div>
+
+            <div class="hacked-en-text" dir="ltr">
+                <p style="color:#c9d1d9;">Message from System Admin: I have been locked out. The intruder is purging the core repository and tracking all connected nodes (including you). Find <strong>Read_Me_First</strong> and initiate the recovery sequence immediately before everything is wiped.</p>
+            </div>
+
+            <div class="hacked-ar-text" dir="rtl" style="display: none;">
+                <p>لقد تم اختراق هذا النظام. وبمجرد اتصالك بهذه الواجهة، تم إدراج جهازك ضمن نطاق الشبكة المصابة. نحن الآن نقرأ بياناتك:</p>
+            </div>
+
+            <div class="device-info hacked-ar-text" id="device-scan-ar" dir="rtl" style="display: none;"></div>
+            
+            <div class="hacked-ar-text" dir="rtl" style="display: none;">
+                <p style="color:#c9d1d9;">رسالة من مسؤول النظام: لقد تم طردي خارج شبكتي الخاصة. المخترق يسعى لتدمير النواة المركزية وسحب بيانات كل من يتصل بها (بما في ذلك أنت). ابحث في <strong>Read_Me_First</strong> وابدأ عملية الإنقاذ فوراً قبل مسح كل شيء.</p>
+            </div>
+        </div>
+        <button class="hacked-btn" id="hacked-btn" onclick="closeHackedModal()">I UNDERSTAND, START</button>
+    </div>
+
+    <div id="desktop">
+        <div id="desktop-clock-bg">
+            <div id="bg-time">00:00</div>
+            <div id="bg-date">Loading...</div>
+        </div>
+        
+        <div id="copyright-bg">© R2 Games</div>
+
+        <div class="icon" onclick="openWindow('how-to-win')">
+            <div class="icon-img">📜</div>
+            <div class="icon-text">Read_Me</div>
+        </div>
+        <div class="icon" onclick="openWindow('readme-win')">
+            <div class="icon-img">📝</div>
+            <div class="icon-text">LOG_01.txt</div>
+        </div>
+        <div class="icon" onclick="openWindow('token-win')">
+            <div class="icon-img">🔑</div>
+            <div class="icon-text">TOKEN.txt</div>
+        </div>
+        <div class="icon" onclick="openWindow('network-win')">
+            <div class="icon-img">⚙️</div>
+            <div class="icon-text">NET.cfg</div>
+        </div>
+        <div class="icon" onclick="openWindow('folder-win')">
+            <div class="icon-img">📁</div>
+            <div class="icon-text">Memories</div>
+        </div>
+        <div class="icon" onclick="openWindow('hidden-folder-win')">
+            <div class="icon-img">📁</div>
+            <div class="icon-text">Sectors</div>
+        </div>
+        <div class="icon" onclick="openWindow('terminal-win')">
+            <div class="icon-img"><div class="real-cmd-icon"></div></div>
+            <div class="icon-text">CMD.exe</div>
+        </div>
+        <div class="icon" onclick="openWindow('save-win')">
+            <div class="icon-img" id="save-icon">⚠️</div>
+            <div class="icon-text glitch-text" id="save-icon-text">CORE_DATA</div>
+        </div>
+    </div>
+
+    <div id="how-to-win" class="window" style="top: 20px; left: 20px; display: none;">
+        <div class="window-header"><span>Instruction_Manual.exe</span><span class="close-btn" onclick="closeWindow('how-to-win')">X</span></div>
+        <div class="window-content" id="how-to-content" dir="rtl">
+            <button class="start-lang-btn" onclick="toggleLanguage()" style="width: 100%;">🌐 Switch Language / تبديل اللغة</button>
+            <div id="text-ar" style="display: none;">
+                <p><strong>مرحباً بك أيها المستخدم،</strong></p>
+                <p>أنا المسؤول الرئيسي عن بناء هذا النظام. لقد تعرضت خوادمنا لهجوم سيبراني منسق، والهدف منه مسح النواة المركزية. النظام قام بحظر حسابي لمنع تسريب البيانات، وهو الآن في مرحلة العد التنازلي للتدمير الذاتي.</p>
+                <p>كما رأيت، جهازك الآن متورط ومراقب. أنت الأمل الوحيد المتبقي لإصلاح هذا النظام من الخارج وتأمين بياناتك. لقد قمتُ بتوزيع ثغرات خلفية مشفرة لمساعدتك على تخطي حواجز الأمان العشرة (10). هدفك هو فك التشفير عن ملف <strong>CORE_DATA</strong> المستقر على سطح المكتب.</p>
+                <p><strong>آلية العمل:</strong><br>
+                ابدأ بفتح السجلات الأولية <strong>LOG_01.txt</strong> لتفهم نقطة الانطلاق، ومن ثم توجه إلى واجهة <strong>CMD.exe</strong> لإدخال الأوامر بالترتيب. دقق في المجلدات والملفات المحيطة بك؛ كل خطوة تحتاجها مخبأة أمامك.</p>
+                <p>مستقبل هذا النظام وبياناتك بين يديك الآن.</p>
+            </div>
+            <div id="text-en" dir="ltr">
+                <p><strong>Welcome, User.</strong></p>
+                <p>I am the lead Admin of this ecosystem. Our servers have fallen victim to a sophisticated cyber attack aiming to erase the critical core repository. The system has quarantined me and is counting down to a permanent purge.</p>
+                <p>As you saw, your device is now entangled. You are our last line of defense from the outside to save the core and secure your own trace. I have scattered encrypted backdoors to guide you through the 10 security layers. Your objective is to restore the <strong>CORE_DATA</strong> file.</p>
+                <p><strong>How to proceed:</strong><br>
+                Begin by inspecting <strong>LOG_01.txt</strong>. Use the <strong>CMD.exe</strong> console to issue commands sequentially. Analyze every file around you; every verification key is hidden in plain sight.</p>
+                <p>The fate of this system is in your hands.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="readme-win" class="window" style="top: 80px; left: 10px;">
+        <div class="window-header"><span>LOG_01.txt</span><span class="close-btn" onclick="closeWindow('readme-win')">X</span></div>
+        <div class="window-content terminal-font" id="readme-content" style="white-space: pre-wrap;"></div>
+    </div>
+
+    <div id="token-win" class="window" style="top: 50px; left: 50px;">
+        <div class="window-header"><span>SYS_TOKEN.txt</span><span class="close-btn" onclick="closeWindow('token-win')">X</span></div>
+        <div class="window-content">
+            [SYSTEM ISOLATION METADATA]<br><br>Security Status: Compromised.<br>Emergency Decryption Token: <strong style="color:#56d364;">NEXUS</strong><br><br>Note: Security authorization requires confirmation from the verified Admin identity.
+        </div>
+    </div>
+
+    <div id="network-win" class="window" style="top: 70px; left: 30px;">
+        <div class="window-header"><span>NETWORK.cfg</span><span class="close-btn" onclick="closeWindow('network-win')">X</span></div>
+        <div class="window-content">
+            [SECURE MIGRATION ROUTING]<br>
+            GATEWAY_IP=192.168.1.1<br>
+            LOOPBACK_IP=<strong style="color:#56d364;">127.0.0.1</strong><br>
+            BACKUP_ROUTING_NODE=<strong style="color:#56d364;">NODE_99</strong><br>
+            PACKET_STATUS=HOLDING
+        </div>
+    </div>
+
+    <div id="folder-win" class="window" style="top: 60px; left: 60px;">
+        <div class="window-header"><span>Old_Memories</span><span class="close-btn" onclick="closeWindow('folder-win')">X</span></div>
+        <div class="window-content">
+            <p><strong>Admin_Riddle.txt:</strong></p>
+            <p style="background: rgba(0,0,0,0.5); padding: 15px; border-left: 4px solid #56d364;">
+                The firewall requires the solution to the system riddle:<br><br>
+                "I have keys but no locks. I have space but no room. You can enter, but you can't go outside."<br><br>
+                What am I? (Type the correct answer in English when prompted).
+            </p>
+        </div>
+    </div>
+
+    <div id="hidden-folder-win" class="window" style="top: 90px; left: 90px;">
+        <div class="window-header"><span>Hidden_Sectors</span><span class="close-btn" onclick="closeWindow('hidden-folder-win')">X</span></div>
+        <div class="window-content">
+            <p><strong>Protocol.txt:</strong></p>
+            <p style="background: rgba(0,0,0,0.5); padding: 15px; border-left: 4px solid #f85149;">
+                [ENCRYPTED PROTOCOL DATA]<br><br>
+                The emergency protocol operates in the dark.<br><br>
+                "I can only live where there is light, but I die if the light shines directly on me."<br><br>
+                What is the protocol name?
+            </p>
+        </div>
+    </div>
+
+    <div id="terminal-win" class="window" style="top: 100px; left: 15px; border-color: #238636; width: 95%; max-width: 500px;">
+        <div class="window-header" style="background:#0f2a15; color:#56d364;">
+            <span>System Terminal_</span><span class="close-btn" onclick="closeWindow('terminal-win')">X</span>
+        </div>
+        <div class="window-content terminal-font" style="background: #050505; max-height: 250px;">
+            <div>Decrypt OS v1.0 Core-Console [Version 2004]</div><br>
+            <div id="term-output"></div>
+            <div style="display: flex;">C:\>&nbsp;<input type="text" id="terminal-input" autocomplete="off"></div>
+        </div>
+    </div>
+
+    <div id="save-win" class="window" style="top: 120px; left: 25px; border-color:#f85149;">
+        <div class="window-header" style="background:#3a0000; color: #ff7b72;">
+            <span id="save-title">CRITICAL EXCEPTION</span><span class="close-btn" onclick="closeWindow('save-win')">X</span>
+        </div>
+        <div class="window-content glitch-text terminal-font" id="save-content" style="white-space: pre-wrap; font-size: 16px;">
+            FATAL ERROR. CORE REPOSITORY DATA IS COMPLETELY CORRUPTED. ACCESS DENIED.
+        </div>
+    </div>
+
+    <div id="taskbar">
+        <div class="start-btn" onclick="toggleStartMenu(event)"><span>⊞</span> Start</div>
+        <div id="clock-display">00:00</div>
+    </div>
+    <div id="start-menu">
+        <div class="start-menu-item" onclick="openWindow('how-to-win'); toggleStartMenu(event);"><span>📜</span> Read Me First</div>
+        <div class="start-menu-item" onclick="openWindow('terminal-win'); toggleStartMenu(event);"><span>🖥️</span> Command Prompt</div>
+        <div class="start-menu-divider"></div>
+        <div class="start-menu-item" onclick="location.reload();"><span>🔄</span> Restart System</div>
+    </div>
+
+    <script>
+        // --- تأثير Matrix السينمائي (معدل ليكون 0 و 1 فقط) ---
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // تم التعديل لتكون الأرقام 0 و 1 فقط
+        const alphabet = '01';
+
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0f0'; 
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        let matrixInterval = setInterval(drawMatrix, 35);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // --- نظام الصوتيات الشامل وتحديث أصوات الكتابة ---
+        let audioCtx;
+        function initAudio() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+        function playTone(freq, type, duration, vol=0.05, slideFreq=null) {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+            osc.type = type; osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            if(slideFreq) osc.frequency.exponentialRampToValueAtTime(slideFreq, audioCtx.currentTime + duration);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+            osc.start(); gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
+            osc.stop(audioCtx.currentTime + duration);
+        }
+        
+        function playClick() { playTone(600, 'sine', 0.05, 0.02); }
+        
+        function playType() { 
+            if (!audioCtx) return;
+            let freq = 250 + Math.random() * 100; 
+            playTone(freq, 'square', 0.04, 0.03); 
+        }
+
+        function playError() { playTone(150, 'sawtooth', 0.3, 0.1); }
+        function playSuccess() { playTone(500, 'square', 0.1, 0.05); setTimeout(() => playTone(800, 'square', 0.2, 0.05), 120); }
+        function playWindowOpen() { playTone(300, 'sine', 0.15, 0.03, 600); }
+        function playWindowClose() { playTone(600, 'sine', 0.15, 0.03, 300); }
+        function playAlert() { 
+            let i = 0; 
+            let alertInterval = setInterval(() => {
+                playTone(i%2===0? 400:600, 'square', 0.2, 0.05); i++;
+                if(i>5) clearInterval(alertInterval);
+            }, 250);
+        }
+
+        // --- جلب بيانات الجهاز ---
+        function getDeviceData() {
+            let os = navigator.platform || "Unknown OS";
+            let res = `${window.screen.width}x${window.screen.height}`;
+            let coresEn = navigator.hardwareConcurrency ? navigator.hardwareConcurrency + " Cores" : "Unknown";
+            let lang = navigator.language;
+            let agent = navigator.userAgent.substring(0, 50) + "..."; 
+
+            let coresAr = navigator.hardwareConcurrency ? navigator.hardwareConcurrency + " نواة" : "غير معروف";
+            let osAr = os;
+            
+            document.getElementById('device-scan-en').innerHTML = `
+                > Target OS: ${os}<br>
+                > Display Res: ${res}<br>
+                > CPU Threading: ${coresEn}<br>
+                > Locale Sys: ${lang}<br>
+                > Client Node: ${agent}<br>
+                > STATUS: <span style="color:#f85149">TRACKED</span>
+            `;
+
+            document.getElementById('device-scan-ar').innerHTML = `
+                > نظام التشغيل: ${osAr}<br>
+                > دقة الشاشة: ${res}<br>
+                > خيوط المعالجة: ${coresAr}<br>
+                > لغة النظام: ${lang}<br>
+                > عقدة العميل: ${agent}<br>
+                > الحالة: <span style="color:#f85149">مُتتبع</span>
+            `;
+        }
+
+        // --- نظام الإقلاع ---
+        function startSystem() {
+            initAudio(); playClick();
+            clearInterval(matrixInterval); 
+            document.getElementById('start-screen').style.display = 'none';
+            let bootDiv = document.getElementById("boot-screen");
+            bootDiv.style.display = 'block';
+            
+            const bootLines = [
+                "Loading Microkernel...", 
+                "Verifying Core Data: FAILED", 
+                "WARNING: Unauthorized connection detected.", 
+                "Extracting client metadata...",
+                "System Halted."
+            ];
+            let lineIndex = 0;
+            function showBootLine() {
+                if (lineIndex < bootLines.length) {
+                    bootDiv.innerHTML += bootLines[lineIndex] + "<br>"; playType(); lineIndex++;
+                    setTimeout(showBootLine, Math.random() * 200 + 100);
+                } else {
+                    setTimeout(() => {
+                        bootDiv.style.display = "none";
+                        document.getElementById("desktop").style.display = "flex";
+                        
+                        getDeviceData();
+                        document.getElementById('hacked-modal').style.display = "flex";
+                        playAlert();
+                        
+                        typeText("readme-content", "Digital Emergency Log.\n\nThe core system code is undergoing a massive purge. I cannot lift the lockdown alone.\n\nTo initiate the global override sequence, open the CMD.exe console and type the following command:\n\nOVERRIDE");
+                    }, 500);
+                }
+            }
+            showBootLine();
+        }
+
+        function closeHackedModal() {
+            playClick();
+            document.getElementById('hacked-modal').style.display = "none";
+        }
+
+        let hackedLang = 'en'; 
+        function toggleHackedLanguage() {
+            playClick();
+            let arElements = document.querySelectorAll('.hacked-ar-text');
+            let enElements = document.querySelectorAll('.hacked-en-text');
+            let btn = document.getElementById('hacked-btn');
+            let langBtn = document.getElementById('hacked-lang-btn');
+            
+            if (hackedLang === 'ar') {
+                arElements.forEach(el => el.style.display = 'none');
+                enElements.forEach(el => el.style.display = 'block');
+                btn.innerText = "I UNDERSTAND, START";
+                langBtn.innerText = "🌐 التبديل للعربية";
+                hackedLang = 'en';
+            } else {
+                enElements.forEach(el => el.style.display = 'none');
+                arElements.forEach(el => el.style.display = 'block');
+                btn.innerText = "أوافق، سأبدأ";
+                langBtn.innerText = "🌐 Switch to English";
+                hackedLang = 'ar';
+            }
+        }
+
+        function typeText(elementId, text) {
+            let el = document.getElementById(elementId);
+            el.innerHTML = ""; let i = 0;
+            function type() {
+                if (i < text.length) {
+                    el.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i); 
+                    if(text.charAt(i) !== ' ') playType(); 
+                    i++; setTimeout(type, 20);
+                }
+            }
+            type();
+        }
+
+        // --- إدارة النوافذ والقوائم ---
+        let startMenu = document.getElementById('start-menu');
+        function toggleStartMenu(e) {
+            if(e) e.stopPropagation(); playClick();
+            startMenu.style.display = (startMenu.style.display === 'flex') ? 'none' : 'flex';
+        }
+        document.addEventListener('click', (e) => {
+            if (startMenu.style.display === 'flex' && !e.target.closest('#start-menu') && !e.target.closest('.start-btn')) {
+                startMenu.style.display = 'none';
+            }
+        });
+
+        let zIndexCounter = 10;
+        function openWindow(id) {
+            playWindowOpen(); let win = document.getElementById(id);
+            win.style.display = "flex"; win.style.zIndex = zIndexCounter++;
+            if(win.offsetTop < 0) win.style.top = "20px";
+            if(win.offsetLeft < 0) win.style.left = "20px";
+        }
+        function closeWindow(id) { playWindowClose(); document.getElementById(id).style.display = "none"; }
+
+        // السحب للموبايل والديسكتوب
+        document.querySelectorAll('.window').forEach(win => {
+            let header = win.querySelector('.window-header');
+            let isDragging = false, startX, startY, initialX, initialY;
+
+            win.addEventListener('mousedown', () => { win.style.zIndex = zIndexCounter++; });
+            win.addEventListener('touchstart', () => { win.style.zIndex = zIndexCounter++; }, {passive: true});
+
+            function startDrag(e) {
+                isDragging = true;
+                let clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                let clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                startX = clientX; startY = clientY;
+                initialX = win.offsetLeft; initialY = win.offsetTop;
+            }
+            function drag(e) {
+                if (!isDragging) return; e.preventDefault();
+                let clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                let clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                win.style.left = (initialX + clientX - startX) + 'px';
+                win.style.top = (initialY + clientY - startY) + 'px';
+            }
+            function endDrag() { isDragging = false; }
+
+            header.addEventListener('mousedown', startDrag); document.addEventListener('mousemove', drag); document.addEventListener('mouseup', endDrag);
+            header.addEventListener('touchstart', startDrag, {passive: false}); document.addEventListener('touchmove', drag, {passive: false}); document.addEventListener('touchend', endDrag);
+        });
+
+        // --- نظام الألغاز (10 مراحل) ---
+        let termInput = document.getElementById('terminal-input');
+        let termOutput = document.getElementById('term-output');
+        let currentStep = 0; 
+
+        termInput.addEventListener('input', playType);
+
+        termInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' || e.key === ' ') {
+                playType();
+            }
+
+            if (e.key === 'Enter') {
+                let val = this.value.toUpperCase().trim();
+                termOutput.innerHTML += "C:\\> " + val + "<br>";
+                
+                switch(currentStep) {
+                    case 0:
+                        if (val === "OVERRIDE") {
+                            playSuccess(); currentStep = 1;
+                            termOutput.innerHTML += "[SYSTEM] Layer 1/10 Cracked. Next: Input Emergency Decryption Token Key.<br>";
+                        } else { playError(); termOutput.innerHTML += "[ERROR] Check LOG_01.txt for keyword.<br>"; }
+                        break;
+                    case 1:
+                        if (val === "NEXUS") {
+                            playSuccess(); currentStep = 2;
+                            termOutput.innerHTML += "[SYSTEM] Layer 2/10 Cracked. Next: Identify Admin Designation ID.<br>";
+                        } else { playError(); termOutput.innerHTML += "[ERROR] Invalid Token.<br>"; }
+                        break;
+                    case 2:
+                        if (val === "ADMIN") {
+                            playSuccess(); currentStep = 3;
+                            termOutput.innerHTML += "[SYSTEM] Layer 3/10 Cracked. Next: System Version Year.<br>";
+                        } else { playError(); termOutput.innerHTML += "[ERROR] Hint: Who manages this system? (Check TOKEN.txt).<br>"; }
+                        break;
+                    case 3:
+                        if (val === "2004") {
+                            playSuccess(); currentStep = 4;
+                            termOutput.innerHTML += "[SYSTEM] Layer 4/10 Cracked. Next: Input Backup Routing Node.<br>";
+                        } else { playError(); termOutput.innerHTML += "[ERROR] Invalid Year.<br>"; }
+                        break;
+                    case 4:
+                        if (val === "NODE_99") {
+                            playSuccess(); currentStep = 5;
+                            termOutput.innerHTML += "[SYSTEM] Layer 5/10 Cracked. Next: Enter Local Loopback IP to isolate network.<br>";
+                        } else { playError(); termOutput.innerHTML += "[ERROR] Target Node Unknown. Check NET.cfg.<br>"; }
+                        break;
+                    case 5:
+                        if (val === "127.0.0.1") {
+                            playSuccess(); currentStep = 6;
+                            termOutput.innerHTML += "[SYSTEM] Layer 6/10 Cracked. Network Isolated. Next: Identify the hidden protocol name.<br>";
+                        } else { playError(); termOutput.innerHTML += "[ERROR] Connection failed. Hint: Check NET.cfg for loopback.<br>"; }
+                        break;
+                    case 6:
+                        if (val === "SHADOW") {
+                            playSuccess(); currentStep = 7;
+                            termOutput.innerHTML += "[SYSTEM] Layer 7/10 Cracked. Protocol Active. Next: Solve System Cipher Riddle.<br>";
+                        } else { playError(); termOutput.innerHTML += "[ERROR] Protocol Unrecognized. Hint: Check 'Sectors' folder.<br>"; }
+                        break;
+                    case 7:
+                        if (val === "KEYBOARD") {
+                            playSuccess(); currentStep = 8;
+                            termOutput.innerHTML += "[SYSTEM] Layer 8/10 Cracked. Firewall bypassed. Next: Execute pre-recovery protocol (Type: UNLOCK).<br>";
+                        } else { playError(); termOutput.innerHTML += "[ERROR] Riddle Incorrect. Check 'Memories' folder.<br>"; }
+                        break;
+                    case 8:
+                        if (val === "UNLOCK") {
+                            playSuccess(); currentStep = 9;
+                            termOutput.innerHTML += "[SYSTEM] Layer 9/10 Complete. Core Unlocked. Final Objective: Issue validation command (Type: RESTORE).<br>";
+                        } else { playError(); termOutput.innerHTML += "[ERROR] Invalid protocol command.<br>"; }
+                        break;
+                    case 9:
+                        if (val === "RESTORE") {
+                            playSuccess(); currentStep = 10;
+                            termOutput.innerHTML += "[SYSTEM] Layer 10/10 Complete. MERGING KERNEL DATA SECTORS...<br>";
+                            unlockSaveData();
+                        } else { playError(); termOutput.innerHTML += "[ERROR] Execution aborted.<br>"; }
+                        break;
+                    default:
+                        playError(); termOutput.innerHTML += "[SYSTEM] Recovery complete.<br>";
+                }
+                
+                this.value = "";
+                termOutput.parentElement.scrollTop = termOutput.parentElement.scrollHeight; 
+            }
+        });
+
+        function unlockSaveData() {
+            let saveIcon = document.getElementById('save-icon-text');
+            saveIcon.classList.remove('glitch-text');
+            saveIcon.innerText = "CORE_DATA"; saveIcon.style.color = "#c9d1d9";
+            document.getElementById('save-icon').innerText = "🗃️";
+
+            let saveWin = document.getElementById('save-win');
+            saveWin.style.borderColor = "#238636";
+            saveWin.querySelector('.window-header').style.background = "#0f2a15";
+            saveWin.querySelector('.window-header').style.color = "#56d364";
+            document.getElementById('save-title').innerText = "CORE_DATA - RESTORED";
+            
+            let saveContent = document.getElementById('save-content');
+            saveContent.classList.remove('glitch-text'); saveContent.style.color = "#c9d1d9";
+            
+            typeText('save-content', "System Diagnostics: 100% Intact.\n\nExcellent work. The core repository is safe. The intrusion has been neutralized and your connection trace is wiped clean.\n\nWe survived.");
+            openWindow('save-win'); 
+        }
+
+        let currentLang = 'en';
+        function toggleLanguage() {
+            playClick();
+            let enDiv = document.getElementById('text-en'); let arDiv = document.getElementById('text-ar');
+            if (currentLang === 'ar') {
+                arDiv.style.display = 'none'; enDiv.style.display = 'block'; currentLang = 'en';
+            } else {
+                enDiv.style.display = 'none'; arDiv.style.display = 'block'; currentLang = 'ar';
+            }
+        }
+
+        function updateClockAndDate() {
+            let now = new Date();
+            let hours = now.getHours(); let minutes = now.getMinutes(); let ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12; hours = hours ? hours : 12; 
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            let timeStr = hours + ':' + minutes + ' ' + ampm;
+            let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            let dateStr = now.toLocaleDateString('en-US', options);
+
+            document.getElementById('clock-display').innerText = timeStr;
+            document.getElementById('bg-time').innerText = timeStr;
+            document.getElementById('bg-date').innerText = dateStr;
+        }
+        setInterval(updateClockAndDate, 1000);
+        updateClockAndDate();
+    </script>
+</body>
+</html>
