@@ -423,12 +423,14 @@ footer {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(10, 218, 241, 0.08);
   position: relative;
   overflow: hidden;
-  min-width: 260px;
-  max-width: 380px;
+  /* مرن في العرض — يكبر مع الكلام ولا يتجاوز 90% من الشاشة */
+  width: fit-content;
+  min-width: 220px;
+  max-width: min(90vw, 560px);
   font-weight: 500;
   font-size: 0.9rem;
   display: flex;
-  align-items: center;
+  align-items: flex-start;  /* محاذاة علوية عشان لو الكلام نزل لسطرين */
   gap: 12px;
   pointer-events: all;
   opacity: 0;
@@ -447,7 +449,8 @@ footer {
   color: var(--accent-solid);
 }
 
-.toast-body { flex: 1; line-height: 1.4; }
+/* النص يلتف تلقائياً لو الكلام طويل */
+.toast-body { flex: 1; line-height: 1.5; white-space: normal; word-break: break-word; }
 
 .toast-message.show {
   opacity: 1;
@@ -1118,60 +1121,51 @@ footer {
   <main class="card-container">
 
     <div class="card" onclick="location.href='subject.html?id=sums'">
-      <i class="fa-regular fa-note-sticky"></i>
-      <h3>Sums & Notes</h3>
+      <i class="fas fa-gamepad"></i>
+      <h3>Games</h3>
     </div>
 
     <div class="card" onclick="location.href='subject.html?id=organic'">
       <i class="fas fa-flask"></i>
       <h3>Organic II</h3>
     </div>
+    
+    <div class="card" onclick="location.href='subject.html?id=physical'">
+      <i class="fas fa-atom"></i>
+      <h3>Physical Pharmacy</h3>
+    </div>
 
-    <!--
-      ██████████████████████████████████████████████████████
-      DONE CARD — Analytical II
-      .card-done  → يبهت الكارت (opacity + desaturate)
-      .done-ribbon → شريط "DONE" قطري من أعلى اليمين لأسفل اليسار
-      الكارت ما زال قابلاً للنقر بشكل طبيعي
-      ██████████████████████████████████████████████████████
-    -->
+    
+    <div class="card" onclick="location.href='subject.html?id=pharmacognosy'">
+      <i class="fas fa-leaf"></i>
+      <h3>Pharmacognosy</h3>
+    </div>
+    
+    
+    <div class="card" onclick="location.href='subject.html?id=anatomy'">
+      <i class="fas fa-dna"></i>
+      <h3>Anatomy & Histology</h3>
+    </div>
+    
+    <div class="card" onclick="location.href='subject.html?id=it'">
+      <i class="fas fa-desktop"></i>
+      <h3>IT</h3>
+    </div>
+    
     <div class="card card-done" onclick="location.href='subject.html?id=analytical'">
       <span class="done-ribbon">DONE</span>
       <i class="fas fa-microscope"></i>
       <h3>Analytical II</h3>
     </div>
 
-    <div class="card" onclick="location.href='subject.html?id=pharmacognosy'">
-      <i class="fas fa-leaf"></i>
-      <h3>Pharmacognosy</h3>
-    </div>
-
-    <div class="card" onclick="location.href='subject.html?id=physical'">
-      <i class="fas fa-atom"></i>
-      <h3>Physical Pharmacy</h3>
-    </div>
-
-    <div class="card" onclick="location.href='subject.html?id=anatomy'">
-      <i class="fas fa-dna"></i>
-      <h3>Anatomy & Histology</h3>
-    </div>
-
-    <!--
-      ██████████████████████████████████████████████████████
-      DONE CARD — English II
-      نفس الأسلوب: .card-done + .done-ribbon
-      ██████████████████████████████████████████████████████
-    -->
+    
     <div class="card card-done" onclick="location.href='subject.html?id=english'">
       <span class="done-ribbon">DONE</span>
       <i class="fas fa-spell-check"></i>
       <h3>English II</h3>
     </div>
 
-    <div class="card" onclick="location.href='subject.html?id=it'">
-      <i class="fas fa-desktop"></i>
-      <h3>IT</h3>
-    </div>
+   
 
   </main>
 
@@ -1358,6 +1352,15 @@ function showNotification(message, durationInSeconds = 5) {
 }
 
 // ── Rating Popup ──
+
+// ============================================================
+// 🔔 NOTIFICATION 
+// ============================================================
+showNotification("New Games Available Now", 6);
+// ============================================================
+// 🔔 END NOTIFICATION
+// ============================================================
+
 (function () {
   // Storage key بدون تغيير
   const STORAGE_KEY = 'quizzes_user_rated_v2';
