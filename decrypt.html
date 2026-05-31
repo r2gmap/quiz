@@ -115,9 +115,10 @@
             display: none; flex-direction: column; z-index: 10; overflow: hidden;
         }
         .window-header {
-            background: #21262d; border-bottom: 1px solid #30363d; padding: 8px 12px; cursor: grab; 
+            background: #21262d; border-bottom: 1px solid #30363d; padding: 8px 12px;
             display: flex; justify-content: space-between; align-items: center; color: #e6edf3; 
             font-size: 14px; font-weight: bold; letter-spacing: 1px;
+            cursor: grab; touch-action: none;
         }
         .window-header:active { cursor: grabbing; }
         
@@ -187,6 +188,62 @@
 
         .glitch-text { color: #f85149; font-weight: bold; animation: glitch 1.5s infinite; }
         @keyframes glitch { 0% { opacity: 1; } 50% { opacity: 0.8; color: #ff7b72; } 100% { opacity: 1; } }
+
+        /* أيقونة التحريك في الهيدر */
+        .drag-icon {
+            color: #8b949e; font-size: 16px; margin-right: 8px;
+            cursor: grab; user-select: none; letter-spacing: -2px;
+            flex-shrink: 0;
+        }
+        .window-header-title {
+            display: flex; align-items: center; flex: 1; min-width: 0;
+        }
+        .window-header-title span:first-child {
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+
+        /* مقابض تغيير الحجم */
+        .resize-handle {
+            position: absolute; z-index: 20; touch-action: none;
+        }
+        /* جانب يمين */
+        .resize-e {
+            top: 30px; right: 0; width: 10px; height: calc(100% - 46px);
+            cursor: ew-resize;
+        }
+        /* جانب يسار */
+        .resize-w {
+            top: 30px; left: 0; width: 10px; height: calc(100% - 46px);
+            cursor: ew-resize;
+        }
+        /* جانب أسفل */
+        .resize-s {
+            bottom: 0; left: 16px; right: 16px; height: 10px;
+            cursor: ns-resize;
+        }
+        /* ركن أسفل يمين */
+        .resize-se {
+            bottom: 0; right: 0; width: 22px; height: 22px;
+            cursor: se-resize;
+            display: flex; align-items: flex-end; justify-content: flex-end;
+        }
+        /* ركن أسفل يسار */
+        .resize-sw {
+            bottom: 0; left: 0; width: 22px; height: 22px;
+            cursor: sw-resize;
+            display: flex; align-items: flex-end; justify-content: flex-start;
+        }
+        .resize-corner-icon {
+            font-size: 13px; color: #484f58; line-height: 1;
+            pointer-events: none; padding: 2px;
+        }
+        /* شريط الحجم السفلي المرئي */
+        .resize-bar-icon {
+            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            font-size: 11px; color: #484f58; pointer-events: none;
+            letter-spacing: 2px; padding-bottom: 1px;
+        }
+        .window { min-width: 240px; min-height: 120px; }
     </style>
 </head>
 <body>
@@ -578,32 +635,138 @@
         }
         function closeWindow(id) { playWindowClose(); document.getElementById(id).style.display = "none"; }
 
-        // السحب للموبايل والديسكتوب
+        // === نظام السحب وتغيير الحجم للموبايل والديسكتوب ===
         document.querySelectorAll('.window').forEach(win => {
             let header = win.querySelector('.window-header');
-            let isDragging = false, startX, startY, initialX, initialY;
+
+            // --- أضف أيقونة التحريك في الهيدر ---
+            let titleSpan = header.querySelector('span:first-child');
+            let closeSpan = header.querySelector('.close-btn');
+            let dragIcon = document.createElement('span');
+            dragIcon.className = 'drag-icon';
+            dragIcon.innerHTML = '&#8942;&#8942;'; // ⠿⠿
+            dragIcon.title = 'اسحب لتحريك النافذة';
+
+            let titleWrapper = document.createElement('span');
+            titleWrapper.className = 'window-header-title';
+            titleWrapper.appendChild(dragIcon);
+            titleWrapper.appendChild(titleSpan);
+            header.insertBefore(titleWrapper, closeSpan);
+
+            // --- أضف مقابض تغيير الحجم ---
+            const directions = [
+                { cls: 'resize-e',  icon: '' },
+                { cls: 'resize-w',  icon: '' },
+                { cls: 'resize-s',  icon: '' },
+                { cls: 'resize-se', icon: '⤡', corner: true },
+                { cls: 'resize-sw', icon: '⤢', corner: true },
+            ];
+            directions.forEach(d => {
+                let h = document.createElement('div');
+                h.className = 'resize-handle ' + d.cls;
+                if (d.corner) {
+                    let ic = document.createElement('span');
+                    ic.className = 'resize-corner-icon';
+                    ic.textContent = d.icon;
+                    h.appendChild(ic);
+                }
+                win.appendChild(h);
+            });
+            // شريط أيقونة الأسفل الوسط
+            let barIcon = document.createElement('div');
+            barIcon.className = 'resize-bar-icon';
+            barIcon.innerHTML = '&#xFE19;'; // ︙ 
+            win.appendChild(barIcon);
 
             win.addEventListener('mousedown', () => { win.style.zIndex = zIndexCounter++; });
             win.addEventListener('touchstart', () => { win.style.zIndex = zIndexCounter++; }, {passive: true});
 
+            // --- السحب (التحريك) ---
+            let isDragging = false, startX, startY, initialX, initialY;
             function startDrag(e) {
+                if (e.target.closest('.resize-handle') || e.target.closest('.close-btn')) return;
                 isDragging = true;
                 let clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
                 let clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
                 startX = clientX; startY = clientY;
                 initialX = win.offsetLeft; initialY = win.offsetTop;
+                e.preventDefault();
             }
             function drag(e) {
                 if (!isDragging) return; e.preventDefault();
                 let clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
                 let clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
-                win.style.left = (initialX + clientX - startX) + 'px';
-                win.style.top = (initialY + clientY - startY) + 'px';
+                let newLeft = initialX + clientX - startX;
+                let newTop  = initialY + clientY - startY;
+                // لا تخرج من الشاشة
+                newTop = Math.max(0, newTop);
+                newLeft = Math.max(-win.offsetWidth + 60, newLeft);
+                win.style.left = newLeft + 'px';
+                win.style.top  = newTop  + 'px';
             }
             function endDrag() { isDragging = false; }
 
-            header.addEventListener('mousedown', startDrag); document.addEventListener('mousemove', drag); document.addEventListener('mouseup', endDrag);
-            header.addEventListener('touchstart', startDrag, {passive: false}); document.addEventListener('touchmove', drag, {passive: false}); document.addEventListener('touchend', endDrag);
+            header.addEventListener('mousedown', startDrag);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', endDrag);
+            header.addEventListener('touchstart', startDrag, {passive: false});
+            document.addEventListener('touchmove', drag, {passive: false});
+            document.addEventListener('touchend', endDrag);
+
+            // --- تغيير الحجم (Resize) ---
+            function addResizeHandle(handle, dir) {
+                let isResizing = false;
+                let startRX, startRY, startW, startH, startLeft, startTop;
+
+                function startResize(e) {
+                    isResizing = true;
+                    win.style.zIndex = zIndexCounter++;
+                    let touch = e.type.includes('touch') ? e.touches[0] : e;
+                    startRX = touch.clientX; startRY = touch.clientY;
+                    startW  = win.offsetWidth;
+                    startH  = win.offsetHeight;
+                    startLeft = win.offsetLeft;
+                    startTop  = win.offsetTop;
+                    e.preventDefault(); e.stopPropagation();
+                }
+                function doResize(e) {
+                    if (!isResizing) return; e.preventDefault();
+                    let touch = e.type.includes('touch') ? e.touches[0] : e;
+                    let dx = touch.clientX - startRX;
+                    let dy = touch.clientY - startRY;
+                    let newW = startW, newH = startH, newL = startLeft, newT = startTop;
+
+                    if (dir.includes('e')) newW = Math.max(240, startW + dx);
+                    if (dir.includes('s')) newH = Math.max(120, startH + dy);
+                    if (dir.includes('w')) { newW = Math.max(240, startW - dx); newL = startLeft + (startW - newW); }
+
+                    win.style.width  = newW + 'px';
+                    win.style.height = newH + 'px';
+                    win.style.left   = newL + 'px';
+                    win.style.top    = newT + 'px';
+                    // ضبط max-height للمحتوى
+                    let content = win.querySelector('.window-content');
+                    if (content) content.style.maxHeight = (newH - 50) + 'px';
+                }
+                function endResize() { isResizing = false; }
+
+                handle.addEventListener('mousedown', startResize);
+                document.addEventListener('mousemove', doResize);
+                document.addEventListener('mouseup', endResize);
+                handle.addEventListener('touchstart', startResize, {passive: false});
+                document.addEventListener('touchmove', doResize, {passive: false});
+                document.addEventListener('touchend', endResize);
+            }
+
+            win.querySelectorAll('.resize-handle').forEach(h => {
+                let dir = '';
+                if (h.classList.contains('resize-e'))  dir = 'e';
+                if (h.classList.contains('resize-w'))  dir = 'w';
+                if (h.classList.contains('resize-s'))  dir = 's';
+                if (h.classList.contains('resize-se')) dir = 'se';
+                if (h.classList.contains('resize-sw')) dir = 'sw';
+                addResizeHandle(h, dir);
+            });
         });
 
         // --- نظام الألغاز (10 مراحل) ---
