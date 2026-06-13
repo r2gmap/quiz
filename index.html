@@ -81,7 +81,8 @@ html {
 }
 
 body {
-  background: linear-gradient(180deg, var(--bg-gradient-1), var(--bg-gradient-2), var(--bg-gradient-3));
+  /* تم تحسين التدرج اللوني بزاوية مائلة لنفس الألوان لإعطاء حركة أفضل */
+  background: linear-gradient(-45deg, var(--bg-gradient-1), var(--bg-gradient-2), var(--bg-gradient-3));
   background-size: 200% 200%;
   background-attachment: fixed;
   animation: gradientMove 20s ease infinite;
@@ -555,10 +556,35 @@ footer {
 .light-mode .chat-input { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.09); color: #2d3748; }
 .light-mode .chat-input-row { border-top-color: rgba(0,0,0,0.06); }
 
+/* ── تعديلات الموبايل المطلوبة ── */
 @media (max-width: 650px) {
   #chat-widget { bottom: 16px; right: 16px; }
   #support-panel { width: calc(100vw - 32px); }
   #ai-panel { width: 100vw !important; height: 100vh !important; bottom: 0; right: 0; border-radius: 0; }
+  
+  /* تظبيط الرسالة (Notification) عشان ماتعملش Wrap والخط يصغر */
+  .toast-message {
+    width: fit-content;    /* هتاخد عرض الكلام فقط */
+    max-width: 90vw;       /* مش هتتخطى 90% من عرض الشاشة لو الكلام طويل */
+    padding: 12px 16px;
+    white-space: nowrap;   /* لو عايزها سطر واحد، أو شيل السطر ده لو عايزها تنزل سطر */
+  }
+  .toast-body {
+    font-size: clamp(0.65rem, 3.5vw, 0.85rem);
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .toast-icon { width: 28px; height: 28px; font-size: 0.8rem; }
+
+  /* تظبيط الكروت عشان يظهر كارتين في كل صف */
+  .card-container { gap: 12px; margin-bottom: 60px; }
+  .card {
+    width: calc(50% - 6px); /* العرض الجديد المخصص لكارتين */
+    padding: 24px 12px 20px;
+  }
+  .card i { font-size: 2rem; margin-bottom: 12px; }
+  .card h3 { font-size: 0.85rem; line-height: 1.3; }
+  .done-ribbon { font-size: 1.6rem; letter-spacing: 3px; }
 }
 </style>
 </head>
@@ -771,7 +797,7 @@ function showNotification(message, durationInSeconds = 5) {
 // ============================================================
 // 🔔 NOTIFICATION 
 // ============================================================
-showNotification("Waiting For Your FeedBack", 6);
+showNotification("Try New Explain In Any Quiz", 6);
 // ============================================================
 // 🔔 END NOTIFICATION
 // ============================================================
