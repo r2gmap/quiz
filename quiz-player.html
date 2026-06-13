@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ── Font Smoothing (To Fix Blurry Text) ── */
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
         html {
             background-color: #0f101b !important; 
             scroll-behavior: smooth; 
@@ -260,14 +266,14 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            z-index: 1000; display: none; justify-content: center; align-items: center;
+            z-index: 10000; display: none; justify-content: center; align-items: center;
             opacity: 0; transition: opacity 0.3s ease;
         }
         .modal-overlay.active {
             display: flex; opacity: 1;
         }
         .modal-content {
-            background: rgba(22, 23, 24, 0.521);
+            background: rgba(22, 23, 24, 0.85);
             border: 1px solid var(--card-border);
             border-radius: 24px; padding: 30px;
             width: 90%; max-width: 500px;
@@ -314,6 +320,173 @@
             animation: spin 1s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+
+        /* ═══════════════════════════════════════════════════════════
+           CHAT WIDGET STYLES
+        ═══════════════════════════════════════════════════════════ */
+        #chat-widget {
+          position: fixed; bottom: 24px; right: 24px; z-index: 11000;
+          display: flex; flex-direction: column; align-items: flex-end; gap: 16px; 
+        }
+
+        #chat-bubble, #floating-nav, .chat-tooltip {
+            display: none !important;
+        }
+
+        .chat-window {
+          background: #0e0f1c;
+          border: 1px solid rgba(10,218,241,0.15); border-radius: 20px;
+          box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(10,218,241,0.05);
+          display: none; flex-direction: column; overflow: hidden;
+          transform-origin: bottom right;
+          opacity: 0; pointer-events: none;
+          transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;
+          will-change: transform, opacity;
+        }
+        .chat-window.open { opacity: 1; pointer-events: all; display: flex; }
+
+        #support-panel {
+          position: absolute; bottom: 70px; right: 0;
+          width: 380px; 
+          transform: translateY(20px);
+        }
+        #support-panel.open { transform: translateY(0); }
+
+        #ai-panel { 
+          position: fixed; 
+          top: 50%; left: 50%;
+          width: 90vw; max-width: 800px;
+          height: 85vh; max-height: 800px;
+          border-color: rgba(142, 45, 226, 0.3); 
+          transform: translate(-50%, -45%);
+          z-index: 11500;
+        }
+        #ai-panel.open { transform: translate(-50%, -50%); }
+
+        .chat-header {
+          display: flex; align-items: center; justify-content: space-between; padding: 14px 16px;
+          background: linear-gradient(135deg, rgba(10,218,241,0.1), rgba(58,123,213,0.08));
+          border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        #ai-panel .chat-header { background: linear-gradient(135deg, rgba(142,45,226,0.15), rgba(74,0,224,0.08)); }
+
+        .chat-header-info { display: flex; align-items: center; gap: 10px; }
+        .chat-avatar {
+          width: 38px; height: 38px; border-radius: 50%;
+          background: linear-gradient(135deg, #0adaf1cc, #3a7bd5);
+          display: flex; align-items: center; justify-content: center;
+          font-size: 0.9rem; color: #fff; flex-shrink: 0;
+        }
+        #ai-panel .chat-avatar { background: linear-gradient(135deg, #8e2de2, #4a00e0); }
+
+        .chat-name { font-size: 0.92rem; font-weight: 600; color: #f8fafc; line-height: 1.2; }
+        .chat-status { font-size: 0.72rem; color: #dbdde0; display: flex; align-items: center; gap: 5px; margin-top: 2px; }
+        .chat-dot { width: 7px; height: 7px; border-radius: 50%; background: #10b981; display: inline-block; animation: chatPulse 2s ease-in-out infinite; }
+
+        .chat-close-x {
+          background: transparent; border: none; color: #94a3b8;
+          font-size: 1rem; cursor: pointer; padding: 6px; border-radius: 6px;
+          transition: color 0.2s, background 0.2s; flex-shrink: 0;
+        }
+        .chat-close-x:hover { color: #f8fafc; background: rgba(255,255,255,0.06); }
+
+        /* Chat Messages */
+        .chat-messages {
+          padding: 16px 14px 10px; display: flex; flex-direction: column; gap: 10px;
+          overflow-y: auto;
+          scrollbar-width: thin; 
+          scrollbar-color: rgba(142,45,226,0.5) transparent;
+        }
+        .chat-messages::-webkit-scrollbar { width: 6px; }
+        .chat-messages::-webkit-scrollbar-thumb { background: rgba(142,45,226,0.5); border-radius: 10px; }
+
+        #support-panel .chat-messages { min-height: 150px; max-height: 350px; }
+        #ai-panel .chat-messages { flex: 1; max-height: none; } 
+
+        .chat-msg { display: flex; animation: msgIn 0.3s ease; }
+        @keyframes msgIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+        .chat-msg.bot  { justify-content: flex-start; }
+        .chat-msg.user { justify-content: flex-end; }
+
+        .chat-bubble-msg { max-width: 85%; padding: 10px 14px; line-height: 1.55; word-break: break-word; }
+        #support-panel .chat-bubble-msg { font-size: 0.95rem; direction: ltr; text-align: left;}
+        #ai-panel .chat-bubble-msg { font-size: 1rem; unicode-bidi: plaintext; }
+
+        .chat-msg.bot .chat-bubble-msg { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07); color: #e2e8f0; border-radius: 4px 16px 16px 16px; }
+        .chat-msg.user .chat-bubble-msg { background: linear-gradient(135deg, rgba(10,218,241,0.18), rgba(58,123,213,0.18)); border: 1px solid rgba(10,218,241,0.22); color: #f8fafc; border-radius: 16px 4px 16px 16px; }
+
+        #ai-panel .chat-msg.user .chat-bubble-msg { background: linear-gradient(135deg, rgba(142,45,226,0.18), rgba(74,0,224,0.18)); border-color: rgba(142,45,226,0.3); }
+
+        .typing-dots { display: flex; gap: 4px; align-items: center; padding: 2px 0; }
+        .typing-dots span { width: 6px; height: 6px; border-radius: 50%; background: #94a3b8; animation: typingBounce 1.2s ease-in-out infinite; }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        .chat-input-row { display: flex; align-items: flex-end; gap: 8px; padding: 10px 12px 14px; border-top: 1px solid rgba(255,255,255,0.05); }
+        /* تم حذف الـ padding-right لضبط الفراغ */
+
+        .chat-input {
+          flex: 1; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 12px; padding: 10px 12px; font-family: 'Poppins', sans-serif;
+          color: #f8fafc; resize: none; outline: none; line-height: 1.5;
+          max-height: 90px; overflow-y: auto; scrollbar-width: none; transition: border-color 0.25s ease;
+        }
+        #support-input { font-size: 0.95rem; }
+        #ai-input { font-size: 1rem; }
+        
+        .chat-input:focus { border-color: rgba(10,218,241,0.3); }
+        #ai-panel .chat-input:focus { border-color: rgba(142,45,226,0.4); }
+
+        .chat-send-btn {
+          width: 38px; height: 38px; border-radius: 50%; border: none; color: #fff; font-size: 0.85rem;
+          cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+          transition: transform 0.2s ease;
+        }
+        #support-panel .chat-send-btn { background: linear-gradient(135deg, #0adaf1, #3a7bd5); }
+        #ai-panel .chat-send-btn { background: linear-gradient(135deg, #8e2de2, #4a00e0); }
+        .chat-send-btn:hover { transform: scale(1.1); }
+        .chat-send-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+
+        /* Light Mode Overrides for Chat */
+        .light-mode #floating-nav { background: rgba(255, 255, 255, 0.95); border-color: rgba(66, 153, 225, 0.3); }
+        .light-mode .nav-item { color: #2d3748; }
+        .light-mode .nav-item i { color: #4299e1; }
+        .light-mode #nav-ai i { color: #8e2de2; }
+        .light-mode #support-panel, .light-mode #ai-panel { background: #fff; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+        .light-mode #support-panel { border-color: rgba(66,153,225,0.2); }
+        .light-mode #ai-panel { border-color: rgba(142,45,226,0.2); }
+        .light-mode .chat-header { background: linear-gradient(135deg,rgba(66,153,225,0.08),rgba(58,123,213,0.06)); border-bottom-color: rgba(0,0,0,0.06); }
+        .light-mode #ai-panel .chat-header { background: linear-gradient(135deg,rgba(142,45,226,0.08),rgba(74,0,224,0.04)); }
+        .light-mode .chat-name { color: #2d3748; }
+        .light-mode .chat-status, .light-mode .chat-close-x { color: #718096; }
+        .light-mode .chat-close-x:hover { color: #2d3748; background: rgba(0,0,0,0.05); }
+        .light-mode .chat-msg.bot .chat-bubble-msg { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.07); color: #2d3748; }
+        .light-mode .chat-msg.user .chat-bubble-msg { background: rgba(66,153,225,0.12); border-color: rgba(66,153,225,0.22); color: #2d3748; }
+        .light-mode #ai-panel .chat-msg.user .chat-bubble-msg { background: rgba(142,45,226,0.1); border-color: rgba(142,45,226,0.2); }
+        .light-mode .chat-input { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.09); color: #2d3748; }
+        .light-mode .chat-input-row { border-top-color: rgba(0,0,0,0.06); }
+        .light-mode #ai-panel .chat-bubble-msg code { background-color: rgba(0,0,0,0.08); color: #d53f8c; }
+
+        @media (max-width: 650px) {
+          #chat-widget { bottom: 16px; right: 16px; }
+          #support-panel { width: calc(100vw - 32px); }
+          /* التوسيط التام في الموبايل */
+          #ai-panel { 
+            width: 95vw !important; 
+            height: 90vh !important; 
+            top: 50% !important; 
+            left: 50% !important; 
+            bottom: auto !important; 
+            right: auto !important; 
+            border-radius: 20px !important; 
+            transform: translate(-50%, -45%) !important; 
+          }
+          #ai-panel.open { 
+            transform: translate(-50%, -50%) !important; 
+          }
+          /* تم حذف الـ padding-right لضبط الفراغ في الموبايل أيضاً */
+        }
     </style>
 </head>
 <body>
@@ -346,15 +519,11 @@
 
             <div id="options-list"></div>
 
-            <!--
-                min-height reserves the button row's height at all times so the
-                page height never changes when Next / Explain appear → no scrollbar pop
-            -->
             <div style="margin-top:18px; display:flex; gap:10px; min-height:5px;">
-                <button id="explain-btn" onclick="handleExplain()" style="display:none; flex:1; padding:13px; border-radius:12px; background:none; border:1px solid var(--accent-color); color:var(--accent-color); cursor:pointer; font-family:'Poppins',sans-serif; font-size:0.88rem;">
-                    <i class="fas fa-lightbulb" style="margin-right:6px;"></i>Explain
+                <button id="explain-btn" onclick="handleExplain()" style="display:none; flex:1; padding:12px 8px; border-radius:12px; background:linear-gradient(135deg, #6f18bbee, #4b00e0e1); border:0px solid var(--accent-color); color:#fffffff1; cursor:pointer; font-family:'Poppins',sans-serif; font-size:0.82rem; font-weight:600; white-space:nowrap; text-align:center;">
+                    <i class="fas fa-lightbulb" style="margin-right:4px;"></i>Explain with AI
                 </button>
-                <button id="next-btn" onclick="nextQuestion()" style="display:none; flex:2; padding:13px; border-radius:12px; background:var(--accent-color); color:#000; font-weight:700; border:none; cursor:pointer; font-family:'Poppins',sans-serif; font-size:0.92rem;">
+                <button id="next-btn" onclick="nextQuestion()" style="display:none; flex:1; padding:12px 8px; border-radius:12px; background:var(--accent-color); color:#000; font-weight:700; border:none; cursor:pointer; font-family:'Poppins',sans-serif; font-size:0.82rem; white-space:nowrap; text-align:center;">
                     Next Question →
                 </button>
             </div>
@@ -386,18 +555,56 @@
         </div>
     </div>
 
-    <script>
+<div id="chat-widget">
+  <div class="chat-tooltip show" id="chat-tooltip">Meet Quizzes AI</div>
+  <div id="floating-nav">
+    <div class="nav-item" id="nav-ai"><i class="fas fa-q"></i> Quizzes AI <span class="beta-tag">Beta</span></div>
+    <div class="nav-item" id="nav-support"><i class="fas fa-headset"></i> Support</div>
+  </div>
 
-        // =============================================
+  <div class="chat-window" id="support-panel">
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <div class="chat-avatar"><i class="fas fa-headset"></i></div>
+        <div>
+          <div class="chat-name">Support</div>
+          <div class="chat-status"><span class="chat-dot"></span> Always Here</div>
+        </div>
+      </div>
+      <button class="chat-close-x" title="Close Window"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="chat-messages" id="support-messages">
+      <div class="chat-msg bot"><div class="chat-bubble-msg">Tell Me What Is The Problem Or If You Have Suggestions.</div></div>
+    </div>
+    <div class="chat-input-row">
+      <textarea class="chat-input" id="support-input" placeholder="Type Your Message…" min-rows="1"></textarea>
+      <button class="chat-send-btn" id="support-send-btn"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
 
-      
-  
+  <div class="chat-window" id="ai-panel">
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <div class="chat-avatar"><i class="fas fa-q"></i></div>
+        <div>
+          <div class="chat-name">Quizzes AI</div>
+          <div class="chat-status"><span class="chat-dot" style="background:#0adaf1;"></span> Ready To Help</div>
+        </div>
+      </div>
+      <button class="chat-close-x" title="Close Window"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="chat-messages" id="ai-messages"></div>
+    <div class="chat-input-row">
+      <textarea class="chat-input" id="ai-input" placeholder="Ask Anything..." min-rows="1"></textarea>
+      <button class="chat-send-btn" id="ai-send-btn"><i class="fas fa-arrow-up"></i></button>
+    </div>
+  </div>
 
-const quizDatabase = {
-
-
-  
-  "org1": {
+  <button id="chat-bubble" title="Menu" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+</div>
+<script>
+        const quizDatabase = {
+              "org1": {
     title: "Quiz I",
     questions: [
       {
@@ -15811,6 +16018,317 @@ const quizDatabase = {
 
 
 
+  "phy6": {
+    title: "Quiz VI",
+    questions: [
+      
+      {
+        q: "A typical pharmaceutical buffer solution is composed of:",
+        options: [
+          "A strong acid mixed with a strong base.",
+          "A weak acid and one of its salts, or a weak base and one of its salts.",
+          "Pure distilled water and sodium chloride.",
+          "Two immiscible non-electrolytes."
+        ],
+        correct: 1,
+        explanation: "Buffer solutions consist of a mixture of a weak acid and its salt, or a weak base and its salt. This specific composition allows the solution to resist drastic changes in pH upon the addition of small amounts of acid or alkali.",
+        source: "buffer.pdf-1.pdf / merged pdf - Page 92-93"
+      },
+      {
+      q: "Which of the following is an example of a non-electrolyte substance?",
+      options: [
+        "Sodium chloride",
+        "Hydrochloric acid",
+        "Sucrose",
+        "Potassium sulfate"
+      ],
+      correct: 2,
+      explanation: "Sucrose is a non-electrolyte because it does not yield ions when dissolved in water and does not conduct an electric current through the solution.",
+      source: "Solution of non electrolytes pdf - Page 5"
+    },
+    {
+      q: "What is characteristic of a 0.1 molar solution of any non-electrolyte compared to another non-electrolyte solution of the same concentration?",
+      options: [
+        "It conducts twice the amount of current",
+        "It produces approximately the same colligative effect",
+        "It exhibits massive positive deviations always",
+        "It undergoes complete molecular dissociation"
+      ],
+      correct: 1,
+      explanation: "The colligative properties of solutions of non-electrolytes are fairly regular; a 0.1 molar solution of one non-electrolyte produces approximately the same colligative effect as another equal concentration.",
+      source: "Solution of non electrolytes pdf - Page 5"
+    },
+    {
+      q: "When a mixture exhibits a negative deviation from Raoult's law, it implies that:",
+      options: [
+        "Cohesive forces are identical to adhesive forces",
+        "Adhesive forces between unlike molecules exceed cohesive forces between like molecules",
+        "Cohesive forces between like molecules exceed adhesive forces between unlike molecules",
+        "The system has transitioned into a coarse dispersion"
+      ],
+      correct: 1,
+      explanation: "Negative deviation occurs when the adhesive attractions between different molecules exceed the cohesive attractions between like molecules, causing the total vapor pressure to be less than expected.",
+      source: "Solution of non electrolytes pdf - Page 39-40"
+    },
+    {
+      q: "Which pair of liquids is a well-known example of a system showing negative deviation from Raoult's law?",
+      options: [
+        "Benzene and ethyl alcohol",
+        "Carbon disulfide and acetone",
+        "Chloroform and acetone",
+        "Chloroform and ethyl alcohol"
+      ],
+      correct: 2,
+      explanation: "Chloroform and acetone exhibit negative deviation due to strong adhesive forces (hydrogen bonding) forming between the different molecules.",
+      source: "Solution of non electrolytes pdf - Page 40"
+    },
+    {
+      q: "Which of the following liquid pairs demonstrates a positive deviation from Raoult's law?",
+      options: [
+        "Chloroform and acetone",
+        "Benzene and ethyl alcohol",
+        "Water and sulfuric acid",
+        "Nitric acid and water"
+      ],
+      correct: 1,
+      explanation: "Benzene and ethyl alcohol is a classic example of a system demonstrating positive deviation, where the partial vapor pressure is greater than expected from Raoult's law.",
+      source: "Solution of non electrolytes pdf - Page 42"
+    },
+    {
+      q: "A system in which one phase is distributed as small particles throughout another, such as oil droplets in an emulsion, is defined as a:",
+      options: [
+        "True solution",
+        "Coarse dispersion",
+        "Colloidal dispersion",
+        "Ideal solution"
+      ],
+      correct: 1,
+      explanation: "A coarse dispersion is a two-phase system in which one phase is distributed as small particles throughout the other, such as oil droplets in an emulsion or solid particles in a suspension.",
+      source: "Solution of non electrolytes pdf - Page 2"
+    },
+
+    {
+      q: "A colloidal dispersion has a particle size that is characterized as being:",
+      options: [
+        "Smaller than a true solution particle",
+        "Intermediate between a true solution and a coarse dispersion",
+        "Exactly equal to a coarse dispersion particle",
+        "Larger than any suspension particle"
+      ],
+      correct: 1,
+      explanation: "A colloidal dispersion represents a two-phase system having a particle size intermediate between that of a true solution and a coarse dispersion.",
+      source: "Solution of non electrolytes pdf - Page 2"
+    },
+    {
+      q: "In a solid-gas interface context, the gas that moves toward and attaches to the solid surface is specifically called the:",
+      options: [
+        "Adsorbent",
+        "Adsorbate",
+        "Absorbent",
+        "Absorbate"
+      ],
+      correct: 1,
+      explanation: "The substance that is adsorbed onto the surface is called the adsorbate, whereas the solid material that does the adsorbing is called the adsorbent.",
+      source: "physical pharmacy merged pdf - Surface Phenomena"
+    },
+    {
+      q: "Which thermodynamic factor acts as the driving force behind the spontaneous adsorption of molecules onto a surface?",
+      options: [
+        "An increase in total surface free energy",
+        "A reduction in the surface free energy of the system",
+        "An infinite increase in interfacial tension",
+        "The total negation of cohesive forces"
+      ],
+      correct: 1,
+      explanation: "Adsorption occurs spontaneously to reduce the surface free energy of the system, balancing the unsatisfied attractive forces at the interface.",
+      source: "physical pharmacy merged pdf - Surface Phenomena"
+    },
+    {
+      q: "When the temperature of a system increases, what is the typical effect on the physical adsorption (physisorption) of a gas onto a solid?",
+      options: [
+        "Adsorption increases significantly",
+        "Adsorption decreases",
+        "Adsorption remains completely unaffected",
+        "Adsorption drops to absolute zero immediately"
+      ],
+      correct: 1,
+      explanation: "Physical adsorption is generally an exothermic process. Therefore, according to Le Chatelier's principle, an increase in temperature causes a decrease in the amount of gas adsorbed.",
+      source: "physical pharmacy merged pdf - Adsorption Factors"
+    },
+    {
+      q: "Which type of adsorption involves the formation of a true chemical bond between the adsorbate and the adsorbent surface?",
+      options: [
+        "Physisorption",
+        "Chemisorption",
+        "Capillary condensation",
+        "Vaporization"
+      ],
+      correct: 1,
+      explanation: "Chemisorption (chemical adsorption) involves specific chemical forces and results in the formation of chemical bonds between the surface molecules and the adsorbate.",
+      source: "physical pharmacy merged pdf - Adsorption Types"
+    },
+    {
+      q: "The mathematical expression or curve that represents the amount of gas adsorbed per unit mass of adsorbent at a constant temperature is known as an:",
+      options: [
+        "Adsorption Isotherm",
+        "Isobaric expansion curve",
+        "Isochoric reflection",
+        "Adiabatic gradient"
+      ],
+      correct: 0,
+      explanation: "An adsorption isotherm plots the quantity of adsorbate bound to the surface against the equilibrium pressure or concentration at a single constant temperature.",
+      source: "physical pharmacy merged pdf - Page 102"
+    },
+    {
+      q: "What type of interface is formed when two completely immiscible liquids, such as water and olive oil, are brought into direct contact?",
+      options: [
+        "Liquid-Gas interface",
+        "Liquid-Liquid interface",
+        "Solid-Liquid interface",
+        "Solid-Gas interface"
+      ],
+      correct: 1,
+      explanation: "The boundary between two immiscible liquids is specifically defined as a liquid-liquid interface.",
+      source: "physical pharmacy merged pdf - Page 87"
+    },
+
+    {
+      q: "The Henderson-Hasselbalch equation for a weak acid buffer system relates pH to pKa using which specific ratio?",
+      options: [
+        "log([Acid]/[Salt])",
+        "log([Salt]/[Acid])",
+        "log([Acid]*[Salt])",
+        "log([Base]/[Salt])"
+      ],
+      correct: 1,
+      explanation: "The standard Henderson-Hasselbalch equation for an acid buffer is expressed as pH = pKa + log([Salt]/[Acid]).",
+      source: "physical pharmacy merged pdf - Buffers"
+    },
+    {
+      q: "Buffer capacity (Beta) is quantitatively defined as the ratio of the increment of strong acid or base added to the:",
+      options: [
+        "Resulting change in temperature",
+        "Resulting change in pH",
+        "Total volume of the solvent",
+        "Initial concentration of the salt"
+      ],
+      correct: 1,
+      explanation: "Buffer capacity (Beta) is defined as Delta B / Delta pH, where Delta B is the small increment of strong base or acid added, and Delta pH is the resulting change in pH.",
+      source: "physical pharmacy merged pdf - Page 133"
+    },
+    {
+      q: "If a buffer solution is diluted moderately with pure water, what is the primary effect on its pH and buffer capacity?",
+      options: [
+        "pH changes drastically; capacity stays the same",
+        "pH remains relatively stable; capacity decreases",
+        "pH remains stable; capacity increases significantly",
+        "Both pH and capacity drop to zero"
+      ],
+      correct: 1,
+      explanation: "Dilution changes the total buffer concentration (C), which directly lowers the buffer capacity. However, since the ratio of [Salt]/[Acid] remains largely unchanged, the pH stays relatively stable.",
+      source: "physical pharmacy merged pdf - Buffer Dilution"
+    },
+    {
+      q: "Which of the following chemical pairs can function as an effective alkaline (basic) buffer system?",
+      options: [
+        "Acetic acid and sodium acetate",
+        "Ammonium hydroxide and ammonium chloride",
+        "Phosphoric acid and sodium phosphate",
+        "Citric acid and sodium citrate"
+      ],
+      correct: 1,
+      explanation: "An alkaline buffer consists of a weak base and its salt, such as Ammonium hydroxide (NH4OH) and Ammonium chloride (NH4Cl).",
+      source: "physical pharmacy merged pdf - Buffer Types"
+    },
+    {
+      q: "At what point does a buffer provide the minimum or lowest resistance to pH changes within its functional range?",
+      options: [
+        "When pH is equal to pKa",
+        "When the pH deviates far from the pKa value",
+        "When [Salt] is exactly equal to [Acid]",
+        "When total concentration C is doubled"
+      ],
+      correct: 1,
+      explanation: "A buffer works best when pH = pKa. As the pH deviates further away from the pKa value, the buffer capacity drops, providing less resistance to pH modifications.",
+      source: "physical pharmacy merged pdf - Page 133"
+    },
+    {
+      q: "The total buffer concentration 'C' in the Van Slyke equation represents:",
+      options: [
+        "The concentration of the salt only",
+        "The concentration of the weak acid only",
+        "The sum of the concentrations of the buffer acid and its conjugate base",
+        "The concentration of added strong base"
+      ],
+      correct: 2,
+      explanation: "In the buffer capacity equation, C represents the total molar concentration of the buffer components, which is the sum of [Acid] + [Salt].",
+      source: "physical pharmacy merged pdf - Page 135"
+    },
+    {
+      q: "Which factors can influence the pKa of a buffer system and subsequently alter the pH of the buffer solution?",
+      options: [
+        "Temperature and ionic strength",
+        "The color of the container",
+        "The volume of the container",
+        "Ambient light exposure"
+      ],
+      correct: 0,
+      explanation: "Temperature and ionic strength can alter the activity coefficients and dissociation constants (pKa) of the buffer components, thereby influencing the final pH.",
+      source: "physical pharmacy merged pdf - Buffer Properties"
+    },
+      {
+        q: "Which buffer system is primarily present in blood plasma to help maintain its pH at 7.4?",
+        options: [
+          "Carbonic acid / carbonate.",
+          "Acetic acid / sodium acetate.",
+          "Hydrochloric acid / sodium chloride.",
+          "Boric acid / sodium borate."
+        ],
+        correct: 0,
+        explanation: "Blood plasma contains the Carbonic acid/carbonate buffer system, as well as the Phosphoric acid/sodium phosphate system, which are crucial for maintaining blood pH tightly at 7.4.",
+        source: "merged pdf - Page 94"
+      },
+      {
+        q: "Under which specific condition does a buffer system reach its Maximum Buffer Capacity (Beta max)?",
+        options: [
+          "When the concentration of the weak acid is strictly zero.",
+          "When the solution is infinitely diluted with pure water.",
+          "When the pH equals the pKa, meaning [Acid] = [Salt].",
+          "When the salt concentration is exactly twice the acid concentration."
+        ],
+        correct: 2,
+        explanation: "Maximum buffer capacity is achieved when the pH of the solution is equal to the pKa of the acid. At this point, the concentration of the acid equals the concentration of the salt ([Acid] = [Salt]), and [H3O+] = Ka.",
+        source: "merged pdf - Page 133"
+      },
+      {
+        q: "Based on the simplified equation for maximum buffer capacity, if 'C' represents the total buffer concentration, which formula is correct?",
+        options: [
+          "Beta max = 2.303 C",
+          "Beta max = 0.576 C",
+          "Beta max = 1.40 C",
+          "Beta max = C / 0.576"
+        ],
+        correct: 1,
+        explanation: "The formula for maximum buffer capacity simplifies from Beta max = 2.303 * C * (1/4) directly to Beta max = 0.576 C.",
+        source: "merged pdf - Page 135-137"
+      },
+      {
+        q: "What is the relationship between the total buffer concentration and the buffer capacity?",
+        options: [
+          "They are completely unrelated properties.",
+          "Increasing the buffer concentration decreases the buffer capacity.",
+          "Increasing the buffer concentration increases the buffer capacity.",
+          "Buffer capacity relies only on temperature, ignoring concentration."
+        ],
+        correct: 2,
+        explanation: "There is a direct proportional relationship: as you increase the total concentration of the buffer components, the buffer capacity also increases, meaning it can resist larger amounts of added acid or base.",
+        source: "merged pdf - Page 140"
+      }
+    ]
+  },
+
+
+
 "his1": {
   title: "Anatomy Q.Bank",
   questions: [
@@ -21771,10 +22289,8 @@ const quizDatabase = {
   ]
 },
 
+
         };
-
-        // =============================================
-
 
         let questions = [], currentIdx = 0, score = 0, answered = false, missed = [];
 
@@ -21859,7 +22375,20 @@ const quizDatabase = {
                        <p style="margin-top:6px; font-size:0.88rem; color:var(--text-muted);">${q.source}</p>
                    </div>`
                 : '';
-            document.getElementById('modal-text').innerHTML = explanation + sourceHTML;
+                
+            // Escaping question text to avoid breaking JS string
+            const questionTextEscaped = q.q.replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, " ");
+
+            // NEW: Ask AI Button added to the bottom
+            const askAiHTML = `
+                <div style="margin-top:16px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.07);">
+                    <button onclick="closeModal(); if(window.openChatPanel) { window.openChatPanel('ai'); document.getElementById('ai-input').value = 'Explain this: ' + '${questionTextEscaped}'; } else { alert('Chat widget missing!'); }" style="background: linear-gradient(135deg, #8e2de2, #4a00e0); color: #fff; border: none; padding: 12px; border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 600; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; transition: transform 0.2s, box-shadow 0.2s;">
+                        <i class="fas fa-q"></i> Ask Quizzes AI
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('modal-text').innerHTML = explanation + sourceHTML + askAiHTML;
             modal.style.display = 'flex';
             setTimeout(() => modal.classList.add('active'), 10);
         }
@@ -21879,7 +22408,6 @@ const quizDatabase = {
         function finish() {
             document.getElementById('main-quiz-container').style.display = 'none';
             const resScreen = document.getElementById('result-screen');
-            // On mobile use flex so the column layout (score → mistakes) works correctly
             resScreen.style.display = window.innerWidth <= 640 ? 'flex' : 'block';
 
             const target = Math.round((score / questions.length) * 100);
@@ -21931,6 +22459,201 @@ const quizDatabase = {
         };
 
         window.onload = init;
+
+        // ═══════════════════════════════════════════════════════════════
+        // CHAT & AI WIDGET LOGIC
+        // ═══════════════════════════════════════════════════════════════
+        (function () {
+          // دالة للتعرف هل النص يحتوي على حروف عربية أم لا 
+          function checkRTL(text) {
+              const arabicRegex = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+              return arabicRegex.test(text) ? 'rtl' : 'ltr';
+          }
+
+          const bubble = document.getElementById('chat-bubble');
+          const floatingNav = document.getElementById('floating-nav');
+          const supportPanel = document.getElementById('support-panel');
+          const aiPanel = document.getElementById('ai-panel');
+          const tooltip = document.getElementById('chat-tooltip');
+          
+          let menuOpen = false;
+          
+          if(bubble) {
+            bubble.addEventListener('click', () => {
+              if(tooltip) tooltip.classList.remove('show');
+              if (supportPanel.classList.contains('open') || aiPanel.classList.contains('open')) {
+                closeAllPanels();
+              } else {
+                menuOpen = !menuOpen;
+                floatingNav.classList.toggle('show', menuOpen);
+                bubble.innerHTML = menuOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+              }
+            });
+          }
+
+          document.getElementById('nav-support').addEventListener('click', () => openPanel('support'));
+          document.getElementById('nav-ai').addEventListener('click', () => openPanel('ai'));
+
+          document.querySelectorAll('.chat-close-x').forEach(btn => {
+            btn.addEventListener('click', closeAllPanels);
+          });
+
+          function openPanel(type) {
+            menuOpen = false;
+            floatingNav.classList.remove('show');
+            if(bubble) bubble.innerHTML = '<i class="fas fa-bars"></i>'; 
+            if (type === 'support') {
+              aiPanel.classList.remove('open');
+              supportPanel.classList.add('open');
+              setTimeout(() => document.getElementById('support-input').focus(), 300);
+            } else {
+              supportPanel.classList.remove('open');
+              aiPanel.classList.add('open');
+              setTimeout(() => document.getElementById('ai-input').focus(), 300);
+            }
+          }
+          window.openChatPanel = openPanel;
+
+          function closeAllPanels() {
+            supportPanel.classList.remove('open');
+            aiPanel.classList.remove('open');
+            if(bubble) bubble.innerHTML = '<i class="fas fa-bars"></i>';
+          }
+
+          function autoResize(el) {
+            el.style.height = 'auto';
+            el.style.height = Math.min(el.scrollHeight, 90) + 'px';
+          }
+
+          function addMsg(container, text, type) {
+            const row = document.createElement('div');
+            row.className = 'chat-msg ' + type;
+            let htmlText = text.replace(/\n/g, '<br>').replace(/`([^`]+)`/g, '<code>$1</code>');
+            
+            // تحديد الاتجاه
+            const dir = checkRTL(text);
+            const textAlign = dir === 'rtl' ? 'right' : 'left';
+            const style = text ? `style="direction: ${dir}; text-align: ${textAlign};"` : '';
+
+            row.innerHTML = `<div class="chat-bubble-msg" ${style}>${htmlText}</div>`;
+            container.appendChild(row);
+            container.scrollTop = container.scrollHeight;
+            return row;
+          }
+
+          function addTyping(container) {
+            const row = document.createElement('div');
+            row.className = 'chat-msg bot';
+            row.innerHTML = '<div class="chat-bubble-msg"><div class="typing-dots"><span></span><span></span><span></span></div></div>';
+            container.appendChild(row);
+            container.scrollTop = container.scrollHeight;
+            return row;
+          }
+
+          const BOT_TOKEN = '8553775824:AAF3GClTP9ldHvdf5Pvx1ozRAdbOQXpir9w';
+          const CHAT_ID   = '8408968285';
+          const TG_API_URL = 'https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage';
+          const supportInput = document.getElementById('support-input');
+          const supportSendBtn = document.getElementById('support-send-btn');
+          const supportMsgs = document.getElementById('support-messages');
+
+          supportInput.addEventListener('input', () => {
+              autoResize(supportInput);
+              const dir = checkRTL(supportInput.value);
+              supportInput.style.direction = dir;
+              supportInput.style.textAlign = dir === 'rtl' ? 'right' : 'left';
+          });
+          supportInput.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendSupportMsg(); } });
+          supportSendBtn.addEventListener('click', sendSupportMsg);
+
+          function sendSupportMsg() {
+            const text = supportInput.value.trim();
+            if (!text) return;
+            addMsg(supportMsgs, text, 'user');
+            supportInput.value = ''; autoResize(supportInput);
+            supportSendBtn.disabled = true;
+            const typing = addTyping(supportMsgs);
+            fetch(TG_API_URL, {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ chat_id: CHAT_ID, text: '💬 Quizzes Support:\n\n' + text })
+            }).then(() => {
+              typing.remove(); addMsg(supportMsgs, "Got It! We'll Look On Your Message ASAP ⌛", 'bot');
+            }).catch(() => {
+              typing.remove(); addMsg(supportMsgs, "Connection Error. Please Try Again Later.", 'bot');
+            }).finally(() => { supportSendBtn.disabled = false; });
+          }
+
+          const AI_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzB-v7wRbq5DGiLYs4RpxetBNMuMp0QK3-0HLCoMyU5niGTRuNTdD498vdyBCY8tOSu/exec'; 
+          const aiInput = document.getElementById('ai-input');
+          const aiSendBtn = document.getElementById('ai-send-btn');
+          const aiMsgs = document.getElementById('ai-messages');
+
+          function typeText(element, text, speed = 15) {
+            element.innerHTML = '';
+            let processedText = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+            let i = 0;
+            function type() {
+              if (i < processedText.length) {
+                if (processedText.charAt(i) === '\n') { element.innerHTML += '<br>'; } 
+                else if (processedText.charAt(i) === '<') {
+                  let tag = "";
+                  while(processedText.charAt(i) !== '>' && i < processedText.length) { tag += processedText.charAt(i); i++; }
+                  tag += '>'; element.innerHTML += tag;
+                } else { element.innerHTML += processedText.charAt(i); }
+                i++; aiMsgs.scrollTop = aiMsgs.scrollHeight; setTimeout(type, speed);
+              }
+            }
+            type();
+          }
+
+          aiInput.addEventListener('input', () => {
+              autoResize(aiInput);
+              const dir = checkRTL(aiInput.value);
+              aiInput.style.direction = dir;
+              aiInput.style.textAlign = dir === 'rtl' ? 'right' : 'left';
+          });
+          aiInput.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendAIMsg(); } });
+          aiSendBtn.addEventListener('click', sendAIMsg);
+
+          function sendAIMsg() {
+            const text = aiInput.value.trim();
+            if (!text) return;
+            
+            addMsg(aiMsgs, text, 'user');
+            aiInput.value = ''; 
+            autoResize(aiInput);
+            aiSendBtn.disabled = true;
+            
+            const typing = addTyping(aiMsgs);
+            fetch(AI_SCRIPT_URL + '?message=' + encodeURIComponent(text), {
+              method: 'GET', headers: { 'Accept': 'application/json' }
+            })
+            .then(res => res.text())
+            .then(rawText => {
+              typing.remove();
+              let replyText = "";
+              try {
+                const data = JSON.parse(rawText);
+                replyText = data.reply || data.error || rawText;
+              } catch (e) { replyText = rawText; }
+              
+              const finalReply = replyText || "Error Processing Request. Please Clarify.";
+              const botRow = addMsg(aiMsgs, "", 'bot');
+              const bubble = botRow.querySelector('.chat-bubble-msg');
+              
+              const dir = checkRTL(finalReply);
+              bubble.style.direction = dir;
+              bubble.style.textAlign = dir === 'rtl' ? 'right' : 'left';
+              
+              typeText(bubble, finalReply, 15);
+            })
+            .catch((err) => {
+              typing.remove();
+              addMsg(aiMsgs, "Connection Error. Please Try Again Later.", 'bot');
+            })
+            .finally(() => { aiSendBtn.disabled = false; });
+          }
+        })();
     </script>
 </body>
 </html>
