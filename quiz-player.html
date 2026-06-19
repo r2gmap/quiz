@@ -604,9 +604,249 @@
 </div>
 <script>
         const quizDatabase = {
-              "org1": {
+   "org1": {
     title: "Quiz I",
-    questions: [
+      questions: [
+      {
+        q: "In heterocyclic aromatic compounds, how does the role of the nitrogen's lone pair differ between pyrrole and pyridine?",
+        options: [
+          "Both use their lone pairs to form double bonds.",
+          "In pyridine, it completes the 6 pi-electron system.",
+          "In pyrrole, it occupies a p-orbital and is part of the pi system.",
+          "Neither uses their lone pairs for aromaticity."
+        ],
+        correct: 2,
+        explanation: "In pyrrole, the nitrogen's lone pair occupies a p-orbital and participates in the pi system to fulfill Huckel's rule (6 pi electrons). In pyridine, the lone pair occupies an sp2 orbital perpendicular to the pi system and is not part of the aromatic cloud.",
+        source: "lectures_1,2.pdf - Aromatic Heterocyclic Compounds (Page 16)"
+      },
+      {
+        q: "A benzylic cation [Ph-CH2+] exhibits enhanced stability due to resonance. How many resonance contributors can be drawn for this specific cation?",
+        options: [
+          "Two",
+          "Five",
+          "Three",
+          "Four"
+        ],
+        correct: 1,
+        explanation: "A benzylic cation has five resonance contributors. The positive charge is extensively delocalized and shared by four carbon atoms: the benzylic carbon itself, the two ortho carbons, and the para carbon on the ring.",
+        source: "lectures_1,2.pdf - Benzylic Reactivity (Page 28)"
+      },
+      {
+        q: "Phenols with multiple hydroxyl groups have specific common names. Which of the following correctly identifies '1,4-Benzenediol'?",
+        options: [
+          "Catechol",
+          "Resorcinol",
+          "Hydroquinone",
+          "o-Cresol"
+        ],
+        correct: 2,
+        explanation: "In the nomenclature of dihydroxybenzenes, 1,2-benzenediol is catechol, 1,3-benzenediol is resorcinol, and 1,4-benzenediol is universally known as hydroquinone.",
+        source: "lectures_3,4.pdf - Nomenclature of Phenols (Page 3)"
+      },
+      {
+        q: "What is the fundamental structural requirement for an aldehyde or ketone to undergo an Aldol Condensation?",
+        options: [
+          "It must possess at least one alpha-hydrogen.",
+          "It must contain a fully conjugated aromatic ring.",
+          "It must have a leaving group attached to the carbonyl.",
+          "It must be completely devoid of alpha-hydrogens."
+        ],
+        correct: 0,
+        explanation: "The first step of an aldol condensation involves a base removing an acidic alpha-hydrogen to form a nucleophilic enolate anion. Without an alpha-hydrogen (like in benzaldehyde), this initial step cannot occur.",
+        source: "lectures_5,6.pdf - The Aldol Condensation (Page 22)"
+      },
+      {
+        q: "How are the 'keto' and 'enol' forms of a carbonyl compound chemically related to each other?",
+        options: [
+          "They are completely different compounds with different formulas.",
+          "They are stereoisomers that rotate light differently.",
+          "They are resonance structures of the exact same molecule.",
+          "They are structural isomers differing in proton and double bond location."
+        ],
+        correct: 3,
+        explanation: "Tautomers are distinct structural isomers in dynamic equilibrium. They differ specifically in the placement of a mobile proton (typically an alpha-hydrogen) and the corresponding shift of a pi (double) bond.",
+        source: "lectures_5,6.pdf - Keto-Enol Tautomerism (Page 20)"
+      },
+      {
+        q: "Which of the following substituents would most significantly increase the acidity (lower the pKa) of phenol if attached to the para position?",
+        options: [
+          "-NO2",
+          "-CH3",
+          "-OCH3",
+          "-NH2"
+        ],
+        correct: 0,
+        explanation: "Acidity increases when the resulting phenoxide anion is stabilized. Electron-withdrawing groups like -NO2 stabilize the negative charge via strong -I and -M effects, drastically increasing acidity.",
+        source: "lectures_3,4.pdf - Acidity of Phenols (Page 9)"
+      },
+      {
+        q: "While most Sandmeyer reactions require a Cuprous (Cu(I)) catalyst, introducing an Iodine atom to a diazonium salt is an exception. Which reagent is used?",
+        options: [
+          "CuI and heat",
+          "I2 gas under UV light",
+          "Aqueous Potassium Iodide (KI)",
+          "Hydrogen Iodide with Zinc"
+        ],
+        correct: 2,
+        explanation: "The iodide ion is a sufficiently strong nucleophile and reducing agent. Simply warming the diazonium salt with an aqueous solution of Potassium Iodide (KI) smoothly yields the iodobenzene derivative without needing a copper catalyst.",
+        source: "lectures_3,4.pdf - Sandmeyer Reaction (Page 18)"
+      },
+      {
+        q: "When comparing the basicity of aliphatic amines, why does the order of basicity change between the gas phase and the aqueous phase?",
+        options: [
+          "Due to solvation effects stabilizing the protonated amine.",
+          "Because amines decompose rapidly in the gas phase.",
+          "Because inductive effects only operate in liquid solutions.",
+          "Water completely neutralizes primary amines."
+        ],
+        correct: 0,
+        explanation: "In the gas phase, basicity relies purely on the inductive electron-donating effect of alkyl groups (3ry > 2ry > 1ry). In aqueous solution, solvation (hydrogen bonding with water) heavily stabilizes the protonated forms of less substituted amines, altering the order.",
+        source: "lectures_3,4.pdf - Order of Basicity (Page 8)"
+      },
+      {
+        q: "By evaluating the bonds, what is the calculated oxidation state of the carbon atom in Formaldehyde [H2C=O]?",
+        options: [
+          "-2",
+          "+2",
+          "+4",
+          "0"
+        ],
+        correct: 3,
+        explanation: "In formaldehyde, the carbon is bonded to two hydrogens (each contributing -1, total -2) and double-bonded to one oxygen (contributing +2). The net oxidation state of the carbon atom is exactly 0.",
+        source: "lectures_5,6.pdf - Oxidation/Reduction (Page 2)"
+      },
+      {
+        q: "What is the ultimate product when a primary aromatic amine (like aniline) is reacted with an excess of a strong alkylating agent (like methyl iodide)?",
+        options: [
+          "A secondary amine only.",
+          "A primary amide.",
+          "A quaternary ammonium salt.",
+          "A diazonium salt."
+        ],
+        correct: 2,
+        explanation: "Amines undergo multiple successive alkylations. A primary amine will react with excess alkyl halide to become secondary, then tertiary, and ultimately form a stable quaternary ammonium salt.",
+        source: "lectures_3,4.pdf - Alkylation (Page 11)"
+      },
+      {
+        q: "In the specific nomenclature of fused bicyclic aromatic compounds, what is the accepted alternative name for '1-Naphthol'?",
+        options: [
+          "beta-naphthol",
+          "alpha-naphthol",
+          "gamma-naphthol",
+          "delta-naphthol"
+        ],
+        correct: 1,
+        explanation: "In naphthalene derivatives, the carbon position directly adjacent to the ring fusion is designated as the alpha (a) position. Therefore, 1-Naphthol is synonymous with a-naphthol.",
+        source: "lectures_3,4.pdf - Phenols Nomenclature (Page 3)"
+      },
+      {
+        q: "The industrial Dow Process synthesizes phenol from chlorobenzene using NaOH at 350°C and high pressure. What is the highly reactive intermediate?",
+        options: [
+          "A stable carbanion",
+          "A primary carbocation",
+          "A free radical",
+          "A benzyne intermediate"
+        ],
+        correct: 3,
+        explanation: "Unactivated aryl halides resist normal substitution. The harsh conditions force an Elimination-Addition mechanism. Elimination of HCl creates a highly strained, transient benzyne intermediate, which is immediately attacked by hydroxide.",
+        source: "lectures_3,4.pdf - Base Hydrolysis of Chlorobenzene (Page 6)"
+      },
+      {
+        q: "Unlike aldehydes, ketones are highly resistant to mild oxidation. What is the product of aggressively oxidizing Cyclohexanone with HNO3 and a V2O5 catalyst?",
+        options: [
+          "Hexanoic acid",
+          "Adipic acid",
+          "Cyclohexanol",
+          "Maleic acid"
+        ],
+        correct: 1,
+        explanation: "Harsh oxidation cleaves a strong carbon-carbon bond adjacent to the carbonyl group, opening the ring. For cyclohexanone, this yields a 6-carbon straight-chain dicarboxylic acid known as Adipic acid.",
+        source: "lectures_5,6.pdf - Ketone Oxidation (Page 18)"
+      },
+      {
+        q: "Tollen's reagent is a classic chemical test distinguishing aldehydes from ketones. What visible physical change indicates a positive test for an aldehyde?",
+        options: [
+          "A brick-red precipitate forms.",
+          "The solution turns a deep blue color.",
+          "A metallic silver mirror coats the glass.",
+          "Vigorous bubbling of hydrogen gas occurs."
+        ],
+        correct: 2,
+        explanation: "Aldehydes are easily oxidized and act as reducing agents. They reduce the silver-ammonia complex ion into elemental silver, which deposits as a shiny mirror on the walls of the test tube.",
+        source: "lectures_5,6.pdf - Oxidation/Reduction (Page 17)"
+      },
+      {
+        q: "What defines the specific structural difference between a fully formed Acetal and its intermediate Hemiacetal?",
+        options: [
+          "A hemiacetal has one -OH and one -OR group; an acetal has two -OR groups.",
+          "A hemiacetal has two -OH groups; an acetal has two -OR groups.",
+          "An acetal contains a carbon-carbon double bond.",
+          "A hemiacetal is a ketone; an acetal is an aldehyde."
+        ],
+        correct: 0,
+        explanation: "Adding one molecule of alcohol to a carbonyl forms a hemiacetal (a carbon bonded to one -OH and one -OR). Adding a second alcohol molecule replaces the -OH, creating a full acetal with two -OR (alkoxy) groups.",
+        source: "lectures_5,6.pdf - Acetals (Page 9)"
+      },
+      {
+        q: "What is the major product when Phenol is reacted with Chloroform (CHCl3) and aqueous NaOH in the Reimer-Tiemann reaction?",
+        options: [
+          "Salicylic acid",
+          "Salicylaldehyde",
+          "Phenyl acetate",
+          "Benzoquinone"
+        ],
+        correct: 1,
+        explanation: "The Reimer-Tiemann reaction introduces a formyl group (-CHO) to the activated phenol ring. Using Chloroform yields Salicylaldehyde (o-hydroxybenzaldehyde). Using Carbon tetrachloride (CCl4) would yield Salicylic acid.",
+        source: "lectures_3,4.pdf - Reimer-Tiemann reaction (Page 12)"
+      },
+      {
+        q: "Sulfapyridine and Sulfadiazine belong to the 'Sulfa Drugs' class. What defining functional group characterizes their core structure?",
+        options: [
+          "A sulfonamide group (-SO2NH-)",
+          "A sulfonic acid group (-SO3H)",
+          "An ester linkage (-COOR)",
+          "A primary amide (-CONH2)"
+        ],
+        correct: 0,
+        explanation: "Sulfa drugs are essentially substituted sulfonamides. They contain the core -SO2NH- group, where one hydrogen of the basic sulfonamide is replaced by various heterocyclic rings to enhance their antimicrobial properties.",
+        source: "lectures_3,4.pdf - Sulfa Drugs (Page 24)"
+      },
+      {
+        q: "If a chemist wishes to completely remove the diazonium group [-N2+] from a benzene ring and replace it with a simple Hydrogen atom, which reagent is used?",
+        options: [
+          "H2O with Cu2O",
+          "Hypophosphorous acid (H3PO2)",
+          "Fluoroboric acid (HBF4)",
+          "Potassium Iodide (KI)"
+        ],
+        correct: 1,
+        explanation: "Hypophosphorous acid (H3PO2) acts as a specialized reducing agent that successfully replaces the diazonium group with a hydrogen atom, effectively deaminating the original aromatic ring.",
+        source: "lectures_3,4.pdf - Sandmeyer Reaction diagram (Page 18)"
+      },
+      {
+        q: "Why is Aniline [Ph-NH2] significantly less basic than simple aliphatic amines like Methylamine [CH3-NH2]?",
+        options: [
+          "Aniline is completely insoluble in water.",
+          "The nitrogen in aniline is sp hybridized.",
+          "The nitrogen's lone pair is delocalized into the aromatic pi system.",
+          "The phenyl ring strongly donates electrons via the inductive effect."
+        ],
+        correct: 2,
+        explanation: "Basicity relies on the availability of the nitrogen's lone pair to accept a proton. In aniline, the lone pair is conjugated with the aromatic ring's pi system (resonance), making it much less available for acid-base chemistry.",
+        source: "lectures_3,4.pdf - Basicity (Page 8)"
+      },
+      {
+        q: "What is the final dehydration product formed from the 'Mixed Aldol Condensation' of Benzaldehyde and Acetaldehyde under basic conditions and heat?",
+        options: [
+          "Cinnamaldehyde",
+          "Acetophenone",
+          "Benzophenone",
+          "Vanillin"
+        ],
+        correct: 0,
+        explanation: "Benzaldehyde has no alpha-hydrogens, so only acetaldehyde forms the enolate. The enolate attacks benzaldehyde, and subsequent heating eliminates water to form the alpha,beta-unsaturated aldehyde known as Cinnamaldehyde.",
+        source: "lectures_5,6.pdf - The Mixed Aldol Condensation (Page 22)"
+      },
       {
         q: "Arrange the following compounds in order of DECREASING reactivity towards Electrophilic Aromatic Substitution (EAS): Benzene, Phenol, Nitrobenzene, Chlorobenzene.",
         options: [
