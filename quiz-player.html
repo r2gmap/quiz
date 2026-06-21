@@ -604,6 +604,373 @@
 </div>
 <script>
         const quizDatabase = {
+    "org0": {
+    title: "Quiz 0",
+    questions: [
+      {
+        q: "When considering electrophilic aromatic substitution reactions, substituents (e.g., methoxy) are described as:",
+        options: [
+          "Meta directing and deactivating",
+          "Ortho/para directing and deactivating",
+          "Meta directing and activating",
+          "None of the above",
+        ],
+        correct: 3,
+        explanation: "The methoxy group (-OCH3) has a strong +M (resonance) effect that heavily outweighs its -I (inductive) effect. Therefore, it is strongly activating and directs electrophiles to the ortho and para positions, a choice which is not explicitly listed among the options.",
+        source: "أورجانيك .pdf - Page 1, Q1"
+      },
+      {
+        q: "Condensation of benzaldehyde with ethyl amine in slight acidic media will produce:",
+        options: [
+          "An amide",
+          "An imine (Schiff base) with the structure Ph-CH=N-CH2CH3",
+          "An acetal",
+          "A diazonium salt"
+        ],
+        correct: 1,
+        explanation: "The reaction between a primary amine (ethylamine) and an aldehyde or ketone (benzaldehyde) under slightly acidic conditions results in the elimination of a water molecule to form an imine, also known as a Schiff base.",
+        source: "أورجانيك .pdf - Page 1, Q2"
+      },
+      {
+        q: "Which of the following compounds is predicted to undergo the fastest electrophilic aromatic substitution?",
+        options: [
+          "Chlorobenzene",
+          "Nitrobenzene",
+          "Benzene",
+          "Anisole (Methoxybenzene)"
+        ],
+        correct: 3,
+        explanation: "Anisole contains a methoxy group (-OCH3), which strongly donates electron density into the ring via resonance (+M). This highly activates the benzene ring, making it react the fastest with electrophiles.",
+        source: "أورجانيك .pdf - Page 1, Q3"
+      },
+      {
+        q: "The reaction of an aldehyde with an excess of alcohol in the presence of an acid catalyst gives:",
+        options: [
+          "An acetal",
+          "A hemiacetal",
+          "A carboxylic acid",
+          "A ketone"
+        ],
+        correct: 0,
+        explanation: "Adding one equivalent of alcohol to an aldehyde forms a hemiacetal. In the presence of excess alcohol and an acid catalyst, a second equivalent of alcohol reacts, eliminating water to form a full acetal (with two -OR groups).",
+        source: "أورجانيك .pdf - Page 1, Q4"
+      },
+      {
+        q: "Based on the electronic effects of substituents, which of the following substituted benzoic acids is expected to have the lowest pKa value?",
+        options: [
+          "p-Methylbenzoic acid",
+          "p-Chlorobenzoic acid",
+          "p-Cyanobenzoic acid",
+          "p-Methoxybenzoic acid"
+        ],
+        correct: 2,
+        explanation: "A lower pKa indicates a stronger acid. The cyano group (-CN) is a powerful electron-withdrawing group via both inductive (-I) and resonance (-M) effects, which heavily stabilizes the resulting carboxylate anion, making p-cyanobenzoic acid the strongest acid among the choices.",
+        source: "أورجانيك .pdf - Page 1, Q5"
+      },
+      {
+        q: "The conversion of an amide to a primary amine with one fewer carbon atom using NaOH and Br2 is known as:",
+        options: [
+          "Schmidt reaction",
+          "Hofmann degradation",
+          "Fries rearrangement",
+          "Williamson synthesis"
+        ],
+        correct: 1,
+        explanation: "The Hofmann degradation (or Hofmann rearrangement) specifically uses bromine in a strong base (like NaOH) to remove the carbonyl carbon of a primary amide as carbon dioxide, yielding a primary amine.",
+        source: "أورجانيك .pdf - Page 2, Q6"
+      },
+      {
+        q: "Arrange the following compounds according to their reactivity towards aromatic nucleophilic substitution (from highest to lowest): (I) Chlorobenzene, (II) p-Nitrochlorobenzene, (III) 2,4-Dinitrochlorobenzene, (IV) 2,4,6-Trinitrochlorobenzene.",
+        options: [
+          "I > II > III > IV",
+          "IV > III > II > I",
+          "II > III > IV > I",
+          "IV > II > III > I"
+        ],
+        correct: 1,
+        explanation: "Reactivity in Nucleophilic Aromatic Substitution (NAS) increases dramatically with the addition of strongly electron-withdrawing groups (like -NO2) at the ortho and para positions, because they stabilize the intermediate Meisenheimer complex.",
+        source: "أورجانيك .pdf - Page 2, Q7"
+      },
+      {
+        q: "Arrange the following compounds according to their basicity (from highest to lowest): (I) p-Methoxyaniline, (II) p-Toluidine, (III) Aniline, (IV) p-Nitroaniline.",
+        options: [
+          "IV > III > II > I",
+          "II > I > III > IV",
+          "I > II > III > IV",
+          "I > III > II > IV"
+        ],
+        correct: 2,
+        explanation: "Electron-donating groups increase basicity by increasing electron density on the nitrogen atom. Methoxy (-OCH3) is the strongest donor (+M), followed by methyl (-CH3, +I). The nitro group (-NO2) is a strong electron-withdrawer (-I, -M), making it the least basic.",
+        source: "أورجانيك .pdf - Page 2, Q8"
+      },
+      {
+        q: "What is the correct IUPAC nomenclature for the compound containing an aldehyde group on carbon 1 and an amino group on carbon 4 of a butane chain?",
+        options: [
+          "γ-amino butanal",
+          "4-Amino butyraldehyde",
+          "γ-amino butyraldehyde",
+          "4-Amino butanal"
+        ],
+        correct: 3,
+        explanation: "In IUPAC nomenclature, numbers are used to designate positions (unlike common names which use Greek letters). The aldehyde carbon is C1, making the 4-carbon chain a butanal, with an amino group at C4.",
+        source: "أورجانيك .pdf - Page 2, Q9"
+      },
+      {
+        q: "Arrange the following amines according to their basicity in the aqueous phase (from most basic to least basic): (I) Dimethylamine, (II) Methylamine, (III) Trimethylamine, (IV) Aniline.",
+        options: [
+          "I > II > III > IV",
+          "II > I > III > IV",
+          "I > III > II > IV",
+          "III > II > I > IV"
+        ],
+        correct: 0,
+        explanation: "In the aqueous phase, the basicity order of methylamines is 2° > 1° > 3° > NH3 due to a balance of inductive electron donation and steric hindrance affecting solvation. Aromatic amines (Aniline) are the least basic due to resonance delocalization of the lone pair.",
+        source: "أورجانيك .pdf - Page 2, Q10"
+      },
+      {
+        q: "The reaction of a benzene diazonium salt with CuBr at 100°C to yield bromobenzene is an example of:",
+        options: [
+          "Grignard reaction",
+          "Kolbe synthesis",
+          "Sandmeyer reaction",
+          "Hoffman degradation"
+        ],
+        correct: 2,
+        explanation: "The Sandmeyer reaction specifically utilizes Copper(I) (Cuprous) salts as catalysts to replace the diazonium group (-N2+) with nucleophiles like Cl, Br, or CN.",
+        source: "أورجانيك .pdf - Page 3, Q11"
+      },
+      {
+        q: "In the sulfonation of phenol, forming p-hydroxybenzenesulfonic acid as the major product at 100°C indicates that the reaction is under:",
+        options: [
+          "Both kinetic and thermodynamic control",
+          "Thermodynamic control",
+          "Kinetic control",
+          "Neither (temperature has no effect)"
+        ],
+        correct: 1,
+        explanation: "At lower temperatures (e.g., 25°C), the ortho product is favored kinetically. At higher temperatures (100°C), thermodynamic control takes over, and the more stable para product is formed exclusively because it is less sterically hindered.",
+        source: "أورجانيك .pdf - Page 3, Q12"
+      },
+      {
+        q: "Which of the following compounds can undergo an Aldol condensation reaction?",
+        options: [
+          "Acetaldehyde",
+          "Formaldehyde (HCHO)",
+          "Benzaldehyde (PhCHO)",
+          "Trichloroacetaldehyde"
+        ],
+        correct: 0,
+        explanation: "The Aldol condensation requires the presence of at least one acidic alpha-hydrogen to form the necessary enolate anion. Acetaldehyde has alpha-hydrogens, whereas formaldehyde, benzaldehyde, and trichloroacetaldehyde do not.",
+        source: "أورجانيك .pdf - Page 3, Q13"
+      },
+      {
+        q: "The reduction of an acid chloride using Lithium tri-tert-butoxyaluminum hydride yields:",
+        options: [
+          "A carboxylic acid",
+          "A primary alcohol",
+          "A ketone",
+          "An aldehyde"
+        ],
+        correct: 3,
+        explanation: "Lithium tri-tert-butoxyaluminum hydride is a sterically bulky, milder reducing agent compared to LiAlH4. It selectively reduces highly reactive acid chlorides and stops at the aldehyde stage without over-reducing it to a primary alcohol.",
+        source: "أورجانيك .pdf - Page 3, Q14"
+      },
+      {
+        q: "The addition of weak nucleophiles (like water or alcohols) to carbonyl compounds typically requires:",
+        options: [
+          "A base catalyst",
+          "An acid catalyst",
+          "High pressure and no catalyst",
+          "A metal catalyst"
+        ],
+        correct: 1,
+        explanation: "Weak nucleophiles lack the driving force to attack a neutral carbonyl carbon efficiently. An acid catalyst protonates the carbonyl oxygen, increasing the electrophilicity of the carbon and facilitating the nucleophilic attack.",
+        source: "أورجانيك .pdf - Page 3, Q15"
+      },
+      {
+        q: "The addition of a Grignard reagent to formaldehyde, followed by hydrolysis, results in the formation of:",
+        options: [
+          "A secondary alcohol",
+          "A tertiary alcohol",
+          "A primary alcohol",
+          "A hemiacetal"
+        ],
+        correct: 2,
+        explanation: "Formaldehyde has two hydrogen atoms attached to its carbonyl carbon. When a Grignard reagent adds one alkyl group, the resulting structure is an alcohol with only one alkyl group attached to the alpha-carbon, which defines a primary alcohol.",
+        source: "أورجانيك .pdf - Page 3, Q16"
+      },
+      {
+        q: "Which of the following statements regarding the oxidation of carbonyl compounds is INCORRECT?",
+        options: [
+          "Ketones are more easily oxidized than aldehydes.",
+          "Oxidation of an aldehyde yields a carboxylic acid.",
+          "Aldehydes are more easily oxidized than ketones.",
+          "Ketones can be oxidized under special harsh conditions."
+        ],
+        correct: 0,
+        explanation: "Aldehydes possess a hydrogen atom directly attached to the carbonyl carbon, making them very susceptible to mild oxidation. Ketones lack this hydrogen and are therefore much harder to oxidize, requiring harsh conditions to cleave the carbon-carbon bonds.",
+        source: "أورجانيك .pdf - Page 4, Q17"
+      },
+      {
+        q: "All of the following carbonyl compounds could be used to form an enolate in the Aldol reaction EXCEPT:",
+        options: [
+          "Acetaldehyde",
+          "Propanal",
+          "Acetone",
+          "Benzaldehyde"
+        ],
+        correct: 3,
+        explanation: "To form an enolate, a compound must have alpha-hydrogens. Benzaldehyde lacks any alpha-hydrogens, making it incapable of forming an enolate, although it can act as the electrophilic acceptor in a mixed aldol condensation.",
+        source: "أورجانيك .pdf - Page 4, Q18"
+      },
+      {
+        q: "Which of the following carbonyl compounds will yield a positive Haloform test?",
+        options: [
+          "Formaldehyde",
+          "Acetaldehyde",
+          "Propanal",
+          "3-Pentanone"
+        ],
+        correct: 1,
+        explanation: "The Haloform reaction specifically requires a methyl ketone group (CH3-C=O). Acetaldehyde (CH3CHO) has this necessary methyl group adjacent to the carbonyl, allowing it to undergo exhaustive halogenation and cleavage to form haloform.",
+        source: "أورجانيك .pdf - Page 4, Q19"
+      },
+      {
+        q: "The reaction of anisole with acetic anhydride and nitric acid primarily results in the formation of:",
+        options: [
+          "o-Nitroanisole",
+          "m-Nitroanisole",
+          "p-Nitrobenzoic acid",
+          "Phenol"
+        ],
+        correct: 0,
+        explanation: "The use of nitric acid with acetic anhydride generates acetyl nitrate, a specialized, milder nitrating agent. For highly activated ethers like anisole, acetyl nitrate uniquely increases the proportion of the ortho-isomer compared to standard mixed acid nitration.",
+        source: "أورجانيك .pdf - Page 4, Q20"
+      },
+      {
+        q: "Which of the following compounds can form a stable diazonium salt upon reaction with NaNO2 / HCl at 0-5°C?",
+        options: [
+          "N-Methylaniline",
+          "Aniline",
+          "N,N-Dimethylaniline",
+          "Methylamine"
+        ],
+        correct: 1,
+        explanation: "The formation of a stable diazonium salt requires a primary aromatic amine. Aniline is a primary aromatic amine, while N-methylaniline is secondary, and N,N-dimethylaniline is tertiary.",
+        source: "أورجانيك .pdf - Page 4, Q21"
+      },
+      {
+        q: "Due to the unshared electron pair on the nitrogen atom, amines can chemically act as:",
+        options: [
+          "Only bases",
+          "Only nucleophiles",
+          "Both bases and electrophiles",
+          "Both bases and nucleophiles"
+        ],
+        correct: 3,
+        explanation: "The lone pair on the nitrogen atom allows amines to accept a proton (acting as a Bronsted base) and also to attack electron-deficient carbon atoms (acting as a nucleophile).",
+        source: "أورجانيك .pdf - Page 4, Q22"
+      },
+      {
+        q: "Ketones can be synthesized by all of the following methods EXCEPT:",
+        options: [
+          "Friedel-Crafts acylation",
+          "Oxidation of secondary alcohols",
+          "Oxidation of primary alcohols",
+          "Coupling of a Gilman reagent with an acid chloride"
+        ],
+        correct: 2,
+        explanation: "The oxidation of a primary alcohol yields an aldehyde (with mild oxidants) or a carboxylic acid (with strong oxidants). Ketones are specifically synthesized by oxidizing secondary alcohols.",
+        source: "أورجانيك .pdf - Page 5, Q23"
+      },
+      {
+        q: "What is the final product when p-nitrochlorobenzene is treated with NaOH under high temperature and pressure, followed by acidification?",
+        options: [
+          "p-Nitrophenol",
+          "m-Nitrophenol",
+          "Aniline",
+          "p-Chlorophenol"
+        ],
+        correct: 0,
+        explanation: "This is a Nucleophilic Aromatic Substitution (NAS) reaction. The electron-withdrawing nitro group activates the ring, allowing the strong hydroxide nucleophile to substitute the chlorine atom, yielding p-nitrophenol.",
+        source: "أورجانيك .pdf - Page 5, Q24"
+      },
+      {
+        q: "Aniline reacts with an excess of methyl chloride to finally give:",
+        options: [
+          "N-Methylaniline",
+          "A quaternary ammonium salt",
+          "N,N-Dimethylaniline",
+          "A diazonium salt"
+        ],
+        correct: 1,
+        explanation: "Primary amines undergo exhaustive alkylation when treated with excess alkyl halides. The amine is successively alkylated until the nitrogen atom utilizes its lone pair to form a stable, positively charged quaternary ammonium salt.",
+        source: "أورجانيك .pdf - Page 5, Q25"
+      },
+      {
+        q: "What is the correct arrangement of the following carbonyl compounds in decreasing order of reactivity towards nucleophilic addition?",
+        options: [
+          "Diethyl ketone > Acetone > Acetaldehyde > Formaldehyde",
+          "Formaldehyde > Acetaldehyde > Acetone > Diethyl ketone",
+          "Acetone > Diethyl ketone > Formaldehyde > Acetaldehyde",
+          "Acetaldehyde > Formaldehyde > Diethyl ketone > Acetone"
+        ],
+        correct: 1,
+        explanation: "Reactivity decreases as steric hindrance and electron-donating alkyl groups increase. Formaldehyde (no alkyl groups) is the most reactive, followed by aldehydes, then simple ketones, and finally bulkier ketones.",
+        source: "أورجانيك .pdf - Page 5, Q26"
+      },
+      {
+        q: "Which of the following carbonyl compounds will undergo the Cannizzaro reaction when treated with a strong base?",
+        options: [
+          "Acetaldehyde",
+          "Acetone",
+          "Benzaldehyde",
+          "Propanal"
+        ],
+        correct: 2,
+        explanation: "The Cannizzaro reaction is a disproportionation reaction specific to aldehydes that lack any alpha-hydrogens. Benzaldehyde has no alpha-hydrogens and readily undergoes this reaction to form benzyl alcohol and a benzoate salt.",
+        source: "أورجانيك .pdf - Page 5, Q27"
+      },
+      {
+        q: "In a reaction scheme, benzoic acid is reacted with SOCl2 to form compound X, which is then reacted with a Lithium dialkylcuprate (Gilman reagent). The final product is:",
+        options: [
+          "A primary alcohol",
+          "An aldehyde",
+          "An ester",
+          "A ketone"
+        ],
+        correct: 3,
+        explanation: "Reacting a carboxylic acid with SOCl2 produces an acid chloride. Coupling an acid chloride with a Gilman reagent (R2CuLi) selectively transfers one alkyl group to the acyl carbon, stopping precisely at the ketone stage without over-reacting.",
+        source: "أورجانيك .pdf - Page 6, Q29"
+      },
+      {
+        q: "To synthesize 2-methyl-2-butanol (a tertiary alcohol), which of the following combinations of Grignard reagent and carbonyl compound CANNOT be used?",
+        options: [
+          "Propanal + Ethylmagnesium bromide",
+          "Acetone + Ethylmagnesium bromide",
+          "Butanone + Methylmagnesium bromide",
+          "Ethyl acetate + excess Methylmagnesium bromide"
+        ],
+        correct: 0,
+        explanation: "Reacting a Grignard reagent with any aldehyde other than formaldehyde produces a secondary alcohol. Propanal + Ethylmagnesium bromide will yield 3-pentanol, not the required tertiary 2-methyl-2-butanol.",
+        source: "أورجانيك .pdf - Page 6, Q30"
+      },
+      {
+        q: "Oxidation of Toluene using Chromium trioxide in acetic anhydride (CrO3 / Ac2O) followed by hydrolysis specifically yields:",
+        options: [
+          "Benzoic acid",
+          "Benzaldehyde",
+          "Phenol",
+          "Benzyl alcohol"
+        ],
+        correct: 1,
+        explanation: "Normally, oxidation of toluene yields benzoic acid. However, using CrO3 in acetic anhydride traps the intermediate as a gem-diacetate, which protects the aldehyde from further oxidation. Subsequent hydrolysis releases pure benzaldehyde.",
+        source: "أورجانيك .pdf - Page 7, Section II"
+      }
+    ]
+  },
+
+
    "org1": {
     title: "Quiz I",
       questions: [
