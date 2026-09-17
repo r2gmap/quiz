@@ -1,362 +1,2227 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J25KFB0WDE"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-J25KFB0WDE');
-</script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#04060b">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Quizzes — Tap On Any Part To Make Small Pubbles">
+<meta property="og:title" content="Quizzes — Out Of Service">
+<meta property="og:description" content="Where memories linger in quiet silence.">
 <title>Quizzes</title>
-<script defer src="/_vercel/insights/script.js"></script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23071018' stroke='%230adaf1' stroke-opacity='.55'/%3E%3Ccircle cx='11' cy='11' r='3' fill='%23bdeff9'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://cdnjs.cloudflare.com">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;800;900&family=Cormorant+Garamond:ital,wght@1,300;1,400&family=IBM+Plex+Sans+Arabic:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
+/* ==========================================================================
+   QUIZZES — MEMORIAL / END-OF-SERVICE  (v2, "the quiet room")
+   --------------------------------------------------------------------------
+   Concept: you are standing at a frosted pane at night, looking into the
+   dark room where Quizzes used to live. Everything on screen is glass,
+   water, or light. A desk with a monitor that is still faintly warm. A wall
+   clock stopped at 11:47. City lights beyond the far window. Rain on the
+   pane, refracting all of it.
+
+   Layer stack (back → front):
+     0  canvas#rain     — room, frost, rain, droplets, bolts, glow
+     1  #lightning      — DOM screen-blend flash wash
+     2  .vignette       — pane edge
+     3  .stage          — the engraved wordmark (glass plane, fixed)
+     5  #grain          — whisper of film grain (compositor only)
+     10+ UI chrome      — sound toggle, feedback card, fab, toast
+     30 #veil           — cinematic blackout, fades once fonts are ready
+   ========================================================================== */
+
 :root {
-  --neon-cyan: #0adaf1;
-  --neon-purple: #8c3cf0;
-  --bg-dark: #03050a;
+  --ink:        #eaf4fa;
+  --ink-dim:    rgba(226, 240, 248, .55);
+  --accent:     #0adaf1;
+  --glass-bg:   rgba(10, 16, 24, .55);
+  --glass-line: #ffffff1a;
+  --font-display: 'Outfit', 'Avenir Next', 'Segoe UI', sans-serif;
+  --font-serif:   'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-arabic:  'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
+  --flash: 0;                      /* lightning level, driven from JS */
 }
 
-body { 
-  -webkit-font-smoothing: antialiased; 
-  -moz-osx-font-smoothing: grayscale; 
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html {
-  background-color: var(--bg-dark) !important;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-}
-::-webkit-scrollbar { display: none; }
+html { -webkit-text-size-adjust: 100%; }
+html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
 
-* {
-  margin: 0; padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', system-ui, sans-serif;
-  touch-action: manipulation;
+body {
+  background: #04060b;
+  color: var(--ink);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   -webkit-tap-highlight-color: transparent;
 }
 
-body {
-  min-height: 100dvh;
-  background: var(--bg-dark);
-  color: #f0f4ff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow-x: hidden;
-  position: relative;
+::selection { background: rgba(10, 218, 241, .28); color: #f0fdff; }
+:focus-visible { outline: 2px solid rgba(10, 218, 241, .55); outline-offset: 3px; }
+
+/* --------------------------------------------------------------------------
+   CANVAS + ATMOSPHERE OVERLAYS
+   -------------------------------------------------------------------------- */
+#rain {
+  position: fixed; inset: 0; z-index: 0;
+  width: 100%; height: 100%; display: block;
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  inset: -50px;
-  background:
-    radial-gradient(circle at 20% 30%, rgba(10,218,241,0.15) 0%, transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(140,60,240,0.18) 0%, transparent 45%),
-    radial-gradient(circle at 50% 50%, rgba(6,8,15,0.9) 0%, var(--bg-dark) 100%);
-  pointer-events: none;
-  z-index: 0;
-  animation: spaceGlow 12s ease-in-out infinite alternate;
+/* Lightning wash — soft blue/white bloom, opacity driven every frame by the
+   Lightning controller so the DOM flash and the canvas flash breathe as one. */
+#lightning {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  opacity: 0; will-change: opacity;
+  background: radial-gradient(130% 100% at 50% 0%,
+              rgba(225, 240, 255, .95) 0%, rgba(150, 195, 235, .40) 30%,
+              rgba(80, 120, 170, .14) 55%, rgba(0, 0, 0, 0) 75%);
+  mix-blend-mode: screen;
 }
 
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    radial-gradient(1px 1px at 15%  20%, rgba(255,255,255,0.6) 0%, transparent 100%),
-    radial-gradient(1px 1px at 72%  8%,  rgba(255,255,255,0.4) 0%, transparent 100%),
-    radial-gradient(1px 1px at 88%  35%, rgba(255,255,255,0.5) 0%, transparent 100%),
-    radial-gradient(1px 1px at 32%  78%, rgba(255,255,255,0.4) 0%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 65% 88%, rgba(10,218,241,0.5) 0%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 28% 42%, rgba(150,80,255,0.4) 0%, transparent 100%),
-    radial-gradient(1px 1px at 80%  70%, rgba(255,255,255,0.4) 0%, transparent 100%);
-  pointer-events: none;
-  z-index: 0;
+/* Physical pane edge — focuses the centre, sells the window */
+.vignette {
+  position: fixed; inset: 0; z-index: 2; pointer-events: none;
+  background: radial-gradient(120% 120% at 50% 42%,
+              rgba(0, 0, 0, 0) 55%, rgba(2, 4, 8, .46) 100%);
+  box-shadow: inset 0 0 0 1px rgba(170, 205, 235, .05),
+              inset 0 0 150px rgba(0, 0, 0, .52),
+              inset 0 1px 0 rgba(255, 255, 255, .035);
 }
 
-@keyframes spaceGlow {
-  0% { transform: scale(1) translate(0, 0); }
-  100% { transform: scale(1.08) translate(20px, 20px); }
+/* Film grain: a JS-generated noise tile on a 200% oversized, transform-only
+   layer. steps() jitter = shimmer with zero layout/paint cost. */
+#grain {
+  position: fixed; left: -50%; top: -50%; width: 200%; height: 200%;
+  z-index: 5; pointer-events: none; opacity: .05;
+  mix-blend-mode: overlay;
+  background-repeat: repeat; background-size: 130px 130px;
+  will-change: transform;
+}
+body.is-ready #grain { animation: grainShift 1.4s steps(5) infinite; }
+@keyframes grainShift {
+  0%   { transform: translate3d(0, 0, 0); }
+  20%  { transform: translate3d(-1.4%, .9%, 0); }
+  40%  { transform: translate3d(.8%, -1.2%, 0); }
+  60%  { transform: translate3d(-.6%, -.7%, 0); }
+  80%  { transform: translate3d(1.1%, .5%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
 }
 
-.main-container {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  max-width: 1200px;
-  padding: 40px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(40px, 6vw, 60px);
+/* Cinematic blackout — fades out the moment the wordmark fonts are ready. */
+#veil {
+  position: fixed; inset: 0; z-index: 30; pointer-events: none;
+  background: #02040a; opacity: 1;
+  transition: opacity 1.8s ease .15s;
 }
+body.is-ready #veil { opacity: 0; }
 
-header { text-align: center; }
-
-h1 {
-  font-size: clamp(3rem, 10vw, 5.5rem);
-  font-weight: 800;
-  letter-spacing: -1px;
-  line-height: 1.1;
-  margin-bottom: 20px;
-  background: linear-gradient(135deg, #ffffff 10%, #a2c2fe 40%, #5ad2f7 70%, #b3f2ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: pulseNeon 4s ease-in-out infinite alternate;
-  position: relative;
+/* --------------------------------------------------------------------------
+   CENTERPIECE — the engraved-glass wordmark
+   Three identical layers stacked in one grid cell:
+     .logo-halo   → blurred frosted bloom behind (the pane's inner light)
+     .logo-carve  → the chiselled face: gradient fill clipped to the glyphs
+                    + layered text-shadows (recessed dark upper lip, lit
+                    lower lip, inner occlusion) = the incuse illusion
+     .logo-flash  → a white glint whose opacity follows --flash, so the
+                    engraving catches the lightning
+   -------------------------------------------------------------------------- */
+.stage {
+  position: fixed; inset: 0; z-index: 3;
+  display: grid; place-items: center;
+  padding: 24px; pointer-events: none;
 }
-
-@keyframes pulseNeon {
-  0% { filter: drop-shadow(0 0 12px rgba(10,218,241,0.4)) drop-shadow(0 0 35px rgba(140,60,240,0.2)); }
-  100% { filter: drop-shadow(0 0 25px rgba(10,218,241,0.75)) drop-shadow(0 0 55px rgba(140,60,240,0.45)); }
+.stage-inner {
+  display: flex; flex-direction: column; align-items: center;
+  transition: transform .9s cubic-bezier(.25, .8, .25, 1);
+  will-change: transform;
 }
+/* On short viewports, when the message card is open, slide the memorial up
+   so the two never fight for space. */
+body.widget-open.compact .stage-inner { transform: translateY(-9vh); }
 
-.description {
-  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-  font-weight: 400;
-  color: rgba(175, 195, 235, 0.8);
-  line-height: 1.8;
-  letter-spacing: 0.5px;
-}
-
-.cards-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 30px;
-  width: 100%;
-}
-
-.card-wrapper {
-  animation: cardFloat 6s ease-in-out infinite;
-}
-
-@keyframes cardFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.card {
-  position: relative;
-  cursor: pointer;
-  width: clamp(280px, 65vw, 340px);
-  padding: 50px 35px 40px;
-  border-radius: 28px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: hidden;
-  background: linear-gradient(145deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 70%, rgba(140,60,240,0.05) 100%);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  border: 1px solid transparent;
-  background-clip: padding-box;
-  box-shadow:
-    0 0 0 1px rgba(10,218,241,0.2),
-    0 15px 40px rgba(0,0,0,0.5),
-    inset 0 1px 2px rgba(255,255,255,0.08);
-  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease, border-color 0.4s ease;
-  will-change: transform, box-shadow;
-}
-
-.card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 28px;
-  padding: 1.5px;
-  background: linear-gradient(135deg, rgba(10,218,241,0.4) 0%, rgba(10,218,241,0.05) 40%, rgba(140,60,240,0.05) 60%, rgba(140,60,240,0.5) 100%);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  opacity: 0.8;
-  transition: opacity 0.4s ease;
-}
-
-.card::after {
-  content: '';
-  position: absolute;
-  bottom: -40px; left: 50%;
-  transform: translateX(-50%);
-  width: 220px; height: 110px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(10,218,241,0.15) 0%, transparent 70%);
-  opacity: 0.3;
-  transition: opacity 0.4s ease, bottom 0.4s ease;
-  pointer-events: none;
-}
-
-.card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(10,218,241,0.35);
-  box-shadow:
-    0 0 0 1px rgba(10,218,241,0.4),
-    0 20px 45px rgba(0,0,0,0.6),
-    0 0 30px rgba(10,218,241,0.15);
-}
-
-.card:hover::before { opacity: 1; }
-.card:hover::after  { opacity: 0.7; bottom: -25px; }
-.card:active        { transform: translateY(-2px); transition-duration: 0.1s; }
-
-.hex-wrap {
-  position: relative;
-  width: 85px; height: 85px;
+.kicker {
   display: flex; align-items: center; justify-content: center;
-  margin-bottom: 26px;
+  gap: clamp(10px, 2vw, 18px);
+  font-weight: 300;
+  font-size: clamp(.58rem, 1.3vw, .72rem);
+  letter-spacing: .45em; text-indent: .45em;
+  text-transform: uppercase;
+  color: rgba(196, 220, 236, .42);
+  opacity: 0;                                  /* revealed by is-ready */
+}
+.kicker::before, .kicker::after {
+  content: ""; height: 1px; width: clamp(26px, 7vw, 84px);
+  background: rgba(196, 220, 236, .2);
 }
 
-.hex-bg {
-  position: absolute;
-  inset: 0;
-  clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
-  background: linear-gradient(145deg, rgba(10,218,241,0.15), rgba(140,60,240,0.18));
-  border: 1px solid rgba(10,218,241,0.25);
-  transition: background 0.4s ease, transform 0.4s ease;
+.logo {
+  display: grid; margin-top: clamp(.9rem, 2.4vw, 1.5rem);
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.5rem, 7vw, 5.5rem);        /* fluid scaling, per spec */
+  line-height: 1.05;
+  letter-spacing: -.018em;
+  user-select: none; cursor: default;
+  opacity: 0;
+}
+.logo > span { grid-area: 1 / 1; }              /* stack all layers in one cell */
+
+.logo-halo {
+  filter: blur(16px);
+  color: rgba(232, 240, 245, 0.5);
+  animation: halo-breathe 9s ease-in-out infinite;
+}
+.logo-halo .z { color: rgba(30, 219, 233, 0.55); }
+
+.logo-carve {
+  background: linear-gradient(180deg,
+    rgba(248, 250, 252, .95) 0%,               /* #f8fafc — frosted glass white */
+    rgba(226, 238, 246, .66) 34%,
+    rgba(243, 244, 245, 0.808) 58%,               /* shaded belly of the carve */
+    rgba(210, 230, 242, .55) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}
+.logo-carve .z {                                /* "zes" — luminous cyan half */
+  background: linear-gradient(180deg,
+    #e6fcff 0%, #16636b 30%, var(--accent) 62%, #078a9ecc 100%);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}
+.logo-flash {                                   /* lightning glint on the etch */
+  color: #fff;
+  opacity: calc(var(--flash) * 0.62);
+  filter: blur(1px);
+  transition: opacity .12s linear;
+}
+@keyframes halo-breathe { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+
+/* Subtitle — quiet, italic, wide-tracked */
+.tagline {
+  margin-top: clamp(1.1rem, 2.8vw, 1.7rem);
+  font-family: var(--font-serif);
+  font-style: italic; font-weight: 300;
+  font-size: clamp(.95rem, 2.3vw, 1.35rem);
+  letter-spacing: .15em;
+  text-wrap: balance;
+  color: var(--ink-dim);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .5), 0 0 18px rgba(120, 175, 205, .14);
+  opacity: 0;
 }
 
-.hex-wrap i {
-  position: relative;
-  font-size: 2.2rem;
-  color: var(--neon-cyan);
-  filter: drop-shadow(0 0 8px rgba(10,218,241,0.5));
-  transition: transform 0.4s ease, filter 0.4s ease, color 0.4s ease;
-  z-index: 1;
+/* Service dates — the memorial plaque line */
+.dates {
+  display: flex; align-items: center; justify-content: center;
+  gap: clamp(12px, 2.4vw, 18px);
+  margin-top: clamp(1.5rem, 3.6vw, 2.3rem);
+  font-weight: 300;
+  font-size: clamp(.6rem, 1.4vw, .72rem);
+  letter-spacing: .42em;
+  color: rgba(178, 204, 222, .34);
+  opacity: 0;
+}
+.dates::before, .dates::after {
+  content: ""; height: 1px; width: clamp(30px, 8vw, 90px);
+  background: rgba(178, 204, 222, .18);
 }
 
-.card:hover .hex-bg {
-  background: linear-gradient(145deg, rgba(10,218,241,0.25), rgba(140,60,240,0.28));
-  transform: rotate(5deg);
+/* Whisper invitation — teaches the wipe-the-glass interaction */
+.hint {
+  margin-top: clamp(2rem, 6vh, 3.4rem);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(.8rem, 1.8vw, .95rem);
+  letter-spacing: .12em;
+  color: rgba(168, 196, 216, .42);
+  opacity: 0; transform: translateY(6px);
+  transition: opacity 1.6s ease, transform 1.6s ease;
 }
-.card:hover .hex-wrap i {
-  transform: scale(1.08);
-  filter: drop-shadow(0 0 12px var(--neon-cyan));
-}
+.hint.is-visible { opacity: 1; transform: none; }
 
-.card h3 {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.5px;
-  margin-bottom: 12px;
-  transition: color 0.3s ease;
+/* One-time entrance, gated on fonts (body.is-ready), staggered downward */
+body.is-ready .kicker  { animation: rise 1.5s cubic-bezier(.22,.7,.25,1) .15s both; }
+body.is-ready .logo    { animation: rise 1.7s cubic-bezier(.22,.7,.25,1) .30s both; }
+body.is-ready .tagline { animation: rise 1.6s cubic-bezier(.22,.7,.25,1) .55s both,
+                                  tagline-breathe 12s ease-in-out 3.5s infinite; }
+body.is-ready .dates   { animation: rise 1.6s cubic-bezier(.22,.7,.25,1) .75s both; }
+@keyframes rise {
+  from { opacity: 0; transform: translate3d(0, 22px, 0); filter: blur(8px); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0);    filter: blur(0); }
 }
-.card:hover h3 {
-  color: var(--neon-cyan);
-}
+@keyframes tagline-breathe { 0%, 100% { opacity: 1; } 50% { opacity: .72; } }
 
-.card-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 28px;
-  border-radius: 50px;
-  border: 1px solid rgba(10,218,241,0.35);
-  background: rgba(10,218,241,0.06);
-  color: #ffffff;
-  font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+/* --------------------------------------------------------------------------
+   AMBIENT SOUND TOGGLE (top-right, 44px touch target)
+   -------------------------------------------------------------------------- */
+.sound-btn {
+  position: fixed; z-index: 10;
+  top: calc(16px + env(safe-area-inset-top, 0px));
+  right: max(16px, env(safe-area-inset-right, 0px));
+  width: 44px; height: 44px; border-radius: 50%;
+  display: grid; place-items: center;
+  color: rgba(214, 234, 246, .75);
+  background: rgba(10, 16, 24, .42);
+  border: 1px solid var(--glass-line);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
   cursor: pointer;
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  pointer-events: none;
+  transition: color .25s, background .25s, transform .15s;
+}
+.sound-btn:hover { color: #eaf6fc; background: rgba(14, 22, 32, .62); }
+.sound-btn:active { transform: scale(.92); }
+.sound-btn .ico-off { display: none; }
+.sound-btn.is-muted { color: rgba(150, 170, 185, .5); }
+.sound-btn.is-muted .ico-on { display: none; }
+.sound-btn.is-muted .ico-off { display: block; }
+/* gentle attention pulse while autoplay is still blocked */
+.sound-btn.attn::after {
+  content: ""; position: absolute; inset: -6px; border-radius: 50%;
+  border: 1px solid rgba(10, 218, 241, .5);
+  animation: attn 2.2s ease-out infinite;
+}
+@keyframes attn { 0% { transform: scale(.8); opacity: .8; } 70%, 100% { transform: scale(1.55); opacity: 0; } }
+/* one-shot ripple the moment the storm actually comes alive */
+.sound-btn.live::before {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  border: 1px solid rgba(10, 218, 241, .6);
+  animation: livePing .9s ease-out 1;
+}
+@keyframes livePing { from { transform: scale(1); opacity: .9; } to { transform: scale(2.2); opacity: 0; } }
+
+/* --------------------------------------------------------------------------
+   FEEDBACK WIDGET — frosted glassmorphism card (RTL Arabic)
+   Collapsible state machine:  hidden → open ⇄ minimized  (driven from JS)
+   -------------------------------------------------------------------------- */
+.feedback {
+  position: fixed; z-index: 12;
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  left: 12px; right: 12px; max-width: 400px; margin-inline: auto;  /* bottom-centre on mobile */
+  font-family: var(--font-arabic);
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(1.25);
+  -webkit-backdrop-filter: blur(16px) saturate(1.25);
+  border: 1px solid var(--glass-line);        /* translucent #ffffff1a edge */
+  border-radius: 20px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .55), 0 4px 14px rgba(0, 0, 0, .35),
+              inset 0 1px 0 rgba(255, 255, 255, .07);
+  visibility: hidden; opacity: 0;
+  transform: translate3d(0, 150%, 0);           /* parked below the fold */
+  will-change: transform, opacity;
+}
+.feedback::before {                             /* hairline of light along the top rim */
+  content: ""; position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .18), transparent);
+}
+@media (min-width: 640px) {
+  .feedback { left: auto; right: 24px; bottom: 24px; width: 380px; margin-inline: 0; }
 }
 
-.card:hover .card-btn {
-  background: rgba(10,218,241,0.15);
-  border-color: var(--neon-cyan);
-  box-shadow: 0 0 15px rgba(10,218,241,0.25);
+/* Entrance: soft spring — overshoot, settle, done (added by JS after 2.5s) */
+.feedback.is-open { visibility: visible; animation: spring-in .95s cubic-bezier(.2, 1.28, .4, 1) both; }
+@keyframes spring-in {
+  0%   { opacity: 0; transform: translate3d(0, 150%, 0) scale(.92); }
+  55%  { opacity: 1; transform: translate3d(0, -8px, 0)  scale(1.015); }
+  75%  { transform: translate3d(0, 3px, 0) scale(.995); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0)   scale(1); }
+}
+/* Exit: fold away beneath the viewport */
+.feedback.is-closing { visibility: visible; animation: fold-away .38s cubic-bezier(.5, 0, .75, .2) both; }
+@keyframes fold-away {
+  from { opacity: 1; transform: translate3d(0, 0, 0)    scale(1); }
+  to   { opacity: 0; transform: translate3d(0, 118%, 0) scale(.94); }
 }
 
-.card-btn i {
-  font-size: 0.8rem;
-  transition: transform 0.3s ease;
+.fb-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 14px 8px 14px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, .07);
 }
-.card:hover .card-btn i { 
-  transform: translateX(4px); 
+.fb-title { display: flex; align-items: center; gap: 10px; color: #e9f5fb; }
+.fb-title svg { color: rgba(10, 218, 241, .6); flex: none; }
+.fb-title h2 { font-size: 1.02rem; font-weight: 500; }
+
+.fb-min {
+  width: 44px; height: 44px; flex: none;
+  display: grid; place-items: center;
+  background: transparent; border: 0; border-radius: 12px;
+  color: rgba(200, 222, 236, .55); cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.fb-min:hover { background: rgba(255, 255, 255, .06); color: #dcedf6; }
+
+.fb-body { padding: 14px; display: grid; gap: 10px; }
+
+/* Message textarea — dark translucent fill, auto-grows, custom scrollbar */
+.fb-msg {
+  width: 100%; min-height: 104px; max-height: 176px; resize: none;
+  padding: 12px 14px; border-radius: 14px;
+  background: rgba(4, 8, 14, .55);
+  border: 1px solid rgba(255, 255, 255, .08);
+  color: #e9f5fb; caret-color: var(--accent);
+  font-family: inherit; font-size: 16px; font-weight: 300; line-height: 1.9;
+  scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, .16) transparent;
+  transition: border-color .25s, background .25s;
+}
+.fb-msg:focus { outline: none; border-color: rgba(10, 218, 241, .35); background: rgba(5, 10, 17, .7); }
+.fb-msg::placeholder { color: rgba(170, 196, 214, .38); }
+.fb-msg::-webkit-scrollbar { width: 6px; }
+.fb-msg::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, .16); border-radius: 99px; }
+.fb-msg::-webkit-scrollbar-track { background: transparent; }
+.fb-msg.shake { animation: shake .4s; }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); }
+  50% { transform: translateX(4px); }    75% { transform: translateX(-2px); }
 }
 
-@media (max-width: 600px) {
-  .card-wrapper {
-    animation: none;
-  }
-  .card {
-    width: clamp(260px, 85vw, 320px);
-    padding: 40px 24px 35px;
-  }
-  .hex-wrap { width: 75px; height: 75px; }
-  .hex-wrap i { font-size: 1.9rem; }
-  .card:hover { transform: translateY(-4px); }
-  .card:active { transform: translateY(-1px); }
+.fb-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: .72rem; font-weight: 300; color: rgba(168, 194, 212, .42);
 }
+.count { transition: color .3s; }
+.count.warn { color: rgba(255, 200, 130, .85); }
+.count.max  { color: rgba(255, 140, 120, .9); }
 
+/* Send button — active glow on hover, spinner while dispatching */
+.btn-send {
+  position: relative; width: 100%; min-height: 46px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  border-radius: 14px; cursor: pointer;
+  font-family: inherit; font-size: 1rem; font-weight: 500;
+  color: #bdf3fb;
+  background: rgba(10, 218, 241, .10);
+  border: 1px solid rgba(10, 218, 241, .32);
+  transition: background .25s, box-shadow .25s, transform .15s, color .25s;
+  -webkit-user-select: none; user-select: none;
+}
+.btn-send svg { flex: none; }
+.btn-send:hover:not(:disabled) {
+  background: rgba(10, 218, 241, .2); color: #e4fbff;
+  box-shadow: 0 0 22px rgba(10, 218, 241, .22), inset 0 0 12px rgba(10, 218, 241, .08);
+}
+.btn-send:active:not(:disabled) { transform: translateY(1px); }
+.btn-send:disabled { cursor: default; opacity: .8; }
+.btn-send .spinner { display: none; }
+.btn-send.is-loading { pointer-events: none; }
+.btn-send.is-loading .btn-label, .btn-send.is-loading svg:not(.spinner) { opacity: 0; }
+.btn-send.is-loading .spinner {
+  display: block; position: absolute; inset: 0; margin: auto;
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid rgba(155, 238, 251, .22); border-top-color: #9beefb;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Success confirmation — drawn-check overlay inside the card */
+.fb-done {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; padding: 18px; border-radius: 20px; text-align: center;
+  background: rgba(7, 12, 19, .86);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  opacity: 0; visibility: hidden;
+  transition: opacity .45s ease, visibility 0s .45s;
+}
+.fb-done.show { opacity: 1; visibility: visible; transition: opacity .45s ease; }
+.fb-done svg { width: 56px; height: 56px; }
+.fb-done .ring {
+  fill: none; stroke: rgba(10, 218, 241, .55); stroke-width: 2.5; stroke-linecap: round;
+  stroke-dasharray: 170; stroke-dashoffset: 170;
+  transition: stroke-dashoffset .7s cubic-bezier(.3, .8, .3, 1) .15s;
+}
+.fb-done .tick {
+  fill: none; stroke: #9beefb; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 42; stroke-dashoffset: 42;
+  transition: stroke-dashoffset .45s ease .6s;
+}
+.fb-done.show .ring { stroke-dashoffset: 0; }
+.fb-done.show .tick { stroke-dashoffset: 0; }
+.done-title { font-size: 1.02rem; font-weight: 500; color: #e9f5fb; }
+.done-sub   { font-size: .78rem; font-weight: 300; color: rgba(168, 194, 212, .55); }
+
+/* --------------------------------------------------------------------------
+   FLOATING TRIGGER — appears only while the card is minimized
+   -------------------------------------------------------------------------- */
+.fab {
+  position: fixed; z-index: 11;
+  right: max(18px, env(safe-area-inset-right, 0px));
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  width: 54px; height: 54px; border-radius: 50%;
+  display: grid; place-items: center;
+  color: #9beefb; cursor: pointer;
+  background: rgba(10, 17, 26, .55);
+  border: 1px solid rgba(255, 255, 255, .14);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .08);
+  visibility: hidden; opacity: 0;
+  transform: translate3d(0, 90px, 0) scale(0);
+  transition: transform .45s cubic-bezier(.2, 1.2, .3, 1), opacity .3s, visibility 0s .45s;
+  will-change: transform;
+}
+.fab.is-visible {
+  visibility: visible; opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  transition: transform .5s cubic-bezier(.2, 1.4, .35, 1), opacity .3s, visibility 0s;
+}
+.fab:hover { color: #d9fbff; border-color: rgba(10, 218, 241, .4); }
+.fab.is-visible:active { transform: translate3d(0, 0, 0) scale(.9); }
+.fab::after {                                   /* slow invitation pulse */
+  content: ""; position: absolute; inset: -7px; border-radius: 50%;
+  border: 1px solid rgba(10, 218, 241, .4); pointer-events: none;
+  animation: fab-pulse 3.2s ease-out infinite;
+}
+@keyframes fab-pulse { 0% { transform: scale(.85); opacity: .6; } 70%, 100% { transform: scale(1.35); opacity: 0; } }
+
+/* --------------------------------------------------------------------------
+   TOAST — top-centre status pill with a draining progress hairline
+   -------------------------------------------------------------------------- */
+.toast {
+  position: fixed; z-index: 20;
+  top: calc(18px + env(safe-area-inset-top, 0px)); left: 50%;
+  transform: translate3d(-50%, -16px, 0); opacity: 0;
+  display: flex; align-items: center; gap: 10px;
+  max-width: min(92vw, 420px);
+  padding: 12px 18px; border-radius: 14px;
+  font-family: var(--font-arabic); font-size: .92rem;
+  background: rgba(8, 14, 22, .72);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, .12);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .5);
+  color: #e6f3f9; pointer-events: none;
+  transition: transform .4s cubic-bezier(.2, 1.1, .3, 1), opacity .35s;
+}
+.toast.is-visible { transform: translate3d(-50%, 0, 0); opacity: 1; }
+.toast .t-ok { color: #6fe8c4; display: none; }
+.toast .t-err { color: #ff9d8f; display: none; }
+.toast.success .t-ok { display: block; }
+.toast.error   .t-err { display: block; }
+.toast::after {
+  content: ""; position: absolute; left: 16px; right: 16px; bottom: 6px; height: 1px;
+  background: rgba(255, 255, 255, .22); border-radius: 2px;
+  transform-origin: left center; transform: scaleX(0);
+}
+.toast.is-visible::after { animation: toastBar 3.2s linear forwards; }
+@keyframes toastBar { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+/* --------------------------------------------------------------------------
+   ACCESSIBILITY — honour reduced-motion preferences
+   -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
+  body.is-ready .kicker, body.is-ready .logo, body.is-ready .tagline, body.is-ready .dates {
+    animation: none; opacity: 1; transform: none; filter: none;
   }
+  .logo-halo, .fab::after, #grain { animation: none; }
+  .feedback.is-open { animation: none; opacity: 1; visibility: visible; transform: none; }
+  .feedback.is-closing { animation: none; }
+  .toast, .toast.is-visible::after { transition: none; animation: none; }
+  .stage-inner { transition: none; }
 }
 </style>
 </head>
+
 <body>
+  <!-- Rain simulation canvas: frosted pane, living room behind it, droplet lenses -->
+  <canvas id="rain" aria-hidden="true"></canvas>
+  <div id="lightning" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div id="grain" aria-hidden="true"></div>
+  <div id="veil" aria-hidden="true"></div>
 
-<div class="main-container">
-  <header>
-    <h1>Quizzes</h1>
-    <p class="description">
-      Quizzes Will Be Available Next Year<br>
-      See You Soon
-    </p>
-  </header>
-
-  <div class="cards-container">
-    <div class="card-wrapper">
-      <div class="card"
-           onclick="location.href='test2.html?id=games'"
-           role="button"
-           tabindex="0"
-           aria-label="Games — Start Playing">
-
-        <div class="hex-wrap">
-          <div class="hex-bg"></div>
-          <i class="fas fa-gamepad"></i>
-        </div>
-
-        <h3>Games</h3>
-
-        <div class="card-btn">
-          Start Playing <i class="fas fa-arrow-right"></i>
-        </div>
-      </div>
+  <!-- Centerpiece -->
+  <main class="stage">
+    <div class="stage-inner">
+      <p class="kicker">Out Of&nbsp;Service</p>
+      <h1 class="logo" aria-label="Quizzes">
+        <span class="logo-halo"  aria-hidden="true">Quiz<span class="z">zes</span></span>
+        <span class="logo-carve" aria-hidden="true">Quiz<span class="z">zes</span></span>
+        <span class="logo-flash" aria-hidden="true">Quiz<span class="z">zes</span></span>
+      </h1>
+      <p class="tagline">Tap On Screen To Make Small Pubbles</p>
+      <p class="dates">Enjoy The Rain</p>
+      <p class="hint" id="hint">run your hand across the glass</p>
     </div>
+  </main>
+
+  <!-- Ambient sound toggle -->
+  <button class="sound-btn" id="soundBtn" type="button" aria-pressed="false" aria-label="Toggle ambient sound" title="Ambient sound">
+    <svg class="ico-on" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.6 5.4a9 9 0 0 1 0 13.2"/></svg>
+    <svg class="ico-off" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m23 9-6 6"/><path d="m17 9 6 6"/></svg>
+  </button>
+
+  <!-- Feedback widget (RTL Arabic) -->
+  <section class="feedback" id="feedback" dir="rtl" lang="ar" role="dialog" aria-modal="false" aria-labelledby="fbTitle">
+    <div class="fb-done" id="fbDone" aria-hidden="true">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle class="ring" cx="32" cy="32" r="26"/>
+        <path class="tick" d="M20 33.5 28.5 42 45 24"/>
+      </svg>
+      <p class="done-title">وصلت رسالتك بنجاح</p>
+      <!-- <p class="done-sub">شكرًا لأنك كنت جزءًا من الحكاية</p> -->
+    </div>
+    <header class="fb-head">
+      <div class="fb-title">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>
+        <h2 id="fbTitle">عايز تقول حاجة؟</h2>
+      </div>
+      <button class="fb-min" id="minBtn" type="button" aria-label="تصغير النافذة">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+    </header>
+    <div class="fb-body">
+      <textarea class="fb-msg" id="msgInput" maxlength="500" rows="4" placeholder="اكتب رسالتك هنا..." aria-label="رسالتك"></textarea>
+      <div class="fb-meta">
+        <!-- <span>تصل مباشرةً إلى تيليجرام</span> -->
+        <span class="count" id="charCounter">0 / 500</span>
+      </div>
+      <button class="btn-send" id="sendBtn" type="button">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>
+        <span class="btn-label">إرسال</span>
+        <span class="spinner" aria-hidden="true"></span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Floating trigger (visible only while the card is minimized) -->
+  <button class="fab" id="fab" type="button" aria-label="افتح صندوق الرسائل" aria-expanded="false">
+    <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>
+  </button>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" dir="rtl" lang="ar" role="status" aria-live="polite">
+    <svg class="t-ok" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m8.5 12.2 2.6 2.6 4.9-5.6"/></svg>
+    <svg class="t-err" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+    <span id="toastMsg"></span>
   </div>
-</div>
 
 <script>
-document.querySelector('.card').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' || e.key === ' ') {
-    e.preventDefault();
-    location.href = 'subject.html?id=sums';
-  }
-});
-</script>
+'use strict';
+/* ==========================================================================
+   QUIZZES — MEMORIAL  ·  application script
+   --------------------------------------------------------------------------
+   Modules, in order:
+     1. Telegram configuration            7. Lightning controller + bolts
+     2. Utilities & environment            8. Audio synthesis engine
+     3. Canvas surfaces & the room scene   9. Main loop (physics + render)
+     4. Parallax (depth behind the glass) 10. Pointer condensation & halo
+     5. Droplet physics + rendering       11. UI: widget, toast, sound
+     6. Rain streaks & wind               12. Boot sequence
+   ========================================================================== */
 
+/* ========================================================= */
+/* TELEGRAM BOT CONFIGURATION - REPLACE WITH YOUR CREDENTIALS */
+/* ========================================================= */
+const TELEGRAM_BOT_TOKEN = "8553775824:AAF3GClTP9ldHvdf5Pvx1ozRAdbOQXpir9w";
+const TELEGRAM_CHAT_ID   = "8408968285";
+
+/* ====================================================================== */
+/* 2. UTILITIES & ENVIRONMENT                                             */
+/* ====================================================================== */
+function rand(a, b) { return a + Math.random() * (b - a); }
+function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
+
+var REDUCED_MOTION = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+/* Deterministic PRNG (mulberry32). Both room renders (normal + lightning-lit)
+   use the same seed so their geometry matches exactly — only brightness
+   differs. That is what lets a droplet lens swap scenes mid-flash without
+   the room "jumping". */
+function mulberry32(seed) {
+  return function () {
+    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+    var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/* ====================================================================== */
+/* 3. CANVAS SURFACES & THE ROOM SCENE                                    */
+/* ====================================================================== */
+/* Rendering strategy, back to front:
+   - `scene` / `litScene` : the room, pre-rendered TWICE (dark pass + a
+     lightning-lit pass with identical geometry). Static per resize.
+   - `frost`              : the room pushed through a chain of halvings —
+     down- and up-scaling gives a gaussian-ish blur at zero per-frame cost.
+     A light second pass at 1/4 resolution keeps a whisper of mid-frequency
+     so the frost reads as real diffused glass rather than uniform mush.
+   - main `ctx`           : frost → monitor glow → flash wash → bolt →
+     far rain → near rain → wet-trail sheens → droplets → pointer halo.
+   Everything the user sees sharply (the room) is only ever visible THROUGH
+   a droplet lens — that is the core illusion of the page. */
+
+var canvas = document.getElementById('rain');
+var ctx    = canvas.getContext('2d', { alpha: false });      // opaque = faster
+
+var scene    = document.createElement('canvas'), sceneCtx  = scene.getContext('2d');
+var litScene = document.createElement('canvas'), litCtx    = litScene.getContext('2d');
+var frost    = document.createElement('canvas'), frostCtx  = frost.getContext('2d');
+var cHalf    = document.createElement('canvas'), halfCtx  = cHalf.getContext('2d');
+var cQuart   = document.createElement('canvas'), quartCtx = cQuart.getContext('2d');
+var cEighth  = document.createElement('canvas'), eighthCtx = cEighth.getContext('2d');
+var farC     = document.createElement('canvas'), farCtx   = farC.getContext('2d');
+var boltC    = document.createElement('canvas'), bctx      = boltC.getContext('2d');
+
+var W = 0, H = 0, DPR = 1;          // CSS viewport size & capped device ratio
+var P = 24;                          // parallax overscan margin (px)
+var RW = 0, RH = 0;                 // ROOM dimensions = viewport + 2*P
+var FARM = 26, FARMV = 18;          // far-rain layer overscan margins
+var FAR_W = 0, FAR_H = 0;
+var quality = 1;                    // adaptive quality scalar (0.45 … 1)
+var flashGrad = null;               // cached in-canvas lightning wash gradient
+var room = { glowX: 0, glowY: 0 };  // monitor position in room coordinates
+
+/* Size every surface to the viewport. DPR is capped by a total pixel budget
+   so 4K/5K screens never allocate gigabytes of backing store. */
+function sizeAll() {
+  W = window.innerWidth; H = window.innerHeight;
+  DPR = Math.max(1, Math.min(window.devicePixelRatio || 1, 2,
+                            Math.sqrt(9000000 / Math.max(1, W * H))));
+  P = Math.round(clamp(Math.min(W, H) * 0.03, 10, 26));
+  RW = W + P * 2; RH = H + P * 2;
+
+  canvas.width  = Math.round(W * DPR); canvas.height = Math.round(H * DPR);
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);             // draw in CSS pixels
+
+  var pw = Math.round(RW * DPR), ph = Math.round(RH * DPR);
+  scene.width = litScene.width = frost.width = pw;
+  scene.height = litScene.height = frost.height = ph;
+  cHalf.width  = Math.max(1, pw >> 1);  cHalf.height  = Math.max(1, ph >> 1);
+  cQuart.width = Math.max(1, pw >> 2); cQuart.height = Math.max(1, ph >> 2);
+  cEighth.width= Math.max(1, pw >> 3); cEighth.height= Math.max(1, ph >> 3);
+
+  FAR_W = W + FARM * 2; FAR_H = H + FARMV * 2;
+  farC.width  = Math.max(1, Math.round(FAR_W * DPR / 4));
+  farC.height = Math.max(1, Math.round(FAR_H * DPR / 4));
+
+  /* bolt canvas at half resolution — the upscale doubles as its blur */
+  boltC.width  = Math.max(1, Math.round(W / 2));
+  boltC.height = Math.max(1, Math.round(H * 0.72 / 2));
+
+  buildScenes();
+  buildFrost();
+
+  flashGrad = ctx.createLinearGradient(0, 0, 0, H * 0.85);
+  flashGrad.addColorStop(0, 'rgba(190, 220, 255, 1)');
+  flashGrad.addColorStop(1, 'rgba(190, 220, 255, 0)');
+
+  initStreaks();
+}
+
+/* --- THE ROOM ------------------------------------------------------------
+   Everything is drawn as large, soft silhouettes because it is only ever
+   seen through heavy frost — but the DROPLETS refract it sharply, and the
+   narrative details (a stopped clock at 11:47, a desk, a monitor that is
+   still faintly glowing, city lights beyond the far window) reward anyone
+   who looks closely. That is the story of the memorial. */
+function drawRoom(g, lit) {
+  var w = RW, h = RH, i, x, y, r, a, c, rg;
+  var R = mulberry32(20191231);          // same seed for both passes
+  var L = lit ? 2.3 : 1;                 // luminance multiplier for the lit pass
+  g.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+  /* 1 — base gradient: night sky bleeding down into the dark room */
+  var bg = g.createLinearGradient(0, 0, 0, h);
+  bg.addColorStop(0,    lit ? '#152238' : '#0a111c');
+  bg.addColorStop(0.45, lit ? '#0c1524' : '#070c16');
+  bg.addColorStop(0.72, lit ? '#080f1a' : '#050a12');
+  bg.addColorStop(1,    '#030509');
+  g.fillStyle = bg; g.fillRect(0, 0, w, h);
+
+  /* 2 — moonlight, upper right */
+  var mx = w * 0.68, my = h * 0.15;
+  rg = g.createRadialGradient(mx, my, 0, mx, my, Math.min(w, h) * 0.55);
+  rg.addColorStop(0,    'rgba(205,228,250,' + (lit ? 0.55 : 0.22) + ')');
+  rg.addColorStop(0.35, 'rgba(150,185,225,' + (lit ? 0.20 : 0.09) + ')');
+  rg.addColorStop(1,    'rgba(0,0,0,0)');
+  g.fillStyle = rg; g.fillRect(0, 0, w, h);
+
+  /* 3 — geometry of the room's far window */
+  var wx0 = w * 0.18, wx1 = w * 0.82, wy0 = h * 0.10, wy1 = h * 0.665;
+
+  /* 4 — distant city lights behind the far window (they become beautiful
+     bokeh dots under the frost, and they flare inside the droplets) */
+  var bandY = h * 0.555, bandH = h * 0.095;
+  for (i = 0; i < 46; i++) {
+    x = wx0 + R() * (wx1 - wx0);
+    y = bandY + R() * bandH;
+    r = 0.8 + R() * R() * 2.4;
+    a = (0.10 + R() * 0.22) * L; if (a > 0.85) a = 0.85;
+    c = R() < 0.3 ? '255,212,168' : '168,208,246';    // warm / cold windows
+    rg = g.createRadialGradient(x, y, 0, x, y, r * 4.5);
+    rg.addColorStop(0, 'rgba(' + c + ',' + a.toFixed(3) + ')');
+    rg.addColorStop(1, 'rgba(' + c + ',0)');
+    g.fillStyle = rg; g.beginPath(); g.arc(x, y, r * 4.5, 0, 6.2832); g.fill();
+  }
+
+  /* 5 — furniture silhouettes (drawn under the window frame) */
+  var dk = 'rgba(2,5,10,';
+  g.fillStyle = dk + '0.85)';
+  /* desk: top slab + two legs */
+  g.fillRect(w * 0.02,  h * 0.705, w * 0.30, Math.max(5, h * 0.014));
+  g.fillRect(w * 0.045, h * 0.705, Math.max(3, w * 0.008), h * 0.20);
+  g.fillRect(w * 0.275, h * 0.705, Math.max(3, w * 0.008), h * 0.20);
+  /* monitor: bezel block + lighter face + stand. The face sits under the
+     animated glow sprite (drawn per frame on the main canvas). */
+  g.fillRect(w * 0.145, h * 0.555, w * 0.115, h * 0.115);
+  g.fillStyle = dk + '0.55)';
+  g.fillRect(w * 0.155, h * 0.565, w * 0.095, h * 0.095);
+  g.fillStyle = dk + '0.85)';
+  g.fillRect(w * 0.195, h * 0.670, w * 0.015, h * 0.035);
+  /* an empty chair beside the desk */
+  g.fillRect(w * 0.315, h * 0.585, w * 0.028, h * 0.14);
+  g.fillRect(w * 0.30,  h * 0.72,  w * 0.10,  Math.max(5, h * 0.02));
+  g.fillRect(w * 0.305, h * 0.735, Math.max(3, w * 0.007), h * 0.165);
+  g.fillRect(w * 0.388, h * 0.735, Math.max(3, w * 0.007), h * 0.165);
+  /* bookshelf against the right wall, with book spines */
+  var bx0 = w * 0.775, bx1 = w * 0.975, by0 = h * 0.16, by1 = h * 0.64;
+  g.fillStyle = dk + '0.8)';
+  g.fillRect(bx0, by0, bx1 - bx0, by1 - by0);
+  g.fillStyle = 'rgba(120,150,185,' + (lit ? 0.20 : 0.08) + ')';
+  for (i = 1; i <= 4; i++) {
+    g.fillRect(bx0 + w * 0.008, by0 + (by1 - by0) * i / 5 - 1,
+               (bx1 - bx0) - w * 0.016, Math.max(1.5, h * 0.004));
+  }
+  g.fillStyle = 'rgba(150,180,215,' + (lit ? 0.22 : 0.09) + ')';
+  var nb = 10 + ((R() * 8) | 0);
+  for (i = 0; i < nb; i++) {
+    var shelf = 1 + ((R() * 4) | 0);
+    var sy = by0 + (by1 - by0) * shelf / 5;
+    var bw2 = 2 + R() * 5, bh2 = h * (0.02 + R() * 0.045);
+    g.fillRect(bx0 + w * 0.02 + R() * ((bx1 - bx0) - w * 0.05), sy - bh2, bw2, bh2);
+  }
+
+  /* 6 — the wall clock, hands frozen at 11:47 — the moment it ended */
+  var cx0 = w * 0.095, cy0 = h * 0.225, cr = Math.min(w, h) * 0.036;
+  g.beginPath(); g.arc(cx0, cy0, cr, 0, 6.2832);
+  g.fillStyle = 'rgba(180,208,235,' + (lit ? 0.10 : 0.045) + ')'; g.fill();
+  g.lineWidth = Math.max(1.5, cr * 0.06);
+  g.strokeStyle = 'rgba(190,215,240,' + (lit ? 0.5 : 0.20) + ')'; g.stroke();
+  g.strokeStyle = 'rgba(200,225,248,' + (lit ? 0.5 : 0.22) + ')';
+  g.lineWidth = Math.max(1, cr * 0.045);
+  for (i = 0; i < 12; i++) {
+    var ta = i / 12 * 6.2832;
+    g.beginPath();
+    g.moveTo(cx0 + Math.cos(ta) * cr * 0.82, cy0 + Math.sin(ta) * cr * 0.82);
+    g.lineTo(cx0 + Math.cos(ta) * cr * 0.93, cy0 + Math.sin(ta) * cr * 0.93);
+    g.stroke();
+  }
+  var hAng = (11 + 47 / 60) / 12 * 6.2832 - 1.5708;
+  var mAng = 47 / 60 * 6.2832 - 1.5708;
+  g.lineCap = 'round';
+  g.lineWidth = Math.max(1.5, cr * 0.075);
+  g.beginPath(); g.moveTo(cx0, cy0);
+  g.lineTo(cx0 + Math.cos(hAng) * cr * 0.45, cy0 + Math.sin(hAng) * cr * 0.45); g.stroke();
+  g.lineWidth = Math.max(1, cr * 0.05);
+  g.beginPath(); g.moveTo(cx0, cy0);
+  g.lineTo(cx0 + Math.cos(mAng) * cr * 0.68, cy0 + Math.sin(mAng) * cr * 0.68); g.stroke();
+
+  /* 7 — window frame: jambs, two mullions, lintel and sill */
+  g.fillStyle = 'rgba(3,6,11,0.9)';
+  var mw2 = Math.max(4, Math.min(w, h) * 0.0075);
+  g.fillRect(w * 0.40 - mw2 / 2, wy0, mw2, wy1 - wy0);
+  g.fillRect(w * 0.62 - mw2 / 2, wy0, mw2, wy1 - wy0);
+  g.fillRect(wx0 - mw2, wy0, mw2, wy1 - wy0);
+  g.fillRect(wx1, wy0, mw2, wy1 - wy0);
+  g.fillRect(wx0 - mw2, wy1, (wx1 - wx0) + mw2 * 2, mw2 * 1.5);
+  g.fillRect(wx0 - mw2, wy0 - mw2 * 1.2, (wx1 - wx0) + mw2 * 2, mw2 * 1.2);
+
+  /* 8 — floor sheen + extra top light in the lightning pass */
+  var fl = g.createLinearGradient(0, h * 0.70, 0, h);
+  fl.addColorStop(0, 'rgba(0,0,0,0)');
+  fl.addColorStop(1, lit ? 'rgba(95,145,195,0.16)' : 'rgba(70,110,160,0.07)');
+  g.fillStyle = fl; g.fillRect(0, h * 0.70, w, h * 0.30);
+  if (lit) {
+    var lg2 = g.createLinearGradient(0, 0, 0, h * 0.6);
+    lg2.addColorStop(0, 'rgba(180,210,245,0.10)');
+    lg2.addColorStop(1, 'rgba(0,0,0,0)');
+    g.fillStyle = lg2; g.fillRect(0, 0, w, h * 0.6);
+  }
+
+  /* export the monitor position for the animated glow sprite */
+  room.glowX = w * 0.2025;
+  room.glowY = h * 0.615;
+}
+function buildScenes() { drawRoom(sceneCtx, false); drawRoom(litCtx, true); }
+
+/* Frost = the dark room pushed through the halving chain. No noise, no
+   blotches — just clean diffused light, so the pane stays pristine. */
+function buildFrost() {
+  halfCtx.setTransform(1, 0, 0, 1, 0, 0);
+  halfCtx.clearRect(0, 0, cHalf.width, cHalf.height);
+  halfCtx.drawImage(scene, 0, 0, cHalf.width, cHalf.height);
+
+  quartCtx.setTransform(1, 0, 0, 1, 0, 0);
+  quartCtx.clearRect(0, 0, cQuart.width, cQuart.height);
+  quartCtx.drawImage(cHalf, 0, 0, cQuart.width, cQuart.height);
+
+  eighthCtx.setTransform(1, 0, 0, 1, 0, 0);
+  eighthCtx.clearRect(0, 0, cEighth.width, cEighth.height);
+  eighthCtx.drawImage(cQuart, 0, 0, cEighth.width, cEighth.height);
+
+  frostCtx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  frostCtx.clearRect(0, 0, RW, RH);
+  frostCtx.drawImage(cEighth, 0, 0, RW, RH);      // heavy blur = the frost body
+  frostCtx.globalAlpha = 0.22;                     // light second frequency:
+  frostCtx.drawImage(cQuart, 0, 0, RW, RH);        // keeps mid-tone structure
+  frostCtx.globalAlpha = 1;
+
+  /* a whisper of sheen at the top of the pane */
+  var sheen = frostCtx.createLinearGradient(0, 0, 0, RH * 0.45);
+  sheen.addColorStop(0, 'rgba(185,215,240,.05)');
+  sheen.addColorStop(1, 'rgba(185,215,240,0)');
+  frostCtx.fillStyle = sheen; frostCtx.fillRect(0, 0, RW, RH * 0.45);
+}
+
+/* --- PRE-BAKED SPRITES (built once, drawn thousands of times) ------------- */
+
+/* Droplet highlight: directional rim light, dark lower bend, primary +
+   counter speculars. Baked once → one drawImage per droplet per frame. */
+var dropSprite = document.createElement('canvas');
+(function buildDropSprite() {
+  dropSprite.width = dropSprite.height = 64;
+  var c = dropSprite.getContext('2d'), cx = 32, cy = 32, r = 29, g;
+  g = c.createRadialGradient(cx, cy - 3, 2, cx, cy, r);          // body tint
+  g.addColorStop(0, 'rgba(160,205,230,.10)');
+  g.addColorStop(1, 'rgba(120,160,195,.02)');
+  c.fillStyle = g; c.beginPath(); c.arc(cx, cy, r, 0, 6.2832); c.fill();
+  c.strokeStyle = 'rgba(4,12,22,.35)'; c.lineWidth = 2.4;         // dark lower rim
+  c.beginPath(); c.arc(cx, cy, r - 1.4, Math.PI * 0.12, Math.PI * 0.88); c.stroke();
+  c.strokeStyle = 'rgba(225,244,255,.55)'; c.lineWidth = 1.6;     // catch light
+  c.beginPath(); c.arc(cx, cy, r - 1.2, Math.PI * 1.08, Math.PI * 1.72); c.stroke();
+  g = c.createRadialGradient(cx - 9, cy - 11, 0, cx - 9, cy - 11, 7.5);   // primary spec
+  g.addColorStop(0, 'rgba(255,255,255,.92)');
+  g.addColorStop(1, 'rgba(255,255,255,0)');
+  c.fillStyle = g; c.beginPath(); c.arc(cx - 9, cy - 11, 7.5, 0, 6.2832); c.fill();
+  g = c.createRadialGradient(cx + 10, cy + 12, 0, cx + 10, cy + 12, 5);   // counter spec
+  g.addColorStop(0, 'rgba(190,225,250,.28)');
+  g.addColorStop(1, 'rgba(190,225,250,0)');
+  c.fillStyle = g; c.beginPath(); c.arc(cx + 10, cy + 12, 5, 0, 6.2832); c.fill();
+})();
+
+/* Hard glint — appears on droplets only while lightning flashes. */
+var glintSprite = document.createElement('canvas');
+(function buildGlint() {
+  glintSprite.width = glintSprite.height = 32;
+  var c = glintSprite.getContext('2d');
+  var g = c.createRadialGradient(16, 16, 0, 16, 16, 15);
+  g.addColorStop(0, 'rgba(255,255,255,1)');
+  g.addColorStop(0.3, 'rgba(235,248,255,.55)');
+  g.addColorStop(1, 'rgba(235,248,255,0)');
+  c.fillStyle = g; c.beginPath(); c.arc(16, 16, 15, 0, 6.2832); c.fill();
+})();
+
+/* Soft radial glow — reused by the monitor light and the pointer presence. */
+var glowSprite = document.createElement('canvas');
+(function buildGlow() {
+  glowSprite.width = glowSprite.height = 256;
+  var c = glowSprite.getContext('2d');
+  var g = c.createRadialGradient(128, 128, 0, 128, 128, 127);
+  g.addColorStop(0, 'rgba(150,200,240,.7)');
+  g.addColorStop(0.4, 'rgba(130,180,230,.22)');
+  g.addColorStop(1, 'rgba(120,170,220,0)');
+  c.fillStyle = g; c.beginPath(); c.arc(128, 128, 127, 0, 6.2832); c.fill();
+})();
+
+/* Wet-trail sheen — the path a runner leaves behind, catching the light. */
+var sheenC = document.createElement('canvas');
+(function buildSheen() {
+  sheenC.width = 48; sheenC.height = 160;
+  var c = sheenC.getContext('2d');
+  var h = c.createLinearGradient(0, 0, 48, 0);           // horizontal profile
+  h.addColorStop(0, 'rgba(255,255,255,0)');
+  h.addColorStop(0.5, 'rgba(230,244,255,.4)');
+  h.addColorStop(1, 'rgba(255,255,255,0)');
+  c.fillStyle = h; c.fillRect(0, 0, 48, 160);
+  c.globalCompositeOperation = 'destination-in';          // vertical falloff:
+  var v = c.createLinearGradient(0, 0, 0, 160);           // bright at the drop,
+  v.addColorStop(0, 'rgba(0,0,0,0)');                     // fading up the trail
+  v.addColorStop(0.55, 'rgba(0,0,0,.45)');
+  v.addColorStop(1, 'rgba(0,0,0,1)');
+  c.fillStyle = v; c.fillRect(0, 0, 48, 160);
+})();
+
+/* ====================================================================== */
+/* 4. PARALLAX — depth behind the glass                                    */
+/* ====================================================================== */
+/* The droplets live ON the pane, so they never move. The room behind the
+   pane shifts subtly with the pointer (and drifts on its own when idle),
+   with the far rain shifting at half rate — a clean front-to-back motion
+   gradient (drops 0 → near rain 0.15× → far rain 0.5× → room 1×) that makes
+   the whole scene read as a physical diorama. */
+var Parallax = {
+  tx: 0, ty: 0, x: 0, y: 0, hasPointer: false,
+  set: function (cx, cy) {
+    this.hasPointer = true;
+    this.tx = clamp((cx / W) * 2 - 1, -1, 1);
+    this.ty = clamp((cy / H) * 2 - 1, -1, 1);
+  },
+  update: function (dt, t) {
+    /* when nobody is touching the page, a slow autonomous drift keeps it alive */
+    var gx = this.hasPointer ? this.tx : Math.sin(t * 0.00019) * 0.35;
+    var gy = this.hasPointer ? this.ty : Math.cos(t * 0.00015) * 0.25;
+    var k = 1 - Math.exp(-2.6 * dt);
+    var m = REDUCED_MOTION ? 0.3 : 1;
+    this.x += (-gx * P * m - this.x) * k;
+    this.y += (-gy * P * 0.65 * m - this.y) * k;
+  }
+};
+
+/* ====================================================================== */
+/* 5. DROPLET PHYSICS — condensation, runners, trails, merging             */
+/* ====================================================================== */
+var drops = [];               // every droplet on the pane (static + running)
+var grid = new Map();         // spatial hash, rebuilt each frame
+var CELL = 26;                // grid cell size (px)
+var MAX_DROPS = 140;          // population ceiling, scaled to screen area
+var condenseAcc = 0;          // fractional accumulator for condensation
+
+var DROPLET = {
+  GRAVITY: 42,      // acceleration grows with mass past the slide threshold
+  DRAG: 1.15,       // viscous brake (1/s)
+  MAX_R: 5.6,       // radius cap before a runner sheds instead of growing
+  RUN_BASE: 2.35,   // base radius needed to break surface tension
+  EVAPORATE: 0.016  // static droplets slowly shrink (px/s)
+};
+
+function makeDrop(x, y, r, run) {
+  return {
+    x: x, y: y, r: r, vy: 0,
+    run: !!run,
+    th: DROPLET.RUN_BASE + Math.random() * 0.85, // personal slide threshold
+    grip: rand(0.55, 1.3),                        // per-drop "stiction"
+    wander: Math.random() * 6.283,                // lateral meander phase
+    trailGap: rand(3.2, 7.5),                     // px of travel per trail drop
+    lastTrailY: y,
+    dead: false
+  };
+}
+
+/* Seed the pane so it feels lived-in the instant the page opens. */
+function seedDroplets() {
+  drops.length = 0;
+  var n = Math.round(clamp((W * H) / 4200, 130, 420));
+  var i;
+  for (i = 0; i < n; i++) {
+    drops.push(makeDrop(Math.random() * W, Math.random() * H, rand(0.45, 2.2), false));
+  }
+  /* a few runners already mid-journey, with speed and mass */
+  var runners = Math.round(clamp(W / 320, 3, 8));
+  for (i = 0; i < runners; i++) {
+    var d = makeDrop(rand(W * 0.1, W * 0.9), rand(H * 0.15, H * 0.7), rand(2.6, 3.6), true);
+    d.vy = rand(6, 30);
+    drops.push(d);
+  }
+  MAX_DROPS = n;
+}
+
+/* Spatial hash rebuild — O(n), trivially cheap for a few hundred droplets. */
+function buildGrid() {
+  grid.clear();
+  for (var i = 0; i < drops.length; i++) {
+    var d = drops[i];
+    if (d.dead) continue;
+    var k = ((d.x / CELL) | 0) * 100000 + ((d.y / CELL) | 0);
+    var cell = grid.get(k);
+    if (cell) cell.push(d); else grid.set(k, [d]);
+  }
+}
+
+/* A runner sweeps up everything it touches. Area is conserved on merge
+   (r = √(r₁² + r₂²)) — which is why growth looks physically believable. */
+function absorbNeighbors(d) {
+  var reach = d.r + 8;
+  var x0 = ((d.x - reach) / CELL) | 0, x1 = ((d.x + reach) / CELL) | 0;
+  var y0 = ((d.y - reach) / CELL) | 0, y1 = ((d.y + reach) / CELL) | 0;
+  for (var gx = x0; gx <= x1; gx++) {
+    for (var gy = y0; gy <= y1; gy++) {
+      var cell = grid.get(gx * 100000 + gy);
+      if (!cell) continue;
+      for (var i = 0; i < cell.length; i++) {
+        var o = cell[i];
+        if (!o || o === d || o.dead) continue;
+        var dx = o.x - d.x, dy = o.y - d.y;
+        var rr = (d.r + o.r) * 0.72;
+        if (dx * dx + dy * dy < rr * rr) {
+          d.r = Math.min(DROPLET.MAX_R, Math.sqrt(d.r * d.r + o.r * o.r));
+          if (o.run) d.vy = d.vy * 0.6 + o.vy * 0.4;      // momentum blend
+          o.dead = true;
+        }
+      }
+    }
+  }
+}
+
+/* Find an existing droplet near (x, y) that a fresh condensate would join. */
+function findHost(x, y, r) {
+  var x0 = ((x - 14) / CELL) | 0, x1 = ((x + 14) / CELL) | 0;
+  var y0 = ((y - 14) / CELL) | 0, y1 = ((y + 14) / CELL) | 0;
+  for (var gx = x0; gx <= x1; gx++) {
+    for (var gy = y0; gy <= y1; gy++) {
+      var cell = grid.get(gx * 100000 + gy);
+      if (!cell) continue;
+      for (var i = 0; i < cell.length; i++) {
+        var o = cell[i];
+        if (!o || o.dead) continue;
+        var dx = o.x - x, dy = o.y - y, rr = (o.r + r) * 0.95;
+        if (dx * dx + dy * dy < rr * rr) return o;
+      }
+    }
+  }
+  return null;
+}
+
+/* One condensation event. Moisture favours bigger droplets (tournament
+   selection — bigger catch area), which drives statics across their tension
+   threshold and down the pane. Wind slightly raises the rate. */
+function condenseOne() {
+  var best = null;
+  for (var t = 0; t < 3; t++) {
+    var cand = drops[(Math.random() * drops.length) | 0];
+    if (cand && !cand.dead && !cand.run && cand.r < DROPLET.MAX_R && (!best || cand.r > best.r)) best = cand;
+  }
+  if (best && Math.random() < 0.72) {
+    best.r += rand(0.05, 0.1);
+    if (best.r >= best.th) { best.run = true; best.vy = 1.5; best.lastTrailY = best.y; }
+  } else if (drops.length < MAX_DROPS) {
+    var x = Math.random() * W, y = Math.random() * H, r = rand(0.4, 1.5);
+    var host = findHost(x, y, r);
+    if (host) {
+      host.r = Math.min(DROPLET.MAX_R, Math.sqrt(host.r * host.r + r * r));
+      if (!host.run && host.r >= host.th) { host.run = true; host.vy = 1.5; host.lastTrailY = host.y; }
+    } else {
+      drops.push(makeDrop(x, y, r, false));
+    }
+  }
+}
+
+function updateDroplets(dt) {
+  buildGrid();
+
+  condenseAcc += dt * (16 + wind01 * 10) * quality;
+  while (condenseAcc >= 1 && drops.length) { condenseAcc -= 1; condenseOne(); }
+
+  var evap = DROPLET.EVAPORATE * dt;
+
+  for (var i = 0; i < drops.length; i++) {
+    var d = drops[i];
+    if (d.dead) continue;
+
+    if (d.run) {
+      /* --- runner: gravity grows with mass, drag brakes it --- */
+      d.vy += Math.max(0, d.r - 2.0) * DROPLET.GRAVITY * d.grip * dt;
+      d.vy -= d.vy * DROPLET.DRAG * dt;
+      var vmax = 46 + d.r * 26;                     // terminal velocity
+      if (d.vy > vmax) d.vy = vmax;
+      d.y += d.vy * dt;
+      d.wander += dt * 2.2;                         // rivulets never run straight
+      d.x += Math.sin(d.wander) * 7 * dt + wind01 * 5 * dt;   // wind leans them
+
+      /* shed mass into a trail bead every few px — the visible rivulet */
+      while (d.y - d.lastTrailY >= d.trailGap) {
+        d.lastTrailY += d.trailGap;
+        if (drops.length < MAX_DROPS * (0.7 + 0.65 * quality)) {
+          var tr = rand(0.45, 1.15);
+          drops.push(makeDrop(clamp(d.x + rand(-1.1, 1.1), 1, W - 1), d.lastTrailY, tr, false));
+          d.r = Math.max(1.7, Math.sqrt(Math.max(0.01, d.r * d.r - tr * tr)));
+        }
+        d.trailGap = rand(3.2, 7.5);
+      }
+
+      absorbNeighbors(d);                           // sweep & merge on the way
+      if (d.r < 2.05) { d.run = false; d.vy = 0; }  // shed too much → settle
+      if (d.y - d.r > H + 8) d.dead = true;         // slid off the pane
+    } else if ((d.r -= evap) < 0.28) {
+      d.dead = true;                                // fully evaporated
+    }
+  }
+
+  /* compact the array (swap-pop keeps it O(n)) */
+  for (var j = drops.length - 1; j >= 0; j--) {
+    if (drops[j].dead) { drops[j] = drops[drops.length - 1]; drops.pop(); }
+  }
+}
+
+/* Droplet rendering — the heart of the illusion.
+   Tiny drops (condensate + trail beads) get the cheap glint sprite.
+   Real drops get: clip → inverted magnified sample of the room (a true
+   lens, with parallax and the lit-scene swap during flashes) → baked
+   directional highlight → optional lightning glint. Runners stretch
+   with speed. */
+function renderDroplets(flash) {
+  var src = flash > 0.35 ? litScene : scene;
+  var tinyAlpha = 0.35 + flash * 0.25;
+  var bigAlpha = 0.8 + flash * 0.5;
+  var px = Parallax.x, py = Parallax.y;
+  var i, d, s;
+
+  for (i = 0; i < drops.length; i++) {
+    d = drops[i];
+    if (d.dead) continue;
+    var stretch = d.run ? 1 + Math.min(d.vy * 0.0016, 0.42) : 1;
+
+    if (d.r < 1.35) {
+      s = d.r * 2.6;
+      ctx.globalAlpha = tinyAlpha;
+      ctx.drawImage(dropSprite, d.x - s * 0.5, d.y - s * 0.5, s, s);
+    } else {
+      var rr = d.r * 1.06;                          // surface-tension bulge
+      ctx.save();
+      ctx.translate(d.x, d.y);
+      ctx.scale(1, stretch);
+      ctx.beginPath();
+      ctx.arc(0, 0, rr, 0, 6.2832);
+      ctx.clip();
+      var mag = 1 + d.r * 0.05;                      // lens magnification
+      ctx.scale(mag, -mag);                          // vertical flip = refraction
+      ctx.drawImage(src, px - d.x - P, py - d.y - P, RW, RH);
+      ctx.restore();
+
+      s = rr * 2.35;                                 // crisp optical highlight
+      ctx.globalAlpha = Math.min(1, bigAlpha);
+      ctx.drawImage(dropSprite, d.x - s / 2, d.y - (s * stretch) / 2, s, s * stretch);
+
+      /* lightning glint — only a deterministic subset, so it sparkles */
+      if (flash > 0.12 && d.r > 2 && ((i * 7919) % 97) < 34) {
+        ctx.globalAlpha = Math.min(1, flash) * 0.85;
+        var gs = d.r * 1.5;
+        ctx.drawImage(glintSprite, d.x - gs / 2, d.y - gs / 2, gs, gs);
+      }
+    }
+  }
+  ctx.globalAlpha = 1;
+}
+
+/* Wet-trail sheens — the polished path each runner has travelled. */
+function renderSheens(flash) {
+  ctx.globalCompositeOperation = 'screen';
+  for (var i = 0; i < drops.length; i++) {
+    var d = drops[i];
+    if (d.dead || !d.run || d.vy < 9) continue;
+    var hgt = Math.min(96, 14 + d.r * 15);
+    var w = Math.max(2, d.r * 1.05);
+    ctx.globalAlpha = 0.05 + flash * 0.06;
+    ctx.drawImage(sheenC, d.x - w / 2, d.y - hgt, w, hgt);
+  }
+  ctx.globalAlpha = 1;
+  ctx.globalCompositeOperation = 'source-over';
+}
+
+/* ====================================================================== */
+/* 6. RAIN STREAKS + WIND — two parallax depths, wind-coupled             */
+/* ====================================================================== */
+var farStreaks = [], nearStreaks = [];
+var WIND = 0.16;               // current streak slope (dx/dy) — wind-driven
+var wind01 = 0.5;              // smoothed wind, 0..1
+var windT = 0;                 // wind clock
+
+function resetFar(s, anywhere) {
+  s.x = rand(-FARM, W + FARM);
+  s.y = anywhere ? rand(-40, H) : -rand(20, H * 0.4);
+  s.sp = rand(480, 880);
+  s.len = rand(12, 30);
+  s.a = rand(0.035, 0.09);
+  return s;
+}
+function resetNear(s, anywhere) {
+  s.x = rand(-12, W + 12);
+  s.y = anywhere ? rand(-30, H) : -rand(10, H * 0.35);
+  s.sp = rand(950, 1550);
+  s.len = rand(26, 54);
+  s.a = rand(0.09, 0.19);
+  return s;
+}
+function initStreaks() {
+  var area = W * H;
+  var nf = Math.round(clamp(area / 26000, 34, 96) * quality);
+  var nn = Math.round(clamp(area / 36000, 18, 56) * quality);
+  farStreaks = []; for (var i = 0; i < nf; i++) farStreaks.push(resetFar({}, true));
+  nearStreaks = []; for (var j = 0; j < nn; j++) nearStreaks.push(resetNear({}, true));
+}
+
+function updateStreaks(dt) {
+  var i, s;
+  for (i = 0; i < farStreaks.length; i++) {
+    s = farStreaks[i];
+    s.y += s.sp * (0.85 + wind01 * 0.3) * dt;
+    s.x -= s.sp * WIND * dt;
+    if (s.y > H + FARMV || s.x < -FARM * 3) resetFar(s, false);
+  }
+  for (i = 0; i < nearStreaks.length; i++) {
+    s = nearStreaks[i];
+    s.y += s.sp * dt;
+    s.x -= s.sp * WIND * dt;
+    if (s.y > H + 30 || s.x < -60) resetNear(s, false);
+  }
+}
+
+function renderStreaks(flash) {
+  var i, s;
+  /* FAR layer is rendered on a quarter-res canvas and upscaled — the
+     bilinear upscale is a free optical blur, so distant rain reads soft. */
+  farCtx.setTransform(DPR / 4, 0, 0, DPR / 4, 0, 0);
+  farCtx.clearRect(0, 0, FAR_W, FAR_H);
+  farCtx.lineWidth = 1.5; farCtx.lineCap = 'round';
+  farCtx.strokeStyle = 'rgb(160,192,226)';
+  for (i = 0; i < farStreaks.length; i++) {
+    s = farStreaks[i];
+    farCtx.globalAlpha = Math.min(0.35, s.a + flash * 0.05);
+    farCtx.beginPath();
+    farCtx.moveTo(s.x, s.y);
+    farCtx.lineTo(s.x + s.len * WIND, s.y - s.len);
+    farCtx.stroke();
+  }
+  farCtx.globalAlpha = 1;
+  ctx.drawImage(farC, Parallax.x * 0.5 - FARM, Parallax.y * 0.5 - FARMV, FAR_W, FAR_H);
+
+  /* NEAR layer: crisper streaks, drifting at ~15% of room parallax */
+  ctx.save();
+  ctx.translate(Parallax.x * 0.15, Parallax.y * 0.15);
+  ctx.lineWidth = 1.1; ctx.lineCap = 'round';
+  ctx.strokeStyle = 'rgb(198,222,248)';
+  for (i = 0; i < nearStreaks.length; i++) {
+    s = nearStreaks[i];
+    ctx.globalAlpha = Math.min(0.4, s.a + flash * 0.06);
+    ctx.beginPath();
+    ctx.moveTo(s.x, s.y);
+    ctx.lineTo(s.x + s.len * WIND, s.y - s.len);
+    ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+  ctx.restore();
+}
+
+/* ====================================================================== */
+/* 7. LIGHTNING CONTROLLER — flash envelope + fractal bolts + thunder sync */
+/* ====================================================================== */
+var lightningEl = document.getElementById('lightning');
+var Lightning = {
+  level: 0, pulses: [], activeUntil: 0, nextAt: 0, lastWritten: -1, hasBolt: false,
+
+  prime: function (now) { this.nextAt = now + rand(3500, 7000); },
+
+  trigger: function (now) {
+    /* 2–4 rapid flickers with descending peaks — the double-strike look */
+    this.pulses = [];
+    var t = now, peak = rand(0.55, 1);
+    var n = 2 + ((Math.random() * 3) | 0);
+    for (var i = 0; i < n; i++) {
+      this.pulses.push({ at: t, v: peak * rand(0.7, 1) });
+      t += rand(60, 190);
+      peak *= rand(0.55, 0.85);
+    }
+    this.activeUntil = t + 280;
+    this.nextAt = now + rand(9000, 22000);
+    this.hasBolt = Math.random() < 0.4 && !REDUCED_MOTION;
+    if (this.hasBolt) renderBolt();
+    /* thunder lands WITH the flash — near strikes crack, distant ones roll */
+    AudioFX.thunder(this.hasBolt ? rand(0.75, 1) : rand(0.35, 0.7), this.hasBolt);
+  },
+
+  update: function (now, dt) {
+    if (now >= this.nextAt) this.trigger(now);
+    if (now > this.activeUntil) this.pulses.length = 0;
+
+    var target = 0;
+    for (var i = 0; i < this.pulses.length; i++) {
+      var p = this.pulses[i];
+      if (now >= p.at && now < p.at + 140) target = Math.max(target, p.v);
+    }
+    var rate = target > this.level ? 26 : 9;        // fast attack, slow release
+    this.level += (target - this.level) * (1 - Math.exp(-rate * dt));
+    if (this.level < 0.004 && target === 0) this.level = 0;
+
+    /* write to the DOM only when meaningfully changed */
+    var shown = this.level * (REDUCED_MOTION ? 0.45 : 0.9);
+    if (Math.abs(shown - this.lastWritten) > 0.003 || (shown === 0 && this.lastWritten !== 0)) {
+      lightningEl.style.opacity = shown.toFixed(3);
+      this.lastWritten = shown;
+    }
+    return this.level;
+  }
+};
+
+/* Fractal bolt: midpoint-displaced main channel + thrown branches, drawn
+   in three width passes onto the half-res bolt canvas (its upscale doubles
+   as the through-the-frost blur). Rendered once per strike. */
+function renderBolt() {
+  var bw = W, bh = H * 0.72;
+  bctx.setTransform(0.5, 0, 0, 0.5, 0, 0);
+  bctx.clearRect(0, 0, bw, bh);
+  bctx.lineCap = 'round'; bctx.lineJoin = 'round';
+
+  /* main channel via recursive midpoint displacement */
+  var pts = [
+    { x: rand(bw * 0.18, bw * 0.82), y: -bh * 0.03 },
+    { x: rand(bw * 0.18, bw * 0.82), y: rand(bh * 0.5, bh * 0.85) }
+  ];
+  var disp = bh * 0.10, it, i;
+  for (it = 0; it < 6; it++) {
+    var ns = [pts[0]];
+    for (i = 1; i < pts.length; i++) {
+      var a = pts[i - 1], b = pts[i];
+      ns.push({
+        x: (a.x + b.x) / 2 + rand(-1, 1) * disp,
+        y: (a.y + b.y) / 2 + rand(-0.25, 0.25) * disp * 0.3
+      }, b);
+    }
+    pts = ns; disp *= 0.52;
+  }
+
+  /* branches, thrown off the upper portion of the channel */
+  var branches = [];
+  var nBr = 2 + ((Math.random() * 3) | 0);
+  for (var k = 0; k < nBr; k++) {
+    var p = pts[4 + ((Math.random() * (pts.length - 8)) | 0)];
+    var ang = Math.PI / 2 + rand(-1.1, 1.1);
+    var len = rand(bh * 0.12, bh * 0.3);
+    var bp = [{ x: p.x, y: p.y }, { x: p.x + Math.cos(ang) * len, y: p.y + Math.sin(ang) * len }];
+    var bd = disp * 1.4;
+    for (it = 0; it < 4; it++) {
+      var bs = [bp[0]];
+      for (i = 1; i < bp.length; i++) {
+        var a2 = bp[i - 1], b2 = bp[i];
+        bs.push({ x: (a2.x + b2.x) / 2 + rand(-1, 1) * bd, y: (a2.y + b2.y) / 2 }, b2);
+      }
+      bp = bs; bd *= 0.55;
+    }
+    branches.push(bp);
+  }
+
+  /* three width passes = cheap volumetric glow */
+  var passes = [{ w: 7, a: 0.06 }, { w: 3, a: 0.16 }, { w: 1.3, a: 0.85 }];
+  for (var pi = 0; pi < passes.length; pi++) {
+    var pass = passes[pi];
+    bctx.strokeStyle = 'rgba(215,236,255,' + pass.a + ')';
+    bctx.lineWidth = pass.w;
+    bctx.beginPath();
+    bctx.moveTo(pts[0].x, pts[0].y);
+    for (i = 1; i < pts.length; i++) bctx.lineTo(pts[i].x, pts[i].y);
+    bctx.stroke();
+    bctx.lineWidth = pass.w * 0.4;
+    for (var bi = 0; bi < branches.length; bi++) {
+      var br = branches[bi];
+      bctx.beginPath();
+      bctx.moveTo(br[0].x, br[0].y);
+      for (i = 1; i < br.length; i++) bctx.lineTo(br[i].x, br[i].y);
+      bctx.stroke();
+    }
+  }
+}
+
+/* ====================================================================== */
+/* 8. AUDIO SYNTHESIS ENGINE (pure Web Audio — zero external files)        */
+/* ====================================================================== */
+/* Signal graph:
+     pink noise ─ lowpass(LFO) ─ rain body ─┐
+     pink noise ─ highpass ─ droplet hiss ─┤
+     pink noise ─ bandpass ─ wind bed ──────┤        ┌ convolver (generated
+     triangle pads ─ lowpass ─ chord env ───┼ master └ reverb) → master
+     FM glass notes / plucks / drips ───────┤   → compressor → destination
+     brown noise + sub osc = thunder ───────┘
+   The wind bed's gain and filter follow the SAME wind value that leans the
+   visual rain — the storm you hear and the storm you see are one system. */
+var AudioFX = (function () {
+  var ac = null, master = null, convolver = null;
+  var bodyGain = null, windFilter = null, windGain = null;
+  var muted = false, started = false, running = false;
+  var nextChordAt = 0, chordIdx = 0, nextMotifAt = 0;
+  var pinkBuf = null, brownBuf = null;
+
+  /* Slow, wistful progression: Am(add9) → Fmaj7 → Cmaj7 → Em(add9) */
+  var CHORDS = [
+    [110.00, 164.81, 246.94, 261.63],
+    [87.31, 130.81, 164.81, 220.00],
+    [130.81, 196.00, 246.94, 329.63],
+    [82.41, 123.47, 185.00, 196.00]
+  ];
+  var PENTA = [440, 523.25, 587.33, 659.25, 783.99, 880];  // A-minor colour
+  var CHORD_DUR = 13, CHORD_STEP = 8;                      // 4s crossfades
+
+  /* --- noise buffers --------------------------------------------------- */
+  function makeNoise(kind, seconds) {
+    var n = Math.floor(ac.sampleRate * seconds);
+    var buf = ac.createBuffer(2, n, ac.sampleRate);
+    for (var ch = 0; ch < 2; ch++) {
+      var out = buf.getChannelData(ch);
+      if (kind === 'pink') {
+        /* Paul Kellet pink noise — the body of the rain */
+        var b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+        for (var i = 0; i < n; i++) {
+          var w = Math.random() * 2 - 1;
+          b0 = 0.99886 * b0 + w * 0.0555179; b1 = 0.99332 * b1 + w * 0.0750759;
+          b2 = 0.96900 * b2 + w * 0.1538520; b3 = 0.86650 * b3 + w * 0.3104856;
+          b4 = 0.55000 * b4 + w * 0.5329522; b5 = -0.7616 * b5 - w * 0.0168980;
+          out[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + w * 0.5362) * 0.11;
+          b6 = w * 0.115926;
+        }
+      } else {
+        /* brown noise — integrated white, normalised (thunder fuel) */
+        var last = 0, mx = 0;
+        for (var j = 0; j < n; j++) {
+          last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02;
+          out[j] = last * 3.5;
+          if (Math.abs(out[j]) > mx) mx = Math.abs(out[j]);
+        }
+        if (mx > 0) { var g = 0.9 / mx; for (var k = 0; k < n; k++) out[k] *= g; }
+      }
+    }
+    return buf;
+  }
+
+  /* Decaying-noise impulse → a real ConvolverNode reverb, generated on the fly */
+  function impulse(seconds, pow) {
+    var n = Math.floor(ac.sampleRate * seconds);
+    var buf = ac.createBuffer(2, n, ac.sampleRate);
+    for (var ch = 0; ch < 2; ch++) {
+      var d = buf.getChannelData(ch);
+      for (var i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, pow);
+    }
+    return buf;
+  }
+
+  /* route a voice: dry to master (+ optional stereo placement + wet send) */
+  function routeOut(node, wetAmt, pan) {
+    var out = node;
+    if (ac.createStereoPanner) {
+      var p = ac.createStereoPanner();
+      p.pan.value = (pan === undefined) ? rand(-0.6, 0.6) : pan;
+      node.connect(p); out = p;
+    }
+    out.connect(master);
+    var send = ac.createGain(); send.gain.value = wetAmt;
+    out.connect(send); send.connect(convolver);
+  }
+
+  /* --- continuous beds --------------------------------------------------- */
+  function startRain() {
+    pinkBuf = makeNoise('pink', 3);
+
+    /* Layer 1: pink noise through an LFO-breathing lowpass — rain body */
+    var body = ac.createBufferSource(); body.buffer = pinkBuf; body.loop = true;
+    var lp = ac.createBiquadFilter(); lp.type = 'lowpass';
+    lp.frequency.value = 1100; lp.Q.value = 0.3;
+    bodyGain = ac.createGain(); bodyGain.gain.value = 0.13;
+    body.connect(lp); lp.connect(bodyGain); bodyGain.connect(master);
+    var send = ac.createGain(); send.gain.value = 0.3;
+    bodyGain.connect(send); send.connect(convolver);
+    var lfo = ac.createOscillator(); lfo.frequency.value = 0.05;   // storm breathes
+    var lfoAmt = ac.createGain(); lfoAmt.gain.value = 260;
+    lfo.connect(lfoAmt); lfoAmt.connect(lp.frequency);
+    body.start(); lfo.start();
+
+    /* Layer 2: quiet high hiss — texture of individual droplets */
+    var hiss = ac.createBufferSource(); hiss.buffer = pinkBuf; hiss.loop = true;
+    var hp = ac.createBiquadFilter(); hp.type = 'highpass';
+    hp.frequency.value = 4300; hp.Q.value = 0.4;
+    var hg = ac.createGain(); hg.gain.value = 0.02;
+    hiss.connect(hp); hp.connect(hg); hg.connect(master);
+    hiss.start();
+
+    /* Layer 3: the WIND — bandpassed noise whose gain and frequency are
+       driven from the main loop by setWind(), in lockstep with the visual
+       rain lean. This is the audio↔visual glue of the whole storm. */
+    var wind = ac.createBufferSource(); wind.buffer = pinkBuf; wind.loop = true;
+    windFilter = ac.createBiquadFilter(); windFilter.type = 'bandpass';
+    windFilter.frequency.value = 320; windFilter.Q.value = 0.9;
+    windGain = ac.createGain(); windGain.gain.value = 0;
+    wind.connect(windFilter); windFilter.connect(windGain); windGain.connect(master);
+    var wSend = ac.createGain(); wSend.gain.value = 0.4;
+    windGain.connect(wSend); wSend.connect(convolver);
+    wind.start();
+  }
+
+  /* --- one ambient pad chord: detuned triangles → LP → long envelope ----- */
+  function playChord(freqs, t, dur) {
+    var env = ac.createGain();
+    env.gain.setValueAtTime(0, t);
+    env.gain.linearRampToValueAtTime(1, t + 4);              // slow swell
+    env.gain.setValueAtTime(1, t + dur - 4.4);
+    env.gain.linearRampToValueAtTime(0.0001, t + dur);        // long release
+    var lp = ac.createBiquadFilter(); lp.type = 'lowpass';
+    lp.frequency.value = 780; lp.Q.value = 0.35;
+    env.connect(lp);
+    var send = ac.createGain(); send.gain.value = 0.55;
+    lp.connect(send); send.connect(convolver);
+    lp.connect(master);
+    for (var i = 0; i < freqs.length; i++) {
+      var dets = [-4.5, 4];
+      for (var j = 0; j < dets.length; j++) {
+        var o = ac.createOscillator();
+        o.type = 'triangle'; o.frequency.value = freqs[i];
+        o.detune.value = dets[j] + rand(-1.5, 1.5);
+        var og = ac.createGain(); og.gain.value = 0.045;
+        o.connect(og); og.connect(env);
+        o.start(t); o.stop(t + dur + 0.1);
+      }
+    }
+  }
+
+  /* --- FM "glass" note: the melody of memory, sparse and distant --------- */
+  function glassNote(f, t, vel) {
+    var car = ac.createOscillator(); car.type = 'sine'; car.frequency.value = f;
+    var mod = ac.createOscillator(); mod.type = 'sine'; mod.frequency.value = f * 2.004;
+    var mg = ac.createGain();
+    mg.gain.setValueAtTime(f * 1.6, t);                       // bright attack…
+    mg.gain.exponentialRampToValueAtTime(f * 0.05, t + 0.5); // …mellowing out
+    mod.connect(mg); mg.connect(car.frequency);
+    var env = ac.createGain();
+    env.gain.setValueAtTime(0, t);
+    env.gain.linearRampToValueAtTime(vel, t + 0.015);
+    env.gain.exponentialRampToValueAtTime(0.0004, t + 3.2);
+    car.connect(env);
+    routeOut(env, 0.85);
+    car.start(t); mod.start(t);
+    car.stop(t + 3.3); mod.stop(t + 3.3);
+  }
+
+  /* A 3–6 note motif from the A-minor pentatonic, drifting through the
+     reverb every ~30 seconds — never the same phrase twice. */
+  function motif() {
+    var t = ac.currentTime + 0.05;
+    var n = 3 + ((Math.random() * 3) | 0);
+    var idx = 1 + ((Math.random() * 2) | 0);
+    for (var i = 0; i < n; i++) {
+      glassNote(PENTA[idx], t + i * 0.01, 0.05);   // real times accumulated below
+      t += rand(0.9, 1.8);
+      idx += Math.random() < 0.5 ? -1 : 1;
+      idx = clamp(idx, 0, PENTA.length - 1);
+    }
+  }
+
+  /* --- music-box pluck: quick falling-pitch sine ------------------------- */
+  function pluck() {
+    var t = ac.currentTime + 0.02;
+    var f = PENTA[(Math.random() * PENTA.length) | 0] * (Math.random() < 0.25 ? 0.5 : 1);
+    var o = ac.createOscillator(); o.type = 'sine';
+    o.frequency.setValueAtTime(f * 1.017, t);
+    o.frequency.exponentialRampToValueAtTime(f, t + 0.11);
+    var g = ac.createGain();
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(0.05, t + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0004, t + 2.9);
+    o.connect(g); routeOut(g, 0.85);
+    o.start(t); o.stop(t + 3.1);
+  }
+
+  /* --- single water drip ------------------------------------------------- */
+  function drip() {
+    var t = ac.currentTime + 0.02;
+    var f = rand(750, 2100);
+    var o = ac.createOscillator(); o.type = 'sine';
+    o.frequency.setValueAtTime(f * 1.45, t);
+    o.frequency.exponentialRampToValueAtTime(f, t + 0.06);
+    var g = ac.createGain();
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(rand(0.008, 0.02), t + 0.006);
+    g.gain.exponentialRampToValueAtTime(0.0003, t + rand(0.1, 0.22));
+    o.connect(g); routeOut(g, 0.5);
+    o.start(t); o.stop(t + 0.35);
+  }
+
+  /* --- THUNDER: crack (near strikes) + rolling rumble + sub floor --------
+     The envelope is a setValueCurveAtTime shape with internal undulation,
+     so the thunder genuinely rolls. Called in lockstep with the flash. */
+  function thunder(intensity, near) {
+    if (!ac || !running) return;
+    if (!brownBuf) brownBuf = makeNoise('brown', 4);
+    var t = ac.currentTime + 0.02;
+    var dur = rand(2.6, 4.4);
+
+    /* 1) rumble: brown noise swept down through a lowpass */
+    var src = ac.createBufferSource(); src.buffer = brownBuf; src.loop = true;
+    var lp = ac.createBiquadFilter(); lp.type = 'lowpass';
+    lp.frequency.setValueAtTime(260 + 260 * intensity, t);
+    lp.frequency.exponentialRampToValueAtTime(46, t + dur * 0.8);
+    var g = ac.createGain();
+    var N = 256, curve = new Float32Array(N), ph = Math.random() * 6.283;
+    for (var i = 0; i < N; i++) {
+      var p = i / (N - 1);
+      var v = Math.pow(1 - p, 1.55) *
+              (0.62 + 0.38 * Math.sin(p * 23 + ph) * Math.sin(p * 7.1 + ph * 2));
+      v = Math.max(0, v) * (p < 0.035 ? p / 0.035 : 1);      // ~100ms attack
+      curve[i] = v * 0.65 * intensity;
+    }
+    g.gain.setValueCurveAtTime(curve, t, dur);
+    src.connect(lp); lp.connect(g);
+    routeOut(g, 0.15, rand(-0.3, 0.3));
+    src.start(t, rand(0, 2)); src.stop(t + dur + 0.1);
+
+    /* 2) sub-bass floor under the rumble */
+    var sub = ac.createOscillator(); sub.type = 'sine';
+    sub.frequency.setValueAtTime(rand(46, 60), t);
+    sub.frequency.exponentialRampToValueAtTime(28, t + dur * 0.7);
+    var sg = ac.createGain();
+    sg.gain.setValueAtTime(0, t);
+    sg.gain.linearRampToValueAtTime(0.22 * intensity, t + 0.1);
+    sg.gain.exponentialRampToValueAtTime(0.0005, t + dur);
+    sub.connect(sg); sg.connect(master);
+    sub.start(t); sub.stop(t + dur + 0.1);
+
+    /* 3) the crack — only for near (bolt) strikes */
+    if (near) {
+      var cs = ac.createBufferSource(); cs.buffer = pinkBuf;
+      var hp2 = ac.createBiquadFilter(); hp2.type = 'highpass'; hp2.frequency.value = 700;
+      var cg = ac.createGain();
+      cg.gain.setValueAtTime(0, t);
+      cg.gain.linearRampToValueAtTime(0.5 * intensity, t + 0.012);
+      cg.gain.exponentialRampToValueAtTime(0.001, t + 0.28);
+      cs.connect(hp2); hp2.connect(cg);
+      routeOut(cg, 0.5, rand(-0.4, 0.4));
+      cs.start(t, rand(0, 2)); cs.stop(t + 0.35);
+    }
+  }
+
+  /* --- soft two-note confirmation chime when a message is sent ----------- */
+  function sendChime() {
+    if (!ac || !running) return;
+    var t = ac.currentTime + 0.02, notes = [659.25, 880];
+    for (var i = 0; i < notes.length; i++) {
+      var t0 = t + i * 0.09;
+      var o = ac.createOscillator(); o.type = 'sine'; o.frequency.value = notes[i];
+      var g = ac.createGain();
+      g.gain.setValueAtTime(0, t0);
+      g.gain.linearRampToValueAtTime(0.04, t0 + 0.015);
+      g.gain.exponentialRampToValueAtTime(0.0004, t0 + 0.9);
+      o.connect(g); routeOut(g, 0.7);
+      o.start(t0); o.stop(t0 + 1.1);
+    }
+  }
+
+  /* --- lookahead scheduler: keeps chords, motifs & chance events flowing - */
+  function tick() {
+    if (!ac || ac.state !== 'running') return;
+    if (nextChordAt < ac.currentTime) nextChordAt = ac.currentTime + 0.15; // self-heal
+    while (nextChordAt < ac.currentTime + 6) {
+      playChord(CHORDS[chordIdx % CHORDS.length], nextChordAt, CHORD_DUR);
+      chordIdx++;
+      nextChordAt += CHORD_STEP;
+    }
+    if (ac.currentTime > nextMotifAt) {
+      motif();
+      nextMotifAt = ac.currentTime + rand(24, 44);
+    }
+    if (Math.random() < 0.11) pluck();
+    if (Math.random() < 0.5) drip();
+  }
+
+  /* Fires exactly once, the moment the context reaches 'running' */
+  function onRunning() {
+    if (started) return;
+    started = true; running = true;
+    nextChordAt = ac.currentTime + 0.25;
+    nextMotifAt = ac.currentTime + 14;
+    master.gain.cancelScheduledValues(ac.currentTime);
+    master.gain.setValueAtTime(0, ac.currentTime);
+    master.gain.linearRampToValueAtTime(muted ? 0 : 0.85, ac.currentTime + 2.2);
+  }
+
+  /* Unrestricted-autoplay architecture: create the context immediately on
+     load, try to resume at once, and silently intercept the user's very
+     first gesture (pointer / touch / click / key / wheel) as a fallback. */
+  function attachUnlock() {
+    var events = ['pointerdown', 'touchstart', 'touchend', 'mousedown',
+                  'click', 'keydown', 'wheel'];
+    var resume = function () {
+      if (!ac) return;
+      if (ac.state === 'running') { onRunning(); return; }
+      var p = ac.resume();
+      if (p && p.then) p.then(function () { if (ac.state === 'running') onRunning(); })
+                        .catch(function () {});
+    };
+    for (var i = 0; i < events.length; i++) {
+      window.addEventListener(events[i], resume, { passive: true });
+    }
+    ac.onstatechange = function () { if (ac && ac.state === 'running') onRunning(); };
+  }
+
+  function init() {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return false;
+    try { ac = new AC(); } catch (e) { return false; }
+
+    /* master → compressor → destination: glues rain, pads and thunder */
+    master = ac.createGain(); master.gain.value = 0;
+    var comp = ac.createDynamicsCompressor();
+    comp.threshold.value = -20; comp.knee.value = 22; comp.ratio.value = 6;
+    comp.attack.value = 0.004; comp.release.value = 0.28;
+    master.connect(comp); comp.connect(ac.destination);
+
+    convolver = ac.createConvolver();
+    convolver.buffer = impulse(3.2, 3.1);
+    var wet = ac.createGain(); wet.gain.value = 0.55;
+    convolver.connect(wet); wet.connect(master);
+
+    startRain();
+    nextChordAt = ac.currentTime + 0.2;
+    setInterval(tick, 700);
+    attachUnlock();
+
+    /* immediate resume attempt — succeeds wherever autoplay is permitted */
+    var p = ac.resume();
+    if (p && p.then) p.then(function () { if (ac.state === 'running') onRunning(); })
+                      .catch(function () {});
+    if (ac.state === 'running') onRunning();
+    return true;
+  }
+
+  /* called from the main loop ~4×/s — audio follows the visual wind */
+  function setWind(w01) {
+    if (!ac || !running) return;
+    var t = ac.currentTime;
+    windGain.gain.setTargetAtTime(0.006 + w01 * 0.055, t, 0.7);
+    windFilter.frequency.setTargetAtTime(240 + w01 * 380, t, 0.7);
+    bodyGain.gain.setTargetAtTime(0.115 + w01 * 0.05, t, 0.9);
+  }
+
+  function toggleMute() {
+    muted = !muted;
+    if (ac && master && running) {
+      var t = ac.currentTime;
+      master.gain.cancelScheduledValues(t);
+      master.gain.setTargetAtTime(muted ? 0 : 0.85, t, 0.12);
+    }
+    return muted;
+  }
+
+  return {
+    init: init, thunder: thunder, sendChime: sendChime,
+    setWind: setWind, toggleMute: toggleMute,
+    isRunning: function () { return running; }
+  };
+})();
+
+/* ====================================================================== */
+/* 9. MAIN LOOP — wind, parallax, physics, render, adaptive quality        */
+/* ====================================================================== */
+var rafId = 0, lastT = performance.now();
+var fpsEMA = 60, lastQCheck = performance.now();
+var lastWindPush = 0, lastLiveCheck = 0, wasAudioLive = false;
+var readyAt = 0;                               // set when fonts are ready
+var lastFlashVar = -1;
+
+/* Feed the flash level into CSS as --flash so the engraved wordmark
+   catches the lightning (see .logo-flash). Throttled to real changes. */
+function setFlashVar(v) {
+  if (Math.abs(v - lastFlashVar) > 0.02 || (v === 0 && lastFlashVar !== 0)) {
+    lastFlashVar = v;
+    document.documentElement.style.setProperty('--flash', v.toFixed(3));
+  }
+}
+
+/* The monitor is still faintly warm — a slow breathing glow, flaring with
+ * each lightning strike. Drawn over the frost, under the rain. */
+function drawMonitorGlow(now, flash) {
+  var gx = room.glowX - P + Parallax.x;
+  var gy = room.glowY - P + Parallax.y;
+  var breathe = 0.5 + 0.5 * Math.sin(now * 0.00042);
+  var s = Math.min(W, H) * 0.36;
+  ctx.globalCompositeOperation = 'screen';
+  ctx.globalAlpha = Math.min(0.35, 0.055 + 0.05 * breathe + flash * 0.10);
+  ctx.drawImage(glowSprite, gx - s / 2, gy - s / 2, s, s);
+  ctx.globalAlpha = 1;
+  ctx.globalCompositeOperation = 'source-over';
+}
+
+/* Opening fog: the pane starts slightly misted and clears over ~4 seconds —
+ * a cinematic reveal that ends with the glass crystal clear. */
+function drawIntroFog(now) {
+  if (!readyAt) return;
+  var t = (now - readyAt) / 4200;
+  if (t >= 1) return;
+  var a = (1 - t) * (1 - t) * 0.16;
+  var g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, 'rgba(200,222,240,' + (a * 0.45).toFixed(4) + ')');
+  g.addColorStop(1, 'rgba(200,222,240,' + (a * 1.15).toFixed(4) + ')');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+}
+
+function frame(now) {
+  rafId = requestAnimationFrame(frame);
+  var dt = (now - lastT) / 1000;
+  lastT = now;
+  if (dt > 0.05) dt = 0.05;                    // clamp stalls / tab switches
+  if (dt <= 0) dt = 0.0001;
+
+  /* adaptive quality: sample an EMA of the frame rate and rebalance */
+  fpsEMA += (1 / dt - fpsEMA) * 0.05;
+  if (now - lastQCheck > 2500) {
+    lastQCheck = now;
+    if (fpsEMA < 47 && quality > 0.45) { quality = Math.max(0.45, quality - 0.15); initStreaks(); }
+    else if (fpsEMA > 57 && quality < 1) { quality = Math.min(1, quality + 0.08); initStreaks(); }
+  }
+
+  /* the wind: a slow compound of sines. It leans the streaks, biases the
+     runners, raises condensation — and drives the audio wind bed. */
+  windT += dt;
+  wind01 = 0.5 + 0.5 * (Math.sin(windT * 0.10) * 0.55 + Math.sin(windT * 0.037 + 1.7) * 0.45);
+  WIND = 0.10 + wind01 * 0.16;
+
+  Parallax.update(dt, now);
+  var flash = Lightning.update(now, dt);
+  setFlashVar(flash);
+
+  if (now - lastWindPush > 280) { lastWindPush = now; AudioFX.setWind(wind01); }
+
+  /* one-shot ripple on the sound button the moment audio goes live */
+  if (now - lastLiveCheck > 1200) {
+    lastLiveCheck = now;
+    if (AudioFX.isRunning() && !wasAudioLive) {
+      wasAudioLive = true;
+      soundBtn.classList.remove('attn');
+      soundBtn.classList.add('live');
+      setTimeout(function () { soundBtn.classList.remove('live'); }, 1000);
+    }
+  }
+
+  /* ---- render pipeline (the frost covers the frame — no clearRect) ---- */
+  ctx.drawImage(frost, -P + Parallax.x, -P + Parallax.y, RW, RH);
+  drawMonitorGlow(now, flash);
+  if (flash > 0.004) {                          // in-room light wash,
+    ctx.globalAlpha = Math.min(0.32, flash * 0.22); // painted UNDER the drops
+    ctx.fillStyle = flashGrad;
+    ctx.fillRect(0, 0, W, H);
+    ctx.globalAlpha = 1;
+  }
+  if (Lightning.hasBolt && flash > 0.02) {      // the bolt, glowing through
+    var fl = 0.7 + 0.3 * Math.sin(now * 0.061);
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.globalAlpha = Math.min(1, flash * 1.5) * fl * 0.9;
+    ctx.drawImage(boltC, 0, 0, W, H * 0.72);
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = 'source-over';
+  }
+  updateStreaks(dt);
+  renderStreaks(flash);
+  renderSheens(flash);
+  updateDroplets(dt);
+  renderDroplets(flash);
+  drawPointerHalo(dt);
+  drawIntroFog(now);
+}
+
+/* Pause everything when the tab is hidden — no phantom frame debt. */
+document.addEventListener('visibilitychange', function () {
+  if (document.hidden) cancelAnimationFrame(rafId);
+  else { lastT = performance.now(); rafId = requestAnimationFrame(frame); }
+});
+
+/* Debounced resize: rebuild surfaces, rescale the living droplet field. */
+var resizeTimer = 0;
+window.addEventListener('resize', function () {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(function () {
+    var ow = W, oh = H;
+    sizeAll();
+    var kx = W / ow, ky = H / oh;
+    for (var i = 0; i < drops.length; i++) {
+      var d = drops[i];
+      d.x = clamp(d.x * kx, -4, W + 4);
+      d.y = clamp(d.y * ky, -4, H + 4);
+      d.lastTrailY *= ky;
+    }
+    updateCompact();
+  }, 200);
+});
+
+/* ====================================================================== */
+/* 10. POINTER CONDENSATION & PRESENCE HALO                                */
+/* ====================================================================== */
+/* Your hand mists the cold glass: moving across the pane lays down live
+   droplets (fast smears occasionally spawn runners that trickle away), and
+   a faint halo of presence follows the pointer. This is what makes the
+   page feel alive, continuously responding. */
+var lastPX = -1e9, lastPY = 0, accDist = 0;
+var haloX = 0, haloY = 0, haloTX = 0, haloTY = 0, hasPointer = false;
+var hintDismissed = false;
+
+function spawnPointerDrops(x, y, n, smear) {
+  if (drops.length > MAX_DROPS * 1.6) return;
+  for (var i = 0; i < n; i++) {
+    var d = makeDrop(clamp(x + rand(-7, 7), 2, W - 2),
+                     clamp(y + rand(-7, 7), 2, H - 2), rand(0.5, 1.4), false);
+    if (smear && Math.random() < 0.22) {        // a hard wipe leaves a streak
+      d.r = rand(2.5, 3.2);
+      d.run = true; d.vy = rand(4, 18); d.lastTrailY = d.y;
+    }
+    drops.push(d);
+  }
+}
+
+window.addEventListener('pointermove', function (e) {
+  Parallax.set(e.clientX, e.clientY);
+  haloTX = e.clientX; haloTY = e.clientY; hasPointer = true;
+
+  var overUI = e.target && e.target.closest &&
+               e.target.closest('.feedback, .fab, .sound-btn, .toast');
+  if (overUI) { lastPX = -1e9; return; }
+
+  if (lastPX > -1e8) accDist += Math.hypot(e.clientX - lastPX, e.clientY - lastPY);
+  lastPX = e.clientX; lastPY = e.clientY;
+  var spawned = 0;
+  while (accDist > 16 && spawned < 3) { accDist -= 16; spawned++; }
+  if (spawned) { spawnPointerDrops(lastPX, lastPY, spawned, true); dismissHint(); }
+}, { passive: true });
+
+window.addEventListener('pointerdown', function (e) {
+  Parallax.set(e.clientX, e.clientY);
+  var overUI = e.target && e.target.closest &&
+               e.target.closest('.feedback, .fab, .sound-btn, .toast');
+  if (overUI) return;
+  spawnPointerDrops(e.clientX, e.clientY, 4, true);   // pressing the glass
+  dismissHint();
+}, { passive: true });
+
+/* A soft light that lags behind the pointer — the viewer's presence. */
+function drawPointerHalo(dt) {
+  if (!hasPointer) return;
+  var k = 1 - Math.exp(-7 * dt);
+  haloX += (haloTX - haloX) * k;
+  haloY += (haloTY - haloY) * k;
+  var s = Math.min(W, H) * 0.22;
+  ctx.globalCompositeOperation = 'screen';
+  ctx.globalAlpha = 0.05;
+  ctx.drawImage(glowSprite, haloX - s / 2, haloY - s / 2, s, s);
+  ctx.globalAlpha = 1;
+  ctx.globalCompositeOperation = 'source-over';
+}
+
+function dismissHint() {
+  if (hintDismissed) return;
+  hintDismissed = true;
+  hintEl.classList.remove('is-visible');
+}
+
+/* ====================================================================== */
+/* 11. UI — toast, widget state machine, Telegram dispatch, sound toggle   */
+/* ====================================================================== */
+var feedbackEl = document.getElementById('feedback');
+var fabEl      = document.getElementById('fab');
+var msgInput   = document.getElementById('msgInput');
+var sendBtn    = document.getElementById('sendBtn');
+var minBtn     = document.getElementById('minBtn');
+var counterEl  = document.getElementById('charCounter');
+var toastEl    = document.getElementById('toast');
+var toastMsg   = document.getElementById('toastMsg');
+var soundBtn   = document.getElementById('soundBtn');
+var hintEl     = document.getElementById('hint');
+var fbDone     = document.getElementById('fbDone');
+
+/* --- toast: one element, class-driven, auto-dismiss, timer reset ------- */
+var toastTimer = 0;
+function showToast(message, type) {
+  toastMsg.textContent = message;
+  toastEl.classList.remove('success', 'error', 'is-visible');
+  void toastEl.offsetWidth;                     // restart the transition
+  toastEl.classList.add(type === 'error' ? 'error' : 'success', 'is-visible');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function () { toastEl.classList.remove('is-visible'); }, 3200);
+}
+
+/* --- collapsible state machine:  hidden → open ⇄ minimized ------------ */
+var widgetState = 'hidden';
+
+/* On short viewports the open card would collide with the memorial, so the
+   stage slides up while the card is open (see CSS body.widget-open.compact). */
+function updateCompact() {
+  document.body.classList.toggle('compact', H < 720);
+}
+
+function openWidget(fromUser) {
+  if (widgetState === 'open') return;
+  widgetState = 'open';
+  updateCompact();
+  document.body.classList.add('widget-open');
+  feedbackEl.classList.remove('is-closing');
+  feedbackEl.classList.add('is-open');           // spring entrance
+  fabEl.classList.remove('is-visible');          // hide the trigger
+  fabEl.setAttribute('aria-expanded', 'true');
+  /* Don't yank focus (and the mobile keyboard) on the automatic entrance —
+     only when the user deliberately reopens from the floating trigger. */
+  if (fromUser && window.matchMedia && matchMedia('(hover:hover)').matches) {
+    msgInput.focus({ preventScroll: true });
+  }
+}
+
+function minimizeWidget() {
+  if (widgetState !== 'open') return;
+  widgetState = 'closing';
+  document.body.classList.remove('widget-open'); // stage glides back down
+  feedbackEl.classList.remove('is-open');
+  feedbackEl.classList.add('is-closing');        // fold away
+  var done = false;
+  var finish = function () {
+    if (done) return;
+    done = true;
+    feedbackEl.classList.remove('is-closing');
+    widgetState = 'minimized';
+    fabEl.classList.add('is-visible');          // trigger reappears
+    fabEl.setAttribute('aria-expanded', 'false');
+  };
+  feedbackEl.addEventListener('animationend', function onEnd(e) {
+    if (e.target === feedbackEl && e.animationName === 'fold-away') {
+      feedbackEl.removeEventListener('animationend', onEnd);
+      finish();
+    }
+  });
+  setTimeout(finish, 480);                      // belt & braces fallback
+}
+
+minBtn.addEventListener('click', minimizeWidget);
+fabEl.addEventListener('click', function () { openWidget(true); });
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && widgetState === 'open') minimizeWidget();
+});
+
+/* live counter (amber near the cap, red at it) + auto-grow */
+msgInput.addEventListener('input', function () {
+  var len = msgInput.value.length;
+  counterEl.textContent = len + ' / 500';
+  counterEl.classList.toggle('warn', len > 440 && len < 500);
+  counterEl.classList.toggle('max', len >= 500);
+  msgInput.style.height = 'auto';
+  msgInput.style.height = Math.min(msgInput.scrollHeight, 176) + 'px';
+});
+/* Ctrl/⌘ + Enter sends — a desktop nicety */
+msgInput.addEventListener('keydown', function (e) {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') sendBtn.click();
+});
+
+/* --- Telegram dispatch --------------------------------------------------
+   Posts the message straight to the Bot API via fetch — no reload, no
+   external service. Falls back to a simulated round-trip while the
+   credentials above are still placeholders, so the flow is fully testable.
+   Success → chime + toast + drawn-check overlay → auto-minimize. */
+var sendLockUntil = 0;
+
+function setLoading(on) {
+  sendBtn.classList.toggle('is-loading', on);
+  sendBtn.disabled = on;
+}
+
+sendBtn.addEventListener('click', function () {
+  if (Date.now() < sendLockUntil) return;        // anti double-tap / spam
+
+  var text = msgInput.value.trim();
+  if (!text) {
+    showToast('اكتب رسالتك أولًا', 'error');
+    msgInput.classList.remove('shake'); void msgInput.offsetWidth;
+    msgInput.classList.add('shake');
+    msgInput.focus({ preventScroll: true });
+    return;
+  }
+
+  setLoading(true);
+
+  var configured =
+    TELEGRAM_BOT_TOKEN.indexOf('YOUR_') === -1 &&
+    TELEGRAM_CHAT_ID.indexOf('YOUR_') === -1;
+
+  var job;
+  if (configured) {
+    job = fetch('https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: '📩 جديد من موقع Quizzes:\n\n' + text
+      })
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (data) {
+        if (!res.ok || !data.ok) throw new Error(data.description || ('HTTP ' + res.status));
+      });
+    });
+  } else {
+    /* DEMO MODE — plug your token & chat id into the constants above. */
+    console.info('[Quizzes] Telegram credentials not set — simulating the send.');
+    job = new Promise(function (r) { setTimeout(r, 1100); });
+  }
+
+  job.then(function () {
+    /* success: clear, chime, confirm, then fold into the floating trigger */
+    msgInput.value = '';
+    counterEl.textContent = '0 / 500';
+    counterEl.classList.remove('warn', 'max');
+    msgInput.style.height = '';
+    setLoading(false);
+    sendLockUntil = Date.now() + 2600;
+    AudioFX.sendChime();
+    showToast('تم إرسال رسالتك بنجاح', 'success');
+    fbDone.classList.add('show');
+    setTimeout(minimizeWidget, 1700);
+    setTimeout(function () { fbDone.classList.remove('show'); }, 2700);
+  }).catch(function (err) {
+    console.error('[Quizzes] Telegram send failed:', err);
+    setLoading(false);
+    showToast('تعذّر الإرسال، حالبًا حاول مرة أخرى'.replace('حالبًا', 'حاول'), 'error');
+  });
+});
+
+/* --- ambient sound toggle ---------------------------------------------- */
+soundBtn.addEventListener('click', function () {
+  var muted = AudioFX.toggleMute();
+  soundBtn.classList.toggle('is-muted', muted);
+  soundBtn.classList.remove('attn');
+  soundBtn.setAttribute('aria-pressed', String(muted));
+});
+
+/* ====================================================================== */
+/* 12. BOOT                                                                */
+/* ====================================================================== */
+/* Whisper of film grain: a JS-generated noise tile on the transform-only
+   #grain layer (see CSS). Generated once, costs nothing afterwards. */
+(function makeGrain() {
+  var n = 128, c = document.createElement('canvas');
+  c.width = c.height = n;
+  var g = c.getContext('2d');
+  var id = g.createImageData(n, n);
+  for (var i = 0; i < id.data.length; i += 4) {
+    var v = (Math.random() * 255) | 0;
+    id.data[i] = id.data[i + 1] = id.data[i + 2] = v;
+    id.data[i + 3] = 255;
+  }
+  g.putImageData(id, 0, 0);
+  document.getElementById('grain').style.backgroundImage = 'url(' + c.toDataURL() + ')';
+})();
+
+haloX = haloTX = window.innerWidth / 2;
+haloY = haloTY = window.innerHeight / 2;
+
+sizeAll();                       // surfaces, scenes, frost, streaks
+seedDroplets();                 // a pane that already has history
+Lightning.prime(performance.now());
+AudioFX.init();                  // AudioContext created immediately on load
+rafId = requestAnimationFrame(frame);
+
+/* Cinematic open: wait for the wordmark fonts, then lift the blackout and
+   start the fog-clearing reveal. A hard timeout guarantees it always runs. */
+var isReadyFired = false;
+function setReady() {
+  if (isReadyFired) return;
+  isReadyFired = true;
+  document.body.classList.add('is-ready');
+  readyAt = performance.now();
+}
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(setReady);
+  setTimeout(setReady, 2200);
+} else {
+  setTimeout(setReady, 300);
+}
+
+/* spec: the card slides in 2500ms after load */
+setTimeout(function () { openWidget(false); }, 2500);
+
+/* teach the wipe-the-glass interaction, then let it fade */
+setTimeout(function () { if (!hintDismissed) hintEl.classList.add('is-visible'); }, 6800);
+setTimeout(dismissHint, 17000);
+
+/* if autoplay is blocked, gently draw attention to the sound toggle */
+setTimeout(function () {
+  if (!AudioFX.isRunning()) soundBtn.classList.add('attn');
+}, 5500);
+</script>
 </body>
 </html>
