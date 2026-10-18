@@ -1,0 +1,2158 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111318">
+<title>Quiz Player</title>
+<script>try{var r=document.documentElement,s=localStorage.getItem('q-style');if(['default','gta','princess','study','rain','aurora','gold','peacock','coral'].indexOf(s)<0)s='default';r.dataset.theme=s;if(/[?&]embed=1(&|$)/.test(location.search))r.classList.add('embed')}catch(e){}</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="ui.css">
+<style>
+body { align-items: center; }
+.qp-nav { width: 100%; max-width: 760px; display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; flex: none; }
+.qp-nav .actions { display: flex; gap: 4px; }
+.quiz-container { width: 100%; max-width: 760px; padding: 8px 16px 48px; }
+.q-card { padding: 30px; border-radius: 22px; background: linear-gradient(145deg, var(--surface), transparent); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.q-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 12px; }
+#quiz-title { color: var(--accent); font-weight: 600; font-size: .92rem; }
+.q-count { color: var(--muted); font-size: .88rem; font-variant-numeric: tabular-nums; }
+.progress-bar-wrap { height: 4px; border-radius: 4px; background: var(--line); overflow: hidden; margin-bottom: 26px; }
+.progress-bar-fill { height: 100%; width: 100%; border-radius: 4px; background: var(--grad); box-shadow: 0 0 12px var(--glow); transform-origin: left; transform: scaleX(0); transition: transform .4s var(--ease); }
+#question-text { margin-bottom: 22px; font: 600 1.2rem/1.65 var(--font); letter-spacing: 0; text-align: start; outline: 0; }
+#options-list { display: grid; gap: 10px; }
+.option-btn { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 56px; padding: 12px 16px; border-radius: 14px; text-align: start;
+  background: var(--field); border: 1px solid var(--line-strong); font-size: .96rem; line-height: 1.55;
+  transition: transform .4s var(--ease), border-color .3s, background-color .3s, box-shadow .4s; }
+#question-text.ar { font-family: var(--font-ar); line-height: 1.9; }
+.option-btn.ar { line-height: 1.85; }
+.opt-letter { flex: none; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 9px; border: 1px solid var(--line-strong);
+  color: var(--muted); font-size: .8rem; font-weight: 600; transition: background-color .15s, color .15s, border-color .15s; }
+@media (hover: hover) { .option-btn:not(:disabled):hover { border-color: var(--accent-line); background: var(--accent-soft); transform: scale(1.012); box-shadow: 0 0 18px -4px var(--glow); } }
+.option-btn:not(:disabled):active { transform: scale(.99); transition-duration: .12s; }
+.option-btn:disabled { cursor: default; }
+.option-btn.correct { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 13%, transparent); }
+.option-btn.wrong { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 13%, transparent); }
+.option-btn.correct .opt-letter { background: var(--ok); border-color: var(--ok); color: #fff; }
+.option-btn.wrong .opt-letter { background: var(--bad); border-color: var(--bad); color: #fff; }
+.q-actions { display: flex; gap: 10px; margin-top: 20px; }
+.q-actions .btn { flex: 1; animation: rise .22s var(--ease) both; }
+
+/* Question image (optional) — sits between the question and the answers */
+.q-figure { position: relative; display: block; width: 100%; max-width: 620px; margin: -4px auto 22px; padding: 10px; border-radius: 14px; cursor: zoom-in;
+  background: #fff; border: 1px solid var(--line-strong); box-shadow: var(--shadow); }
+.q-figure img { display: block; width: auto; height: auto; max-width: 100%; max-height: min(420px, 55vh); margin: 0 auto; border-radius: 6px; transition: opacity .25s; }
+.q-figure.loading { min-height: 140px; }
+.q-figure.loading img { opacity: 0; }
+.q-zoom { position: absolute; top: 14px; right: 14px; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%;
+  background: rgba(10, 14, 24, .62); color: #fff; opacity: .85; transition: opacity .2s, transform .25s var(--ease); pointer-events: none; }
+.q-zoom .ic { width: 16px; height: 16px; }
+@media (hover: hover) { .q-figure:hover .q-zoom { opacity: 1; transform: scale(1.08); } }
+.modal-overlay.lightbox { z-index: 90; background: rgba(5, 7, 12, .88); cursor: zoom-out; }
+#lightbox-img { display: block; width: auto; height: auto; max-width: min(96vw, 1100px); max-height: 88vh; padding: 8px; border-radius: 12px; background: #fff;
+  box-shadow: 0 30px 70px -20px rgba(0, 0, 0, .7); transform: scale(.97); transition: transform .26s var(--ease); }
+.lightbox.active #lightbox-img { transform: none; }
+.lb-close { position: absolute; top: 14px; right: 14px; background: rgba(255, 255, 255, .12); color: #fff; border-color: rgba(255, 255, 255, .25); }
+
+/* Quizzes AI window (opens in place; the chat is index.html in embedded mode) */
+.modal-overlay.ai-modal { z-index: 95; }
+.ai-box { display: flex; flex-direction: column; width: min(760px, 100%); height: min(88vh, 800px); height: min(88dvh, 800px); overflow: hidden; border-radius: 22px;
+  background: var(--panel); border: 1px solid var(--accent-line); box-shadow: 0 30px 70px -24px rgba(0, 0, 0, .6), 0 0 40px -16px var(--glow);
+  transform: translateY(14px) scale(.98); transition: transform .3s var(--ease); }
+.ai-modal.active .ai-box { transform: none; }
+.ai-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px 10px 18px; border-bottom: 1px solid var(--line); flex: none; }
+.ai-head b { display: inline-flex; align-items: center; gap: 9px; font-size: 1rem; font-weight: 600; color: var(--accent); }
+.ai-head .ic { width: 18px; height: 18px; }
+#ai-frame { flex: 1; width: 100%; min-height: 0; border: 0; background: var(--panel); color-scheme: normal; }
+@media (max-width: 640px) {
+  .modal-overlay.ai-modal { padding: 0; }
+  .ai-box { width: 100%; height: 100vh; height: 100dvh; border-radius: 0; border: 0; }
+}
+
+/* Explain modal */
+.modal-overlay { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 20px; background: rgba(8, 10, 14, .66);
+  opacity: 0; visibility: hidden; transition: opacity .22s, visibility 0s .22s; }
+.modal-overlay.active { opacity: 1; visibility: visible; transition-delay: 0s; }
+.modal-content { width: min(520px, 100%); max-height: 86vh; overflow-y: auto; padding: 22px; border-radius: 22px; background: var(--panel);
+  border: 1px solid var(--accent-line); box-shadow: 0 30px 70px -24px rgba(0, 0, 0, .6); transform: translateY(12px) scale(.98); transition: transform .26s var(--ease); }
+.modal-overlay.active .modal-content { transform: none; }
+.modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.modal-title { display: flex; align-items: center; gap: 10px; font: 600 1.2rem var(--serif); color: var(--accent); }
+#modal-text { color: var(--muted); font-size: .95rem; line-height: 1.75; text-align: start; }
+.modal-sep { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+.modal-sep .k { display: flex; align-items: center; gap: 6px; color: var(--accent); font-size: .76rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+.modal-sep p { margin-top: 6px; font-size: .9rem; }
+
+/* Results */
+.result-layout { display: none; width: 100%; max-width: 860px; padding: 8px 16px 56px; grid-template-columns: 300px 1fr; gap: 16px; align-items: start; }
+.result-layout.show { display: grid; }
+.score-side, .mistakes-side { padding: 28px; border-radius: 22px; background: linear-gradient(145deg, var(--surface), transparent); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.score-side { display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+.score-title { font-size: 1.3rem; }
+.ring { position: relative; width: 156px; height: 156px; }
+.ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring circle { fill: none; stroke-width: 8; }
+.ring .track { stroke: var(--line); }
+.ring .bar { stroke: url(#rg); stroke-linecap: round; stroke-dasharray: 339.3; stroke-dashoffset: 339.3; transition: stroke-dashoffset .9s var(--ease); }
+#score-circle { position: absolute; inset: 0; display: grid; place-items: center; font: 700 2.2rem var(--font); font-variant-numeric: tabular-nums; }
+.mistakes-side { opacity: 0; transform: translateY(10px); transition: opacity .4s, transform .4s var(--ease); }
+.result-layout.revealed .mistakes-side { opacity: 1; transform: none; }
+.mistakes-side h3 { color: var(--bad); font-size: 1.25rem; }
+.mistakes-side .count { color: var(--muted); font-size: .8rem; margin-top: 2px; }
+.mistakes-list { display: grid; gap: 10px; margin-top: 16px; max-height: 60vh; overflow-y: auto; overscroll-behavior: contain; padding-right: 2px; }
+.mistake-item { padding: 14px 16px; border-radius: 14px; background: var(--field); border: 1px solid var(--line); content-visibility: auto; contain-intrinsic-size: auto 96px;
+  animation: rise .3s var(--ease) both; animation-delay: var(--d, 0s); }
+.mistake-item .mq { font-weight: 600; font-size: .92rem; margin-bottom: 6px; text-align: start; }
+.mistake-item .mw { color: var(--bad); font-size: .84rem; }
+.mistake-item .mc { color: var(--ok); font-size: .84rem; }
+.perfect { min-height: 220px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.perfect .ic { width: 48px; height: 48px; color: #e0b34a; margin-bottom: 14px; }
+.perfect h2 { color: var(--ok); margin-bottom: 8px; }
+.perfect p { color: var(--muted); font-size: .88rem; }
+
+.notfound { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding: 36px 8px; color: var(--muted); }
+.notfound h2 { color: var(--text); }
+
+@media (max-width: 700px) {
+  .q-card { padding: 20px 16px; border-radius: 18px; }
+  #question-text { font-size: 1.12rem; }
+  .result-layout { grid-template-columns: 1fr; }
+  .mistakes-list { max-height: none; }
+}
+</style>
+</head>
+<body>
+<script src="ui.js"></script>
+
+<nav class="qp-nav" aria-label="Quiz">
+  <button class="back" id="exit-btn" type="button"><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg>Exit Quiz</button>
+</nav>
+
+<main class="quiz-container" id="main-quiz-container">
+  <div class="q-card" id="quiz-screen">
+    <div class="q-top">
+      <span id="quiz-title" dir="auto">Quiz</span>
+      <span class="q-count" aria-live="polite"><span id="current-q-num">1</span> / <span id="total-q-num">?</span></span>
+    </div>
+    <div class="progress-bar-wrap" role="presentation"><div class="progress-bar-fill" id="progress-bar"></div></div>
+    <h2 id="question-text" dir="auto" tabindex="-1">Loading...</h2>
+    <button class="q-figure" id="question-image" type="button" aria-label="Enlarge image" hidden>
+      <img alt="" decoding="async" loading="lazy">
+      <span class="q-zoom" aria-hidden="true"><svg class="ic"><use href="#i-zoom"/></svg></span>
+    </button>
+    <div id="options-list" role="group" aria-label="Answer options"></div>
+    <div class="q-actions" id="q-actions" hidden>
+      <button class="btn btn-ghost" id="explain-btn" type="button" hidden><svg class="ic" aria-hidden="true"><use href="#i-bulb"/></svg>Explain</button>
+      <button class="btn" id="next-btn" type="button" hidden>Next Question<svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+    </div>
+  </div>
+</main>
+
+<section class="result-layout" id="result-screen" aria-label="Results">
+  <div class="score-side" id="score-side">
+    <h3 class="score-title">Your Score</h3>
+    <div class="ring">
+      <svg viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--accent)"/><stop offset="1" style="stop-color:var(--accent-2)"/></linearGradient></defs><circle class="track" cx="60" cy="60" r="54"/><circle class="bar" id="score-bar" cx="60" cy="60" r="54"/></svg>
+      <div id="score-circle" role="status">0%</div>
+    </div>
+    <button class="btn" id="restart-btn" type="button"><svg class="ic" aria-hidden="true"><use href="#i-redo"/></svg>Restart</button>
+  </div>
+  <div class="mistakes-side" id="mistakes-side"></div>
+</section>
+
+<footer class="foot">Created By <a href="https://t.me/hazem_py" target="_blank" rel="noopener noreferrer" data-track="telegram_click"><b>HAZEM</b></a></footer>
+
+<div class="modal-overlay lightbox" id="image-modal" role="dialog" aria-modal="true" aria-label="Image preview">
+  <button class="icon-btn lb-close" id="close-image-btn" type="button" aria-label="Close preview"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
+  <img id="lightbox-img" alt="" decoding="async">
+</div>
+
+<div class="modal-overlay ai-modal" id="ai-modal" role="dialog" aria-modal="true" aria-labelledby="ai-title">
+  <div class="ai-box">
+    <div class="ai-head">
+      <b id="ai-title"><svg class="ic" aria-hidden="true"><use href="#i-sparkles"/></svg>Quizzes AI</b>
+      <button class="icon-btn" id="close-ai-btn" type="button" aria-label="Close Quizzes AI"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <iframe id="ai-frame" title="Quizzes AI" allow="clipboard-write"></iframe>
+  </div>
+</div>
+
+<div class="modal-overlay" id="explain-modal" role="dialog" aria-modal="true" aria-labelledby="explain-title">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title" id="explain-title"><svg class="ic" aria-hidden="true"><use href="#i-bulb"/></svg>Explain</div>
+      <button class="icon-btn" id="close-modal-btn" aria-label="Close"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <div id="modal-text" dir="auto"></div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   ### QUIZZES — add every new quiz inside quizDatabase below.
+   The key is the quiz id listed in ui.js → ### SUBJECTS (quizzes: [{ id: "organic3-quiz-1", … }]).
+   Id format:  <subject-id>-quiz-<number>   e.g. "organic3-quiz-2", "pharmacology-quiz-1"
+
+   "organic3-quiz-1": {
+     title: "Quiz I",
+     questions: [
+       { q: "Question text?",
+         image: "images/1.png",   // ### IMAGE — optional. Shown under the question, click to enlarge
+         imageAlt: "Short description of the image",   // optional (for screen readers)
+         options: ["A", "B", "C", "D"],
+         correct: 1,                      // index into options (0 = first)
+         explanation: "Optional. HTML allowed.",
+         source: "Optional. e.g. Lecture 7" }
+     ]
+   },
+══════════════════════════════════════════════════════════════ */
+Q.bg(5); // lighter background on the focus screen
+
+
+const quizDatabase = {
+
+    "organic1": {
+    title: "Quiz I",
+    questions: [
+      {
+        q: "Which list correctly identifies the three nomenclature systems for heterocyclic compounds described in the lecture?",
+        image: "",
+        imageAlt: "",
+        options: [
+          "Common nomenclature, Hantzsch-Widman nomenclature, and replacement nomenclature",
+          "Common nomenclature, aromatic nomenclature, and oxidation nomenclature",
+          "Hantzsch-Widman nomenclature, substitution nomenclature, and reduction nomenclature",
+          "Replacement nomenclature, functional-group nomenclature, and fused-ring nomenclature"
+        ],
+        correct: 0,
+        explanation: "The lecture lists three systems: common nomenclature, Hantzsch-Widman (systematic/IUPAC) nomenclature, and replacement nomenclature.",
+        source: "Organic III lecture — Nomenclature of Heterocyclic Compounds, slide 2"
+      },
+      {
+        q: "What is the correct name of the structure shown?",
+        image: "images/N_01.png",
+        imageAlt: "Pyridine ring with bromine substituents at positions 3 and 5.",
+        options: [
+          "2,4-Dibromopyridine",
+          "3,5-Dibromopyridine",
+          "2,5-Dibromopyridine",
+          "3,4-Dibromopyridine"
+        ],
+        correct: 1,
+        explanation: "Pyridine is numbered from nitrogen as position 1. Counting around the ring places the two bromine substituents at positions 3 and 5.",
+        source: "Organic III lecture — Common Nomenclature and numbering, slides 3–5"
+      },
+      {
+        q: "Which statement correctly combines a common-nomenclature priority rule with a six-membered heterocycle trivial name?",
+        image: "",
+        imageAlt: "",
+        options: [
+          "The priority is N > S > O, and pyrimidine has nitrogens at positions 1 and 4.",
+          "The priority is S > O > N, and pyridazine has nitrogens at positions 1 and 3.",
+          "The priority is O > S > N, and pyrimidine has nitrogens at positions 1 and 3.",
+          "The priority is O > N > S, and pyrazine has nitrogens at positions 1 and 3."
+        ],
+        correct: 2,
+        explanation: "For different heteroatom types in the common-nomenclature rules, the lecture gives O > S > N. Pyrimidine is the six-membered aromatic ring with nitrogens at positions 1 and 3.",
+        source: "Organic III lecture — Common Nomenclature and trivial names, slides 3–5"
+      },
+      {
+        q: "In replacement nomenclature, which elemental prefix indicates that a ring carbon has been replaced by nitrogen?",
+        image: "",
+        imageAlt: "",
+        options: [
+          "Aza",
+          "Oxa",
+          "Thia",
+          "Phospha"
+        ],
+        correct: 0,
+        explanation: "The replacement prefix for nitrogen is aza. Oxa indicates oxygen, thia indicates sulfur, and phospha indicates phosphorus.",
+        source: "Organic III lecture — Replacement Nomenclature, slide 9"
+      },
+      {
+        q: "Using replacement nomenclature, choose the correct name for the saturated six-membered ring shown.",
+        image: "images/N_02.png",
+        imageAlt: "Saturated six-membered ring containing one nitrogen and one oxygen atom opposite each other.",
+        options: [
+          "1-Aza-4-oxacyclohexane",
+          "1-Oxa-4-azacyclohexane",
+          "1,4-Dioxacyclohexane",
+          "1,4-Diazacyclohexane"
+        ],
+        correct: 1,
+        explanation: "The ring contains oxygen and nitrogen opposite each other. According to the replacement example in the lecture, oxygen is expressed as oxa at position 1 and nitrogen as aza at position 4: 1-oxa-4-azacyclohexane.",
+        source: "Organic III lecture — Replacement Nomenclature, slide 10"
+      },
+      {
+        q: "According to the replacement-nomenclature priority table in the lecture, which sequence is listed in decreasing priority?",
+        image: "",
+        imageAlt: "",
+        options: [
+          "Aza > Thia > Selena > Oxa > Phospha",
+          "Thia > Oxa > Aza > Phospha > Selena",
+          "Oxa > Thia > Selena > Aza > Phospha",
+          "Oxa > Selena > Thia > Aza > Phospha"
+        ],
+        correct: 3,
+        explanation: "The table lists the prefixes in this decreasing order: oxa, selena, thia, aza, and phospha.",
+        source: "Organic III lecture — Replacement Nomenclature priority table, slide 9"
+      },
+      {
+        q: "What is the general construction of a Hantzsch-Widman name given in the lecture?",
+        image: "",
+        imageAlt: "",
+        options: [
+          "Suffix + substituent + parent name",
+          "Heteroatom name + molecular formula",
+          "Locants + prefix + suffix",
+          "Parent name + reaction type + locants"
+        ],
+        correct: 2,
+        explanation: "The lecture summarizes the construction as: IUPAC name = locants + prefix + suffix. The prefix identifies heteroatoms, while the suffix reflects ring size and saturation features.",
+        source: "Organic III lecture — Hantzsch-Widman nomenclature, slide 12"
+      },
+      {
+        q: "Which statement correctly describes numbering and the use of the prefix \"dihydro\" in the nomenclature rules presented?",
+        image: "",
+        imageAlt: "",
+        options: [
+          "A single heteroatom starts at position 1; locants in a dihydro prefix indicate the positions of the saturated atoms.",
+          "A single heteroatom always receives the highest possible locant; dihydro means two heteroatoms are present.",
+          "The substituent determines position 1; dihydro indicates two substituent groups.",
+          "The suffix determines the starting atom; dihydro means the ring has two double bonds."
+        ],
+        correct: 0,
+        explanation: "For a monocyclic compound with one heteroatom, that heteroatom is assigned position 1. In common nomenclature, locants before dihydro identify the saturated positions, as in 1,2-dihydropyridine.",
+        source: "Organic III lecture — Common Nomenclature and Hantzsch-Widman numbering, slides 4 and 13"
+      },
+      {
+        q: "When two identical heteroatoms occur in a Hantzsch-Widman ring, which statement follows the lecture rules?",
+        image: "",
+        imageAlt: "",
+        options: [
+          "Use the prefix monoaza and always start numbering at an unsaturated carbon.",
+          "Use a multiplicative prefix such as diaza; numbering preferably starts at a saturated rather than an unsaturated atom.",
+          "Omit locants because identical heteroatoms do not need numbering.",
+          "Use the replacement prefix only and ignore ring saturation."
+        ],
+        correct: 1,
+        explanation: "Two nitrogen atoms are indicated by diaza, with locants showing their positions. The lecture notes that numbering preferably commences at a saturated rather than an unsaturated atom.",
+        source: "Organic III lecture — Hantzsch-Widman rules, slide 14"
+      },
+      {
+        q: "According to Hantzsch-Widman nomenclature, what is the name of the saturated three-membered nitrogen-containing ring shown?",
+        image: "images/N_03.png",
+        imageAlt: "Saturated three-membered ring containing one nitrogen atom.",
+        options: [
+          "Azetidine",
+          "Oxirane",
+          "Azole",
+          "Aziridine"
+        ],
+        correct: 3,
+        explanation: "The ring has three members, contains nitrogen, and is fully saturated. Combining the aza prefix with the three-membered saturated suffix gives aziridine, as shown in the lecture example.",
+        source: "Organic III lecture — Hantzsch-Widman example, slide 18"
+      },
+      {
+        q: "According to Hantzsch-Widman nomenclature, what is the name of the saturated four-membered O,N heterocycle shown?",
+        image: "images/N_04.png",
+        imageAlt: "Saturated four-membered ring containing adjacent oxygen and nitrogen atoms.",
+        options: [
+          "1,2-Oxazetidine",
+          "1,2-Oxazole",
+          "1,3-Oxazetidine",
+          "1,2-Oxazolidine"
+        ],
+        correct: 0,
+        explanation: "The ring has four members and contains adjacent oxygen and nitrogen atoms. Oxygen has higher priority and is numbered 1, nitrogen is numbered 2, and the saturated four-membered suffix is etidine, giving 1,2-oxazetidine.",
+        source: "Organic III lecture — Hantzsch-Widman example, slide 19"
+      },
+      {
+        q: "What is the Hantzsch-Widman name of the five-membered unsaturated ring shown?",
+        image: "images/N_05.png",
+        imageAlt: "Five-membered unsaturated heterocycle containing one oxygen and two nitrogen atoms.",
+        options: [
+          "1,2,4-Oxadiazole",
+          "1,2,5-Oxadiazole",
+          "1,2,5-Oxadiazolidine",
+          "1,3,4-Oxadiazole"
+        ],
+        correct: 1,
+        explanation: "The ring contains oxygen at position 1 and nitrogen atoms at positions 2 and 5. It is a five-membered unsaturated ring, so the lecture example names it 1,2,5-oxadiazole.",
+        source: "Organic III lecture — Hantzsch-Widman example, slide 20"
+      },
+      {
+        q: "For a fully saturated six-membered monocyclic ring containing nitrogen, which naming approach is given in the lecture example?",
+        image: "",
+        imageAlt: "",
+        options: [
+          "Use the prefix thia before pyrrole.",
+          "Use the suffix ole after diaza.",
+          "Use perhydro followed by the name of the fully unsaturated parent; the lecture example is perhydroazine.",
+          "Use benzo followed by the ring name."
+        ],
+        correct: 2,
+        explanation: "The lecture states that a fully saturated six-membered nitrogen-containing ring is named using perhydro followed by the fully unsaturated ring name, and gives perhydroazine as its example.",
+        source: "Organic III lecture — Hantzsch-Widman example, slide 21"
+      },
+      {
+        q: "What is the systematic benzo-fused name of the structure shown?",
+        image: "images/N_06.png",
+        imageAlt: "Benzene ring fused to a furan ring.",
+        options: [
+          "Benzo[c]furan",
+          "Benzo[b]thiophene",
+          "Benzo[b]furan",
+          "Benzo[b]pyrrole"
+        ],
+        correct: 2,
+        explanation: "The figure is a benzene ring fused to a furan ring at the b fusion position. The name is benzo[b]furan; the lecture also lists benzofuran as its common name.",
+        source: "Organic III lecture — Nomenclature of benzofused compounds, slide 23"
+      },
+      {
+        q: "In the fused name Furo[3,2-b]pyran, which interpretation best follows the lecture rules?",
+        image: "",
+        imageAlt: "",
+        options: [
+          "Pyran is the minor component; 3,2 are parent-ring locants, and b is a minor-ring atom.",
+          "Furan and pyran are both suffixes, so the bracketed locants do not identify fusion positions.",
+          "Furo is the parent ring because the smaller ring is always selected, and b marks the first heteroatom.",
+          "Furo is the minor component, 3,2 identify its fusion atoms, b identifies the fusion bond in parent pyran, and pyran is preferred as the larger ring."
+        ],
+        correct: 3,
+        explanation: "The bracket numbers identify the fusion atoms in the minor component, while the letter identifies the fusion bond in the parent component. Under the lecture rule preferring the component with the larger ring, six-membered pyran is preferred to five-membered furan.",
+        source: "Organic III lecture — Fused heterocyclic compounds, slides 24–29"
+      }
+    ]
+  },
+
+
+
+    "biochemistry1": {
+    title: "Quiz I",
+    questions: [
+      {
+        q: "Glucose is considered a fermentable and reducing sugar.",
+        options: ["True", "False"],
+        image: "",
+        imageAlt: "",
+        correct: 0,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Sugars that rotate the plane polarized light to the right are called dextrorotatory.",
+        options: ["True", "False"],
+        image: "",
+        imageAlt: "",
+        correct: 0,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "What is the name of the disease caused by the accumulation of galactose in the blood and its appearance in the urine?",
+        options: [
+          "Glucosuria",
+          "Galactosemia",
+          "Hereditary fructose intolerance",
+          "Diabetes mellitus"
+        ],
+        image: "",
+        imageAlt: "",
+        correct: 1,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Which of the following represents the simplest form of sugars that cannot be further hydrolyzed?",
+        options: [
+          "Disaccharides",
+          "Oligosaccharides",
+          "Polysaccharides",
+          "Monosaccharides"
+        ],
+        image: "",
+        imageAlt: "",
+        correct: 3,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Starch and glycogen belong to which class of carbohydrates?",
+        options: [
+          "Monosaccharides",
+          "Disaccharides",
+          "Oligosaccharides",
+          "Polysaccharides"
+        ],
+        image: "",
+        imageAlt: "",
+        correct: 3,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Which sugar is the main sugar found in bee's honey and fruits, and is considered the sweetest sugar known?",
+        options: ["Mannose", "Glucose", "Galactose", "Fructose"],
+        image: "",
+        imageAlt: "",
+        correct: 3,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Which of the following are examples of monosaccharides?",
+        options: [
+          "Lactose and maltose",
+          "Glucose and fructose",
+          "Starch and glycogen",
+          "Rhaffinose and lactose"
+        ],
+        image: "",
+        imageAlt: "",
+        correct: 1,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Fructose is a non-reducing and non-fermentable sugar.",
+        options: ["True", "False"],
+        image: "",
+        imageAlt: "",
+        correct: 1,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Carbohydrates are derivatives of:",
+        options: [
+          "Aldehydes and monohydric alcohols",
+          "Ketones and monohydric alcohols",
+          "Aldehydes or ketones of polyhydric alcohols",
+          "Only polyhydric ketones"
+        ],
+        image: "",
+        imageAlt: "",
+        correct: 2,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "A racemic mixture is a mixture of UNEQUAL amounts of dextrorotatory and levorotatory isomers.",
+        options: ["True", "False"],
+        image: "",
+        imageAlt: "",
+        correct: 1,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Which of the following pentoses is considered the most important because it enters the structure of DNA, RNA, and ATP?",
+        options: ["Glucose", "Fructose", "Ribose", "Dextrose"],
+        image: "",
+        imageAlt: "",
+        correct: 2,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Substances which have the same molecular formula but differ in the distribution of their atoms into groups or in space around carbon atoms are called:",
+        options: ["Oligosaccharides", "Isomers", "Nucleotides", "Coenzymes"],
+        image: "",
+        imageAlt: "",
+        correct: 1,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Disaccharides yield how many molecules of monosaccharides on hydrolysis?",
+        options: ["One", "Two", "Three", "More than ten"],
+        image: "",
+        imageAlt: "",
+        correct: 1,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "The appearance of glucose in urine in cases of diabetes mellitus is called:",
+        options: ["galactosemia", "Glucosuria", "Hematuria", "Ketonuria"],
+        image: "",
+        imageAlt: "",
+        correct: 1,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Which monosaccharide is produced by the hydrolysis of starch, glycogen, sucrose, maltose, and lactose?",
+        options: ["Ribose", "Glucose", "Ketose", "Aldose"],
+        image: "",
+        imageAlt: "",
+        correct: 1,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Which of the following monosaccharides is commonly referred to as the semen sugar?",
+        options: ["Glucose", "Fructose", "Galactose", "Mannose"],
+        image: "",
+        imageAlt: "",
+        correct: 1,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Which of the following sugars is an example of a levorotatory sugar?",
+        options: ["Glucose", "Galactose", "Starch", "Fructose"],
+        image: "",
+        imageAlt: "",
+        correct: 3,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Most oligosaccharides are easily digested by human enzymes.",
+        options: ["True", "False"],
+        image: "",
+        imageAlt: "",
+        correct: 1,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "The failure of fructose metabolism leads to its accumulation in cells and blood in a condition known as:",
+        options: [
+          "Galactosemia",
+          "Glucosuria",
+          "Hereditary fructose intolerance",
+          "Diabetes mellitus"
+        ],
+        image: "",
+        imageAlt: "",
+        correct: 2,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Which of the following is another name for glucose?",
+        options: ["Grape sugar", "Milk sugar", "Fruit sugar", "Cane sugar"],
+        image: "",
+        imageAlt: "",
+        correct: 0,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "How many monosaccharide units per molecule are found in oligosaccharides?",
+        options: [
+          "Three to ten units",
+          "One unit",
+          "Two units",
+          "More than ten units"
+        ],
+        image: "",
+        imageAlt: "",
+        correct: 0,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Lactose and maltose are examples of disaccharides.",
+        options: ["True", "False"],
+        image: "",
+        imageAlt: "",
+        correct: 0,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Which monosaccharide serves as a subunit in both glycoproteins and glycolipids and is obtained by the hydrolysis of plant gums?",
+        options: ["Glucose", "Fructose", "Mannose", "Galactose"],
+        image: "",
+        imageAlt: "",
+        correct: 2,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "The ability of a sugar to rotate plane polarized light is called:",
+        options: [
+          "Optical activity",
+          "Mutarotation",
+          "Stereoisomerism",
+          "Inversion"
+        ],
+        image: "",
+        imageAlt: "",
+        correct: 0,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Polysaccharides contain more than ten monosaccharide units per molecule.",
+        options: ["True", "False"],
+        image: "",
+        imageAlt: "",
+        correct: 0,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Optical activity in sugars is primarily due to the presence of:",
+        options: [
+          "An aldehyde group",
+          "A ketone group",
+          "An asymmetric carbon atom",
+          "A symmetric carbon atom"
+        ],
+        image: "",
+        imageAlt: "",
+        correct: 2,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "All monosaccharides are converted into which sugar to be utilized in the body as the major body and blood sugar?",
+        options: ["Ribose", "Fructose", "Glucose", "Galactose"],
+        image: "",
+        imageAlt: "",
+        correct: 2,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "How many carbon atoms are present in a pentose sugar?",
+        options: ["Two", "Three", "Four", "Five"],
+        image: "",
+        imageAlt: "",
+        correct: 3,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Galactose is considered a subunit of the milk sugar, which is known as:",
+        options: ["Maltose", "Sucrose", "Lactose", "Fructose"],
+        image: "",
+        imageAlt: "",
+        correct: 2,
+        explanation: "",
+        source: ""
+      },
+      {
+        q: "Aldoses are sugars containing an aldehyde group at which carbon position?",
+        options: ["C1", "C2", "C3", "C4"],
+        image: "",
+        imageAlt: "",
+        correct: 0,
+        explanation: "",
+        source: ""
+      }
+    ]
+  },
+
+  "pharmacology1": {
+    title:"Quiz I",
+    questions:[
+      {
+  q: "Which of the following best defines pharmacology?",
+  image: null,
+  options: [
+    "The science of drugs and their effects on biological systems",
+    "The study of diseases without reference to drugs",
+    "The study of drug preparation only",
+    "The study of drug elimination only"
+  ],
+  correct: 0,
+  explanation: "Pharmacology is the science of drugs and studies how drugs affect biological systems.",
+  source: "Lecture 1 — Introduction to Pharmacology"
+},
+{
+  q: "Pharmacodynamics is primarily concerned with:",
+  image: null,
+  options: [
+    "How the body absorbs and eliminates a drug",
+    "What the drug does to the body and how it produces its effects",
+    "How drugs are manufactured",
+    "How drugs are named by pharmaceutical companies"
+  ],
+  correct: 1,
+  explanation: "Pharmacodynamics covers drug effects, mechanisms of action, drug–receptor interactions, and dose–response relationships.",
+  source: "Lecture 1 — Pharmacodynamics"
+},
+{
+  q: "Which statement best describes pharmacokinetics?",
+  image: null,
+  options: [
+    "The study of drug-receptor affinity only",
+    "The study of therapeutic indications",
+    "The study of what the body does to a drug",
+    "The study of drug brand names"
+  ],
+  correct: 2,
+  explanation: "Pharmacokinetics describes the body's handling of a drug through absorption, distribution, metabolism, and elimination.",
+  source: "Lecture 1 — Pharmacokinetics"
+},
+{
+  q: "Which sequence represents the main processes of pharmacokinetics?",
+  image: null,
+  options: [
+    "Receptor binding → antagonism → toxicity → tolerance",
+    "Diagnosis → prevention → treatment → follow-up",
+    "Synthesis → packaging → marketing → prescribing",
+    "Absorption → distribution → metabolism → elimination"
+  ],
+  correct: 3,
+  explanation: "The four main pharmacokinetic processes are commonly summarized as ADME.",
+  source: "Lecture 1 — Pharmacokinetics"
+},
+{
+  q: "According to the lecture's broad definition, drugs are:",
+  image: null,
+  options: [
+    "Chemical agents that modify some functions of a biological system",
+    "Substances used exclusively to treat infections",
+    "Substances that always produce beneficial effects",
+    "Chemical agents that act only on the nervous system"
+  ],
+  correct: 0,
+  explanation: "The lecture defines drugs broadly as chemical agents that modify some functions of a biological system.",
+  source: "Lecture 1 — Drugs"
+},
+{
+  q: "Which definition describes the therapeutic meaning of a drug?",
+  image: null,
+  options: [
+    "A substance used only for laboratory experiments",
+    "A chemical substance used for disease prevention, diagnosis, and treatment",
+    "A substance defined only by its molecular structure",
+    "A brand name assigned by a pharmaceutical company"
+  ],
+  correct: 1,
+  explanation: "The therapeutic definition focuses on the use of chemical substances in prevention, diagnosis, and treatment of diseases.",
+  source: "Lecture 1 — Drugs"
+},
+{
+  q: "Human insulin is an example of a drug produced by which source category?",
+  image: null,
+  options: [
+    "Direct extraction from animals only",
+    "A purely synthetic chemical unrelated to biological production",
+    "Biosynthetic production",
+    "Direct extraction from medicinal plants"
+  ],
+  correct: 2,
+  explanation: "Human insulin produced using biotechnology is classified as biosynthetic.",
+  source: "Lecture 1 — Drug Sources; Professor Focus"
+},
+{
+  q: "Which drug name describes its chemical structure?",
+  image: null,
+  options: [
+    "Trade name",
+    "Generic name",
+    "Brand name",
+    "Chemical name"
+  ],
+  correct: 3,
+  explanation: "The chemical name describes the drug's chemical structure.",
+  source: "Lecture 1 — Drug Nomenclature"
+},
+{
+  q: "The generic name of a drug is best described as:",
+  image: null,
+  options: [
+    "Its official or approved non-brand name",
+    "The precise description of its molecular structure",
+    "The name used exclusively by one manufacturer",
+    "A name that changes with every dosage form"
+  ],
+  correct: 0,
+  explanation: "The lecture describes the generic name as the official or approved name used in pharmacopoeias.",
+  source: "Lecture 1 — Drug Nomenclature; Original Lecture MCQ"
+},
+{
+  q: "Which drug name is associated with the brand used by a pharmaceutical company?",
+  image: null,
+  options: [
+    "Chemical name",
+    "Trade name",
+    "Generic name",
+    "Molecular formula"
+  ],
+  correct: 1,
+  explanation: "The trade name is the brand name associated with the company marketing the drug.",
+  source: "Lecture 1 — Drug Nomenclature"
+},
+{
+  q: "A drug's chemical name, generic name, and trade name refer to:",
+  image: null,
+  options: [
+    "Three different routes of administration",
+    "Three different pharmacokinetic processes",
+    "Three types of drug names",
+    "Three stages of clinical trials"
+  ],
+  correct: 2,
+  explanation: "The lecture identifies chemical, generic, and trade names as the three drug-name categories.",
+  source: "Lecture 1 — Drug Nomenclature"
+},
+{
+  q: "Which route is classified as enteral rather than parenteral?",
+  image: null,
+  options: [
+    "Intravenous",
+    "Intramuscular",
+    "Intra-arterial",
+    "Oral"
+  ],
+  correct: 3,
+  explanation: "The oral route is enteral because the drug is administered through the gastrointestinal tract. The other listed routes are parenteral.",
+  source: "Lecture 1 — Routes of Drug Administration; Professor Focus"
+},
+{
+  q: "All of the following are enteral routes of drug administration EXCEPT:",
+  image: null,
+  options: [
+    "Intravenous",
+    "Oral",
+    "Sublingual",
+    "Rectal"
+  ],
+  correct: 0,
+  explanation: "Intravenous administration delivers the drug directly into a vein and is parenteral. Oral, sublingual, and rectal routes are enteral.",
+  source: "Professor Focus — Routes of Drug Administration"
+},
+{
+  q: "Which statement about the oral route is a recognized disadvantage?",
+  image: null,
+  options: [
+    "It can be used without swallowing",
+    "Absorption may be affected by gastrointestinal conditions and food",
+    "It always produces an immediate effect",
+    "It completely avoids first-pass metabolism"
+  ],
+  correct: 1,
+  explanation: "Oral absorption can be influenced by gastrointestinal conditions and food, and orally administered drugs may undergo first-pass metabolism.",
+  source: "Professor Focus — Disadvantages of the Oral Route"
+},
+{
+  q: "Which of the following is a limitation of oral administration in an emergency?",
+  image: null,
+  options: [
+    "It always bypasses the gastrointestinal tract",
+    "It is necessarily faster than intravenous administration",
+    "Its onset may be too slow when an immediate effect is needed",
+    "It always provides complete bioavailability"
+  ],
+  correct: 2,
+  explanation: "Oral administration may be unsuitable when a very rapid effect is required because absorption takes time.",
+  source: "Professor Focus — Oral Route"
+},
+{
+  q: "Which statement about sublingual and buccal administration matches the professor's emphasis?",
+  image: null,
+  options: [
+    "Both routes require injection into a vein",
+    "Both routes are intended exclusively for local skin effects",
+    "Both routes require swallowing the drug immediately",
+    "They may be suitable in emergency cases"
+  ],
+  correct: 3,
+  explanation: "The professor specifically emphasized suitability for emergency cases as an advantage of sublingual and buccal administration.",
+  source: "Professor Focus — Sublingual and Buccal Routes"
+},
+{
+  q: "The sublingual route involves placing the drug:",
+  image: null,
+  options: [
+    "Under the tongue",
+    "Inside a joint",
+    "Into an artery",
+    "Into the subarachnoid space"
+  ],
+  correct: 0,
+  explanation: "Sublingual means administration under the tongue.",
+  source: "Lecture 1 — Route Abbreviations"
+},
+{
+  q: "According to the professor's emphasis, which route is most suitable for administering an appropriate irritant drug when rapid systemic delivery is required?",
+  image: null,
+  options: [
+    "Topical",
+    "Intravenous",
+    "Transdermal",
+    "Oral"
+  ],
+  correct: 1,
+  explanation: "The professor highlighted intravenous administration for appropriate irritant drugs because rapid dilution in the bloodstream may reduce local tissue exposure. Suitability depends on the specific drug and formulation.",
+  source: "Professor Focus — Intravenous Route"
+},
+{
+  q: "Which additional situation did the professor emphasize as an advantage of the intravenous route?",
+  image: null,
+  options: [
+    "When only a local skin effect is desired",
+    "When a drug must be placed inside a joint",
+    "When the patient is unconscious and intravenous treatment is appropriate",
+    "When systemic absorption through intact skin is specifically desired"
+  ],
+  correct: 2,
+  explanation: "Intravenous administration can be useful in unconscious patients when the drug and clinical circumstances permit it.",
+  source: "Professor Focus — Intravenous Route"
+},
+{
+  q: "Intra-arterial administration means delivering a drug:",
+  image: null,
+  options: [
+    "Into a muscle",
+    "Under the tongue",
+    "Into a joint cavity",
+    "Directly into an artery"
+  ],
+  correct: 3,
+  explanation: "Intra-arterial administration delivers a drug directly into an artery and is used for selected indications.",
+  source: "Professor Focus — Intra-Arterial Route"
+},
+{
+  q: "Which route involves injecting a drug into a joint?",
+  image: null,
+  options: [
+    "Intra-articular",
+    "Intrathecal",
+    "Intra-arterial",
+    "Intraperitoneal"
+  ],
+  correct: 0,
+  explanation: "Intra-articular administration means injection into a joint.",
+  source: "Professor Focus — Intra-Articular Route"
+},
+{
+  q: "Intrathecal administration delivers a drug into the:",
+  image: null,
+  options: [
+    "Arterial lumen",
+    "Subarachnoid space containing cerebrospinal fluid",
+    "Joint cavity",
+    "Subcutaneous tissue"
+  ],
+  correct: 1,
+  explanation: "Intrathecal administration involves delivery into the cerebrospinal fluid-containing subarachnoid space.",
+  source: "Professor Focus — Intrathecal Route"
+},
+{
+  q: "Which route is specifically associated with administration into the cerebrospinal fluid-containing space?",
+  image: null,
+  options: [
+    "Intra-articular",
+    "Intra-arterial",
+    "Intrathecal",
+    "Intramuscular"
+  ],
+  correct: 2,
+  explanation: "Intrathecal is the route associated with delivery into the cerebrospinal fluid-containing subarachnoid space.",
+  source: "Professor Focus — Intrathecal Route"
+},
+{
+  q: "Which statement correctly distinguishes topical from transdermal administration?",
+  image: null,
+  options: [
+    "Topical always produces systemic effects, while transdermal is always local",
+    "Both routes are administered directly into a vein",
+    "Both routes require injection into the skin",
+    "Topical administration is generally for local effects, whereas transdermal delivery is intended for systemic absorption"
+  ],
+  correct: 3,
+  explanation: "Topical preparations generally target local effects, while transdermal systems are designed to deliver drug across the skin for systemic effects.",
+  source: "Professor Focus — Topical vs Transdermal"
+},
+{
+  q: "Which abbreviation means administration directly into a vein?",
+  image: null,
+  options: [
+    "IV",
+    "IM",
+    "SC",
+    "PO"
+  ],
+  correct: 0,
+  explanation: "IV stands for intravenous, meaning into a vein.",
+  source: "Lecture 1 — Route Abbreviations"
+},
+{
+  q: "Which abbreviation means administration into a muscle?",
+  image: null,
+  options: [
+    "SC",
+    "IM",
+    "PO",
+    "SL"
+  ],
+  correct: 1,
+  explanation: "IM stands for intramuscular, meaning into a muscle.",
+  source: "Lecture 1 — Route Abbreviations"
+},
+{
+  q: "Which abbreviation refers to administration within the peritoneal cavity?",
+  image: null,
+  options: [
+    "ICV",
+    "SC",
+    "IP",
+    "SL"
+  ],
+  correct: 2,
+  explanation: "IP stands for intraperitoneal, meaning within the peritoneal cavity.",
+  source: "Lecture 1 — Route Abbreviations"
+},
+{
+  q: "Which statement about the approved generic name corresponds to the original lecture MCQ?",
+  image: null,
+  options: [
+    "It is always protected as a company-specific brand",
+    "It precisely describes the drug's molecular structure",
+    "It is the name used only for advertising",
+    "It is the official or approved drug name, distinct from the chemical and trade names"
+  ],
+  correct: 3,
+  explanation: "The generic name is the official or approved name, whereas the chemical name describes structure and the trade name is the brand name.",
+  source: "Original Lecture MCQ — Generic Name"
+},
+{
+  q: "Which of the following is NOT a subject of pharmacodynamics?",
+  image: null,
+  options: [
+    "Phases of drug metabolism",
+    "Mechanism of action",
+    "Drug-receptor affinity",
+    "Dose-response relationship"
+  ],
+  correct: 0,
+  explanation: "Drug metabolism is a pharmacokinetic process. Pharmacodynamics concerns drug effects, mechanisms, receptor interactions, and dose-response relationships.",
+  source: "Original Lecture MCQ — Pharmacodynamics"
+},
+{
+  q: "Which option best describes the purpose of Phase IV clinical studies as presented in the lecture?",
+  image: null,
+  options: [
+    "Initial testing only in healthy volunteers",
+    "Post-marketing monitoring of efficacy and rare or severe adverse effects",
+    "Chemical stability testing before clinical trials",
+    "First testing of a drug in laboratory animals"
+  ],
+  correct: 1,
+  explanation: "The lecture describes Phase IV as post-marketing surveillance after approval, including follow-up of efficacy and rare or severe adverse effects.",
+  source: "Original Lecture MCQ — Clinical Trials"
+}
+  ]
+},
+
+"physiology0": {
+      title: "First Quiz",
+      questions: [
+        {
+          q: "The functions of plasma proteins include all the following EXCEPT:",
+          options: [
+            "Formation of the blood clot",
+            "Transport of carbon dioxide",
+            "Buffer function",
+            "Regulation of the blood glucose level"
+          ],
+          correct: 3,
+          explanation: "Plasma proteins perform numerous functions including blood clotting (via fibrinogen), carbon dioxide transport (as carbamino proteins), and buffering blood pH, but they are not primarily responsible for the regulation of blood glucose levels[cite: 2, 8].",
+          source: "First Quiz: Physiology of blood"
+        },
+        {
+          q: "Which of the following is considered a function of RBCs?",
+          options: [
+            "Defense through antibody formation",
+            "Regulation of blood volume",
+            "Carrier for hormones & vitamins",
+            "Keep hemoglobin inside"
+          ],
+          correct: 3,
+          explanation: "The red blood cell membrane's structural role keeps hemoglobin safely enclosed inside the cell to perform its gas transport and buffering duties efficiently[cite: 3, 8].",
+          source: "First Quiz: Physiology of blood"
+        },
+        {
+          q: "The plasma protein which contribute more to blood viscosity",
+          options: [
+            "Albumin.",
+            "Fibrinogen.",
+            "Thyroxin.",
+            "Prothrombin."
+          ],
+          correct: 1,
+          explanation: "Fibrinogen is the plasma protein that contributes most significantly to maintaining normal plasma viscosity and arterial diastolic blood pressure[cite: 4, 8].",
+          source: "First Quiz: Physiology of blood"
+        },
+        {
+          q: "About A/G ratio which of the following is true?",
+          options: [
+            "it is decreased in case of heart failure",
+            "it is normally less than one",
+            "in case of liver failure albumin increases",
+            "renal failure decreases this ratio"
+          ],
+          correct: 3,
+          explanation: "The normal Albumin-Globulin (A/G) ratio is about 1.2–1.6. In renal failure (such as nephrotic syndrome), albumin is heavily lost in urine, which decreases the A/G ratio[cite: 5, 8].",
+          source: "First Quiz: Physiology of blood"
+        },
+        {
+          q: "Which of the following about anaemias is correct?",
+          options: [
+            "malaria causes posthemorrhagic anemia.",
+            "hemolytic anemia is caused by iron deficiency.",
+            "chemotherapy causes aplastic anaemia.",
+            "vitamin B 12 deficiency causes microcytic anaemia."
+          ],
+          correct: 2,
+          explanation: "Aplastic anemia is caused by bone marrow depression or destruction due to agents like toxic chemicals, X-rays, or chemotherapy drugs[cite: 6, 8].",
+          source: "First Quiz: Physiology of blood"
+        }
+      ]
+   },
+
+"physiology00": {
+      title: "Second Quiz",
+      questions: [
+        {
+          q: "Which of the following factors act as an anticoagulants in vivo only",
+          options: [
+            "A) citrate ion",
+            "B) heparin",
+            "C) coumarin",
+            "D) oxalate"
+          ],
+          correct: 1,
+          explanation: "Heparin acts as a natural anticoagulant both in vivo and in vitro, but is predominantly known for acting inside the body (in vivo) by enhancing antithrombin III activity.",
+          source: "Second quiz"
+        },
+        {
+          q: "is a white blood cell that is concerned with production of antibodies:",
+          options: [
+            "a. T-Lymphocyte",
+            "b. Monocyte",
+            "c. B-Lymphocyte",
+            "d. Eosinophil"
+          ],
+          correct: 2,
+          explanation: "B-Lymphocytes transform into plasma cells which are responsible for humoral immunity and the production of antibodies.",
+          source: "Second quiz"
+        },
+        {
+          q: "--------is a vitamin needed by the liver to synthesize clotting factors.",
+          options: [
+            "a. Vitamin C",
+            "b. Vitamin B12",
+            "c. Vitamin K",
+            "d. Vitamin B1"
+          ],
+          correct: 2,
+          explanation: "Vitamin K is essential for the liver to synthesize prothrombin (Factor II), VII, IX, and X.",
+          source: "Second quiz"
+        },
+        {
+          q: "All the following conditions causes bleeding tendency except",
+          options: [
+            "A) thrombocytopenia",
+            "B) aspirin overdose",
+            "C) atherosclerosis",
+            "D) liver failure"
+          ],
+          correct: 2,
+          explanation: "Atherosclerosis involves plaque buildup in arteries leading to thrombosis or restricted blood flow rather than a systemic bleeding tendency, whereas thrombocytopenia, aspirin overdose, and liver failure all impair hemostasis/coagulation causing bleeding.",
+          source: "Second quiz"
+        },
+        {
+          q: "is a white blood cell is capable of phagocytosis:",
+          options: [
+            "a. T lymphocytes",
+            "b. neutrophils",
+            "c. B Lymphocyte",
+            "d. Basophil"
+          ],
+          correct: 1,
+          explanation: "Neutrophils are professional phagocytic white blood cells that engulf and destroy invading pathogens.",
+          source: "Second quiz"
+        }
+      ]
+   },
+
+"Physiology1": {
+      title: "Quiz I",
+      questions: [
+        {
+          q: "What is the approximate volumetric percentage of extracellular fluid (plasma) in normal whole blood?",
+          options: ["35%", "45%", "55%", "65%"],
+          correct: 2,
+          explanation: "Blood is composed by volume of approximately 45% cellular elements and 55% extracellular fluid (plasma).",
+          source: "Physiology of Blood and body Fluids"
+        },
+        {
+          q: "Which of the following plasma proteins is primarily responsible for maintaining the normal viscosity of plasma?",
+          options: ["Serum albumin", "Serum globulin", "Fibrinogen", "Prothrombin"],
+          correct: 2,
+          explanation: "Mainly fibrinogen is responsible for the viscosity of plasma, which helps keep normal arterial blood pressure, especially the diastolic pressure.",
+          source: "Physiology of Blood and body Fluids"
+        },
+        {
+          q: "What is the normal range of the Albumin-Globulin (A/G) ratio in human blood?",
+          options: ["0.5 - 0.9", "1.2 - 1.6", "2.0 - 2.5", "3.0 - 3.5"],
+          correct: 1,
+          explanation: "The Albumin-globulin ratio (A/G ratio) is about 1.2-1.6 under normal physiological conditions.",
+          source: "Physiology of Blood and body Fluids"
+        },
+        {
+          q: "Through what mechanism do plasma proteins regulate the exchange of fluids between plasma and tissue fluids?",
+          options: ["Colloid osmotic pressure of about 25 mm Hg", "Hydrostatic pressure exceeding 100 mm Hg", "Active transport across the capillary endothelium", "Direct binding to interstitial water molecules"],
+          correct: 0,
+          explanation: "Plasma proteins regulate blood volume through their colloid osmotic pressure (25 mm Hg), which tends to absorb fluids into blood against the filtering force of capillary blood pressure.",
+          source: "Physiology of Blood and body Fluids"
+        },
+        {
+          q: "Which functional groups on plasma protein amino acid side chains provide their buffering action?",
+          options: ["Hydroxyl (–OH) and sulfhydryl (–SH) groups", "Carboxyl (–COOH) and amino (–NH2) groups", "Phosphate (–PO4) and methyl (–CH3) groups", "Carbonyl (–C=O) and ester groups"],
+          correct: 1,
+          explanation: "Plasma proteins (especially albumin) have both acidic (carboxyl, –COOH) and basic (amino, –NH2) groups in their amino acid side chains, enabling them to buffer changes in blood pH.",
+          source: "Physiology of Blood and body Fluids"
+        },
+        {
+          q: "What is the approximate normal hemoglobin concentration in a healthy adult male?",
+          options: ["12.0 g/100ml ± 2.0g/100ml", "14.0 g/100ml ± 2.0g/100ml", "16.0 g/100ml ± 2.0g/100ml", "18.0 g/100ml ± 2.0g/100ml"],
+          correct: 2,
+          explanation: "Normal adult ranges for hemoglobin are male, 16.0 g/100ml ± 2.0g/100ml; and female, 14.0g/100ml ± 2.0g/100ml.",
+          source: "Physiology of Blood and body Fluids"
+        },
+        {
+          q: "How much oxygen can each gram of hemoglobin combine with under normal physiological conditions?",
+          options: ["1.00 ml", "1.34 ml", "2.01 ml", "3.14 ml"],
+          correct: 1,
+          explanation: "Each gram of hemoglobin can combine with 1.34 ml of oxygen, which yields roughly 20 ml of O2 per 100 ml of blood given a normal hemoglobin level of 15 g/100ml.",
+          source: "Physiology of Blood and body Fluids"
+        },
+        {
+          q: "Which enzyme is kept inside the red blood cells by their membrane and is critical for CO2 carriage?",
+          options: ["Lipase", "Carbonic anhydrase", "Acetylcholinesterase", "Plasmin"],
+          correct: 1,
+          explanation: "The RBC membrane keeps the enzyme carbonic anhydrase inside the cell, which plays a major role in carbon dioxide carriage and transport.",
+          source: "Physiology of Blood and body Fluids"
+        },
+        {
+          q: "In pernicious anemia, what morphological characteristics are typically observed in the circulating red blood cells?",
+          options: ["Microcytic and hypochromic", "Normocytic and normochromic", "Macrocytic and hyperchromic", "Spherocytic and fragile"],
+          correct: 2,
+          explanation: "In pernicious anemia (due to vitamin B12 deficiency), immature red blood cells leave the bone marrow in the megaloblast stage, making them bigger in size (macrocytic) and containing more hemoglobin (hyperchromic).",
+          source: "Physiology of Blood and body Fluids"
+        },
+        {
+          q: "What is a primary physiological cause of physiological polycythemia?",
+          options: ["Acute blood loss from trauma", "Prolonged exposure to low oxygen tension at high altitudes", "Autoimmune destruction of red blood cells", "Bone marrow aplasia caused by X-rays"],
+          correct: 1,
+          explanation: "Physiological polycythemia occurs in cases of prolonged exposure to low O2 tension, such as living at high altitudes for several weeks.",
+          source: "Physiology of Blood and body Fluids"
+        },
+        {
+          q: "Which substance is released by platelets to cause marked local vasoconstriction of injured blood vessels?",
+          options: ["Serotonin", "Histamine", "Heparin", "Fibrinogen"],
+          correct: 0,
+          explanation: "Immediately after injury, platelets release a vasoconstrictor substance called serotonin, which contributes to local vasoconstriction alongside myogenic contraction.",
+          source: "Physiology of Blood and body Fluids"
+        },
+        {
+          q: "What is the substance released from platelets that causes fibrin contraction during clot retraction?",
+          options: ["Thromboplastin", "Retractozyme", "Plasminogen", "Prothrombin activator"],
+          correct: 1,
+          explanation: "Fibrin contraction (clot retraction) is caused by a substance released from the platelets called Retractozyme.",
+          source: "Physiology of Blood and body Fluids"
+        },
+        {
+          q: "Which plasma protein globulin acts as the inactive precursor for the proteolytic enzyme that digests fibrin threads during clot lysis?",
+          options: ["Fibrinogen", "Prothrombin", "Plasminogen", "Factor XII"],
+          correct: 2,
+          explanation: "The plasma protein globulin called plasminogen (or profibrinolysin) is activated into plasmin (or fibrinolysin), which digests fibrin threads, fibrinogen, and several coagulation factors.",
+          source: "Physiology of Blood and body Fluids"
+        },
+        {
+          q: "What is the primary underlying defect in classical hemophilia (Hemophilia A)?",
+          options: ["Deficiency of factor VIII", "Lack of factor IX", "Severe thrombocytopenia", "Platelet functional defect (Thrombasthenia)"],
+          correct: 0,
+          explanation: "Hemophilia A accounts for 85% of cases and is classical hemophilia caused by a deficiency of factor VIII.",
+          source: "Physiology of Blood and body Fluids"
+        },
+        {
+          q: "What defines thrombocytopenia regarding the platelet count per cubic millimeter?",
+          options: ["Below 10,000 / mm3", "Below 50,000 / mm3", "Below 100,000 / mm3", "Below 200,000 / mm3"],
+          correct: 1,
+          explanation: "Thrombocytopenia (thrombocytopenic purpura) is defined as a very low level of platelets, specifically below 50,000 per cubic millimeter.",
+          source: "Physiology of Blood and body Fluids"
+        },
+        {
+          q: "Which condition is characterized by normal platelet counts but defective platelet function, potentially caused by aspirin exposure or severe secondary uremia?",
+          options: ["Hemophilia B", "Thrombocytopenia", "Thrombasthenia", "Polycythemia vera"],
+          correct: 2,
+          explanation: "Thrombasthenia is a state in which platelet quantity is normal, but they are defective in function, which may result from primary causes, severe secondary uremia, or exposure to certain drugs like aspirin.",
+          source: "Physiology of Blood and body Fluids"
+        },
+        {
+          q: "What initiates the extrinsic pathway of blood coagulation?",
+          options: ["Contact activation with smooth siliconized containers", "Trauma to the vascular wall or to tissues outside blood vessels", "Spontaneous activation of circulating plasminogen", "Destruction of mature red blood cells in the spleen"],
+          correct: 1,
+          explanation: "The extrinsic pathway of blood coagulation begins with trauma to the vascular wall or to the tissues outside the blood vessels.",
+          source: "Physiology of Blood and body Fluids"
+        },
+        {
+          q: "How does collection of blood in siliconized containers prevent unwanted coagulation?",
+          options: ["Silicon releases exogenous heparin into the sample", "Silicon prevents the contact activation of factor XII", "Silicon neutralizes all circulating calcium ions", "Silicon destroys platelets instantly upon contact"],
+          correct: 1,
+          explanation: "Silicone has a very smooth inner surface which prevents the contact activation of factor XII, keeping blood from clotting during collection.",
+          source: "Physiology of Blood and body Fluids"
+        },
+        {
+          q: "Which specific spinal cord regions experience degenerative lesions in pernicious anemia?",
+          options: ["Dorsal and lateral columns", "Ventral horns only", "Cervical enlargement gray matter", "The conus medullaris exclusively"],
+          correct: 0,
+          explanation: "In pernicious anemia, degenerative lesions occur in the dorsal and lateral columns of the spinal cord and in peripheral nerves.",
+          source: "Physiology of Blood and body Fluids"
+        },
+        {
+          q: "What is the primary function of the plasma protein fraction known as fibrinogen?",
+          options: ["Carrying thyroxine and metal ions", "Regulating capillary permeability", "Essential role in blood clotting and plasma viscosity", "Buffering lactic acid during exercise"],
+          correct: 2,
+          explanation: "Fibrinogen is essential for blood clotting and is also the primary plasma protein responsible for the viscosity of plasma.",
+          source: "Physiology of Blood and body Fluids"
+        }
+      ]
+   },
+
+"physiology2": {
+  title: "Quiz II",
+  questions: [
+    {
+      "q": "What is the intrinsic rhythmicity rate of the Sinoatrial (SA) node in the human heart?",
+      "options": [
+        "60-100 times/minute",
+        "35-40 times/minute",
+        "90-120 times/minute",
+        "120-140 times/minute"
+      ],
+      "correct": 2,
+      "explanation": "The rhythmicity of the S-A node is 90-120 times/minute, which is the highest rhythm in the heart, making it the natural pacemaker.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "Which anatomical and structural feature is primarily responsible for the extremely slow conduction velocity (0.02 m/sec) at the Atrioventricular (AV) node?",
+      "options": [
+        "Fewer number of gap junctions and smaller fiber diameter",
+        "High density of gap junctions and large fiber diameter",
+        "High concentration of voltage-gated calcium channels",
+        "Complete absence of intercalated discs"
+      ],
+      "correct": 0,
+      "explanation": "The slowest conduction is at the AV node (0.02 m/sec) due to fewer gap junctions and smaller fiber diameter.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What is the primary physiological significance of the slow conduction velocity through the AV node?",
+      "options": [
+        "To prevent tetanic contraction of the atrial myocardium",
+        "To synchronize the contraction of both atria simultaneously",
+        "To increase the end-diastolic volume via the Frank-Starling mechanism",
+        "To allow for efficient ventricular filling and protect ventricles from pathological high atrial rhythms"
+      ],
+      "correct": 3,
+      "explanation": "Slow conduction at the AV node allows efficient ventricular filling and helps protect the ventricles from pathological high atrial rhythms such as atrial flutter and fibrillation.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "Purkinje fibers achieve the fastest conduction velocity in the heart (reaching 4 m/sec) due to which of the following characteristics?",
+      "options": [
+        "Low density of gap junctions and large fiber diameter",
+        "High density of gap junctions",
+        "Extensive myelination of cardiac muscle fibers",
+        "Presence of specialized Purkinje nodal cells"
+      ],
+      "correct": 1,
+      "explanation": "Purkinje fibers conduct fastest (up to 4 m/sec in the lecture) due to a high density of gap junctions, allowing rapid and simultaneous excitation of both ventricles.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "According to the Frank-Starling law of the heart, within physiological limits, the force of cardiac contraction is directly proportional to:",
+      "options": [
+        "The heart rate per minute",
+        "The initial length of cardiac muscle fibers determined by diastolic filling",
+        "The concentration of circulating epinephrine",
+        "The duration of the absolute refractory period"
+      ],
+      "correct": 1,
+      "explanation": "Within physiological limits, the force of contraction is directly proportional to the initial length of the cardiac muscle fibers, which is determined by the degree of diastolic filling.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "How do cardiac glycosides like Digitalis affect myocardial contractility at the cellular level?",
+      "options": [
+        "By increasing calcium efflux from the cardiac muscle cells",
+        "By blocking beta-1 adrenergic receptors on the cell membrane",
+        "By accelerating the activity of the sodium-potassium ATPase pump",
+        "By decreasing calcium efflux from the cardiac muscle cells"
+      ],
+      "correct": 3,
+      "explanation": "Digitalis increases contractility by inhibiting the Na+/K+-ATPase. The resulting change in intracellular sodium reduces calcium extrusion through the sodium-calcium exchanger, increasing intracellular calcium available for contraction.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "Which specific phase of the cardiac cycle and action potential is occupied entirely by the Absolute Refractory Period (ARP)?",
+      "options": [
+        "The whole cardiac systole and early diastole",
+        "The entire phase of ventricular diastole",
+        "The period of rapid ventricular filling only",
+        "The phase of atrial depolarization and repolarization"
+      ],
+      "correct": 0,
+      "explanation": "According to the lecture, the ARP occupies the whole cardiac systole and early diastole, during which the cardiac muscle does not respond to another stimulus.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What is the primary physiological importance of the long Absolute Refractory Period in cardiac muscle?",
+      "options": [
+        "To ensure a higher baseline heart rate during exercise",
+        "To synchronize the opening of the aortic and pulmonary valves",
+        "To protect the heart from tetanus, cardiac fatigue, and allow sufficient time for recovery",
+        "To allow summation of subthreshold stimuli into tetanic contractions"
+      ],
+      "correct": 2,
+      "explanation": "The lecture describes the long ARP as protecting the heart from tetanus and cardiac fatigue and giving it enough time for recovery.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What is the effect of excess potassium ions (K+) on cardiac function according to the lecture?",
+      "options": [
+        "It favors systole and stops the heart in systole",
+        "It increases heart rate and automaticity of the SA node",
+        "It has no significant effect on cardiac membrane potential",
+        "It favors diastole, and excess K+ may stop the heart in diastole"
+      ],
+      "correct": 3,
+      "explanation": "The lecture states that potassium ions favor diastole and that excess potassium may stop the heart in diastole. Potassium is an ion, not an acid.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "In Marey's law of the heart, an increase in arterial blood pressure stimulates baroreceptors located in which anatomical sites?",
+      "options": [
+        "Right and left ventricular walls",
+        "Wall of the carotid sinus and aortic arch",
+        "Superior vena cava and right atrium junction",
+        "Pulmonary trunk and pulmonary veins"
+      ],
+      "correct": 1,
+      "explanation": "An increase in arterial blood pressure stimulates baroreceptors in the walls of the carotid sinus and aortic arch.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What are the specific afferent nerve pathways carrying signals from carotid sinus and aortic arch baroreceptors to the cardioinhibitory center in the medulla?",
+      "options": [
+        "Phrenic nerve and vagus nerve trunk",
+        "Hypoglossal nerve and spinal accessory nerve",
+        "Aortic branch of the vagus nerve and sinus branch of the glossopharyngeal nerve",
+        "Sympathetic chain ganglia and greater splanchnic nerve"
+      ],
+      "correct": 2,
+      "explanation": "The aortic branch of the vagus and the sinus branch of the glossopharyngeal nerves carry afferent impulses from the baroreceptors to the cardioinhibitory center in the medulla.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What is the defining mechanism and primary significance of the Bainbridge reflex?",
+      "options": [
+        "Atrial distension from increased venous return causes reflex heart rate increase to help prevent blood stagnation in the atria",
+        "Decreased arterial pressure causes reflex tachycardia via sympathetic withdrawal",
+        "Ventricular overload triggers parasympathetic arrest to protect myocardial fibers",
+        "Carotid body stimulation induces immediate systemic vasodilation"
+      ],
+      "correct": 0,
+      "explanation": "Atrial distension causes an increase in heart rate through reflex and direct components; the lecture gives prevention of blood stagnation in the atria as its significance.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "How does the hypothalamus influence cardiac regulation through its distinct nuclear groups according to the lecture?",
+      "options": [
+        "Anterior/medial nuclei cause parasympathetic bradycardia, while posterior/lateral nuclei cause sympathetic tachycardia",
+        "Anterior/medial nuclei cause tachycardia, while posterior/lateral nuclei cause bradycardia",
+        "All hypothalamic nuclei act exclusively via sympathetic pathways to accelerate the heart",
+        "The hypothalamus has no autonomic regulatory role on heart rate"
+      ],
+      "correct": 0,
+      "explanation": "The lecture associates anterior and medial hypothalamic nuclei with parasympathetic bradycardia, and posterior and lateral nuclei with sympathetic tachycardia.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What is the cardiovascular response to severe pain versus moderate pain as described in the lecture?",
+      "options": [
+        "Moderate pain causes bradycardia; severe pain causes tachycardia",
+        "Both moderate and severe pain produce identical sympathetic acceleration",
+        "Moderate pain causes tachycardia due to sympathetic stimulation, while severe pain causes parasympathetic stimulation and bradycardia or stoppage",
+        "Both cause immediate vagal arrest of the heart"
+      ],
+      "correct": 2,
+      "explanation": "Moderate and light pain lead to tachycardia due to sympathetic stimulation, whereas severe pain leads to parasympathetic stimulation and bradycardia or even complete stoppage of the heart.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What is the quantitative effect of a 1°C rise in body temperature on the resting heart rate according to the lecture?",
+      "options": [
+        "Increases heart rate by about 5 beats/minute",
+        "Increases heart rate by about 15 beats/minute",
+        "Increases heart rate by about 30 beats/minute",
+        "Decreases heart rate due to thermal vasodilation"
+      ],
+      "correct": 1,
+      "explanation": "The lecture states that a rise of 1°C in body temperature leads to an increase of about 15 beats/minute in heart rate.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "Which of the following is listed as a major function of the cardiovascular system?",
+      "options": [
+        "Producing digestive enzymes in the intestine",
+        "Generating red blood cells in all body tissues",
+        "Controlling voluntary skeletal muscle contraction directly",
+        "Transporting nutrients, gases, and waste products around the body"
+      ],
+      "correct": 3,
+      "explanation": "The lecture lists transport of nutrients, gases, and waste products as a major function of the cardiovascular system.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "Which set contains the four properties of cardiac muscle listed in the lecture?",
+      "options": [
+        "Elasticity, filtration, secretion, and absorption",
+        "Diffusion, osmosis, metabolism, and excretion",
+        "Rhythmicity, contractility, excitability, and conductivity",
+        "Automaticity, digestion, filtration, and elasticity"
+      ],
+      "correct": 2,
+      "explanation": "The four properties listed are rhythmicity, contractility, excitability, and conductivity.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What is autorhythmicity of cardiac muscle?",
+      "options": [
+        "The ability to contract only after a motor nerve stimulus",
+        "The ability to prevent all electrical impulses from spreading",
+        "The ability to relax only when blood pressure falls",
+        "The ability of cardiac muscle to beat spontaneously and regularly"
+      ],
+      "correct": 3,
+      "explanation": "The lecture defines autorhythmicity as the ability of cardiac muscle to beat spontaneously and regularly; the nerve supply controls the rate but does not initiate the rhythm.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "Which pairing correctly describes autonomic effects on cardiac rhythmicity according to the lecture?",
+      "options": [
+        "Parasympathetic stimulation increases rhythmicity; sympathetic stimulation stops it",
+        "Parasympathetic stimulation releases acetylcholine and decreases rhythmicity; sympathetic stimulation increases rhythmicity",
+        "Both sympathetic and parasympathetic stimulation always decrease rhythmicity",
+        "Neither autonomic division can affect cardiac rhythmicity"
+      ],
+      "correct": 1,
+      "explanation": "The lecture states that vagal parasympathetic stimulation releases acetylcholine and decreases rhythmicity, whereas sympathetic stimulation increases rhythmicity.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What is the effect of a moderate change in temperature on cardiac rhythmicity?",
+      "options": [
+        "A moderate rise increases rhythmicity, while a moderate decrease reduces it",
+        "Both moderate rises and decreases increase rhythmicity",
+        "A moderate rise reduces rhythmicity, while a moderate decrease increases it",
+        "Moderate temperature changes have no effect on rhythmicity"
+      ],
+      "correct": 0,
+      "explanation": "The lecture states that a moderate increase in temperature increases rhythmicity and a moderate decrease reduces it; an excessive increase or decrease may stop the rhythm.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "According to the lecture, what is the effect of excess sodium ions (Na+) on the heart?",
+      "options": [
+        "It decreases rhythmicity and increases contractility",
+        "It increases rhythmicity but depresses contractility",
+        "It has no effect on rhythmicity or contractility",
+        "It stops the heart in systole in every case"
+      ],
+      "correct": 1,
+      "explanation": "The lecture states that excess sodium increases rhythmicity but depresses contractility.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "According to the lecture, what is the effect of excess calcium ions (Ca2+) on cardiac function?",
+      "options": [
+        "Calcium favors systole, and excess calcium may stop the heart in systole",
+        "Calcium favors diastole and stops the heart in diastole",
+        "Calcium has no effect on cardiac contraction",
+        "Calcium only changes the conduction velocity in Purkinje fibers"
+      ],
+      "correct": 0,
+      "explanation": "The lecture states that calcium ions favor systole and that excess calcium may stop the heart in systole.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What happens to the heart after complete absence of oxygen according to the lecture?",
+      "options": [
+        "The heart rate remains permanently unchanged",
+        "The heart immediately doubles its contraction force",
+        "The heart continues beating normally without oxygen",
+        "The heart stops after a few beats"
+      ],
+      "correct": 3,
+      "explanation": "The lecture states that in the complete absence of oxygen, the heart stops after a few beats.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "How do catecholamines increase cardiac contractility according to the lecture?",
+      "options": [
+        "By preventing all calcium from entering cardiac cells",
+        "By decreasing the initial length of cardiac muscle fibers",
+        "By increasing calcium influx",
+        "By blocking the cardiac action potential"
+      ],
+      "correct": 2,
+      "explanation": "The lecture states that catecholamines increase contractility by increasing calcium influx.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What is cardiac muscle excitability?",
+      "options": [
+        "The ability to transmit blood through the valves without contraction",
+        "The ability to beat spontaneously without an action potential",
+        "The ability to contract continuously without any refractory period",
+        "The ability to respond to an adequate stimulus by generating an action potential that leads to mechanical activity"
+      ],
+      "correct": 3,
+      "explanation": "The lecture defines excitability as the ability of cardiac muscle to respond to an adequate stimulus by generating an action potential that leads to mechanical activity.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What characterizes the relative refractory period of cardiac muscle?",
+      "options": [
+        "No stimulus can produce any response, regardless of its strength",
+        "The muscle is more excitable than normal and responds to weaker stimuli",
+        "Excitability gradually recovers, and a sufficiently strong stimulus can produce excitation",
+        "The period occurs only before cardiac depolarization begins"
+      ],
+      "correct": 2,
+      "explanation": "During the relative refractory period, excitability gradually recovers; a strong stimulus can produce excitation, which the lecture describes as an extrasystole with a weak contraction.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What characterizes the supernormal phase of cardiac excitability?",
+      "options": [
+        "The cardiac muscle is more excitable than normal, so a weaker-than-normal stimulus can evoke excitation",
+        "The cardiac muscle is completely unresponsive to every stimulus",
+        "Only a stimulus stronger than normal can evoke excitation",
+        "Conduction through the AV node permanently stops"
+      ],
+      "correct": 0,
+      "explanation": "The lecture describes the supernormal phase as a period of increased excitability in which a weaker-than-normal stimulus can evoke excitation.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "Which sequence best represents the cardiac conductive system listed in the lecture?",
+      "options": [
+        "AV node, aortic valve, pulmonary vein, SA node",
+        "SA node, internodal pathways, AV node, AV bundle and bundle branches (Purkinje system)",
+        "Purkinje fibers, carotid sinus, hypothalamus, SA node",
+        "Vagus nerve, sympathetic chain, aortic arch, AV bundle"
+      ],
+      "correct": 1,
+      "explanation": "The listed conductive system includes the SA node, internodal pathways, AV node, and AV bundle with its bundle branches and Purkinje system.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What average heart rate and resting range are given in the lecture?",
+      "options": [
+        "An average of about 70 beats/minute, with a resting range of 60-100 beats/minute",
+        "An average of about 40 beats/minute, with a range of 20-40 beats/minute",
+        "An average of about 120 beats/minute, with a range of 100-140 beats/minute",
+        "An average of about 160 beats/minute, with a range of 140-180 beats/minute"
+      ],
+      "correct": 0,
+      "explanation": "The lecture gives an average heart rate of about 70 beats/minute and a resting range of 60-100 beats/minute.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "Which statement about variation in resting heart rate is consistent with the lecture?",
+      "options": [
+        "It is always slower in infancy and faster in trained athletes",
+        "It is faster in infancy and in females, while trained athletes tend to have a slower rate",
+        "Sex and physical training do not affect resting heart rate",
+        "Trained athletes always have a resting heart rate above 100 beats/minute"
+      ],
+      "correct": 1,
+      "explanation": "The lecture states that resting heart rate is faster in infancy and in females, while athletes tend to have a slower resting rate.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What response follows an increase in arterial blood pressure through the baroreceptor reflex described in the lecture?",
+      "options": [
+        "An increase in heart rate and arterial vasoconstriction only",
+        "No change in heart rate or vascular tone",
+        "A decrease in heart rate and reflex vasodilatation of arteries",
+        "A permanent increase in heart rate without any vascular response"
+      ],
+      "correct": 2,
+      "explanation": "An increase in arterial blood pressure activates baroreceptors and leads to a reflex decrease in heart rate and vasodilatation of arteries.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "Which combination of changes stimulates the chemoreceptors described in the lecture?",
+      "options": [
+        "High oxygen tension, low CO2 pressure, and decreased hydrogen-ion concentration",
+        "Increased blood glucose alone",
+        "Reduced body temperature alone",
+        "Low oxygen tension, elevated CO2 pressure, and increased hydrogen-ion concentration"
+      ],
+      "correct": 3,
+      "explanation": "The lecture lists lowered oxygen tension, elevated CO2 pressure, and increased hydrogen-ion concentration as stimuli for chemoreceptors; the resulting reflex response includes tachycardia and elevated blood pressure.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What is respiratory sinus arrhythmia?",
+      "options": [
+        "The heart slows during inspiration and accelerates during expiration",
+        "The heart rate remains fixed throughout respiration",
+        "The heart accelerates during inspiration and slows during expiration",
+        "The heart stops briefly during every inspiration"
+      ],
+      "correct": 2,
+      "explanation": "The lecture calls the acceleration of the heart during inspiration and slowing during expiration respiratory sinus arrhythmia.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "According to the lecture, which inputs may produce conditioned reflex effects on heart rate through the cerebral cortex?",
+      "options": [
+        "Only changes in blood calcium",
+        "Visual, smell, or auditory stimuli",
+        "Only stretching of ventricular muscle",
+        "Only changes in oxygen concentration"
+      ],
+      "correct": 1,
+      "explanation": "The lecture lists visual, smell, and auditory stimuli as examples of inputs involved in conditioned reflex effects through the cerebral cortex.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "Which emotional responses are described in the lecture?",
+      "options": [
+        "Fear and anger always cause bradycardia, while emotional shocks always cause tachycardia",
+        "All emotions have no effect on heart rate",
+        "Every emotional response produces the same increase in heart rate",
+        "Fear and anger may increase heart rate, while sudden emotional shocks may cause bradycardia"
+      ],
+      "correct": 3,
+      "explanation": "The lecture associates fear and anger with increased heart rate and sudden emotional shocks with bradycardia.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What is the effect of voluntary skeletal muscle contraction on heart rate in the reflex described in the lecture?",
+      "options": [
+        "It causes reflex acceleration of the heart",
+        "It always causes complete cardiac arrest",
+        "It causes reflex slowing of the heart in every case",
+        "It has no possible reflex effect on heart rate"
+      ],
+      "correct": 0,
+      "explanation": "The lecture describes the 'Alarm Smirk reflex' as reflex acceleration of the heart during contraction of voluntary skeletal muscles.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "Which comparison between epinephrine and norepinephrine matches the lecture's description of humoral regulation?",
+      "options": [
+        "Both hormones only slow the heart and cause vasodilatation",
+        "Epinephrine acts only indirectly, while norepinephrine has no direct effect on the heart",
+        "Neither hormone has any effect on heart rate or blood pressure",
+        "Both directly accelerate the heart; epinephrine's direct effect predominates, while norepinephrine may cause reflex bradycardia through vasoconstriction and increased blood pressure"
+      ],
+      "correct": 3,
+      "explanation": "The lecture describes a direct accelerating effect for both hormones. It says epinephrine's direct effect predominates, whereas norepinephrine's vasoconstrictor effect may raise blood pressure and trigger reflex bradycardia.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "How do thyroid hormones accelerate the heart according to the lecture?",
+      "options": [
+        "They act directly on the SA node, potentiate catecholamine effects, and increase metabolism, which can increase venous return and body temperature",
+        "They block the SA node and eliminate catecholamine effects",
+        "They act only by decreasing body temperature",
+        "They reduce general metabolism and prevent venous return"
+      ],
+      "correct": 0,
+      "explanation": "The lecture lists a direct effect on the SA node, potentiation of catecholamines, and increased metabolism with effects on venous return and body temperature.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What is the direct component of the Bainbridge response described in the lecture?",
+      "options": [
+        "Increased arterial pressure directly stops the SA node",
+        "Increased atrial volume stretches the SA node and contributes directly to an increase in heart rate",
+        "Reduced venous return stretches the AV node and slows conduction",
+        "Chemoreceptor activation directly prevents atrial stretching"
+      ],
+      "correct": 1,
+      "explanation": "The lecture attributes the direct component to stretching of the SA node when atrial volume increases.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "Which three broad mechanisms are listed for regulation of heart rate?",
+      "options": [
+        "Renal filtration, digestion, and bone remodeling",
+        "Vision, hearing, and balance only",
+        "Nervous regulation, humoral regulation, and the effect of body temperature",
+        "Blood clotting, bile secretion, and gas exchange in the lungs only"
+      ],
+      "correct": 2,
+      "explanation": "The lecture groups heart-rate regulation into nervous regulation, humoral regulation, and the effect of body temperature.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What effect of thyroxine on cardiac contractility is stated in the lecture?",
+      "options": [
+        "Thyroxine permanently abolishes cardiac contractility",
+        "Thyroxine decreases contractility in every circumstance",
+        "Thyroxine increases contractility",
+        "Thyroxine affects only AV-node conduction and never contractility"
+      ],
+      "correct": 2,
+      "explanation": "The lecture lists thyroxine as a factor that increases cardiac contractility.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "What is cardiac muscle contractility?",
+      "options": [
+        "The ability to beat spontaneously and regularly",
+        "The ability of cardiac muscle to contract and push blood into the circulation",
+        "The ability to respond to an adequate stimulus by generating an action potential",
+        "The ability to transmit the excitation wave through cardiac tissue"
+      ],
+      "correct": 1,
+      "explanation": "The lecture defines contractility as the ability of cardiac muscle to contract and push blood into the circulation.",
+      "source": "Physiology of cardiovascular system"
+    },
+    {
+      "q": "Which set contains the factors the lecture lists as affecting cardiac rhythmicity?",
+      "options": [
+        "Only heart rate, stroke volume, and blood pressure",
+        "Only blood glucose, kidney filtration, and digestion",
+        "Only valve position, blood viscosity, and skeletal muscle strength",
+        "Temperature, ions, pH changes, drugs, nervous regulation, and oxygen availability"
+      ],
+      "correct": 3,
+      "explanation": "The lecture lists temperature, ions, pH changes, drugs, nervous regulation, and oxygen among the factors affecting rhythmicity.",
+      "source": "Physiology of cardiovascular system"
+    }
+  ]
+},
+   
+
+};
+
+let questions = [], currentIdx = 0, score = 0, answered = false, missed = [];
+let currentQuiz = { id: '', title: '' };   // remembered so the finished quiz can be saved to the History
+const $ = id => document.getElementById(id);
+const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+let modalOpener = null;
+
+// Exit: go back if there is history, otherwise to the subjects list
+$('exit-btn').onclick = () => { history.length > 1 ? history.back() : (location.href = 'index.html'); };
+$('next-btn').onclick = () => nextQuestion();
+$('explain-btn').onclick = () => handleExplain();
+$('close-modal-btn').onclick = () => closeModal();
+$('restart-btn').onclick = () => location.reload();
+$('explain-modal').addEventListener('click', e => { if (e.target.id === 'explain-modal') closeModal(); });
+
+function init() {
+  const quizId = new URLSearchParams(location.search).get('quiz') || '';
+  const data = quizDatabase[quizId];
+
+  if (!data || !data.questions || !data.questions.length) {
+    $('quiz-screen').innerHTML =
+      '<div class="notfound">' + Q.icon('help') + '<h2>Quiz not found</h2><p>This quiz isn’t available yet.</p>' +
+      '<a class="btn" href="index.html">Back to subjects</a></div>';
+    return;
+  }
+
+  currentQuiz = { id: quizId, title: data.title };
+  $('quiz-title').textContent = data.title; Q.lang.mark($('quiz-title'));
+  document.title = data.title + ' · Quizzes';
+  questions = [...data.questions].sort(() => Math.random() - 0.5);
+  $('total-q-num').textContent = questions.length;
+  loadQ(true);
+}
+
+// ### IMAGE — optional image under the question (lazy-loaded, never stretched, click to enlarge)
+function setQuestionImage(q) {
+  const fig = $('question-image'), img = fig.querySelector('img');
+  if (!q.image) { fig.hidden = true; img.removeAttribute('src'); return; }
+  fig.hidden = false; fig.classList.add('loading');
+  img.alt = q.imageAlt || 'Question image';
+  img.onload = () => fig.classList.remove('loading');
+  img.onerror = () => { fig.hidden = true; console.warn('Quiz image not found:', q.image); };
+  img.src = q.image;
+}
+let lightboxOpener = null;
+function openLightbox() {
+  const img = $('question-image').querySelector('img');
+  $('lightbox-img').src = img.currentSrc || img.src; $('lightbox-img').alt = img.alt;
+  lightboxOpener = document.activeElement;
+  $('image-modal').classList.add('active');
+  $('close-image-btn').focus();
+}
+function closeLightbox() {
+  $('image-modal').classList.remove('active');
+  if (lightboxOpener && lightboxOpener.focus) lightboxOpener.focus();
+}
+$('question-image').onclick = openLightbox;
+$('image-modal').addEventListener('click', closeLightbox);
+
+function loadQ(first) {
+  answered = false;
+  const q = questions[currentIdx];
+  $('q-actions').hidden = true; $('next-btn').hidden = true; $('explain-btn').hidden = true;
+  $('current-q-num').textContent = currentIdx + 1;
+  const qt = $('question-text'); qt.textContent = q.q; qt.classList.remove('ar'); Q.lang.mark(qt, q.q);
+  setQuestionImage(q);
+  $('progress-bar').style.transform = 'scaleX(' + (currentIdx / questions.length) + ')';
+
+  const list = $('options-list');
+  const frag = document.createDocumentFragment();
+  q.options.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'option-btn'; b.setAttribute('dir', 'auto');
+    b.innerHTML = '<span class="opt-letter">' + letters[i] + '</span><span>' + opt + '</span>';
+    Q.lang.mark(b, b.textContent);
+    b.onclick = () => check(i, b);
+    frag.appendChild(b);
+  });
+  list.replaceChildren(frag);
+  if (!first) qt.focus({ preventScroll: true });
+}
+
+function check(idx, btn) {
+  if (answered) return;
+  answered = true;
+  const q = questions[currentIdx];
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach(b => b.disabled = true);
+
+  if (idx === q.correct) {
+    btn.classList.add('correct');
+    score++;
+  } else {
+    btn.classList.add('wrong');
+    btns[q.correct].classList.add('correct');
+    missed.push({ q: q.q, user: q.options[idx], correct: q.options[q.correct], image: q.image || '' });
+  }
+
+  $('progress-bar').style.transform = 'scaleX(' + ((currentIdx + 1) / questions.length) + ')';
+  const next = $('next-btn');
+  $('q-actions').hidden = false;   // the row (and its space) only exists once an answer is picked
+  next.hidden = false;
+  next.firstChild.nodeValue = currentIdx + 1 < questions.length ? 'Next Question' : 'See Results';
+  if (q.explanation) $('explain-btn').hidden = false;   // Explain shows only when the question has an explanation
+  next.focus({ preventScroll: true });
+}
+
+function handleExplain() {
+  const q = questions[currentIdx];
+  const explanation = q.explanation || 'No explanation available.';
+  const source = q.source
+    ? '<div class="modal-sep"><span class="k">' + Q.icon('book') + 'Source</span><p>' + q.source + '</p></div>' : '';
+  $('modal-text').innerHTML = explanation + source + '<div class="modal-sep"><button class="btn" id="ask-ai-btn" type="button">' + Q.icon('sparkles') + 'Ask Quizzes AI</button></div>';
+  Q.lang.mark($('modal-text'));
+  // Opens Quizzes AI in a window right here, so the quiz is never left
+  $('ask-ai-btn').onclick = () => openAi('Explain this: ' + String(q.q).replace(/\s+/g, ' '));
+  modalOpener = document.activeElement;
+  $('explain-modal').classList.add('active');
+  setTimeout(() => $('close-modal-btn').focus(), 30);
+}
+
+function closeModal() {
+  $('explain-modal').classList.remove('active');
+  if (modalOpener && modalOpener.focus) modalOpener.focus();
+}
+
+// ── Quizzes AI window: the same chat as the AI tab (index.html in embedded mode), shown in place ──
+let aiOpener = null;
+function openAi(ask) {
+  aiOpener = document.activeElement;
+  $('ai-frame').src = 'index.html?embed=1&ask=' + encodeURIComponent(ask) + '#ai';
+  $('ai-modal').classList.add('active');
+  $('close-ai-btn').focus();
+}
+function closeAi() {
+  $('ai-modal').classList.remove('active');
+  setTimeout(() => { if (!$('ai-modal').classList.contains('active')) $('ai-frame').src = 'about:blank'; }, 300);   // stop the chat once the window is gone
+  if (aiOpener && aiOpener.focus) aiOpener.focus();
+}
+$('close-ai-btn').onclick = closeAi;
+$('ai-modal').addEventListener('click', e => { if (e.target.id === 'ai-modal') closeAi(); });
+window.addEventListener('message', e => { if (e.origin === location.origin && e.data && e.data.type === 'q-ai-close') closeAi(); });   // Esc pressed inside the chat
+
+function nextQuestion() {
+  currentIdx++;
+  if (currentIdx < questions.length) loadQ();
+  else finish();
+}
+
+// ### HISTORY — every finished quiz is saved on this device and shown in the History tab of the home page
+function saveToHistory() {
+  const subj = Q.subjects.find(s => s.quizzes.some(z => z.id === currentQuiz.id));
+  Q.history.add({ t: Date.now(), quiz: currentQuiz.id, title: currentQuiz.title, subject: subj ? subj.name : '', score: score, total: questions.length, missed: missed });
+}
+
+function finish() {
+  saveToHistory();
+  $('main-quiz-container').hidden = true;
+  const res = $('result-screen'); res.classList.add('show');
+  const target = Math.round((score / questions.length) * 100);
+  const label = $('score-circle'), bar = $('score-bar');
+  requestAnimationFrame(() => { bar.style.strokeDashoffset = 339.3 * (1 - target / 100); });
+
+  const dur = 900, t0 = performance.now();
+  (function tick(now) {
+    const p = Math.min(1, (now - t0) / dur), eased = 1 - Math.pow(1 - p, 3);
+    label.textContent = Math.round(target * eased) + '%';
+    if (p < 1) requestAnimationFrame(tick); else setTimeout(revealDetails, 300);
+  })(t0);
+  window.scrollTo(0, 0);
+}
+
+function revealDetails() {
+  const mSide = $('mistakes-side');
+  if (missed.length === 0) {
+    mSide.innerHTML =
+      '<div class="perfect">' + Q.icon('trophy') + '<h2>Perfect Score!</h2><p>Original Gangsta 🐱‍👤</p></div>';
+  } else {
+    mSide.innerHTML =
+      '<h3>Your Wrong Answers</h3><p class="count">' + missed.length + ' question' + (missed.length !== 1 ? 's' : '') + ' to review</p>' +
+      '<div class="mistakes-list">' + missed.map((m, i) =>
+        '<div class="mistake-item" dir="auto" style="--d:' + (Math.min(i, 10) * 0.05) + 's">' +
+          '<p class="mq">' + Q.esc(m.q) + '</p>' +
+          '<p class="mw">✘ ' + m.user + '</p><p class="mc">✔ ' + m.correct + '</p></div>').join('') + '</div>';
+    mSide.querySelectorAll('.mistake-item').forEach(el => Q.lang.mark(el));
+  }
+  $('result-screen').classList.add('revealed');
+}
+
+// Keyboard: A–F or 1–6 picks an answer, Esc closes the explanation
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && $('ai-modal').classList.contains('active')) return closeAi();
+  if (e.key === 'Escape' && $('image-modal').classList.contains('active')) return closeLightbox();
+  if (e.key === 'Escape' && $('explain-modal').classList.contains('active')) return closeModal();
+  if (answered || $('ai-modal').classList.contains('active') || $('image-modal').classList.contains('active') || e.ctrlKey || e.metaKey || e.altKey || /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)) return;
+  const i = letters.indexOf(e.key.toUpperCase());
+  const n = i > -1 ? i : (/^[1-6]$/.test(e.key) ? +e.key - 1 : -1);
+  const btn = document.querySelectorAll('.option-btn')[n];
+  if (btn && !$('main-quiz-container').hidden) btn.click();
+});
+
+init();
+</script>
+</body>
+</html>
