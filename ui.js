@@ -491,7 +491,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     syncThemeUI();
     if (Q.embed) return;                 // embedded AI window: no background effects, no support button
-    Q.bg(); mountSupport();
-    document.querySelectorAll('[data-theme-picker]').forEach(mountThemePicker);
+    Q.bg();
+    if (!document.body.hasAttribute('data-no-support')) mountSupport();   // pages with <body data-no-support> get no support button    document.querySelectorAll('[data-theme-picker]').forEach(mountThemePicker);
   });
 })();
