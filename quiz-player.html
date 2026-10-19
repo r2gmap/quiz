@@ -124,7 +124,7 @@ body { align-items: center; }
 }
 </style>
 </head>
-<body>
+<body data-no-support>
 <script src="ui.js"></script>
 
 <nav class="qp-nav" aria-label="Quiz">
@@ -146,7 +146,7 @@ body { align-items: center; }
     <div id="options-list" role="group" aria-label="Answer options"></div>
     <div class="q-actions" id="q-actions" hidden>
       <button class="btn btn-ghost" id="explain-btn" type="button" hidden><svg class="ic" aria-hidden="true"><use href="#i-bulb"/></svg>Explain</button>
-      <button class="btn" id="next-btn" type="button" hidden>Next Question<svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+      <button class="btn" id="next-btn" type="button" hidden>Next<svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg></button>
     </div>
   </div>
 </main>
@@ -1281,7 +1281,7 @@ const quizDatabase = {
       ]
    },
 
-"Physiology1": {
+"physiology1": {
       title: "Quiz I",
       questions: [
         {
@@ -2053,7 +2053,7 @@ function check(idx, btn) {
   const next = $('next-btn');
   $('q-actions').hidden = false;   // the row (and its space) only exists once an answer is picked
   next.hidden = false;
-  next.firstChild.nodeValue = currentIdx + 1 < questions.length ? 'Next Question' : 'See Results';
+  next.firstChild.nodeValue = currentIdx + 1 < questions.length ? 'Next' : 'Results';
   if (q.explanation) $('explain-btn').hidden = false;   // Explain shows only when the question has an explanation
   next.focus({ preventScroll: true });
 }
