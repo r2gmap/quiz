@@ -492,6 +492,7 @@
     syncThemeUI();
     if (Q.embed) return;                 // embedded AI window: no background effects, no support button
     Q.bg();
-    if (!document.body.hasAttribute('data-no-support')) mountSupport();   // pages with <body data-no-support> get no support button    document.querySelectorAll('[data-theme-picker]').forEach(mountThemePicker);
+    if (!document.body.hasAttribute('data-no-support')) mountSupport();   // pages with <body data-no-support> get no support button
+    document.querySelectorAll('[data-theme-picker]').forEach(mountThemePicker);
   });
 })();
