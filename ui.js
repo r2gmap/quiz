@@ -43,6 +43,7 @@
       icon: "atom",
       subtitle: "",
       quizzes: [
+        { id: "biochemistry0", title: "Quiz 1 Online Dr.Eman", desc: "Biochemistry Quiz 1", q: 10 },
         { id: "biochemistry1", title: "Quiz I", desc: "Biochemistry Lec 1 Part 1", q: 30 }
       ],
       notes: []
