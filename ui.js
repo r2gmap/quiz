@@ -31,8 +31,9 @@
       icon: "flask",
       subtitle: "",
       quizzes: [
-        { id: "organic1", title: "Quiz I", desc: "Heterocylce Nomenclature", q: 15 },
-        // { id: "organic3-quiz-1", title: "Quiz I", desc: "Short description", q: 20 },
+        { id: "organic1", title: "Quiz I", desc: "Heterocylces Nomenclature", q: 15 },
+        { id: "organic2", title: "Quiz II", desc: "Pyridine", q: 25 },
+        // { id: "organic3", title: "Quiz I", desc: "Short description", q: 20 },
       ],
       notes: []
     },
@@ -42,7 +43,7 @@
       icon: "atom",
       subtitle: "",
       quizzes: [
-        { id: "biochemistry1", title: "Quiz I", desc: "Biochemistry Lec 1 Part 1", q: 30 }
+        { id: "biochemistry1", title: "Quiz I", desc: "Biochemistry Lec 1 Part 1", q: 30 },
       ],
       notes: []
     },
@@ -492,7 +493,6 @@
     syncThemeUI();
     if (Q.embed) return;                 // embedded AI window: no background effects, no support button
     Q.bg();
-    if (!document.body.hasAttribute('data-no-support')) mountSupport();   // pages with <body data-no-support> get no support button
-    document.querySelectorAll('[data-theme-picker]').forEach(mountThemePicker);
+    if (!document.body.hasAttribute('data-no-support')) mountSupport();   // pages with <body data-no-support> get no support button    document.querySelectorAll('[data-theme-picker]').forEach(mountThemePicker);
   });
 })();
