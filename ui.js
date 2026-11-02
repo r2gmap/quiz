@@ -55,7 +55,8 @@
       subtitle: "",
       quizzes: [
         { id: "pharmacology1", title: "Quiz I", desc: "Introduction", q: 30 },
-        // { id: "pharmacology-quiz-1", title: "Quiz I", desc: "Short description", q: 20 },
+        { id: "pharmacology2", title: "Quiz II", desc: "Absorption", q: 27 },
+        { id: "pharmacology3", title: "Quiz III", desc: "Distribution", q: 26 },
       ],
       notes: []
     },
