@@ -386,6 +386,16 @@ histDetail.addEventListener('click', e => { if (e.target.closest('#hist-back')) 
   const empty = document.getElementById('ai-empty'), send = document.getElementById('ai-send');
   const chat = Q.chat;
 
+  // ### CHAT SID — one random id per open chat window, so Quizzes AI can remember the last few
+  // messages of THIS conversation (never saved to disk; it only lives while this tab/window is open).
+  const chatSid = (() => {
+    try {
+      let id = sessionStorage.getItem('q-chat-sid');
+      if (!id) { id = Math.random().toString(36).slice(2) + Date.now().toString(36); sessionStorage.setItem('q-chat-sid', id); }
+      return id;
+    } catch (e) { return Math.random().toString(36).slice(2) + Date.now().toString(36); }   // private browsing: still works, just not remembered across reloads
+  })();
+
   aiInput.addEventListener('input', () => chat.resize(aiInput));
   aiInput.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendAIMsg(); } });
   send.addEventListener('click', sendAIMsg);
@@ -401,7 +411,7 @@ histDetail.addEventListener('click', e => { if (e.target.closest('#hist-back')) 
     aiInput.value = ''; chat.resize(aiInput); send.disabled = true;
     const typing = chat.typing(msgs);
 
-    fetch(AI_SCRIPT_URL + '?message=' + encodeURIComponent(text), { method: 'GET', headers: { 'Accept': 'application/json' } })
+    fetch(AI_SCRIPT_URL + '?message=' + encodeURIComponent(text) + '&sid=' + encodeURIComponent(chatSid), { method: 'GET', headers: { 'Accept': 'application/json' } })
       .then(res => res.text())
       .then(rawText => {
         typing.remove();
