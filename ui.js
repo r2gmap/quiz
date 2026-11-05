@@ -314,7 +314,7 @@
       '<div class="theme-pop" role="radiogroup" aria-label="Site style">' + Q.themes.map(function (t) {
         return '<button class="swatch" type="button" role="radio" aria-checked="false" data-id="' + t.id + '" aria-label="' + t.label + '" style="--c1:' + t.swatch[0] + ';--c2:' + t.swatch[1] + ';--c3:' + t.swatch[2] + '"><i></i></button>';
       }).join('') + '</div>' +
-      '<div class="theme-hint" role="status"><button class="hint-x" type="button" aria-label="Close message">' + Q.icon('x') + '</button><span dir="auto">تقدر تختار الاستايل اللي يعجبك من هنا</span></div>';
+      '<div class="theme-hint" role="status"><button class="hint-x" type="button" aria-label="Close message">' + Q.icon('x') + '</button><span dir="auto"> اختار الاستايل اللي يعجبك من هنا</span></div>';
     var btn = box.querySelector('.icon-btn'), pop = box.querySelector('.theme-pop'), hint = box.querySelector('.theme-hint');
     var swatches = [].slice.call(pop.querySelectorAll('.swatch'));
     Q.lang.mark(hint.querySelector('span'));
