@@ -56,7 +56,8 @@
       quizzes: [
         { id: "pharmacology1", title: "Quiz I", desc: "Introduction", q: 30 },
         { id: "pharmacology2", title: "Quiz II", desc: "Absorption", q: 27 },
-        { id: "pharmacology3", title: "Quiz III", desc: "Distribution", q: 26 },
+        { id: "pharmacology3", title: "Quiz III", desc: "Distribution", q: 27 },
+        { id: "pharmacology4", title: "Quiz IV", desc: "Metabolism", q: 30 },
       ],
       notes: []
     },
@@ -66,7 +67,10 @@
       icon: "bottle",
       subtitle: "",
       quizzes: [
-        // { id: "ceutics1-quiz-1", title: "Quiz I", desc: "Short description", q: 20 },
+        { id: "ceutics1", title: "Quiz I", desc: "Colloids 1", q: 35 },
+        { id: "ceutics2", title: "Quiz II", desc: "Colloids 2", q: 41 },
+        { id: "ceutics3", title: "Quiz III", desc: "Calculation 1", q: 29 },
+        { id: "ceutics4", title: "Quiz IV", desc: "Calculation 2", q: 23 },
       ],
       notes: []
     },
