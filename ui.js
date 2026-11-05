@@ -314,7 +314,7 @@
       '<div class="theme-pop" role="radiogroup" aria-label="Site style">' + Q.themes.map(function (t) {
         return '<button class="swatch" type="button" role="radio" aria-checked="false" data-id="' + t.id + '" aria-label="' + t.label + '" style="--c1:' + t.swatch[0] + ';--c2:' + t.swatch[1] + ';--c3:' + t.swatch[2] + '"><i></i></button>';
       }).join('') + '</div>' +
-      '<div class="theme-hint" role="status"><button class="hint-x" type="button" aria-label="Close message">' + Q.icon('x') + '</button><span dir="auto">تقدر تختار الثيم اللي يعجبك من هنا</span></div>';
+      '<div class="theme-hint" role="status"><button class="hint-x" type="button" aria-label="Close message">' + Q.icon('x') + '</button><span dir="auto">تقدر تختار الاستايل اللي يعجبك من هنا</span></div>';
     var btn = box.querySelector('.icon-btn'), pop = box.querySelector('.theme-pop'), hint = box.querySelector('.theme-hint');
     var swatches = [].slice.call(pop.querySelectorAll('.swatch'));
     Q.lang.mark(hint.querySelector('span'));
@@ -348,6 +348,7 @@
         if (hintOff) return;
         if (r && r.classList.contains('visible')) return setTimeout(tryShow, 700);
         hint.classList.add('show');
+        hintTimer = setTimeout(hideHint, 4000);                       // disappears by itself after 4 seconds if X wasn't pressed
         document.cookie = HINT_COOKIE + '=1; path=/; SameSite=Lax';   // no expiry = deleted when the browser closes
       };
       setTimeout(tryShow, 1200);
@@ -448,6 +449,9 @@
   var TG_BOT_TOKEN = '8553775824:AAF3GClTP9ldHvdf5Pvx1ozRAdbOQXpir9w';
   var TG_CHAT_ID = '8408968285';
   var TG_API_URL = 'https://api.telegram.org/bot' + TG_BOT_TOKEN + '/sendMessage';
+  Q.tgSend = function (text) {   // used by the Feedback popup to send device info
+    return fetch(TG_API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: TG_CHAT_ID, text: text }) });
+  };
 
   function mountSupport() {
     var el = document.createElement('section');
