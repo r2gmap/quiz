@@ -44,7 +44,9 @@
       subtitle: "",
       quizzes: [
         { id: "biochemistry0", title: "Quiz 1 Online Dr.Eman", desc: "Biochemistry Quiz 1", q: 10 },
-        { id: "biochemistry1", title: "Quiz I", desc: "Biochemistry Lec 1 Part 1", q: 30 }
+        { id: "biochemistry1", title: "Quiz I", desc: "Carbohydrates 1", q: 45 },
+        { id: "biochemistry2", title: "Quiz II", desc: "Carbohydrates 2", q: 52 },
+        // { id: "biochemistry3", title: "Quiz III", desc: "Chemistry Of Proteins", q: 55 },
       ],
       notes: []
     },
