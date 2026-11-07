@@ -453,14 +453,25 @@ main { flex: 1; width: 100%; }
 body.support-open .fab { opacity: 0; visibility: hidden; pointer-events: none; }
 @media (max-width: 900px) { body.ai-mode .fab { bottom: 104px; } }
 
-/* ── Toast ── */
-#toast-container { position: fixed; top: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column-reverse; gap: 10px; pointer-events: none; }
-.toast-message { position: relative; overflow: hidden; display: flex; align-items: center; gap: 12px; padding: 16px; min-width: 220px; max-width: 90vw; border-radius: 14px;
-  background: var(--panel); border: 1px solid var(--line-strong); box-shadow: 0 8px 32px rgba(0, 0, 0, .4), 0 0 0 1px var(--accent-soft); font-weight: 500; font-size: .9rem;
-  opacity: 0; transform: translateY(16px); transition: opacity .35s, transform .35s var(--ease); }
+/* ── Toast (notification): top-centre card, themed icon badge, time bar, soft entrance ── */
+#toast-container { position: fixed; top: calc(20px + env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column-reverse; align-items: center; gap: 12px;
+  width: max-content; max-width: min(460px, calc(100vw - 24px)); pointer-events: none; }
+.toast-message { position: relative; overflow: hidden; display: flex; flex-direction: row-reverse; direction: ltr; align-items: center; gap: 12px; width: auto; max-width: 100%; padding: 11px 12px 15px 18px; border-radius: 18px;
+  background: linear-gradient(135deg, var(--accent-soft), transparent 70%), var(--panel); border: 1px solid var(--accent-line);
+  box-shadow: 0 20px 46px -18px rgba(0, 0, 0, .55), 0 0 34px -12px var(--glow); font-weight: 500; font-size: .93rem; line-height: 1.6; text-align: start;
+  opacity: 0; transform: translateY(-22px) scale(.95); transition: opacity .38s, transform .5s var(--ease); }
 .toast-message.show { opacity: 1; transform: none; }
-.toast-ico { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; flex: none; color: var(--accent); background: var(--accent-soft); }
-.toast-ico .ic { width: 16px; height: 16px; }
+.toast-ico { position: relative; width: 35px; height: 35px; border-radius: 11px; display: grid; place-items: center; flex: none; color: var(--accent-ink); background: var(--grad); box-shadow: 0 8px 20px -8px var(--glow); }
+.toast-ico::after { content: ""; position: absolute; inset: 0; border-radius: inherit; border: 2px solid var(--accent); opacity: 0; }
+.toast-ico .ic { width: 17px; height: 17px; transform-origin: 50% 8%; }
+.toast-txt { flex: 0 1 auto; min-width: 0; overflow-wrap: anywhere; }
+.toast-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--grad); transform-origin: left; transform: scaleX(1); opacity: .85; }
+.toast-message.show .toast-ico::after { animation: toast-ring 1.1s .25s ease-out 2; }
+.toast-message.show .toast-ico .ic { animation: toast-bell .9s .3s ease-in-out; }
+.toast-message.show .toast-bar { animation: toast-bar linear forwards; }   /* duration is set per toast from its seconds */
+@keyframes toast-ring { 0% { opacity: .7; transform: scale(1); } 100% { opacity: 0; transform: scale(1.7); } }
+@keyframes toast-bell { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(16deg); } 40% { transform: rotate(-13deg); } 60% { transform: rotate(8deg); } 80% { transform: rotate(-4deg); } }
+@keyframes toast-bar { from { transform: scaleX(1); } to { transform: scaleX(0); } }
 
 
 /* ── Theme picker: palette button → small list of colour circles (no names). Mounted by ui.js on [data-theme-picker] ── */
