@@ -122,13 +122,57 @@ body { align-items: center; }
   .result-layout { grid-template-columns: 1fr; }
   .mistakes-list { max-height: none; }
 }
+
+/* Top bar: Back (previous question) on the left, Exit on the right — each with its own look */
+/* Previous question — sits next to Next once an answer is picked; Explain goes full-width under them */
+.q-actions { display: grid; grid-template-columns: 1fr 1fr; }
+.q-actions .btn { width: 100%; animation-fill-mode: backwards; }   /* was "both": the finished animation was freezing the button and blocking its hover */
+#explain-btn { grid-column: 1 / -1; }
+.qp-prev { gap: 10px; background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-line); line-height: 1.1; }
+.qp-prev .ic { width: 20px; height: 20px; transition: transform .3s var(--ease); }
+.qp-prev .qp-lbl { display: grid; gap: 1px; text-align: start; }
+.qp-prev b { font-size: .95rem; font-weight: 700; }
+.qp-prev small { font-size: .62rem; font-weight: 500; opacity: .8; letter-spacing: .02em; }
+.qp-prev:disabled, .qp-prev:disabled:hover { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; filter: none; background: var(--accent-soft); color: var(--accent); border-color: var(--accent-line); }
+@media (max-width: 380px) { .qp-prev small { display: none; } }
+
+/* Leave — top-left */
+.qp-exit { display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 0 16px; border-radius: 12px; background: transparent; color: var(--muted); border: 1px dashed var(--line-strong);
+  font-size: .86rem; font-weight: 500; }
+.qp-exit .ic { width: 17px; height: 17px; transition: transform .3s var(--ease); }
+
+/* Smooth, calm hover on every button and answer option of this page (one timing, tiny lift, soft colour fade — no jumps) */
+.btn, .icon-btn, .back, .option-btn, .qp-exit { transition: transform .3s var(--ease), box-shadow .3s var(--ease), background-color .3s ease, border-color .3s ease, color .3s ease, filter .3s ease, opacity .25s; }
+.opt-letter { transition: background-color .3s ease, color .3s ease, border-color .3s ease; }
+.btn:active { transform: scale(.985); filter: none; transition-duration: .12s; }
+@media (hover: hover) {
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -10px var(--glow); filter: brightness(1.05); }
+  .btn-ghost:hover { background: var(--accent-soft); border-color: var(--accent-line); filter: none; }
+  .qp-prev:hover:not(:disabled) { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); filter: none; }
+  .qp-prev:hover:not(:disabled) .ic { transform: translateX(-3px); }
+  .option-btn:not(:disabled):hover { transform: translateY(-1px); border-color: var(--accent-line); background: var(--accent-soft); box-shadow: 0 8px 20px -12px var(--glow); }
+  .option-btn:not(:disabled):hover .opt-letter { border-color: var(--accent-line); color: var(--accent); }
+  .qp-exit:hover { color: var(--bad); border-color: var(--bad); background: color-mix(in srgb, var(--bad) 9%, transparent); }
+  .qp-exit:hover .ic { transform: translateX(2px); }
+}
+@media (hover: none) { .btn:hover { transform: none; box-shadow: none; filter: none; } .btn-ghost:hover { background: var(--surface); border-color: var(--line-strong); } .qp-prev:hover { background: var(--accent-soft); color: var(--accent); } }   /* touch screens: no hover that stays stuck after a tap */
+
+/* "You haven't finished this quiz" popup (shown when an unfinished quiz is opened again) */
+.resume-box { width: min(400px, 100%); padding: 26px 22px 22px; text-align: center; }
+.resume-ico { width: 52px; height: 52px; margin: 0 auto 14px; display: grid; place-items: center; border-radius: 16px; background: var(--grad); color: var(--accent-ink); box-shadow: 0 10px 26px -10px var(--glow); }
+.resume-ico .ic { width: 26px; height: 26px; }
+.resume-box h2 { font-size: 1.15rem; line-height: 1.6; margin-bottom: 4px; }
+.resume-box p { color: var(--muted); font-size: .9rem; }
+.resume-actions { display: flex; gap: 10px; margin-top: 20px; }
+.resume-actions .btn { flex: 1; min-height: 48px; padding: 0 14px; }
+@media (max-width: 420px) { .resume-actions { flex-direction: column; } }
 </style>
 </head>
 <body data-no-support>
 <script src="ui.js"></script>
 
 <nav class="qp-nav" aria-label="Quiz">
-  <button class="back" id="exit-btn" type="button"><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg>Exit Quiz</button>
+  <button class="qp-exit" id="exit-btn" type="button" aria-label="Leave quiz"><svg class="ic" aria-hidden="true"><use href="#i-leave"/></svg>Leave</button>
 </nav>
 
 <main class="quiz-container" id="main-quiz-container">
@@ -145,8 +189,9 @@ body { align-items: center; }
     </button>
     <div id="options-list" role="group" aria-label="Answer options"></div>
     <div class="q-actions" id="q-actions" hidden>
-      <button class="btn btn-ghost" id="explain-btn" type="button" hidden><svg class="ic" aria-hidden="true"><use href="#i-bulb"/></svg>Explain</button>
+      <button class="btn qp-prev" id="prev-btn" type="button" aria-label="Previous question" title="Go back to the previous question" disabled><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg><span class="qp-lbl"><b>Back</b><small>Previous question</small></span></button>
       <button class="btn" id="next-btn" type="button" hidden>Next<svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+      <button class="btn btn-ghost" id="explain-btn" type="button" hidden><svg class="ic" aria-hidden="true"><use href="#i-bulb"/></svg>Explain</button>
     </div>
   </div>
 </main>
@@ -177,6 +222,18 @@ body { align-items: center; }
       <button class="icon-btn" id="close-ai-btn" type="button" aria-label="Close Quizzes AI"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
     <iframe id="ai-frame" title="Quizzes AI" allow="clipboard-write"></iframe>
+  </div>
+</div>
+
+<div class="modal-overlay resume-modal" id="resume-modal" role="alertdialog" aria-modal="true" aria-labelledby="resume-title" aria-describedby="resume-sub">
+  <div class="modal-content resume-box">
+    <span class="resume-ico" aria-hidden="true"><svg class="ic"><use href="#i-history"/></svg></span>
+    <h2 id="resume-title" dir="auto">الكويز ده انت مخلصتوش</h2>
+    <p id="resume-sub" dir="auto"></p>
+    <div class="resume-actions">
+      <button class="btn" id="resume-continue" type="button" dir="auto">هكمل</button>
+      <button class="btn btn-ghost" id="resume-restart" type="button" dir="auto">هبدأ من الأول</button>
+    </div>
   </div>
 </div>
 
@@ -8740,7 +8797,9 @@ const quizDatabase = {
 
 };
 
+
 let questions = [], currentIdx = 0, score = 0, answered = false, missed = [];
+let answers = [], order = [], quizSig = '';   // answers[i] = option picked for question i (null = not answered) · order = the shuffled order, saved so an unfinished quiz can continue
 let currentQuiz = { id: '', title: '' };   // remembered so the finished quiz can be saved to the History
 const $ = id => document.getElementById(id);
 const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -8749,6 +8808,7 @@ let modalOpener = null;
 // Exit: go back if there is history, otherwise to the subjects list
 $('exit-btn').onclick = () => { history.length > 1 ? history.back() : (location.href = 'index.html'); };
 $('next-btn').onclick = () => nextQuestion();
+$('prev-btn').onclick = () => prevQuestion();
 $('explain-btn').onclick = () => handleExplain();
 $('close-modal-btn').onclick = () => closeModal();
 $('restart-btn').onclick = () => location.reload();
@@ -8768,9 +8828,76 @@ function init() {
   currentQuiz = { id: quizId, title: data.title };
   $('quiz-title').textContent = data.title; Q.lang.mark($('quiz-title'));
   document.title = data.title + ' · Quizzes';
-  questions = [...data.questions].sort(() => Math.random() - 0.5);
-  $('total-q-num').textContent = questions.length;
+  const src = data.questions;
+  quizSig = makeSig(src);
+  $('total-q-num').textContent = src.length;
+  const saved = readProgress()[quizId];
+  if (saved && validSaved(saved, src)) askResume(saved, src);        // unfinished quiz → ask: continue or start over
+  else { if (saved) clearProgress(); startFresh(src); }
+}
+
+function startFresh(src) {
+  order = src.map((_, i) => i).sort(() => Math.random() - 0.5);       // same random shuffle as before — the order is remembered in `order`
+  questions = order.map(i => src[i]);
+  answers = []; score = 0; missed = []; currentIdx = 0;
   loadQ(true);
+}
+
+function resumeSaved(saved, src) {
+  order = saved.order; questions = order.map(i => src[i]);
+  answers = saved.answers.slice(); score = 0; missed = [];
+  answers.forEach((a, i) => {
+    if (a == null) return;
+    const q = questions[i];
+    if (a === q.correct) score++;
+    else missed.push({ q: q.q, user: q.options[a], correct: q.options[q.correct], image: q.image || '' });
+  });
+  currentIdx = saved.idx;
+  loadQ(true);
+}
+
+// ### RESUME — an unfinished quiz (shuffled order + answers + position) is kept on this device until it is finished or restarted
+const PROGRESS_KEY = 'q-progress';
+function readProgress() { try { return JSON.parse(localStorage.getItem(PROGRESS_KEY) || '{}') || {}; } catch (e) { return {}; } }
+function writeProgress(all) { try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(all)); } catch (e) {} }
+function saveProgress() {
+  if (!currentQuiz.id || !answers.some(a => a != null)) return;      // nothing answered yet → nothing to continue
+  const all = readProgress();
+  all[currentQuiz.id] = { sig: quizSig, order: order, answers: answers, idx: currentIdx, t: Date.now() };
+  writeProgress(all);
+}
+function clearProgress() {
+  const all = readProgress();
+  if (all[currentQuiz.id]) { delete all[currentQuiz.id]; writeProgress(all); }
+}
+function makeSig(qs) {                                               // changes when the quiz's questions are edited → old progress is dropped
+  let h = 5381; const s = qs.map(x => x.q + '|' + x.options.length + '|' + x.correct).join('\n');
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0;
+  return qs.length + ':' + h;
+}
+function validSaved(s, src) {
+  const n = src.length;
+  if (!s || s.sig !== quizSig || !Array.isArray(s.order) || s.order.length !== n || new Set(s.order).size !== n) return false;
+  if (!s.order.every(i => Number.isInteger(i) && i >= 0 && i < n)) return false;
+  if (!Array.isArray(s.answers) || s.answers.length > n || !s.answers.some(a => a != null)) return false;
+  if (!Number.isInteger(s.idx) || s.idx < 0 || s.idx >= n || s.idx > s.answers.length) return false;
+  for (let i = 0; i < s.answers.length; i++) {
+    const a = s.answers[i];
+    if (a != null && !(Number.isInteger(a) && a >= 0 && a < src[s.order[i]].options.length)) return false;
+    if (a == null && i < s.idx) return false;
+  }
+  return true;
+}
+function askResume(saved, src) {
+  const modal = $('resume-modal'), go = $('resume-continue'), again = $('resume-restart');
+  $('resume-sub').textContent = 'وقفت عند سؤال ' + (saved.idx + 1) + ' من ' + src.length;
+  modal.querySelectorAll('h2, p, .btn').forEach(el => Q.lang.mark(el));
+  modal.classList.add('active');
+  setTimeout(() => go.focus(), 30);
+  const close = () => modal.classList.remove('active');
+  go.onclick = () => { close(); resumeSaved(saved, src); };
+  again.onclick = () => { close(); clearProgress(); startFresh(src); };
+  modal.onkeydown = e => { if (e.key === 'Tab') { e.preventDefault(); (document.activeElement === go ? again : go).focus(); } };   // keep Tab inside the two buttons
 }
 
 // ### IMAGE — optional image under the question (lazy-loaded, never stretched, click to enlarge)
@@ -8818,6 +8945,8 @@ function loadQ(first) {
     frag.appendChild(b);
   });
   list.replaceChildren(frag);
+  $('prev-btn').disabled = currentIdx === 0;
+  if (answers[currentIdx] != null) { answered = true; showResult(answers[currentIdx], false); }   // a question that was already solved: shown with the same answer
   if (!first) qt.focus({ preventScroll: true });
 }
 
@@ -8825,16 +8954,26 @@ function check(idx, btn) {
   if (answered) return;
   answered = true;
   const q = questions[currentIdx];
-  const btns = document.querySelectorAll('.option-btn');
-  btns.forEach(b => b.disabled = true);
-
+  answers[currentIdx] = idx;
   if (idx === q.correct) {
-    btn.classList.add('correct');
     score++;
   } else {
-    btn.classList.add('wrong');
-    btns[q.correct].classList.add('correct');
     missed.push({ q: q.q, user: q.options[idx], correct: q.options[q.correct], image: q.image || '' });
+  }
+  saveProgress();
+  showResult(idx, true);
+}
+
+// Paints an answered question — right after answering, or when coming back to it with the Back button
+function showResult(idx, focusNext) {
+  const q = questions[currentIdx];
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach(b => b.disabled = true);
+  if (idx === q.correct) {
+    btns[idx].classList.add('correct');
+  } else {
+    btns[idx].classList.add('wrong');
+    btns[q.correct].classList.add('correct');
   }
 
   $('progress-bar').style.transform = 'scaleX(' + ((currentIdx + 1) / questions.length) + ')';
@@ -8843,7 +8982,7 @@ function check(idx, btn) {
   next.hidden = false;
   next.firstChild.nodeValue = currentIdx + 1 < questions.length ? 'Next' : 'Results';
   if (q.explanation) $('explain-btn').hidden = false;   // Explain shows only when the question has an explanation
-  next.focus({ preventScroll: true });
+  if (focusNext) next.focus({ preventScroll: true });
 }
 
 function handleExplain() {
@@ -8884,8 +9023,15 @@ window.addEventListener('message', e => { if (e.origin === location.origin && e.
 
 function nextQuestion() {
   currentIdx++;
-  if (currentIdx < questions.length) loadQ();
+  if (currentIdx < questions.length) { saveProgress(); loadQ(); }
   else finish();
+}
+
+function prevQuestion() {
+  if (currentIdx === 0) return;
+  currentIdx--;
+  saveProgress();
+  loadQ();
 }
 
 // ### HISTORY — every finished quiz is saved on this device and shown in the History tab of the home page
@@ -8895,6 +9041,7 @@ function saveToHistory() {
 }
 
 function finish() {
+  clearProgress();   // finished → nothing left to continue
   saveToHistory();
   $('main-quiz-container').hidden = true;
   const res = $('result-screen'); res.classList.add('show');
