@@ -165,32 +165,9 @@ body.ai-mode { height: 100vh; height: 100dvh; overflow: hidden; }
 .app-opt:hover { color: var(--accent); border-color: var(--accent-line); }
 .app-opt[aria-checked="true"] { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 16px var(--glow); }
 .rating-note { margin-top: 12px; font-size: .72rem; color: var(--muted); }
-
-/* ── Smooth, calm hover: one timing, a tiny lift, soft colour fade — nothing jumps ── */
-.btn, .icon-btn, .back, .fab, .send, .swatch, .chip, .app-opt { transition: transform .3s var(--ease), box-shadow .3s var(--ease), background-color .3s ease, border-color .3s ease, color .3s ease, filter .3s ease, opacity .25s; }
-.btn:active { transform: scale(.985); filter: none; transition-duration: .12s; }
-@media (hover: hover) {
-  .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -10px var(--glow); filter: brightness(1.05); }
-  .btn-ghost:hover { background: var(--accent-soft); border-color: var(--accent-line); filter: none; }
-  .btn[disabled]:hover { transform: none; box-shadow: none; filter: none; }
-  .fab:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -10px var(--glow); }
-  .swatch:hover { transform: scale(1.08); }
-}
-@media (hover: none) { .btn:hover { transform: none; box-shadow: none; filter: none; } .btn-ghost:hover { background: var(--surface); border-color: var(--line-strong); } }   /* touch screens: no hover that stays stuck after a tap */
-.chip:hover { transform: none; box-shadow: none; color: var(--muted); border-color: var(--line-strong); }   /* base state; the real hover is below (hover-capable screens only) */
-.star { transition: color .3s ease, transform .3s var(--ease); }
-.star.hovered { transform: scale(1.15) translateY(-1px); }
-.subject-card, .hist-card { transition: transform .35s var(--ease), border-color .3s ease, background-color .3s ease, box-shadow .35s var(--ease); }
-@media (hover: hover) {
-  .chip:hover { color: var(--accent); border-color: var(--accent-line); box-shadow: 0 6px 16px -10px var(--glow); transform: translateY(-1px); }
-  .app-opt:hover { color: var(--accent); border-color: var(--accent-line); transform: translateY(-1px); }
-  .subject-card:hover { transform: translateY(-2px); }
-  .subject-card:hover .tile { transform: translateY(-2px) scale(1.04); }
-  .hist-card:hover { transform: translateY(-2px); }
-}
 </style>
 </head>
-<body data-no-support>
+<body>
 <script src="ui.js"></script>
 <a class="skip" href="#main">Skip to content</a>
 
