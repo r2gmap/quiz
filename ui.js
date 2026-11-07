@@ -46,7 +46,7 @@
         { id: "biochemistry0", title: "Quiz 1 Online Dr.Eman", desc: "Biochemistry Quiz 1", q: 10 },
         { id: "biochemistry1", title: "Quiz I", desc: "Carbohydrates 1", q: 45 },
         { id: "biochemistry2", title: "Quiz II", desc: "Carbohydrates 2", q: 52 },
-        // { id: "biochemistry3", title: "Quiz III", desc: "Chemistry Of Proteins", q: 55 },
+        { id: "biochemistry3", title: "Quiz III", desc: "Chemistry Of Proteins", q: 55 },
       ],
       notes: []
     },
@@ -106,7 +106,8 @@
       icon: "brain",
       subtitle: "",
       quizzes: [
-        // { id: "psychology-quiz-1", title: "Quiz I", desc: "Short description", q: 20 },
+        { id: "psychology1", title: "Quiz I", desc: "Introduction", q: 44 },
+        { id: "psychology2", title: "Quiz II", desc: "Personality", q: 58 },
       ],
       notes: []
     },
