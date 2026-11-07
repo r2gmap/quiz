@@ -150,6 +150,8 @@
     palette: '<circle cx="13.5" cy="6.5" r=".6" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".6" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".6" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".6" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2Z"/>',
     history: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/>',
     bell: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+    leave: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
+    bellring: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0M2 8c0-2.2.7-4.3 2-6M22 8a10 10 0 0 0-2-6"/>',
     alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3ZM12 9v4M12 17h.01"/>',
     /* subjects */
     flask: '<path fill="currentColor" fill-opacity=".22" d="M7.3 14.5h9.4l2.1 4.3A1.6 1.6 0 0 1 17.4 21H6.6a1.6 1.6 0 0 1-1.4-2.2Z"/><path d="M9.5 3h5M10 3v6.1L5.2 18.7A1.9 1.9 0 0 0 6.9 21.5h10.2a1.9 1.9 0 0 0 1.7-2.8L14 9.1V3"/><circle cx="11" cy="17.3" r=".9" fill="currentColor" stroke="none"/><circle cx="14" cy="16" r=".7" fill="currentColor" stroke="none"/>',
@@ -404,17 +406,58 @@
   });
 
   
-  /* ── Toast ── */
+  /* ── Toast (notification) ── */
+  /* Short, clear "ting-ting" made with Web Audio (no sound file). It tries to play the moment the toast appears.
+     Browsers only allow sound after the visitor has interacted with the site (Chrome: any earlier click/tap on this domain counts) — if it is still blocked,
+     it plays once at the first tap/key while the toast is still on screen; otherwise the toast just shows silently. */
+  function dingPlay(ctx) {
+    var t0 = ctx.currentTime, master = ctx.createGain(), comp = ctx.createDynamicsCompressor();
+    master.gain.value = .9; master.connect(comp); comp.connect(ctx.destination);
+    [[880, 0], [1318.5, .14]].forEach(function (n) {              // two notes: A5 then E6
+      [[1, .55, 'sine'], [2, .16, 'triangle']].forEach(function (h) {   // note + a quieter octave above it = brighter, louder "ting"
+        var o = ctx.createOscillator(), g = ctx.createGain(), st = t0 + n[1];
+        o.type = h[2]; o.frequency.value = n[0] * h[0];
+        g.gain.setValueAtTime(0.0001, st);
+        g.gain.exponentialRampToValueAtTime(h[1], st + .012);
+        g.gain.exponentialRampToValueAtTime(.0001, st + .55);
+        o.connect(g); g.connect(master);
+        o.start(st); o.stop(st + .6);
+      });
+    });
+  }
+  Q.ding = function () {
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+      var ctx = Q._ac || (Q._ac = new AC());
+      var go = function () { if (ctx.state === 'running') { dingPlay(ctx); return true; } return false; };
+      if (go()) return;
+      if (ctx.resume) ctx.resume().then(function () { if (!go()) Q._dingWait = true; }, function () { Q._dingWait = true; });
+      else Q._dingWait = true;
+    } catch (_) {}
+  };
+  ['pointerdown', 'keydown', 'touchstart'].forEach(function (ev) {   // first tap/key: unlock sound (and play a blocked toast's sound if it is still showing)
+    document.addEventListener(ev, function () {
+      try {
+        var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+        var ctx = Q._ac = Q._ac || new AC();
+        var after = function () { if (Q._dingWait && ctx.state === 'running' && document.querySelector('.toast-message.show')) { Q._dingWait = false; dingPlay(ctx); } };
+        if (ctx.state === 'suspended' && ctx.resume) ctx.resume().then(after, function () {}); else after();
+      } catch (_) {}
+    }, { once: true, passive: true });
+  });
+
   Q.notify = function (message, seconds) {
     seconds = seconds || 5;
     var box = document.getElementById('toast-container');
     if (!box) { box = document.createElement('div'); box.id = 'toast-container'; box.setAttribute('role', 'status'); document.body.appendChild(box); }
     var t = document.createElement('div'); t.className = 'toast-message';
-    t.innerHTML = '<span class="toast-ico">' + Q.icon('bell') + '</span><span></span>';
-    t.lastChild.textContent = message;
+    t.innerHTML = '<span class="toast-ico">' + Q.icon('bellring') + '</span><span class="toast-txt" dir="auto"></span><i class="toast-bar" aria-hidden="true"></i>';
+    var txt = t.querySelector('.toast-txt'); txt.textContent = message; Q.lang.mark(txt);
+    t.querySelector('.toast-bar').style.animationDuration = seconds + 's';
     box.appendChild(t);
     requestAnimationFrame(function () { requestAnimationFrame(function () { t.classList.add('show'); }); });
-    setTimeout(function () { t.classList.remove('show'); setTimeout(function () { t.remove(); }, 320); }, seconds * 1000);
+    Q.ding();
+    setTimeout(function () { t.classList.remove('show'); setTimeout(function () { t.remove(); }, 520); }, seconds * 1000);
   };
 
   /* ── Chat helpers shared by Support and AI ── */
