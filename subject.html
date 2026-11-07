@@ -79,9 +79,28 @@ gtag('config', 'G-J25KFB0WDE');
   .note { padding: 15px 16px; }
   .tab { padding: 0 14px; }
 }
+
+/* ── Smooth, calm hover: one timing, a tiny lift, soft colour fade — nothing jumps ── */
+.btn, .icon-btn, .back, .fab, .send, .swatch, .chip, .app-opt { transition: transform .3s var(--ease), box-shadow .3s var(--ease), background-color .3s ease, border-color .3s ease, color .3s ease, filter .3s ease, opacity .25s; }
+.btn:active { transform: scale(.985); filter: none; transition-duration: .12s; }
+@media (hover: hover) {
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -10px var(--glow); filter: brightness(1.05); }
+  .btn-ghost:hover { background: var(--accent-soft); border-color: var(--accent-line); filter: none; }
+  .btn[disabled]:hover { transform: none; box-shadow: none; filter: none; }
+  .fab:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -10px var(--glow); }
+  .swatch:hover { transform: scale(1.08); }
+}
+@media (hover: none) { .btn:hover { transform: none; box-shadow: none; filter: none; } .btn-ghost:hover { background: var(--surface); border-color: var(--line-strong); } }   /* touch screens: no hover that stays stuck after a tap */
+.quiz-row, .note { transition: transform .3s var(--ease), border-color .3s ease, background-color .3s ease, box-shadow .3s var(--ease); }
+.quiz-row .go { transition: background-color .3s ease, color .3s ease, transform .3s var(--ease); }
+@media (hover: hover) {
+  .quiz-row:hover { transform: translateY(-2px); }
+  .quiz-row:hover .go { transform: scale(1.05); }
+  .note:hover { transform: translateY(-1px); }
+}
 </style>
 </head>
-<body data-no-support>
+<body>
 <script src="ui.js"></script>
 <a class="skip" href="#main">Skip to content</a>
 
