@@ -123,7 +123,6 @@ body { align-items: center; }
   .mistakes-list { max-height: none; }
 }
 
-/* Top bar: Back (previous question) on the left, Exit on the right — each with its own look */
 /* Previous question — sits next to Next once an answer is picked; Explain goes full-width under them */
 .q-actions { display: grid; grid-template-columns: 1fr 1fr; }
 .q-actions .btn { width: 100%; animation-fill-mode: backwards; }   /* was "both": the finished animation was freezing the button and blocking its hover */
@@ -189,7 +188,7 @@ body { align-items: center; }
     </button>
     <div id="options-list" role="group" aria-label="Answer options"></div>
     <div class="q-actions" id="q-actions" hidden>
-      <button class="btn qp-prev" id="prev-btn" type="button" aria-label="Previous question" title="Go back to the previous question" disabled><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg><span class="qp-lbl"><b>Back</b><small>Previous question</small></span></button>
+      <button class="btn qp-prev" id="prev-btn" type="button" aria-label="Previous question" title="Go back to the previous question" disabled><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg><span class="qp-lbl"><b>Back</b></span></button>
       <button class="btn" id="next-btn" type="button" hidden>Next<svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg></button>
       <button class="btn btn-ghost" id="explain-btn" type="button" hidden><svg class="ic" aria-hidden="true"><use href="#i-bulb"/></svg>Explain</button>
     </div>
