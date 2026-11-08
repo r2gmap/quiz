@@ -33,7 +33,10 @@
       quizzes: [
         { id: "organic1", title: "Quiz I", desc: "Heterocylce Nomenclature", q: 15 },
         { id: "organic2", title: "Quiz II", desc: "Pyridine", q: 25 },
-        // { id: "organic3-quiz-1", title: "Quiz I", desc: "Short description", q: 20 },
+        { id: "organic3", title: "Quiz III", desc: "Quinoline & Isoquinoline", q: 17 },
+        { id: "organic4", title: "Quiz IV", desc: "Pyrrole", q: 18 },
+        { id: "organic5", title: "Quiz V", desc: "Furan & Thiophene", q: 18 },
+        { id: "organic6", title: "Quiz VI", desc: "Indole & Isoindole", q: 17 },
       ],
       notes: ["Why E.S.R on pyridine is difficult: Due to the deactivating effect of the Nitrogen atom","Why electrophiles do not attack positions 2, 4, and 6:  Due to the deactivation effect exerted by Nitrogen on these specific positions","Friedel-Crafts (F.C) reactions:  Do not occur for pyridine because of the deactivating effect of Nitrogen.","Pyridine is a basic compound: It has a localized lone pair lying in an sp^2 orbital, while the $\pi$ electrons lie in a $2pz$ orbital; therefore, they are perpendicular to each other, leaving the lone pair free for protonation.","Piperidine is more basic than pyridine:Piperidine's lone pair is found in an $sp^3$ orbital, whereas pyridine's lone pair is present in an sp^2 orbital "]
     },
