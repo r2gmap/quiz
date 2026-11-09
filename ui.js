@@ -50,6 +50,7 @@
         { id: "biochemistry1", title: "Quiz I", desc: "Carbohydrates 1", q: 45 },
         { id: "biochemistry2", title: "Quiz II", desc: "Carbohydrates 2", q: 52 },
         { id: "biochemistry3", title: "Quiz III", desc: "Chemistry Of Proteins", q: 55 },
+        { id: "biochemistry4", title: "Quiz IV", desc: "Lipids", q: 44 },
       ],
       notes: []
     },
