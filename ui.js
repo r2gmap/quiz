@@ -89,8 +89,9 @@
         { id: "physiology0", title: "First Quiz Dr.Heba", desc: "Blood Part 1 Quiz", q: 5 },
         { id: "physiology00", title: "Second Quiz Dr.Heba", desc: "Blood Part 2 Quiz", q: 5 },
         { id: "physiology1", title: "Quiz I", desc: "Blood", q: 20 },
-        { id: "physiology2", title: "Quiz II", desc: "Circulation", q: 43 },
-        // { id: "physiology-quiz-1", title: "Quiz I", desc: "Short description", q: 20 },
+        { id: "physiology2", title: "Quiz II", desc: "Circulation 1", q: 43 },
+        { id: "physiology3", title: "Quiz III", desc: "Circulation 2", q: 13 },
+        { id: "physiology4", title: "Quiz IV", desc: "Respiratory System", q: 28 },
       ],
       notes: []
     },
