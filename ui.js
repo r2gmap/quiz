@@ -88,6 +88,8 @@
       quizzes: [
         { id: "physiology0", title: "First Quiz Dr.Heba", desc: "Blood Part 1 Quiz", q: 5 },
         { id: "physiology00", title: "Second Quiz Dr.Heba", desc: "Blood Part 2 Quiz", q: 5 },
+        { id: "physiology000", title: "Third Quiz Dr.Heba", desc: "CVS Part 1 Quiz", q: 5 },
+        { id: "physiology0000", title: "Forth Quiz Dr.Heba", desc: "CVS Part 2 Quiz", q: 5 },
         { id: "physiology1", title: "Quiz I", desc: "Blood", q: 20 },
         { id: "physiology2", title: "Quiz II", desc: "Circulation 1", q: 43 },
         { id: "physiology3", title: "Quiz III", desc: "Circulation 2", q: 13 },
